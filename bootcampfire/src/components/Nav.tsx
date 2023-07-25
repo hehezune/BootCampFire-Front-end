@@ -1,8 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store"; // 변경된 부분
-import { login, logout } from "../store/authSlice";
+import { Link, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store'; // 변경된 부분
+import { login, logout } from '../store/authSlice';
 
 const NavContainer = styled.div`
   background-color: #f0f0f0;
@@ -30,10 +30,10 @@ const NavLink = styled(Link)`
 const ActionButton = styled.button`
   margin-left: 20px;
   padding: 8px 16px;
-  border: none;
+  border: 1px solid #ffd0c1;
   border-radius: 4px;
-  background-color: #007bff;
-  color: #fff;
+  background-color: #ffffff;
+  color: #000000;
   font-size: 16px;
   cursor: pointer;
 
@@ -41,12 +41,12 @@ const ActionButton = styled.button`
     background-color: #0056b3;
   }
 `;
-const WriteButton = styled(Link)`
+const WritePrimaryBtn = styled(Link)`
   margin-right: 20px;
   padding: 8px 16px;
   border: none;
   border-radius: 4px;
-  background-color: #28a745;
+  background-color: #ff603d;
   color: #fff;
   font-size: 16px;
   text-decoration: none;
@@ -65,9 +65,9 @@ export default function Nav() {
   const handleWriteButtonClick = () => {
     // 글쓰기 버튼 클릭 시, 로그인 여부 확인 후 적절한 경로로 이동
     if (isLoggedIn) {
-      navigate("/write");
+      navigate('/write');
     } else {
-      navigate("/login");
+      navigate('/login');
     }
   };
 
@@ -89,9 +89,9 @@ export default function Nav() {
         <NavLink to="/BootCamp">BootCamp</NavLink>
         <NavLink to="/CampArticle">CampArticle</NavLink>
         <NavLink to="/VS">VS</NavLink>
-        <WriteButton to="/" onClick={handleWriteButtonClick}>
+        <WritePrimaryBtn to="/" onClick={handleWriteButtonClick}>
           글쓰기
-        </WriteButton>
+        </WritePrimaryBtn>
         {isLoggedIn ? (
           <div>
             {/* 로그인 정보 표시 */}

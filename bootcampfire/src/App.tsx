@@ -1,11 +1,11 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Nav from "./component/Nav";
-import Board from "./pages/Board";
-import BootCamp from "./pages/BootCamp";
-import CampArticle from "./pages/CampArticle";
-import VS from "./pages/VS";
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Nav from './components/Nav';
+import Board from './pages/Board';
+import BootCamp from './pages/BootCamp';
+import CampArticle from './pages/CampArticle';
+import VS from './pages/VS';
 
 export default function App() {
   return (
