@@ -53,6 +53,7 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.45",
-    "@types/sort-by": "^1.2.0"
+    "@types/sort-by": "^1.2.0",
+    "@types/styled-components": "^5.1.26"
   }
 }
