@@ -12,28 +12,32 @@ interface BootCampItem {
   test: boolean;
   startRecruiting: Date;
   endRecruiting: Date;
-  isDatInRage: false, // 이건 받는 값이 아니다...
+  // isDatInRage: false, // 이건 받는 값이 아니다...
   tagList: string[];
 }
 
 interface BootCampCardProps {
   item: BootCampItem;
+  cur: Date;
 }
 
 
-const BootCampCard: React.FC<BootCampCardProps> = ({ item }) => {
+const BootCampCard: React.FC<BootCampCardProps> = ({ item, cur }) => {
 
   const is_Support = item.support ? "지원금 O" : "지원금 X";
   const is_test = item.support ? "코테 O"   : "코테 X";
-  
+  const isDateInRange = cur >= item.startRecruiting && cur <= item.endRecruiting;
+
   return (
     <CardContainer>
+      <div>
+      {isDateInRange && <div>모집중</div>}
+      </div>
       <LogoImage src={item.img_path} alt="BootCamp Logo" />
       <FlexContainer>
         <CardHeading>{item.name}</CardHeading>
         <ScoreText>{item.score}</ScoreText>
       </FlexContainer>
-
         <TagContainer>
           <Tag text={item.onoff} color='#21C63C' />
           <Tag text={is_Support} color='#4E80FF' />
@@ -60,7 +64,7 @@ const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 16px;
+  padding: 20px;
 `;
 
 

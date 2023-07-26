@@ -1,31 +1,61 @@
 import React from 'react';
 import styled from "styled-components";
 import BootCampCard from "../../components/BootCamp/BootCampCard";
+import SelectBox from '../../components/BootCamp/SelectBox'; 
 
 const BootCampListPage: React.FC = () => {
   const currentDate = new Date();
 
   return (
     <>
-      <div>
+    <Container>
+      <TopSection>
+        <h1>ss</h1>
+        <SelectBox />
+      </TopSection>
+      <CardSection>
         <h1>카드 리스트</h1>
         <CardContainer>
           {objectList.map((item) => (
-            <BootCampCard item={item} key={item.id}  />
-          ))}
+            <BootCampCardWrapper>
+            <BootCampCard item={item} key={item.id} cur={currentDate} />
+          </BootCampCardWrapper>
+                    ))}
         </CardContainer>      
-      </div>
+      </CardSection>
+      </Container>
     </>
   );
 };
 
 export default BootCampListPage;
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
 const CardContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 362;
+  margin:-10px;
+
+`;
+const BootCampCardWrapper = styled.div`
+  margin: 15px;
+`;
+
+const TopSection = styled.div`
+  flex: 1; /* Takes up 1/3 of the available space */
+  padding: 20px;
+  text-align: center;
+`;
+
+const CardSection = styled.div`
+  flex: 4; /* Takes up 2/3 of the available space */
+  padding: 20px;
+  background-color: #ffffff;
 `;
 
 
