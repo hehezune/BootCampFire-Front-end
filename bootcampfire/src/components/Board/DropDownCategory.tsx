@@ -5,7 +5,7 @@ interface DropdownProps {
     children: JSX.Element |  JSX.Element[];
 }
 
-const Dropdown = (props: DropdownProps) => {
+const DropdownCategory = (props: DropdownProps) => {
     const [visibilityAnimation, setVisibilityAnimation] = React.useState(false);
     const [repeat, setRepeat] = React.useState(0);
 
@@ -30,4 +30,4 @@ const Dropdown = (props: DropdownProps) => {
     )
 };
 
-export default Dropdown;
+export default DropdownCategory;
