@@ -1,15 +1,61 @@
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ChatBubbleOutlineRoundedIcon from '@mui/icons-material/ChatBubbleOutlineRounded';
 import styled from 'styled-components';
-import A2Container from '../Bootcamp/Tag_Styled';
+import A2 from '../Bootcamp/Tag';
+import HotContent from './HotContent';
+const Container = styled.div`
+  /* Add any styles for the container div */
+`;
+
+const Table = styled.table`
+  /* Add any styles for the table */
+`;
+
+const Row = styled.tr`
+  /* Add any styles for the table row */
+`;
+
+const Cell = styled.td`
+  /* Add any styles for the table cell */
+`;
+
+const IconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const StyledFavoriteBorderIcon = styled(FavoriteBorderIcon)`
+  color: #94969b;
+`;
+
+const StyledChatBubbleOutlineRoundedIcon = styled(ChatBubbleOutlineRoundedIcon)`
+  color: #94969b;
+`;
 
 export default function HotBoard() {
   return (
     <div>
-      <A2Container>{'자유'}</A2Container>
-      <A2Container>{'프로젝트'}</A2Container>
-      <A2Container>{'웹/연애'}</A2Container>
-      <A2Container>{'IT'}</A2Container>
-      <A2Container>{'헬스/다이어트'}</A2Container>
-      <A2Container>{'스터디'}</A2Container>
+      <Container>
+        <Table>
+          <tbody>
+            <Row>
+              <Cell>
+                <A2 text={'자유'} />
+              </Cell>
+              <Cell>
+                <HotContent link={'../../pages/MyPage/MyPage.tsx'} text={'핫글 제목'}>
+                  "핫글 제목"
+                </HotContent>
+              </Cell>
+              <Cell>
+                <IconWrapper>
+                  <StyledFavoriteBorderIcon /> 3 <StyledChatBubbleOutlineRoundedIcon /> 4
+                </IconWrapper>
+              </Cell>
+            </Row>
+          </tbody>
+        </Table>
+      </Container>
     </div>
   );
 }

@@ -13,7 +13,6 @@ export default function MainPage() {
     <div>
       <MainContainer>
         <h1>MainPage</h1>
-        {/* 기존의 SearchForm 대신에 CustomizedInputBase 컴포넌트를 사용합니다 */}
         <CustomizedInputBase />
         <HotBoard />
       </MainContainer>
