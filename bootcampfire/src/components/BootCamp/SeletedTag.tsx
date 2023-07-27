@@ -3,21 +3,21 @@ import React from 'react';
 
 interface A2Props {
   text: string;
-  color?: string; // color 속성을 옵션으로 받음
+  isOn: boolean; 
 }
 
-const Tag: React.FC<A2Props> = ({ text, color }) => {
+const SeletedTag: React.FC<A2Props> = ({ text, isOn }) => {
   return (
-    <A2Container color={color}>
+    <A2Container isOn={isOn}>
       {text}
     </A2Container>
   );
 };
 
-export default Tag;
+export default SeletedTag;
 
 interface A2ContainerProps {
-  color?: string; // color 속성을 옵션으로 받음
+    isOn: boolean;
 }
 const A2Container = styled.div<A2ContainerProps>`
   display: flex;
@@ -29,17 +29,18 @@ const A2Container = styled.div<A2ContainerProps>`
 
   height: 25px;
 
-  background: #FFFFFF;
-  border: 0.5px solid ${(props) => (props.color ? props.color : '#94969B')};
+  background: ${(props) => (props.isOn ?  '#FFF9F9' : '#FFFFFF')};
+  border: 0.5px solid ${(props) => (props.isOn ?  '#0E0301' : '#94969B')};
   border-radius: 15px;
 
   font-family: DM Sans;
-  font-style: bold;
-
   font-weight: 700;
+  font-style: bold;
   font-size: 13px;
   line-height: 25px;
 
   /* color 속성이 전달되면 해당 색상으로 스타일 적용 */
-  color: ${(props) => (props.color ? props.color : '#94969B')};
+  color: ${(props) => (props.isOn ? '#0E0301' : '#94969B')};
+
+
 `;

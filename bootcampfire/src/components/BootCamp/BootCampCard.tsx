@@ -12,7 +12,6 @@ interface BootCampItem {
   test: boolean;
   startRecruiting: Date;
   endRecruiting: Date;
-  // isDatInRage: false, // 이건 받는 값이 아니다...
   tagList: string[];
 }
 
@@ -77,9 +76,11 @@ const LogoImage = styled.img`
 
 
 const TagContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+padding-top:5px;
+  gap: 5px;
 `;
 
 
