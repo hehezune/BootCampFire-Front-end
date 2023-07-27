@@ -5,10 +5,10 @@ interface A2ContainerProps {
 }
 
 const A2Container = styled.span<A2ContainerProps>`
-  padding: 0 10px;
+  padding: 0px 10px;
   gap: 5px;
 
-  height: 25px;
+  height: 20px;
 
   background: #FFFFFF;
   border: 0.5px solid ${(props) => (props.color ? props.color : '#94969B')};
@@ -17,7 +17,7 @@ const A2Container = styled.span<A2ContainerProps>`
   font-family: 'DM Sans';
   font-weight: 700;
   font-size: 13px;
-  line-height: 25px;
+  line-height: 20px;
 
   /* color 속성이 전달되면 해당 색상으로 스타일 적용 */
   color: ${(props) => (props.color ? props.color : '#94969B')};

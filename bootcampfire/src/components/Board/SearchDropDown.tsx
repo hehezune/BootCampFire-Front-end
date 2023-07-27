@@ -2,6 +2,8 @@ import React from 'react';
 import DropDownCategory from './DropDownCategory';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import styled from 'styled-components';
+import { StyledDropdown} from './Styled';
 
 interface DropDownList {
     current: string;
@@ -10,7 +12,7 @@ interface DropDownList {
 
 let dummyData : DropDownList = {
     current: "최신순",
-    category : ["최신순", "좋아요순", "조회수순"],
+    category : ["제목+내용", "작성자"],
 }
 
 function DropDown() {
@@ -26,20 +28,19 @@ function DropDown() {
     ))
 
     return (
-        <>
-            <div>
-                <div onClick={e => setDropdownVisibility(!dropdownVisibility)}>
-                    {!dropdownVisibility && <ArrowDropDownIcon />} 
-                    {dropdownVisibility && <ArrowDropUpIcon />} 
-                </div>
-                <DropDownCategory visibility={dropdownVisibility}>
-                    <ul>
-                        {categoryList}
-                    </ul>
-                </DropDownCategory>
+        <StyledDropdown>
+            <div onClick={e => setDropdownVisibility(!dropdownVisibility)}>
+                {!dropdownVisibility && <ArrowDropDownIcon />} 
+                {dropdownVisibility && <ArrowDropUpIcon />} 
             </div>
-        </>
+            <DropDownCategory visibility={dropdownVisibility} >
+                <ul className="search-category">
+                    {categoryList}
+                </ul>
+            </DropDownCategory>
+        </StyledDropdown>
     )
 }
+
 
 export default DropDown;

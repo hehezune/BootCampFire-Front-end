@@ -15,8 +15,11 @@ function SearchBar() {
 }
 
 const StyledSearchBar = styled.div`
+    margin: 20px;
     display: flex;
     justify-content: center;
+    align-items: center;
+    gap: 40px;
 `;
 
 export default SearchBar;
