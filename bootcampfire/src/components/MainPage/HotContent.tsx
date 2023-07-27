@@ -14,13 +14,12 @@ const HotContentContainer = styled(Link)`
 interface ContentProps {
   text: string;
   link: string;
-  children?: React.ReactNode; // Add 'children' prop to ContentProps
 }
 
-const HotContent: React.FC<ContentProps> = ({ text, link, children }) => {
+const HotContent: React.FC<ContentProps> = ({ text, link }) => {
   return (
     <div>
-      <HotContentContainer to={link}>{children || text}</HotContentContainer>
+      <HotContentContainer to={link}>{text}</HotContentContainer>
     </div>
   );
 };

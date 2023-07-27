@@ -3,9 +3,7 @@ import ChatBubbleOutlineRoundedIcon from '@mui/icons-material/ChatBubbleOutlineR
 import styled from 'styled-components';
 import A2 from '../Bootcamp/Tag';
 import HotContent from './HotContent';
-const Container = styled.div`
-  /* Add any styles for the container div */
-`;
+const Container = styled.div``;
 
 const Table = styled.table`
   /* Add any styles for the table */
@@ -20,7 +18,7 @@ const Cell = styled.td`
 `;
 
 const IconWrapper = styled.div`
-  display: flex;
+  display: inline-block;
   align-items: center;
 `;
 
@@ -36,6 +34,8 @@ export default function HotBoard() {
   return (
     <div>
       <Container>
+        <h2>핫한 게시글</h2>
+        <img src="/public/logo.png" alt="" height={'auto'} width={'auto'} />
         <Table>
           <tbody>
             <Row>
@@ -43,9 +43,7 @@ export default function HotBoard() {
                 <A2 text={'자유'} />
               </Cell>
               <Cell>
-                <HotContent link={'../../pages/MyPage/MyPage.tsx'} text={'핫글 제목'}>
-                  "핫글 제목"
-                </HotContent>
+                <HotContent link={'../../pages/MyPage/MyPage.tsx'} text={'핫글 제목'}></HotContent>
               </Cell>
               <Cell>
                 <IconWrapper>
