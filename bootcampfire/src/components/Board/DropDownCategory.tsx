@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 
 interface DropdownProps {
     visibility: Boolean;
@@ -24,7 +25,8 @@ const DropdownCategory = (props: DropdownProps) => {
     }, [props.visibility]);
 
     return (
-        <article className={`components-dropdown ${props.visibility ? 'slide-fade-in-dropdown' : 'slide-fade-out-dropdown'}`}>
+        <article className={`components-dropdown ${props.visibility ? 'slide-fade-in-dropdown' : 'slide-fade-out-dropdown'}`}
+            >
             { visibilityAnimation && props.children }
         </article>
     )

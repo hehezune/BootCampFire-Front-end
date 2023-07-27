@@ -21,10 +21,11 @@ function DropDown() {
     const handleLiClick = (event: React.MouseEvent<HTMLLIElement>) => {
         console.log(dropdownSelect);
         setDropdownSelect(event.currentTarget.textContent ?? "");
+        setDropdownVisibility(false);
     }
-    
+
     const categoryList = dummyData.category.map((element) => (
-        <li key={element} onClick={handleLiClick}>{element}</li>
+        <StyledLI key={element} onClick={handleLiClick}>{element}</StyledLI>
     ))
 
     return (
@@ -42,5 +43,11 @@ function DropDown() {
     )
 }
 
+const StyledLI = styled.li`
+    &:hover {
+        font-weight: 800;
+    }
+
+`
 
 export default DropDown;
