@@ -1,9 +1,9 @@
 import React from 'react';
-import SearchBar from 'components/Board/SearchBar';
-import CategorySideBar from 'components/Board/CategorySideBar';
-import BoardCard from 'components/Board/BoardCard';
+import SearchBar from 'components/Board/BoardList/SearchBar';
+import CategorySideBar from 'components/Board/BoardList/CategorySideBar';
+import BoardCard from 'components/Board/BoardList/BoardCard';
 import styled from 'styled-components';
-import type {Board} from 'components/Board/interface';
+import type {Board} from 'components/Board/BoardList/interface';
 
 const dummy : Board[] = 
 [{

@@ -1,8 +1,9 @@
 import React from 'react';
 import DropDownCategory from './DropDownCategory';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import {StyledDropdown, Normal13px, StyledLI} from './Styled';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import styled from 'styled-components';
+import { StyledDropdown, StyledLI} from './styled';
 
 interface DropDownList {
     current: string;
@@ -11,28 +12,28 @@ interface DropDownList {
 
 let dummyData : DropDownList = {
     current: "최신순",
-    category : ["최신순", "좋아요순", "조회수순"],
+    category : ["제목+내용", "작성자"],
 }
 
 function DropDown() {
     const [dropdownVisibility, setDropdownVisibility] = React.useState(false);
     const [dropdownSelect, setDropdownSelect] = React.useState(dummyData.current);
     const handleLiClick = (event: React.MouseEvent<HTMLLIElement>) => {
+        console.log(dropdownSelect);
         setDropdownSelect(event.currentTarget.textContent ?? "");
         setDropdownVisibility(false);
     }
-    
-    const categoryList = dummyData.category.map((element, idx) => 
-        <StyledLI key={element} onClick={handleLiClick}>{element}</StyledLI>
-    )
 
-    return ( // 드롭다운을 따로 파일로 분리할 수 있는가? 분리한다면 styled, 분라하지 못한다면 styled를 어떻게 적용할 것인가?
+    const categoryList = dummyData.category.map((element) => (
+        <StyledLI key={element} onClick={handleLiClick}>{element}</StyledLI>
+    ))
+
+    return (
         <StyledDropdown>
-            <Normal13px className="test" onClick={e => setDropdownVisibility(!dropdownVisibility)}>
-                {dropdownSelect}
-                {!dropdownVisibility && <KeyboardArrowDownIcon />} 
-                {dropdownVisibility && <KeyboardArrowUpIcon />} 
-            </Normal13px>
+            <div onClick={e => setDropdownVisibility(!dropdownVisibility)}>
+                {!dropdownVisibility && <ArrowDropDownIcon sx={{color: '#FF603D'}}/>} 
+                {dropdownVisibility && <ArrowDropUpIcon sx={{color: '#FF603D'}}/>} 
+            </div>
             <DropDownCategory visibility={dropdownVisibility} >
                 <ul className="search-category">
                     {categoryList}
