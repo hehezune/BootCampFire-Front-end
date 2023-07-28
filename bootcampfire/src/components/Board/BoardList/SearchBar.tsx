@@ -2,7 +2,7 @@ import React from 'react';
 import SearchInput from './SearchInput';
 import SortDropDown from './SortDropDown';
 import styled from 'styled-components';
-import {Bold21px} from './Styled';
+import {Bold21px} from './styled';
 
 function SearchBar() {
     return (

@@ -58,7 +58,6 @@ const StyledDropdown = styled.div`
         align-items: center;
     }
 `
-
 const StyledLI = styled.li`
     color: #0E0301;
     font-family: DM Sans;
