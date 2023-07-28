@@ -47,12 +47,31 @@ const StyledDropdown = styled.div`
         z-index: 3;
         list-style-type: none;
         padding-left: 0px;
+        box-shadow: 0px 5px 10px 1px #DBDBDB;
+        background-color: #ffffffec;
+        backdrop-filter: blur(1px);
+        top: 26px;
     }
 
     .test {
         display: flex;
-        justify-content: center;
+        align-items: center;
     }
 `
 
-export { Bold18px, Bold24px, Bold15px, Bold21px, Normal15px, Normal13px, StyledDropdown };
+const StyledLI = styled.li`
+    color: #0E0301;
+    font-family: DM Sans;
+    font-style: bold;
+    font-size: 13px;
+
+    width: 70px;
+    height: 20px;
+    padding: 5px 10px;
+    margin: 0px;
+    &:hover {
+        font-weight: 800;
+    }
+`
+
+export { Bold18px, Bold24px, Bold15px, Bold21px, Normal15px, Normal13px, StyledDropdown, StyledLI};

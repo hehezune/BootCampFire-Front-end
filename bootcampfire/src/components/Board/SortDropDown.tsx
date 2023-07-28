@@ -2,8 +2,7 @@ import React from 'react';
 import DropDownCategory from './DropDownCategory';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import styled from 'styled-components';
-import {StyledDropdown} from './Styled';
+import {StyledDropdown, Normal13px, StyledLI} from './Styled';
 
 interface DropDownList {
     current: string;
@@ -29,12 +28,11 @@ function DropDown() {
 
     return ( // 드롭다운을 따로 파일로 분리할 수 있는가? 분리한다면 styled, 분라하지 못한다면 styled를 어떻게 적용할 것인가?
         <StyledDropdown>
-            <div onClick={e => setDropdownVisibility(!dropdownVisibility)}>
+            <Normal13px className="test" onClick={e => setDropdownVisibility(!dropdownVisibility)}>
                 {dropdownSelect}
                 {!dropdownVisibility && <KeyboardArrowDownIcon />} 
                 {dropdownVisibility && <KeyboardArrowUpIcon />} 
-                
-            </div>
+            </Normal13px>
             <DropDownCategory visibility={dropdownVisibility} >
                 <ul className="search-category">
                     {categoryList}
@@ -43,12 +41,5 @@ function DropDown() {
         </StyledDropdown>
     )
 }
-
-const StyledLI = styled.li`
-    &:hover {
-        font-weight: 800;
-    }
-
-`
 
 export default DropDown;

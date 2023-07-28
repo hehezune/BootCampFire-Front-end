@@ -3,7 +3,7 @@ import DropDownCategory from './DropDownCategory';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import styled from 'styled-components';
-import { StyledDropdown} from './Styled';
+import { StyledDropdown, StyledLI} from './Styled';
 
 interface DropDownList {
     current: string;
@@ -31,8 +31,8 @@ function DropDown() {
     return (
         <StyledDropdown>
             <div onClick={e => setDropdownVisibility(!dropdownVisibility)}>
-                {!dropdownVisibility && <ArrowDropDownIcon />} 
-                {dropdownVisibility && <ArrowDropUpIcon />} 
+                {!dropdownVisibility && <ArrowDropDownIcon sx={{color: '#FF603D'}}/>} 
+                {dropdownVisibility && <ArrowDropUpIcon sx={{color: '#FF603D'}}/>} 
             </div>
             <DropDownCategory visibility={dropdownVisibility} >
                 <ul className="search-category">
@@ -42,12 +42,5 @@ function DropDown() {
         </StyledDropdown>
     )
 }
-
-const StyledLI = styled.li`
-    &:hover {
-        font-weight: 800;
-    }
-
-`
 
 export default DropDown;

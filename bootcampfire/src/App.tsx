@@ -2,7 +2,6 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Nav from './components/Nav';
-// import Board from './pages/Board';
 import BoardList from 'pages/BoardPage/BoardListPage';
 import BootCamp from './pages/BootCamp';
 import CampArticle from './pages/CampArticle';
@@ -17,7 +16,6 @@ export default function App() {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          {/* <Route path="/Board" element={<Board />} /> */}
           <Route path="/Board" element={<BoardList />} />
           <Route path="/BootCamp" element={<BootCamp />} />
           <Route path="/CampArticle" element={<CampArticle />} />

@@ -7,7 +7,7 @@ import type {Board} from 'components/Board/interface';
 
 const dummy : Board[] = 
 [{
-    title: "testTitle",
+    title: "testTitle testContent testContent testContent",
     content: "testContent testContent testContent ",
     date: "20230725",
     likes: 3,

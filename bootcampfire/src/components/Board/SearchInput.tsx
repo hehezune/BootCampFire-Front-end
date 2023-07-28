@@ -31,6 +31,7 @@ export default function InputSection() {
         border: 3,
         borderColor: '#FF603D',
         borderRadius: 10,
+        boxShadow: 'none',
       }}
       onSubmit={handleSearchSubmit}>
       <SearchDropDown/>
