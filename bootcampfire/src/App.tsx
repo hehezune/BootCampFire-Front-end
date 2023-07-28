@@ -8,9 +8,13 @@ import CampArticle from './pages/CampArticle';
 import VS from './pages/VS';
 import BootCampListDetailPage from './pages/BootCampPage/BootCampDetailPage';
 
+import { Provider } from 'react-redux';
+import store from './store';
+
 export default function App() {
   return (
     <div>
+        <Provider store={store}>
       <nav>
         <Nav />
       </nav>
@@ -24,6 +28,7 @@ export default function App() {
           <Route path="/bootcampdetail/:bootcampid" element={<BootCampListDetailPage/>} />
         </Routes>
       </main>
+        </Provider>
     </div>
   );
 }

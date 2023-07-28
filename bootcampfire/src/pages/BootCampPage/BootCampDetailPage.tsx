@@ -15,3 +15,5 @@ const BootCampListDetailPage: React.FC = () => {
 };
 
 export default BootCampListDetailPage;
+
+

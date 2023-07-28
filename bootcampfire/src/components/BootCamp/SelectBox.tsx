@@ -1,84 +1,50 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from "styled-components";
-import Tag from './Tag';
 import SeletedTag from './SeletedTag';
 
-
-type VisibleState = {
-    track: boolean;
-    onOff: boolean;
-    region: boolean;
-    etc: boolean;
-  };
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../store';
+import {onoff_num, onoff_text, category_onoff} from '../../store/selectSlice';
 
 const SelectBox: React.FC = () => {
-  const [isVisible, setIsVisible] = useState<VisibleState>({
-    track: false,
-    onOff: false,
-    region: false,
-    etc: false,
-  });
 
-  const toggleVisibility = (itemName: keyof VisibleState) => {
-    setIsVisible(prevState => ({
-      ...prevState,
-      [itemName]: !prevState[itemName],
-    }));
-  };
-  
+  const { sel_lst, item_lst, category, tmp_lst } = useSelector((state: RootState) => state.select);
+  const dispatch = useDispatch();
+
+  const handleSeletedTagClick = (value: number) => {dispatch(onoff_num(value));};
+  const handleCategoryToggle = (value: number) => {dispatch(category_onoff(value));};
+
+  const CATEGORY: string[] = ["트랙", "온오프", "지역", "기타"];
+  const OFFSET: number[] = [0,
+                            item_lst.indexOf("온라인"),
+                            item_lst.indexOf("서울"),
+                            item_lst.indexOf("모집중"),
+                            item_lst.length];
 
   return (
     <>
       <Container>
-      <NavItem onClick={() => toggleVisibility('track')}>
-          <span>트랙</span>
-          <span style={{ textAlign: "center" }}>{isVisible.track ? "△" : "▽"}</span>
-        </NavItem>
-        {isVisible.track && <ItemBox>
-            <SeletedTag text='백엔드' isOn={true} />
+        {CATEGORY.map( (item_p, idx_p) => (
+          <div >
+            <NavItem onClick={() => handleCategoryToggle(idx_p)}>
+            <span>{item_p}</span>
+            <span style={{ textAlign: "center" }}>{category[idx_p] ? "△" : "▽"}</span>
+            </NavItem>
             
-            <Tag text='풀스택' />
-            <Tag text='임베디드' />
-            <Tag text='프론트' />
-            <Tag text='모바일' />                
-        </ItemBox>}
+            {category[idx_p] && <ItemBox>
+            {item_lst.slice(OFFSET[idx_p], OFFSET[idx_p+1]).map((item, idx)=> (
+              <SeletedTag text={item} isOn={sel_lst[OFFSET[idx_p]+idx]}  onClick={() => handleSeletedTagClick(OFFSET[idx_p]+idx)} />
+            ))} 
+            </ItemBox>}
+          </div>
+        ))}
 
-        <NavItem onClick={() => toggleVisibility('onOff')}>
-        <span>온오프</span>
-          <span style={{ textAlign: "center" }}>{isVisible.onOff ? "△" : "▽"}</span>
-        </NavItem>
-        {isVisible.onOff && <ItemBox>
-            <Tag text='온라인' />
-            <Tag text='오프라인' />
-            <Tag text='온/오프라인' />          
-        </ItemBox>}
-
-        <NavItem onClick={() => toggleVisibility('region')}>
-        <span>지역</span>
-          <span style={{ textAlign: "center" }}>{isVisible.region ? "△" : "▽"}</span>
-        </NavItem>
-        {isVisible.region && <ItemBox>
-            <Tag text='서울' />
-            <Tag text='서울' />
-            <Tag text='서울' />
-            <Tag text='서울' />
-            <Tag text='서울' />
-        </ItemBox>}
-
-        <NavItem onClick={() => toggleVisibility('etc')}>
-        <span>기타</span>
-          <span style={{ textAlign: "center" }}>{isVisible.etc ? "△" : "▽"}</span>
-        </NavItem>
-        {isVisible.etc && <ItemBox>
-            <Tag text='모집중' />
-            <Tag text='코테 O' />
-            <Tag text='비용 O' />
-        </ItemBox>}
-
-        <NavItem>
-          선택 결과
-        </NavItem>
-        <div>내용</div>
+        <NavItem>선택 항목</NavItem>
+        <ItemBox>
+          {tmp_lst.map((item, idx) => (
+            <SeletedTag text={item} isOn={sel_lst[item_lst.indexOf(item)]} onClick={() => handleSeletedTagClick(item_lst.indexOf(item))} />
+            ))}
+        </ItemBox>
       </Container>
     </>
   );

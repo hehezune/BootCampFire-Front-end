@@ -4,11 +4,12 @@ import React from 'react';
 interface A2Props {
   text: string;
   isOn: boolean; 
+  onClick?: () => void;
 }
 
-const SeletedTag: React.FC<A2Props> = ({ text, isOn }) => {
+const SeletedTag: React.FC<A2Props> = ({ text, isOn, onClick  }) => {
   return (
-    <A2Container isOn={isOn}>
+    <A2Container isOn={isOn} onClick={onClick} >
       {text}
     </A2Container>
   );
