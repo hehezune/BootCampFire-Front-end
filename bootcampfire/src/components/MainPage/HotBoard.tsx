@@ -1,7 +1,9 @@
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ChatBubbleOutlineRoundedIcon from '@mui/icons-material/ChatBubbleOutlineRounded';
 import styled from 'styled-components';
-import A2 from '../Bootcamp/Tag';
+// import A2 from '../Bootcamp/Tag';
+import Tag from 'components/BootCamp/Tag';
+
 import HotContent from './HotContent';
 const Container = styled.div``;
 
@@ -40,7 +42,7 @@ export default function HotBoard() {
           <tbody>
             <Row>
               <Cell>
-                <A2 text={'자유'} />
+                <Tag text={'자유'} />
               </Cell>
               <Cell>
                 <HotContent link={'../../pages/MyPage/MyPage.tsx'} text={'핫글 제목'}></HotContent>
