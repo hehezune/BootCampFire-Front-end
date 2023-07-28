@@ -13,7 +13,6 @@ import BootCampListDetailPage from './pages/BootCampPage/BootCampDetailPage';
 export default function App() {
   return (
     <div>
-        <Provider store={store}>
       <Provider store={store}>
         <nav>
           <Nav />
@@ -27,7 +26,6 @@ export default function App() {
           <Route path="/bootcampdetail/:bootcampid" element={<BootCampListDetailPage/>} />
           </Routes>
         </main>
-        </Provider>
       </Provider>
     </div>
   );
