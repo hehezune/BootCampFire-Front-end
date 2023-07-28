@@ -1,5 +1,5 @@
-import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "./authSlice";
+import { configureStore } from '@reduxjs/toolkit';
+import authReducer from './authSlice';
 import selectSliceReducer from "./selectSlice";
 
 export interface RootState {

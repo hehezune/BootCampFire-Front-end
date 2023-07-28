@@ -1,34 +1,34 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
 import Nav from './components/Nav';
-import Board from './pages/Board';
+import BoardList from 'pages/BoardPage/BoardListPage';
 import BootCamp from './pages/BootCamp';
-import CampArticle from './pages/CampArticle';
-import VS from './pages/VS';
+import VS from './pages/VSPage/VsPage';
+import MainPage from './pages/MainPage/MainPage';
+import store from './store';
+import { Provider } from 'react-redux';
 import BootCampListDetailPage from './pages/BootCampPage/BootCampDetailPage';
 
-import { Provider } from 'react-redux';
-import store from './store';
 
 export default function App() {
   return (
     <div>
         <Provider store={store}>
-      <nav>
-        <Nav />
-      </nav>
-      <main>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/Board" element={<Board />} />
-          <Route path="/BootCamp" element={<BootCamp />} />
-          <Route path="/CampArticle" element={<CampArticle />} />
-          <Route path="/VS" element={<VS />} />
+      <Provider store={store}>
+        <nav>
+          <Nav />
+        </nav>
+        <main>
+          <Routes>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/Board" element={<BoardList />} />
+            <Route path="/BootCamp" element={<BootCamp />} />
+            <Route path="/src/pages/VSPage/VsPage" element={<VS />} />
           <Route path="/bootcampdetail/:bootcampid" element={<BootCampListDetailPage/>} />
-        </Routes>
-      </main>
+          </Routes>
+        </main>
         </Provider>
+      </Provider>
     </div>
   );
 }
