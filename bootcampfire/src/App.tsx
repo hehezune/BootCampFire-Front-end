@@ -1,22 +1,19 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Nav from './components/Nav';
 import BoardList from 'pages/BoardPage/BoardListPage';
 import BootCamp from './pages/BootCamp';
 import VS from './pages/VSPage/VsPage';
 import MainPage from './pages/MainPage/MainPage';
 import store from './store';
 import { Provider } from 'react-redux';
+import Header from 'components/Header';
 import BootCampListDetailPage from './pages/BootCampPage/BootCampDetailPage';
-
 
 export default function App() {
   return (
     <div>
       <Provider store={store}>
-        <nav>
-          <Nav />
-        </nav>
+        <Header />
         <main>
           <Routes>
             <Route path="/" element={<MainPage />} />

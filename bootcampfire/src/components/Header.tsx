@@ -1,8 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store'; // 변경된 부분
-import { login, logout } from '../store/authSlice';
+import { RootState } from '../store';
+import { logout } from '../store/authSlice';
+import BasicModal from './Login/LoginModal';
+import React from 'react';
 
 const NavContainer = styled.div`
   background-color: #f0f0f0;
@@ -19,7 +21,7 @@ const LogoLink = styled(Link)`
 `;
 
 const NavLink = styled(Link)`
-  margin: 0 100px; /* 여기에 간격을 조절할 수 있습니다 */
+  margin: 0 100px;
   color: #333;
   text-decoration: none;
 
@@ -57,10 +59,11 @@ const WritePrimaryBtn = styled(Link)`
   }
 `;
 
-export default function Nav() {
+export default function Header() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const navigate = useNavigate();
+  const [isModalOpen, setModalOpen] = React.useState(false);
 
   const handleWriteButtonClick = () => {
     // 글쓰기 버튼 클릭 시, 로그인 여부 확인 후 적절한 경로로 이동
@@ -72,11 +75,17 @@ export default function Nav() {
   };
 
   const handleLogin = () => {
-    dispatch(login());
+    // 모달 열기 함수
+    setModalOpen(true);
   };
 
   const handleLogout = () => {
     dispatch(logout());
+  };
+
+  const handleCloseModal = () => {
+    // 모달 닫기 함수
+    setModalOpen(false);
   };
 
   return (
@@ -94,13 +103,14 @@ export default function Nav() {
         </WritePrimaryBtn>
         {isLoggedIn ? (
           <div>
-            {/* 로그인 정보 표시 */}
             <span>로그인 되었습니다.</span>
             <ActionButton onClick={handleLogout}>로그아웃</ActionButton>
           </div>
         ) : (
           <ActionButton onClick={handleLogin}>로그인</ActionButton>
         )}
+        {/* 모달 컴포넌트 */}
+        <BasicModal isModalOpen={isModalOpen} onClose={handleCloseModal} />
       </div>
     </NavContainer>
   );
