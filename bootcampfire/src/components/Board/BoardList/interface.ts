@@ -4,9 +4,9 @@ export interface Board {
     title: string;
     content: string;
     date: string;
-    likes: Number;
-    comments: Number;
-    views: Number;
+    likes: number;
+    views: number;
     writer: string;
     camp: string;
+    comments: number;
 }
