@@ -1,0 +1,84 @@
+[33mcommit 342b7fdbfcdac9a07c82792b6471e6828cc62769[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: kcrikana <beom0109@naver.com>
+Date:   Tue Jul 25 15:59:19 2023 +0900
+
+    검색바와 CSS수정
+
+[33mcommit 48c42a5c534f32ac66819a4119fa37e568d73c87[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: kcrikana <beom0109@naver.com>
+Date:   Tue Jul 25 11:01:02 2023 +0900
+
+    A2파일 삭제
+
+[33mcommit 3afe20ec46881d85e4c104d4e2af7d46f49f190d[m
+Author: kcrikana <beom0109@naver.com>
+Date:   Tue Jul 25 10:58:34 2023 +0900
+
+    빈파일에 리턴값 출력
+
+[33mcommit d2e9610ce936c0adc454655e68acfe04ad78c048[m
+Merge: aec2b3a 4eb535a
+Author: 임수형 <suhyeng119@gmail.com>
+Date:   Tue Jul 25 10:40:26 2023 +0900
+
+    Merge pull request #2 from BootCampFire/structure
+    
+    Feat: MUI 추가 및 structure 형성
+
+[33mcommit 4eb535a2cfa5a0dae0d8268e6fdd0b843e92ffcc[m[33m ([m[1;31morigin/structure[m[33m)[m
+Author: bongjun <funcodezune@gmail.com>
+Date:   Tue Jul 25 10:37:28 2023 +0900
+
+    Feat: MUI 추가
+    MUI 추가
+
+[33mcommit aec2b3a5c65a5c38c652e4f0303284162ff4d045[m
+Merge: 982c17d 92677f0
+Author: hehezune <108918495+hehezune@users.noreply.github.com>
+Date:   Tue Jul 25 09:27:57 2023 +0900
+
+    Merge pull request #1 from BootCampFire/Nav
+    
+    nav바 테스트 단계 및 styled componenet 설치 완료
+
+[33mcommit 92677f084eb75803b1c754d15ed3761ff48376a2[m[33m ([m[1;31morigin/Nav[m[33m)[m
+Author: User <beom0109@naver.com>
+Date:   Tue Jul 25 02:22:44 2023 +0900
+
+    nav바와 Home화면 예시
+
+[33mcommit 982c17db96bfb984aaad7b93e96346898bb95ab9[m
+Author: hehezune <funcodezune@gmail.com>
+Date:   Mon Jul 24 20:44:46 2023 +0900
+
+    Feat: 폴더 구성\n패키지 구조에 따른 폴더 구성
+
+[33mcommit cb88e9dca3f84f257bf4cbe02c1780021bb8d671[m
+Author: suhyeng119 <suhyeng119@gmail.com>
+Date:   Mon Jul 24 17:53:07 2023 +0900
+
+    feat A2 and A2_test
+
+[33mcommit b22210fe5900525a09d4fca9667750d5c6e42ad2[m
+Author: kcrikana <beom0109@naver.com>
+Date:   Mon Jul 24 09:49:38 2023 +0900
+
+    react-router와 axios추가
+
+[33mcommit 101186a8f6dc5ddade1041fa6b47cc498aa4d613[m
+Author: kcrikana <beom0109@naver.com>
+Date:   Mon Jul 24 09:47:14 2023 +0900
+
+    vite -> react로 수정 실행 방법은 pnpm start
+
+[33mcommit 006e9126ece1524f93da453a8b2d8ccef9c3c4cf[m
+Author: bongjun <funcodezune@gmail.com>
+Date:   Fri Jul 21 14:22:49 2023 +0900
+
+    프론트환경세팅
+
+[33mcommit c0e7b5f2268c6606912fef11ce9796c23b851bfa[m
+Author: hehezune <108918495+hehezune@users.noreply.github.com>
+Date:   Fri Jul 21 09:06:32 2023 +0900
+
+    Initial commit

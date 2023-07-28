@@ -65,6 +65,9 @@ dependencies:
   react-scripts:
     specifier: 5.0.1
     version: 5.0.1(@babel/plugin-syntax-flow@7.22.5)(@babel/plugin-transform-react-jsx@7.22.5)(eslint@8.45.0)(react@18.2.0)(typescript@4.9.5)
+  react-table:
+    specifier: ^7.8.0
+    version: 7.8.0(react@18.2.0)
   redux:
     specifier: ^4.2.1
     version: 4.2.1
@@ -9051,6 +9054,14 @@ packages:
       - webpack-cli
       - webpack-hot-middleware
       - webpack-plugin-serve
+    dev: false
+
+  /react-table@7.8.0(react@18.2.0):
+    resolution: {integrity: sha512-hNaz4ygkZO4bESeFfnfOft73iBUj8K5oKi1EcSHPAibEydfsX2MyU6Z8KCr3mv3C9Kqqh71U+DhZkFvibbnPbA==}
+    peerDependencies:
+      react: ^16.8.3 || ^17.0.0-0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /react-transition-group@4.4.5(react-dom@18.2.0)(react@18.2.0):
