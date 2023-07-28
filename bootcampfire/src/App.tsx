@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Nav from './components/Nav';
-import Board from './pages/Board';
+import BoardList from 'pages/BoardPage/BoardListPage';
 import BootCamp from './pages/BootCamp';
 import VS from './pages/VSPage/VsPage';
 import MainPage from './pages/MainPage/MainPage';
@@ -18,7 +18,7 @@ export default function App() {
         <main>
           <Routes>
             <Route path="/" element={<MainPage />} />
-            <Route path="/Board" element={<Board />} />
+            <Route path="/Board" element={<BoardList />} />
             <Route path="/BootCamp" element={<BootCamp />} />
             <Route path="/src/pages/VSPage/VsPage" element={<VS />} />
           </Routes>
