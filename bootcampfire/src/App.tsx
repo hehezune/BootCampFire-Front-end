@@ -7,10 +7,13 @@ import VS from './pages/VSPage/VsPage';
 import MainPage from './pages/MainPage/MainPage';
 import store from './store';
 import { Provider } from 'react-redux';
+import BootCampListDetailPage from './pages/BootCampPage/BootCampDetailPage';
+
 
 export default function App() {
   return (
     <div>
+        <Provider store={store}>
       <Provider store={store}>
         <nav>
           <Nav />
@@ -21,8 +24,10 @@ export default function App() {
             <Route path="/Board" element={<BoardList />} />
             <Route path="/BootCamp" element={<BootCamp />} />
             <Route path="/src/pages/VSPage/VsPage" element={<VS />} />
+          <Route path="/bootcampdetail/:bootcampid" element={<BootCampListDetailPage/>} />
           </Routes>
         </main>
+        </Provider>
       </Provider>
     </div>
   );
