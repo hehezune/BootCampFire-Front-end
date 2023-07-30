@@ -2,7 +2,7 @@ import React from 'react';
 import DropDownCategory from './DropDownCategory';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import {StyledDropdown, Normal13px, StyledLI} from './styled';
+import {StyledDropdown, Normal13px, StyledLI} from '../styled';
 
 interface DropDownList {
     current: string;

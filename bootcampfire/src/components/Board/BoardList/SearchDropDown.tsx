@@ -3,7 +3,7 @@ import DropDownCategory from './DropDownCategory';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import styled from 'styled-components';
-import { StyledDropdown, StyledLI} from './styled';
+import { StyledDropdown, StyledLI} from '../styled';
 
 interface DropDownList {
     current: string;

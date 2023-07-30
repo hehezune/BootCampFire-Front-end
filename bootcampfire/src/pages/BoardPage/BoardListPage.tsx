@@ -3,7 +3,7 @@ import SearchBar from 'components/Board/BoardList/SearchBar';
 import CategorySideBar from 'components/Board/BoardList/CategorySideBar';
 import BoardCard from 'components/Board/BoardList/BoardCard';
 import styled from 'styled-components';
-import type {Board} from 'components/Board/BoardList/interface';
+import type {Board} from 'components/Board/interface';
 
 const dummy : Board[] = 
 [{
@@ -26,6 +26,7 @@ const dummy : Board[] =
     writer: "beom0109",
     camp: "SSAFY"
 }];
+
 for (let i = 0; i < 5; i++) {
     dummy.push(dummy[0]);
 }

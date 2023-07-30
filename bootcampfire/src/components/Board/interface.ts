@@ -14,14 +14,14 @@ export interface Board {
 
 export interface Comment {
     commentId: number;
-    title: string;
+    boardId: number;
     content: string;
     date: string;
     writer: string;
     camp: string;
     reply: {
         isReply: boolean;
-        originId: number;
+        targetId: number;
     }
     isAnonymous: boolean;
 }
