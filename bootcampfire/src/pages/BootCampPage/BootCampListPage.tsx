@@ -4,6 +4,8 @@ import BootCampCard from "../../components/BootCamp/BootCampCard";
 import SelectBox from '../../components/BootCamp/SelectBox'; 
 import {Link, useNavigate} from 'react-router-dom';
 
+import { useEffect, useState } from 'react';
+import axios, { AxiosResponse } from 'axios';
 
 
 const BootCampListPage: React.FC = () => {
@@ -13,6 +15,21 @@ const BootCampListPage: React.FC = () => {
     navigate(`/bootcampdetail/${bootcampId}`);
   };
 
+  const [a, seta] = useState<any>({});
+  // useEffect(() => {
+  //   if (Object.keys(a).length === 0) {
+  //     axios.get('http://localhost:8080/boards/3?userId=1')
+  //       .then((response: AxiosResponse<any>) => seta(response.data));
+  //   }
+  // }, [a]);
+  const handleGetButtonClick = () => {
+    axios.get('http://localhost:8080/boards/3?userId=1')
+      .then((response: AxiosResponse<any>) => seta(response.data));
+  };
+
+  console.log(a.data);
+  // const aa = a.data.bootcamp
+  
   return (
     <>
     <Container>
@@ -22,6 +39,8 @@ const BootCampListPage: React.FC = () => {
       </TopSection>
       <CardSection>
         <h1>카드 리스트</h1>
+        <button onClick={handleGetButtonClick}>GET 받는 버튼</button>
+        {/* <div>{a.data}</div> */}
         <CardContainer>
           {objectList.map((item) => (
             <BootCampCardWrapper key={item.id} onClick={() => CardClick(item.id)}>
