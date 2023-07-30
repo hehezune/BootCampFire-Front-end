@@ -1,13 +1,13 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import BoardList from 'pages/BoardPage/BoardListPage';
-import BootCamp from './pages/BootCamp';
-import VS from './pages/VSPage/VsPage';
-import MainPage from './pages/MainPage/MainPage';
-import store from './store';
-import { Provider } from 'react-redux';
-import Header from 'components/Header';
-import BootCampListDetailPage from './pages/BootCampPage/BootCampDetailPage';
+import React, { useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import BoardList from "pages/BoardPage/BoardListPage";
+import BootCamp from "./pages/BootCamp";
+import VS from "./pages/VSPage/VsPage";
+import MainPage from "./pages/MainPage/MainPage";
+import store from "./store";
+import { Provider } from "react-redux";
+import Header from "components/Header";
+import BootCampListDetailPage from "./pages/BootCampPage/BootCampDetailPage";
 
 export default function App() {
   return (
@@ -20,7 +20,10 @@ export default function App() {
             <Route path="/Board" element={<BoardList />} />
             <Route path="/BootCamp" element={<BootCamp />} />
             <Route path="/src/pages/VSPage/VsPage" element={<VS />} />
-          <Route path="/bootcampdetail/:bootcampid" element={<BootCampListDetailPage/>} />
+            <Route
+              path="/bootcampdetail/:bootcampid"
+              element={<BootCampListDetailPage />}
+            />
           </Routes>
         </main>
       </Provider>
