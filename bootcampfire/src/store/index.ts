@@ -1,10 +1,12 @@
-import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "./authSlice";
-import selectSliceReducer from "./selectSlice";
-import loginSelectSliceReducer from "./loginSelectSlice";
+import { configureStore } from '@reduxjs/toolkit';
+import authReducer from './authSlice';
+import selectSliceReducer from './selectSlice';
+import loginSelectSliceReducer from './loginSelectSlice';
 
 export interface RootState {
   auth: {
+    isAdmin: any;
+    nickname: any;
     isLoggedIn: boolean;
   };
   select: {

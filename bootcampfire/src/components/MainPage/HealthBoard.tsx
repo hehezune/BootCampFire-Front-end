@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import HotContent from './HotContent';
+import { Bold18px } from 'components/Board/BoardList/styled';
 const Container = styled.div``;
 
 const Table = styled.table`
@@ -29,6 +30,7 @@ export default function HealthBoard() {
     <div>
       <Container>
         <img src="/public/logo.png" alt="" height={'auto'} width={'auto'} />
+        <Bold18px>헬스 다이어트</Bold18px>
         <hr />
         <Table>
           <tbody>

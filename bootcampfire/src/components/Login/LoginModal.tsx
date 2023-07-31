@@ -1,60 +1,107 @@
-import React from "react";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import styled from "styled-components";
-import { Typography } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { login } from "../../store/authSlice";
-import axios from "axios";
+import React from 'react';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import styled from 'styled-components';
+import { Typography } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { login } from '../../store/authSlice';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { Bold18px, Normal13px } from 'components/Board/BoardList/styled';
 
 const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '600px',
+  height: '600px',
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
   boxShadow: 24,
   p: 4,
+  display: 'flex', // flex 컨테이너로 설정합니다.
+  flexDirection: 'column', // 세로 방향으로 아이템을 배치합니다.
+  justifyContent: 'center', // 아이템을 수직 방향으로 가운데로 정렬합니다.
 };
 
+const TextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center; // 수직 방향으로 중앙 정렬합니다.
+`;
+
+const LineBreak = styled.div`
+  margin: 10px 0; // 한 줄 띄웁니다.
+`;
+
+const HorizontalLine = styled.hr`
+  margin: 20px auto; // 선 위아래로 여백을 줍니다.
+  border: 0;
+  height: 1px;
+  width: 375px;
+  background-color: #000000; // 선의 색상을 지정합니다.
+`;
+
+const SocialImagesContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
 const Img = styled.img`
-  height: auto;
-  width: auto;
+  margin: 10px auto; // 이미지를 컨테이너 안에서 가운데 정렬합니다.
 `;
 
-const KakaoImgBtn = styled.button`
-  height: auto;
-  width: auto;
-`;
-
-interface BasicModalProps {
+interface LoginModalProps {
   isModalOpen: boolean;
   onClose: () => void;
 }
 
-const BasicModal: React.FC<BasicModalProps> = (props) => {
+const LoginModal: React.FC<LoginModalProps> = (props) => {
   const dispatch = useDispatch();
+  const socialImg = [
+    {
+      src: '/Kakao.png',
+      width: '32px',
+      height: '32px',
+      comment: '카카오 로그인',
+      loginURL:
+        'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=f21dc05c1cc5d570d69aa3c69b9f8a17&redirect_uri=http://localhost:3000/auth/kakao/callback',
+    },
 
+    {
+      src: '/Naver.png',
+      width: '32px',
+      height: '32px',
+      comment: '네이버 로그인',
+      loginURL:
+        'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=qKQeuYnnrFkppfXuP7SC&state=STATE_STRING&redirect_uri=http://localhost:3000/auth/naver/callback',
+    },
+    {
+      src: '/Google.png',
+      width: '32px',
+      height: '32px',
+      comment: '구글 로그인',
+      loginURL:
+        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=1085354012339-cmrj7uofqlc2an285ntc97i03sfragh1',
+    },
+  ];
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      // 카카오 로그인을 위한 요청을 보냅니다.
-      const response = await axios.get(
-        "https://kauth.kakao.com/oauth/authorize",
-        {
-          params: {
-            response_type: "code",
-            client_id: "f21dc05c1cc5d570d69aa3c69b9f8a17",
-            redirect_uri: "http://localhost:3000/auth/kakao/callback",
-          },
-        }
-      );
+      const response = await axios.get('https://kauth.kakao.com/oauth/authorize', {
+        params: {
+          response_type: 'code',
+          client_id: 'f21dc05c1cc5d570d69aa3c69b9f8a17',
+          redirect_uri: 'http://localhost:3000/auth/kakao/callback',
+        },
+      });
 
       // 요청이 성공하면 로그인 상태로 변경합니다.
-      dispatch(login());
+      dispatch(login({ nickname: '사용자123', email: 'user@example.com', isAdmin: true }));
 
       // 모달을 닫습니다.
       props.onClose();
@@ -70,24 +117,25 @@ const BasicModal: React.FC<BasicModalProps> = (props) => {
         open={props.isModalOpen}
         onClose={props.onClose}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+        aria-describedby="modal-modal-description">
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h1">
-            로그인 하기
-          </Typography>
-          <br />
-          <Typography id="modal-middle-title" variant="h6" component="h3">
-            소셜 로그인 및 이메일로 로그인 할 수 있습니다.
-          </Typography>
-          <hr />
-          <KakaoImgBtn onClick={handleSubmit}>
-            <Img src="/kakao_login_medium_wide.png" alt="Kakao Login" />
-          </KakaoImgBtn>
+          <TextContainer>
+            <Bold18px>로그인하기</Bold18px>
+            <LineBreak />
+            <Normal13px>소셜 로그인으로 로그인 할 수 있습니다.</Normal13px>
+          </TextContainer>
+          <HorizontalLine />
+          <SocialImagesContainer>
+            {socialImg.map((social) => (
+              <a href={social.loginURL} key={social.comment}>
+                <Img src={social.src} alt={social.comment} />
+              </a>
+            ))}
+          </SocialImagesContainer>
         </Box>
       </Modal>
     </div>
   );
 };
 
-export default BasicModal;
+export default LoginModal;

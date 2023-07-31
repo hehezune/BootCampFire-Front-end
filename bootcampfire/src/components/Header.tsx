@@ -2,26 +2,28 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
-import { logout } from '../store/authSlice';
+import authSlice, { login, logout } from '../store/authSlice';
 import BasicModal from './Login/LoginModal';
 import React from 'react';
+import { Bold21px } from './Board/BoardList/styled';
 
 const NavContainer = styled.div`
   background-color: #f0f0f0;
   padding: 10px;
+  margin: 'auto';
 `;
 
 const LogoLink = styled(Link)`
   img {
-    margin-left: 100px;
+    margin-left: 5%;
     height: 50px;
     width: auto;
-    margin-right: 300px;
   }
 `;
 
 const NavLink = styled(Link)`
-  margin: 0 100px;
+  margin-right: 5%;
+  margin-left: 5%;
   color: #333;
   text-decoration: none;
 
@@ -30,7 +32,6 @@ const NavLink = styled(Link)`
   }
 `;
 const ActionButton = styled.button`
-  margin-left: 20px;
   padding: 8px 16px;
   border: 1px solid #ffd0c1;
   border-radius: 4px;
@@ -44,7 +45,8 @@ const ActionButton = styled.button`
   }
 `;
 const WritePrimaryBtn = styled(Link)`
-  margin-right: 20px;
+  margin-left: 3%;
+  margin-right: 3%;
   padding: 8px 16px;
   border: none;
   border-radius: 4px;
@@ -59,9 +61,22 @@ const WritePrimaryBtn = styled(Link)`
   }
 `;
 
+const HeaderContentContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const LoginContentContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+`;
+
 export default function Header() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+  const nickname = useSelector((state: RootState) => state.auth.nickname); // nickname 정보를 가져옴
+  const isAdmin = useSelector((state: RootState) => state.auth.isAdmin);
   const navigate = useNavigate();
   const [isModalOpen, setModalOpen] = React.useState(false);
 
@@ -76,7 +91,8 @@ export default function Header() {
 
   const handleLogin = () => {
     // 모달 열기 함수
-    setModalOpen(true);
+    // setModalOpen(true);
+    dispatch(login({ nickname: '사용자123', email: 'user@example.com', isAdmin: true }));
   };
 
   const handleLogout = () => {
@@ -90,25 +106,48 @@ export default function Header() {
 
   return (
     <NavContainer>
-      <div>
-        <LogoLink to="/">
-          <img src="../logo.png" alt="" />
-        </LogoLink>
-        <NavLink to="/Board">Board</NavLink>
-        <NavLink to="/BootCamp">BootCamp</NavLink>
-        <NavLink to="/CampArticle">CampArticle</NavLink>
-        <NavLink to="/VS">VS</NavLink>
-        <WritePrimaryBtn to="/" onClick={handleWriteButtonClick}>
-          글쓰기
-        </WritePrimaryBtn>
-        {isLoggedIn ? (
-          <div>
-            <span>로그인 되었습니다.</span>
-            <ActionButton onClick={handleLogout}>로그아웃</ActionButton>
-          </div>
-        ) : (
-          <ActionButton onClick={handleLogin}>로그인</ActionButton>
-        )}
+      <div style={{ maxWidth: 1280, margin: 'auto' }}>
+        <HeaderContentContainer>
+          <LogoLink to="/">
+            <img src="../logo.png" alt="Home" />
+          </LogoLink>
+          <NavLink to="/Board">
+            <Bold21px as="span">Board</Bold21px>
+          </NavLink>
+          <NavLink to="/BootCamp">
+            <Bold21px as="span">BootCamp</Bold21px>
+          </NavLink>
+          <NavLink to="/CampArticle">
+            <Bold21px as="span">CampArticle</Bold21px>
+          </NavLink>
+          <NavLink to="/VS">
+            <Bold21px as="span">VS</Bold21px>
+          </NavLink>
+          <WritePrimaryBtn to="/" onClick={handleWriteButtonClick}>
+            글쓰기
+          </WritePrimaryBtn>
+          {isLoggedIn ? (
+            <LoginContentContainer>
+              <div style={{ display: 'flexBox' }}>
+                <div>안녕하세요 {nickname}님</div>
+                <div style={{ display: 'flexBox' }}>
+                  {isAdmin ? (
+                    <Link to={'/ManagerPage/ManagerPage'} style={{ color: '#94969B', textDecorationLine: 'none' }}>
+                      관리자 페이지
+                    </Link>
+                  ) : (
+                    <Link to={'/MyPage/MyPage'}>마이 페이지</Link>
+                  )}
+                  <div onClick={handleLogout} style={{ color: '#94969B' }}>
+                    로그아웃
+                  </div>
+                </div>
+              </div>
+            </LoginContentContainer>
+          ) : (
+            <ActionButton onClick={handleLogin}>로그인</ActionButton>
+          )}
+        </HeaderContentContainer>
         {/* 모달 컴포넌트 */}
         <BasicModal isModalOpen={isModalOpen} onClose={handleCloseModal} />
       </div>
