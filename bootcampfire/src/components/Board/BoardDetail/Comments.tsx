@@ -6,7 +6,7 @@ import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import styled from 'styled-components';
 import { colors } from 'constant/constant';
-import StrongBtn from '../StrongBtn';
+import StrongBtn from 'components/StrongBtn';
 // redux를 먼저 해볼것인가 아니면 더미데이터를 만들어서 일단 진행할 것인가
 //
 

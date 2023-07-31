@@ -3,7 +3,7 @@ import A2 from '../Tag';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import type {Comment} from '../interface';
 import {Bold15px, Normal15px, Normal13px, StyledSpaceBetween, StyledLeftFlex} from '../styled';
-import LightBtn from '../LightBtn';
+import LightBtn from '../../LightBtn';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { colors } from 'constant/constant';
 function CommentCard({data}: {data: Comment}) {

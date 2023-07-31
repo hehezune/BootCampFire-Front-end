@@ -7,6 +7,7 @@ import type {Board} from 'components/Board/interface';
 
 const dummy : Board[] = 
 [{
+    boardId: 1,
     title: "testTitle testContent testContent testContent",
     content: "testContent testContent testContent ",
     date: "20230725",
@@ -17,6 +18,7 @@ const dummy : Board[] =
     camp: "SSAFY"
 },
     {
+    boardId: 2,
     title: "testTitle",
     content: "testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent ",
     date: "20230725",

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 // primary , secondary, light에 따라 다르게
-import { Bold18px } from "./styled";
+import { Bold18px } from "./Board/styled";
 import { colors } from "constant/constant";
 import CreateIcon from '@mui/icons-material/Create';
 interface BtnProps {

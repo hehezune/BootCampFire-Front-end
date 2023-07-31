@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { colors } from "constant/constant";
-import { Bold15px } from "./styled";
+import { Bold15px } from "./Board/styled";
 
 interface BtnProps {
     type?: string;
