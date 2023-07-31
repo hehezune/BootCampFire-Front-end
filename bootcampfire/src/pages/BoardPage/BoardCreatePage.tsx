@@ -5,6 +5,7 @@ import { colors } from "constant/constant";
 import StrongBtn from "components/StrongBtn";
 import BoardCreateHeader from "components/Board/BoardCreate/BoardCreateHeader";
 import { StyledRightFlex } from "components/Board/styled";
+
 function BoardCreatePage() {
   return (
     <StyledPage>
