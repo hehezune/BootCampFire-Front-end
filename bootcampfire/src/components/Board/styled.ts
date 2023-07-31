@@ -17,7 +17,7 @@ export const Font = styled.div`
 `
 
 export const Bold18px = styled(BoldFont)`
-    font-size: 21px;
+    font-size: 18px;
 `
 export const Bold24px = styled(BoldFont)`
     font-size: 24px;
