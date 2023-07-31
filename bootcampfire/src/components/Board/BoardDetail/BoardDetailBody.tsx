@@ -22,8 +22,8 @@ let dummy1 : BoardDate = {
 }
 
 let dummy2 : Board = {
-    boardId: 1,
-    title: "testTitle testContent testContent testContent",
+    boardId: 1, 
+    title: "testTitle testTitle testTitle testTitle testTitle testTitle testTitle testTitle testTitle testTitle ",
     content: "testContent testContent testContent ",
     date: "20230725",
     likes: 3,
@@ -32,22 +32,23 @@ let dummy2 : Board = {
     writer: "beom0109",
     camp: "SSAFY"
 }
-
+// Warpper~~ element 는 경계선 작업을 위함
+// StyledBoardHeader 및 StyledBoardBody는 좌우 여백을 만들기 위함
 function BoardDetailBody() {
     const isLike = false;
     return (
         <>
         <WrapperStyledBoardHeader>
             <StyledBoardHeader>
-            <StyledCategory>카테고리명</StyledCategory>
-            <Title>글 제목</Title>
-            <WriterDiv>
-                <Normal15px as="span">{dummy2.writer}</Normal15px>
-                <A2>{dummy2.camp}</A2>
-            </WriterDiv>
-            <WrapperDateInfo>
-                <DateInfo data={dummy1}></DateInfo>
-            </WrapperDateInfo>
+                <StyledCategory>카테고리명</StyledCategory>
+                <Title>{dummy2.title}</Title>
+                <WriterDiv>
+                    <Normal15px as="span">{dummy2.writer}</Normal15px>
+                    <A2>{dummy2.camp}</A2>
+                </WriterDiv>
+                <WrapperDateInfo>
+                    <DateInfo data={dummy1}></DateInfo>
+                </WrapperDateInfo>
             </StyledBoardHeader>
         </WrapperStyledBoardHeader>
         <WrapperStyledBoardBody>
@@ -64,41 +65,41 @@ function BoardDetailBody() {
     )
 }
 
-const StyledCategory = styled(Bold18px)`
-    color: ${colors.PRIMARY};
-    position: absolute;
-    top: 10px;
-`
 
 const LikeBtnGroup = styled.div`
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
+    `
+const StyledCategory = styled(Bold18px)`
+    color: ${colors.PRIMARY};
+    flex-grow: 1;
+
 `
 const Title = styled(Bold24px)`
-    position: absolute;
-    top: 50px;
+    flex-grow: 2.5;
 `
 const WriterDiv = styled(StyledLeftFlex)`
-    position: absolute;
-    top: 100px;
+    flex-grow: 1;
 `
+
+
+const WrapperDateInfo = styled.div`
+    flex-grow: 1;
+`
+
 const WrapperStyledBoardHeader = styled.div`
     border-bottom: 1px solid ${colors.TEXT_LIGHT};
     height: 170px;
     
 `
 const StyledBoardHeader = styled.div`
-    position: relative;
+    display: flex;
+    flex-direction: column;
     width: 97%;
     margin: auto;
-`
-
-
-const WrapperDateInfo = styled.div`
-    position: absolute;
-    top: 140px;
+    height: 100%;
 `
 
 const WrapperStyledBoardBody = styled.div`

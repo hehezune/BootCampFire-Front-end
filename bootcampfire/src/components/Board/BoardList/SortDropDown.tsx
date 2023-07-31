@@ -14,7 +14,7 @@ let dummyData : DropDownList = {
     category : ["최신순", "좋아요순", "조회수순"],
 }
 
-function DropDown() {
+function SortDropDown() {
     const [dropdownVisibility, setDropdownVisibility] = React.useState(false);
     const [dropdownSelect, setDropdownSelect] = React.useState(dummyData.current);
     const handleLiClick = (event: React.MouseEvent<HTMLLIElement>) => {
@@ -26,7 +26,7 @@ function DropDown() {
         <StyledLI key={element} onClick={handleLiClick}>{element}</StyledLI>
     )
 
-    return ( // 드롭다운을 따로 파일로 분리할 수 있는가? 분리한다면 styled, 분라하지 못한다면 styled를 어떻게 적용할 것인가?
+    return (
         <StyledDropdown>
             <Normal13px className="test" onClick={e => setDropdownVisibility(!dropdownVisibility)}>
                 {dropdownSelect}
@@ -42,4 +42,4 @@ function DropDown() {
     )
 }
 
-export default DropDown;
+export default SortDropDown;
