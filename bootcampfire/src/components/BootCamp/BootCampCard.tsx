@@ -40,7 +40,7 @@ const BootCampCard: React.FC<BootCampCardProps> = ({ item, cur }) => {
         <TagContainer>
           <Tag text={item.onoff} color='#21C63C' />
           <Tag text={is_Support} color='#4E80FF' />
-          <Tag text={is_test} color='#B131DD' />          
+          <Tag text={is_test} color='#B131DD' /> 
         </TagContainer>
         <TagContainer>
             {item.tagList.map((tag) => (<Tag text={tag} />))}
