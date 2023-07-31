@@ -3,10 +3,11 @@ import SearchBar from 'components/Board/BoardList/SearchBar';
 import CategorySideBar from 'components/Board/BoardList/CategorySideBar';
 import BoardCard from 'components/Board/BoardList/BoardCard';
 import styled from 'styled-components';
-import type {Board} from 'components/Board/BoardList/interface';
+import type {Board} from 'components/Board/interface';
 
 const dummy : Board[] = 
 [{
+    boardId: 1,
     title: "testTitle testContent testContent testContent",
     content: "testContent testContent testContent ",
     date: "20230725",
@@ -17,6 +18,7 @@ const dummy : Board[] =
     camp: "SSAFY"
 },
     {
+    boardId: 2,
     title: "testTitle",
     content: "testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent ",
     date: "20230725",
@@ -26,6 +28,7 @@ const dummy : Board[] =
     writer: "beom0109",
     camp: "SSAFY"
 }];
+
 for (let i = 0; i < 5; i++) {
     dummy.push(dummy[0]);
 }
