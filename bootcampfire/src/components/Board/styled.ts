@@ -1,44 +1,45 @@
 import styled from 'styled-components';
 
-const BoldFont = styled.div`
+export const BoldFont = styled.div`
     color: #0E0301;
     font-family: DM Sans;
     font-style: bold;
     font-weight: 700;
-    margin: 5px;
+    margin: 0px;
+    padding: 1px 0 0 0 ;
 `
 
-const Font = styled.div`
+export const Font = styled.div`
     color: #0E0301;
     font-family: DM Sans;
     font-style: normal;
-    margin: 5px;
+    margin: 0px;
 `
 
-const Bold18px = styled(BoldFont)`
-    font-size: 21px;
+export const Bold18px = styled(BoldFont)`
+    font-size: 18px;
 `
-const Bold24px = styled(BoldFont)`
+export const Bold24px = styled(BoldFont)`
     font-size: 24px;
 `
 
-const Bold15px = styled(BoldFont)`
+export const Bold15px = styled(BoldFont)`
     font-size: 15px;
 `
-const Bold21px = styled(BoldFont)`
+export const Bold21px = styled(BoldFont)`
     font-size: 21px;
 `
 
-const Normal15px = styled(Font)`
+export const Normal15px = styled(Font)`
     font-size: 15px;
 `
 
-const Normal13px = styled(Font)`
+export const Normal13px = styled(Font)`
     font-size: 13px;
     color: #94969B !important;
 `
 
-const StyledDropdown = styled.div`
+export const StyledDropdown = styled.div`
     position: relative;
 
     .search-category {
@@ -58,7 +59,7 @@ const StyledDropdown = styled.div`
         align-items: center;
     }
 `
-const StyledLI = styled.li`
+export const StyledLI = styled.li`
     color: #0E0301;
     font-family: DM Sans;
     font-style: bold;
@@ -72,5 +73,23 @@ const StyledLI = styled.li`
         font-weight: 800;
     }
 `
+export const StyledSpaceBetween = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+`
 
-export { Bold18px, Bold24px, Bold15px, Bold21px, Normal15px, Normal13px, StyledDropdown, StyledLI};
+export const StyledLeftFlex = styled.div`
+    display: flex;
+    justify-content: row;
+    align-items: center;
+    height: 40px;
+    gap: 15px;
+`
+
+export const StyledRightFlex = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+`

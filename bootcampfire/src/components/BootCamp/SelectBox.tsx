@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from "styled-components";
-import SeletedTag from './SeletedTag';
+import SeletedTag from 'components/BootCamp/SeletedTag';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store';
 import {onoff_num, onoff_text, category_onoff} from '../../store/selectSlice';
 
-const SelectBox: React.FC = () => {
+const SelectBox: React.FC = () =>  {
 
   const { sel_lst, item_lst, category, tmp_lst } = useSelector((state: RootState) => state.select);
   const dispatch = useDispatch();

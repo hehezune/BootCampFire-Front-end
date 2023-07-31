@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import BoardList from 'pages/BoardPage/BoardListPage';
+import BoardDetail from 'pages/BoardPage/BoardDetailPage';
 import BootCamp from './pages/BootCamp';
+import BoardCreate from 'pages/BoardPage/BoardCreatePage';
+import BoardModify from 'pages/BoardPage/BoardModifyPage';
 import VS from './pages/VSPage/VsPage';
 import MainPage from './pages/MainPage/MainPage';
 import store from './store';
@@ -21,11 +24,14 @@ export default function App() {
           <Routes>
             <Route path="/" element={<MainPage />} />
             <Route path="/Board" element={<BoardList />} />
+            <Route path="/BoardDetail" element={<BoardDetail />} />
+            <Route path="/BoardCreate" element={<BoardCreate />} />
             <Route path="/BootCamp" element={<BootCamp />} />
             <Route path="/src/pages/VSPage/VsPage" element={<VS />} />
             <Route path="/bootcampdetail/:bootcampid" element={<BootCampListDetailPage />} />
             <Route path="/MyPage/MyPage" element={<MyPage />} />
             <Route path="/ManagerPage/ManagerPage" element={<ManngerPage />} />
+            <Route path="/BoardModify" element={<BoardModify />} />
           </Routes>
         </main>
       </Provider>

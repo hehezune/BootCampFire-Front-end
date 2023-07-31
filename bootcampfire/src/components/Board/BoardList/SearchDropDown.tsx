@@ -3,7 +3,7 @@ import DropDownCategory from './DropDownCategory';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import styled from 'styled-components';
-import { StyledDropdown, StyledLI} from './styled';
+import { StyledDropdown, StyledLI} from '../styled';
 
 interface DropDownList {
     current: string;
@@ -15,7 +15,7 @@ let dummyData : DropDownList = {
     category : ["제목+내용", "작성자"],
 }
 
-function DropDown() {
+function SearchDropDown() {
     const [dropdownVisibility, setDropdownVisibility] = React.useState(false);
     const [dropdownSelect, setDropdownSelect] = React.useState(dummyData.current);
     const handleLiClick = (event: React.MouseEvent<HTMLLIElement>) => {
@@ -43,4 +43,4 @@ function DropDown() {
     )
 }
 
-export default DropDown;
+export default SearchDropDown;
