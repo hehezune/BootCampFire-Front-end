@@ -22,12 +22,11 @@ const BootCampListPage: React.FC = () => {
   //       .then((response: AxiosResponse<any>) => seta(response.data));
   //   }
   // }, [a]);
-  const handleGetButtonClick = () => {
-    axios.get('http://localhost:8080/boards/3?userId=1')
-      .then((response: AxiosResponse<any>) => seta(response.data));
-  };
-
-  console.log(a.data);
+  // const handleGetButtonClick = () => {
+  //   axios.get('http://localhost:8080/boards/3?userId=1')
+  //     .then((response: AxiosResponse<any>) => seta(response.data));
+  // };
+  // console.log(a.data);
   // const aa = a.data.bootcamp
   
   return (
@@ -39,7 +38,7 @@ const BootCampListPage: React.FC = () => {
       </TopSection>
       <CardSection>
         <h1>카드 리스트</h1>
-        <button onClick={handleGetButtonClick}>GET 받는 버튼</button>
+        {/* <button onClick={handleGetButtonClick}>GET 받는 버튼</button> */}
         {/* <div>{a.data}</div> */}
         <CardContainer>
           {objectList.map((item) => (
@@ -127,7 +126,6 @@ interface BootCampItem {
   regions: string[];
   img_path: string;  
 }
-
 
 const objectList: BootCampItem[] = [
   { id : 1, 
