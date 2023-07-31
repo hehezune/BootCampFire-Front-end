@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import HotContent from './HotContent';
+import { Bold18px } from 'components/Board/BoardList/styled';
 const Container = styled.div``;
 
 const Table = styled.table`
@@ -29,6 +30,7 @@ export default function FreeBoard() {
     <div>
       <Container>
         <img src="/public/logo.png" alt="" height={'auto'} width={'auto'} />
+        <Bold18px>자유게시판</Bold18px>
         <hr />
         <Table>
           <tbody>
