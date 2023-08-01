@@ -21,7 +21,7 @@ function MyPageHeader() {
                     <StyledBold21px as="span" onClick={() => handlerTabClick(0)} 
                         className={0 === activeId ? "active" : ""}>개인정보</StyledBold21px>
                 </StyledLink>
-                <StyledLink to="/MyPage/MyPost">
+                <StyledLink to="/MyPage/MyPosts">
                     <StyledBold21px as="span" onClick={() => handlerTabClick(1)} 
                         className={1 === activeId ? "active" : ""}>내가 쓴 글 보기</StyledBold21px>
                 </StyledLink>
