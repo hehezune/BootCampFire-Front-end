@@ -41,10 +41,10 @@ const StyledBoardCard = styled.div`
     position: relative;
     border-bottom: solid;
     border-width: 1px;
-    min-width: 800px;
-    max-width: 1040px;
+    /* min-width: 600px;
+    width: 60%;
+    max-width: 1040px; */
     height: 138px;
-
     .position1px {
         position: absolute;
         top: 1px;
