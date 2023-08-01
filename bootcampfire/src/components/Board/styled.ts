@@ -94,24 +94,25 @@ export const StyledRightFlex = styled.div`
     align-items: center;
 `
 
-export const StyledBtn = styled(Bold18px)<{type: string}>`
+export const StyledBtn = styled(Bold15px)<{type: string}>`
 
-    ${(props) => props.type === "first" ?
-        `background-color: ${colors.PRIMARY};
-        color: ${colors.WHITE};
-        ` :
-        `background-color: ${colors.WHITE};
-        color: ${colors.PRIMARY};
-        border: 1px solid ${colors.PRIMARY};
-        `
-    };
-    /* background-color: ${colors.PRIMARY}; */
-    display: inline-flex;
-    padding: 2px 30px 0px 30px;
-    justify-content: center;
-    align-items: center;
-    /* gap: 18px; */
-    border-radius: 10px;
-    gap: 10px;
-    height: 38px;
+${(props) => props.type === "first" ?
+    `background-color: ${colors.SECONDARY};
+    color: ${colors.WHITE};
+    ` :
+    `background-color: ${colors.WHITE};
+    color: ${colors.SECONDARY};
+    border: 0.5px solid ${colors.BORDER_LIGHT};
+    `
+};
+display: inline-flex;
+padding: 1px 13px 0px 13px;
+justify-content: center;
+align-items: center;
+border-radius: 10px;
+
+height : 40px;
+
+line-height: 25px;
+text-decoration: none;
 `;

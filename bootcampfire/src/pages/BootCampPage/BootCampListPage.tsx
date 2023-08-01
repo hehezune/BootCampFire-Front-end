@@ -34,11 +34,9 @@ const BootCampListPage: React.FC = () => {
     <>
     <Container>
       <TopSection>
-        <h1>체크 박스</h1>
         <SelectBox />
       </TopSection>
       <CardSection>
-        <h1>카드 리스트</h1>
         {/* <button onClick={handleGetButtonClick}>GET 받는 버튼</button> */}
         {/* <div>{a.data}</div> */}
         <CardContainer>

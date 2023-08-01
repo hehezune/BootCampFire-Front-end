@@ -1,22 +1,32 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { StyledBtn } from "components/Board/styled";
+import { colors } from '../../constant/constant';
 
 import DetailTab from "components/BootCamp/DetailTab";
 import ReviewTab from "components/BootCamp/ReviewTab";
+import ReviewCreate from "components/BootCamp/ReviewCreate";
 
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { StyledPage } from "pages/BoardPage/styledPage";
 
+import { Bold18px } from "components/Board/styled";
+
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../store';
+
+
 const BootCampListDetailPage: React.FC = () => {
   const { bootcampid } = useParams(); 
-  const [isDetailTabSelected, setIsDetailTabSelected] = useState(true);
-  const handleTabClick = (isDetailTab: boolean) => {setIsDetailTabSelected(isDetailTab);};
+  const bootcampIdNumber = bootcampid ? parseInt(bootcampid) : undefined;
+  const [isDetailTabSelected, setIsDetailTabSelected] = useState(0);
+  const handleTabClick = (isDetailTab: number) => {setIsDetailTabSelected(isDetailTab);};
+
+  const { isLoggedIn, bootcampId, nickname} = useSelector((state: RootState) => state.auth);
 
   return (
     <>
       <BootCampDetailMain>
-        <Link to="/BootCamp"> { bootcampid } Go Back to List</Link>
         <Tab>
         <LogoContainer>
           <LogoImage src={dummyboot.img_path} alt="BootCamp Logo" />
@@ -24,6 +34,7 @@ const BootCampListDetailPage: React.FC = () => {
         <VerticalDivs>
           <HorizontalDivs>
             <Mtext>{dummyboot.name}</Mtext>
+            <StyledBtn type="first" as="a" href={dummyboot.site_url}>사이트로 가기</StyledBtn>
           </HorizontalDivs>
           <HorizontalDivs>
             <Mtext2>({dummyboot.score})</Mtext2>
@@ -33,10 +44,16 @@ const BootCampListDetailPage: React.FC = () => {
         </VerticalDivs>
         </Tab>
         <SelectTab>
-          <MTab selected={isDetailTabSelected} onClick={() => handleTabClick(true)}>기본 정보</MTab>
-          <MTab selected={!isDetailTabSelected} onClick={() => handleTabClick(false)}>후기</MTab>
+          <HorizontalDivs>
+            <MTab selected={isDetailTabSelected===0 ? true: false} onClick={() => handleTabClick(0)}>기본 정보</MTab>
+            <MTab selected={isDetailTabSelected === 1} onClick={() => handleTabClick(1)}>후기</MTab>
+            </HorizontalDivs>
+          <HorizontalDivs>
+            {isLoggedIn ? null :<Mtext2>로그인하시면 후기 이용이 가능합니다.</Mtext2>}
+            {isLoggedIn &&  bootcampIdNumber === bootcampId ? <StyledBtn2 onClick={() => handleTabClick(2)}>후기 작성하기</StyledBtn2> :null }            
+          </HorizontalDivs>
         </SelectTab>
-          {isDetailTabSelected ? <DetailTab bootcamp={dummyboot} /> : <ReviewTab reviewlist={dummyReview}/>}
+        <TabSelected isDetailTabSelected={isDetailTabSelected}/>      
         </BootCampDetailMain>
     </>
   );
@@ -48,15 +65,14 @@ const BootCampDetailMain = styled(StyledPage)`
     display: flex;
     justify-content: center;
     flex-direction: column;
-    // background-color: #66ffcc;
+    margin : 20px 0;
 `;
+const SelectTab = styled.div`
+display: flex; height : 90px; width: 100%; justify-content: space-between`;
 
 const Tab = styled.div`
-    display: flex;
-    height : 180px;
-    // width: 1300px;
-    // background-color: #66ffcc;
-`;
+display: flex; height : 180px; margin : 10px 0;
+// background-color: #66ffcc;`;
 
 const LogoContainer = styled.div`
   width: 270px; height: 160px; margin: 10px;
@@ -68,6 +84,10 @@ const LogoImage = styled.img`
 const VerticalDivs = styled.div`
 display: flex; flex-direction: column; width: 100%;`;
 
+const VerticalCenter = styled.div`
+display: flex; flex-direction: column; width: 100%;
+align-items: center; /* 수직 가운데 정렬 */`;
+
 const HorizontalDivs = styled.div`
 display: flex; flex-direction: column; flex-direction: row`;
 
@@ -75,7 +95,7 @@ display: flex; flex-direction: column; flex-direction: row`;
 const Mtext = styled.div`
 font-family: 'DM Sans'; font-style: normal; font-weight: 700; font-size: 24px;
 line-height: 31px; display: flex; align-items: center; color: #0E0301;
-margin : 20px 30px;`;
+margin : 0px 20px;`;
 
 const Mtext2 = styled.div`
 font-family: 'DM Sans'; font-style: normal; font-weight: 700; font-size: 18px;
@@ -87,9 +107,6 @@ font-family: 'DM Sans'; font-style: normal; font-weight: 400; font-size: 15px;
 display: flex; align-items: center; color: #5D5A88; margin: 20px 2px; `;
 
 
-const SelectTab = styled.div`
-    display: flex; height : 90px; width: 100%;`;
-
 const MTab = styled.div<{selected: boolean}>`
 font-family: 'DM Sans'; font-style: normal; font-weight: 700; font-size: 22px;
 display: flex; align-items: center; color: #0E0301; margin : 0 40px;
@@ -98,6 +115,21 @@ cursor: pointer;
   border-bottom: ${(props) => (props.selected ? '5px solid #FF603D' : 'none')};
   &:hover { color: #FF603D; solid #FF603D;}`;
 
+
+const StyledBtn2 = styled(Bold18px)`
+background-color: ${colors.PRIMARY}; color: ${colors.WHITE}; display: inline-flex;
+padding: 5px 15px; justify-content: center; align-items: center; font-size: 22px;
+border-radius: 10px; gap: 10px; height: 38px;`;
+
+const TabSelected = ({ isDetailTabSelected }:{isDetailTabSelected: number;}) => {
+  switch (isDetailTabSelected) {
+    case 0: return <DetailTab bootcamp={dummyboot}  />;
+    case 1: return <ReviewTab reviewlist={dummyReview}/>;
+    case 2: return <ReviewCreate review={MydummyReview}/>;
+    default:
+      return null; // Handle default case or show a component for an unknown value
+  }
+};
 
 // dummy data
 interface BootCampItem {
@@ -181,6 +213,30 @@ const dummyboot: BootCampItem =
 
     islike : boolean;
   }
+
+  const MydummyReview:ReviewItem = {
+    user_id: 1,  
+    bootcamp_id: 1,
+
+    tip : "다 좋은데 다 좋진 않음.",
+    good : "좋다",
+    bad : "나쁘다",
+    is_recommend : true,
+
+    curriculum : 3,
+    potential : 2,
+    back_up : 5,
+    management : 1,
+    mood : 4,
+
+    score : 3,
+    like_cnt : 2,
+
+    created_at : new Date('2023-07-01T10:30:00'),
+    updated_at : new Date(''),
+    islike : true
+  }
+
 
   const dummyReview : ReviewItem[] = [
   {
