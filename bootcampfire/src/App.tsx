@@ -13,6 +13,7 @@ import { Provider } from 'react-redux';
 import Header from 'components/Header';
 import BootCampListDetailPage from './pages/BootCampPage/BootCampDetailPage';
 
+
 export default function App() {
   return (
     <div>
@@ -27,7 +28,10 @@ export default function App() {
             <Route path="/BootCamp" element={<BootCamp />} />
             <Route path="/src/pages/VSPage/VsPage" element={<VS />} />
             <Route path="/BoardModify" element={<BoardModify />} />
-            <Route path="/MyPage" element={<MyPage />}/>
+            <Route path="/MyPage/*" element={<MyPage />} >
+              <Route path="" element={<BoardCreate />} />
+              <Route path="MyPost" element={<BoardModify />} />
+            </Route>
           <Route path="/bootcampdetail/:bootcampid" element={<BootCampListDetailPage/>} />
           </Routes>
         </main>
