@@ -5,6 +5,9 @@ import BoardDetail from 'pages/BoardPage/BoardDetailPage';
 import BootCamp from './pages/BootCamp';
 import BoardCreate from 'pages/BoardPage/BoardCreatePage';
 import BoardModify from 'pages/BoardPage/BoardModifyPage';
+import MyPage from 'pages/MyPage/MyPage';
+import MyPosts from 'pages/MyPage/MyPosts';
+import PersonalInfo from 'pages/MyPage/PersonalInfo';
 import VS from './pages/VSPage/VsPage';
 import MainPage from './pages/MainPage/MainPage';
 import store from './store';
@@ -14,6 +17,7 @@ import BootCampListDetailPage from './pages/BootCampPage/BootCampDetailPage';
 import LoginModal from 'components/Login/LoginModal';
 import MyPage from 'pages/MyPage/MyPage';
 import ManngerPage from 'pages/ManagerPage/ManagerPage';
+
 
 export default function App() {
   return (
@@ -32,6 +36,11 @@ export default function App() {
             <Route path="/MyPage/MyPage" element={<MyPage />} />
             <Route path="/ManagerPage/ManagerPage" element={<ManngerPage />} />
             <Route path="/BoardModify" element={<BoardModify />} />
+            <Route path="/MyPage/*" element={<MyPage />} >
+              <Route path="" element={<PersonalInfo />} />
+              <Route path="MyPosts" element={<MyPosts />} />
+            </Route>
+            <Route path="/bootcampdetail/:bootcampid" element={<BootCampListDetailPage/>} />
           </Routes>
         </main>
       </Provider>
