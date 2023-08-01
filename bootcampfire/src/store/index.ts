@@ -5,9 +5,10 @@ import loginSelectSliceReducer from './loginSelectSlice';
 
 export interface RootState {
   auth: {
-    isAdmin: any;
-    nickname: any;
+    isAdmin: boolean;
+    nickname: string;
     isLoggedIn: boolean;
+    bootCampId: string;
   };
   select: {
     item_lst: string[];
