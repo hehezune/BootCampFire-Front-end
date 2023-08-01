@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors } from 'constant/constant';
+import { colors } from '../../constant/constant';
 
 export const BoldFont = styled.div`
     color: #0E0301;
@@ -96,7 +96,6 @@ export const StyledRightFlex = styled.div`
 `
 
 export const StyledBtn = styled(Bold18px)<{type: string}>`
-
 ${(props) => props.type === "first" ?
     `background-color: ${colors.PRIMARY};
     color: ${colors.WHITE};
@@ -157,4 +156,4 @@ align-items: center;
 border-radius: 10px;
 gap: 10px;
 height: 38px;
-`;
+`
