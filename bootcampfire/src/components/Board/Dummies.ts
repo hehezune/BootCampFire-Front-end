@@ -1,4 +1,4 @@
-import type { Comment } from "./interface";
+import type { Comment, Board } from "./interface";
 
 
 export const commentListData: Comment[] = [{
@@ -62,3 +62,59 @@ export const commentListData: Comment[] = [{
     },
     isAnonymous: false,
 }]
+
+export const boardListData: Board[] = [{
+    boardId: 1,
+    title: "testTitle testContent testContent testContent",
+    content: "testContent testContent testContent ",
+    date: "20230725",
+    likes: 3,
+    comments: 3,
+    views: 3,
+    writer: "beom0109",
+    camp: "SSAFY"
+},
+    {
+    boardId: 2,
+    title: "testTitle",
+    content: "testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent ",
+    date: "20230725",
+    likes: 3,
+    comments: 3,
+    views: 3,
+    writer: "beom0109",
+    camp: "SSAFY"
+},
+    {
+    boardId: 3,
+    title: "testTitle",
+    content: "testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent ",
+    date: "20230725",
+    likes: 3,
+    comments: 3,
+    views: 3,
+    writer: "beom0109",
+    camp: "SSAFY"
+},
+    {
+    boardId: 4,
+    title: "testTitle",
+    content: "testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent ",
+    date: "20230725",
+    likes: 3,
+    comments: 3,
+    views: 3,
+    writer: "beom0109",
+    camp: "SSAFY"
+},
+    {
+    boardId: 4,
+    title: "testTitle",
+    content: "testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent ",
+    date: "20230725",
+    likes: 3,
+    comments: 3,
+    views: 3,
+    writer: "beom0109aa",
+    camp: "SSAFY"
+}];

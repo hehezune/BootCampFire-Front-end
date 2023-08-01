@@ -64,6 +64,7 @@ const WarpperStyledPersonalInfo = styled.div`
     .icon:hover{
         color: ${colors.PRIMARY};
     }
+
 `
 
 const StyledPersonalInfo = styled.div`

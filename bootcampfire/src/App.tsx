@@ -5,7 +5,6 @@ import BoardDetail from 'pages/BoardPage/BoardDetailPage';
 import BootCamp from './pages/BootCamp';
 import BoardCreate from 'pages/BoardPage/BoardCreatePage';
 import BoardModify from 'pages/BoardPage/BoardModifyPage';
-import MyPage from 'pages/MyPage/MyPage';
 import MyPosts from 'pages/MyPage/MyPosts';
 import PersonalInfo from 'pages/MyPage/PersonalInfo';
 import VS from './pages/VSPage/VsPage';
