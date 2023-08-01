@@ -17,7 +17,7 @@ export default ReviewTab;
 
 
 const TabBox = styled.div`
-box-sizing: border-box; width: 1300px;
+box-sizing: border-box; width: 100%;
 background: #FFF9F9; border: 1px solid #FF603D; border-radius: 24px;`;
 
 

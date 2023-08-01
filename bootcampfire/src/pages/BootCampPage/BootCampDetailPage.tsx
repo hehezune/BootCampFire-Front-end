@@ -6,6 +6,7 @@ import ReviewTab from "components/BootCamp/ReviewTab";
 
 import { useParams } from "react-router-dom";
 import { useState } from "react";
+import { StyledPage } from "pages/BoardPage/styledPage";
 
 const BootCampListDetailPage: React.FC = () => {
   const { bootcampid } = useParams(); 
@@ -43,19 +44,17 @@ const BootCampListDetailPage: React.FC = () => {
 
 export default BootCampListDetailPage;
 
-
-const BootCampDetailMain = styled.div`
+const BootCampDetailMain = styled(StyledPage)`
     display: flex;
     justify-content: center;
     flex-direction: column;
-    margin: 0 90px;
     // background-color: #66ffcc;
 `;
 
 const Tab = styled.div`
     display: flex;
     height : 180px;
-    width: 1300px;
+    // width: 1300px;
     // background-color: #66ffcc;
 `;
 
@@ -89,7 +88,7 @@ display: flex; align-items: center; color: #5D5A88; margin: 20px 2px; `;
 
 
 const SelectTab = styled.div`
-    display: flex; height : 90px; width: 1300px;`;
+    display: flex; height : 90px; width: 100%;`;
 
 const MTab = styled.div<{selected: boolean}>`
 font-family: 'DM Sans'; font-style: normal; font-weight: 700; font-size: 22px;
