@@ -1,44 +1,42 @@
-import * as React from 'react';
-import { styled as MUIstyled } from '@mui/material/styles';
-import styled from 'styled-components';
-import Box from '@mui/material/Box';
-import Rating from '@mui/material/Rating';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import Typography from '@mui/material/Typography';
+import React from "react";
+import styled from "styled-components";
+import BoardCard from "components/Board/BoardList/BoardCard";
+import { boardListData } from "components/Board/Dummies";
 
-const StyledRating = MUIstyled(Rating)({
-  '& .MuiRating-iconFilled': {
-    color: '#ff6d75',
-  },
-  '& .MuiRating-iconHover': {
-    color: '#ff3d47',
-  },
-});
+function MyPosts() {
 
-export default function MyPosts() {
+  const handlerClickCard = () => {
+    // 해당 카드 클릭 시 카드의 id (게시글의 id)를 가져오고 그에 대한 상세 페이지로 연결
+  }
+
+  const BoardList = boardListData.map((element) => (
+    <BoardCard data={element} onClick={handlerClickCard}/>
+))
+
   return (
-    <Box
-      sx={{
-        '& > legend': { mt: 2 },
-      }}
-    >
-      <Typography component="legend">Custom icon and color</Typography>
-      <StyledRating
-        name="customized-color"
-        defaultValue={2}
-        getLabelText={(value: number) => `${value} Heart${value !== 1 ? 's' : ''}`}
-        precision={0.5}
-        icon={<Timg src={process.env.PUBLIC_URL + "/img1.PNG"} alt="Firewood_fill" />}
-        emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
-      />
-      <Typography component="legend">10 stars</Typography>
-      <Rating name="customized-10" defaultValue={2} max={10} />
-    </Box>
-  );
+    <WrapperBoardListMain>
+      <BoardListMain className='board-list-margin'>
+      {BoardList}
+      </BoardListMain>
+    </WrapperBoardListMain>
+  )
 }
 
-const Timg = styled.img`
-    width: 10px;
-    height: 10px;
+const WrapperBoardListMain = styled.div`
+      height: 800px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
+
+const BoardListMain = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .board-list-margin {
+        margin: 0 43px;
+    }
+`
+
+export default MyPosts;
