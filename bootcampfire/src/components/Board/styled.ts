@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-
+import { colors } from '../../constant/constant';
 export const BoldFont = styled.div`
     color: #0E0301;
     font-family: DM Sans;
@@ -93,3 +93,25 @@ export const StyledRightFlex = styled.div`
     justify-content: flex-end;
     align-items: center;
 `
+
+export const StyledBtn = styled(Bold18px)<{type: string}>`
+
+    ${(props) => props.type === "first" ?
+        `background-color: ${colors.PRIMARY};
+        color: ${colors.WHITE};
+        ` :
+        `background-color: ${colors.WHITE};
+        color: ${colors.PRIMARY};
+        border: 1px solid ${colors.PRIMARY};
+        `
+    };
+    /* background-color: ${colors.PRIMARY}; */
+    display: inline-flex;
+    padding: 2px 30px 0px 30px;
+    justify-content: center;
+    align-items: center;
+    /* gap: 18px; */
+    border-radius: 10px;
+    gap: 10px;
+    height: 38px;
+`;
