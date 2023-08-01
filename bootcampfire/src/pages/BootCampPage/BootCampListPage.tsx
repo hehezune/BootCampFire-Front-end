@@ -2,6 +2,7 @@ import React from 'react';
 import styled from "styled-components";
 import BootCampCard from "../../components/BootCamp/BootCampCard";
 import SelectBox from '../../components/BootCamp/SelectBox'; 
+import { StyledPage } from 'pages/BoardPage/styledPage';
 import {Link, useNavigate} from 'react-router-dom';
 
 import { useEffect, useState } from 'react';
@@ -55,10 +56,9 @@ const BootCampListPage: React.FC = () => {
 
 export default BootCampListPage;
 
-const Container = styled.div`
+const Container = styled(StyledPage)`
 display: flex;
-flex-direction: row;
-`;
+flex-direction: row;`;
 
 const TopSection = styled.div`
   flex: 1;

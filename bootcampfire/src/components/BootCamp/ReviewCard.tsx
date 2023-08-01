@@ -1,8 +1,11 @@
 import styled from "styled-components";
 
 
-
 const ReviewCard: React.FC<BootCampReviewProps> = ({review}) => {
+
+    const testBtn  = () => {
+        console.log("됨?");
+    }
     return (
         <>
         <TabBox>
@@ -82,15 +85,9 @@ const ReviewCard: React.FC<BootCampReviewProps> = ({review}) => {
                 </SubDiv>
                 <SubDiv>
                     <HorizontalDivs>
-                        <Text2>지인에게 추천</Text2>
-                        <Text2>{review.is_recommend ? 'O' : 'X'}</Text2>
+                        <Text2>지인에게 추천 : {review.is_recommend ? 'O' : 'X'}</Text2>
                     </HorizontalDivs>
                 </SubDiv>
-            </VerticalDivs>
-            <VerticalDivs>
-                <SubDiv>
-                    공감
-                </SubDiv>   
             </VerticalDivs>
         </HorizontalDivs>         
         </TabBox>
@@ -99,7 +96,7 @@ const ReviewCard: React.FC<BootCampReviewProps> = ({review}) => {
 }
 
 const TabBox = styled.div`
-box-sizing: border-box; width: 1300px;
+box-sizing: border-box; width: 100%;
 background: #FFF9F9; border: 1px solid #FF603D; border-radius: 24px;`;
 
 const VerticalDivs = styled.div`
