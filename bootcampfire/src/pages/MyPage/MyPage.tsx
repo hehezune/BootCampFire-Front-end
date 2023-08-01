@@ -1,7 +1,13 @@
-export default function MyPage() {
+import React from "react";
+import MyPageHeader from "components/MyPage/MyPageHeader";
+import { Outlet } from "react-router-dom";
+function MyPage() {
   return (
-    <div>
-      <h1>MyPage</h1>
-    </div>
-  );
+    <>
+      <MyPageHeader/>
+      <Outlet />
+    </>
+  )
 }
+
+export default MyPage;
