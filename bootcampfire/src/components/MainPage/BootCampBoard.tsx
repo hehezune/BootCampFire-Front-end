@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import HotContent from './HotContent';
-import { Bold18px } from 'components/Board/BoardList/styled';
+import { Bold18px } from 'components/Board/styled';
 const Container = styled.div``;
 
 const Table = styled.table`

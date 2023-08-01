@@ -2,12 +2,9 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import styled from 'styled-components';
-import { Typography } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { login } from '../../store/authSlice';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { Bold18px, Normal13px } from 'components/Board/BoardList/styled';
+import { Bold18px, Normal13px } from 'components/Board/styled';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -60,7 +57,6 @@ interface LoginModalProps {
 }
 
 const LoginModal: React.FC<LoginModalProps> = (props) => {
-  const dispatch = useDispatch();
   const socialImg = [
     {
       src: '/Kakao.png',
@@ -88,28 +84,6 @@ const LoginModal: React.FC<LoginModalProps> = (props) => {
         'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=1085354012339-cmrj7uofqlc2an285ntc97i03sfragh1',
     },
   ];
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    try {
-      const response = await axios.get('https://kauth.kakao.com/oauth/authorize', {
-        params: {
-          response_type: 'code',
-          client_id: 'f21dc05c1cc5d570d69aa3c69b9f8a17',
-          redirect_uri: 'http://localhost:3000/auth/kakao/callback',
-        },
-      });
-
-      // 요청이 성공하면 로그인 상태로 변경합니다.
-      dispatch(login({ nickname: '사용자123', email: 'user@example.com', isAdmin: true }));
-
-      // 모달을 닫습니다.
-      props.onClose();
-    } catch (error) {
-      // 요청이 실패하면 에러를 처리합니다.
-      console.error(error);
-    }
-  };
 
   return (
     <div>
