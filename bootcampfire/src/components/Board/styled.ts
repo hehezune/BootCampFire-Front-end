@@ -114,6 +114,7 @@ align-items: center;
 border-radius: 10px;
 gap: 10px;
 height: 38px;
+
 `;
 
 export const LightBtn = styled(Bold15px)<{type: string}>`

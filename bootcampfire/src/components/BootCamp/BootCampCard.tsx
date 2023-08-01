@@ -20,7 +20,6 @@ interface BootCampCardProps {
   cur: Date;
 }
 
-
 const BootCampCard: React.FC<BootCampCardProps> = ({ item, cur }) => {
 
   const is_Support = item.support ? "지원금 O" : "지원금 X";
@@ -55,8 +54,8 @@ export default BootCampCard;
 
 const CardContainer = styled.div`
   position: relative;
-  width: 230px; 
-  height: 294px;
+  width: 240px; 
+  height: 270px;
   border-radius: 24px;
   background-color: #ffffff;
   box-shadow: 1px 4px 4px rgba(0, 0, 0, 0.1);
@@ -69,7 +68,7 @@ const CardContainer = styled.div`
 
 const LogoImage = styled.img`
 //   width: 243px;
-  height: 100px;
+  height: 90px;
   border-radius: 10px;
 `;
 
