@@ -1,7 +1,7 @@
 
 import React from "react";
 import styled from "styled-components";
-import { LightBtn, Bold15px, SrtongBtn } from "components/Board/styled";
+import { LightBtn, Bold15px, StrongBtn } from "components/Board/styled";
 import { colors } from "constant/constant";
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 
@@ -49,7 +49,7 @@ function PersonalInfo() {
                         <InvisibileLightBtn type="first">asfd</InvisibileLightBtn>
                     </ColomnDiv>
                 </RowDiv>
-                <SrtongBtn type="first">수정하기</SrtongBtn>
+                <StrongBtn type="first">수정하기</StrongBtn>
 
             </StyledForm>
         </StyledPersonalInfo>

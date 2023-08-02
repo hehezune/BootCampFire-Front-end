@@ -6,12 +6,36 @@ import A2 from '../Tag';
 import type {Board} from '../interface';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import type { BoardDetail } from '../interface';
 
 interface BoardDate {
     views: number;
     likes: number;
     comments: number;
     date: string;
+}
+
+let data: BoardDetail = {
+    "id": 1,
+    "title": "유저 1의 자유게시판 글이당",
+    "content": "이 글은 카테고리1의 자유게시판 글임",
+    "bootcamp": "SSAFY",
+    "writer": "싸피1",
+    "isWriter": true,
+    category: "자유",
+    "commentCnt": 0,
+    "likeCnt": 0,
+    "view": 1,
+    "isLike": false,
+    "createdDate": [
+      2023,
+      7,
+      31,
+      13,
+      54,
+      1,
+      212312000
+    ]
 }
 
 let dummy1 : BoardDate = {
@@ -21,30 +45,19 @@ let dummy1 : BoardDate = {
     date: "20171717"
 }
 
-let dummy2 : Board = {
-    boardId: 1, 
-    title: "testTitle testTitle testTitle testTitle testTitle testTitle testTitle testTitle testTitle testTitle ",
-    content: "testContent testContent testContent ",
-    date: "20230725",
-    likes: 3,
-    comments: 3,
-    views: 3,
-    writer: "beom0109",
-    camp: "SSAFY"
-}
 // Warpper~~ element 는 경계선 작업을 위함
 // StyledBoardHeader 및 StyledBoardBody는 좌우 여백을 만들기 위함
-function BoardDetailBody() {
+function BoardDetailBody({data}:{data: BoardDetail}) {
     const isLike = false;
     return (
         <>
         <WrapperStyledBoardHeader>
             <StyledBoardHeader>
                 <StyledCategory>카테고리명</StyledCategory>
-                <Title>{dummy2.title}</Title>
+                <Title>{data.title}</Title>
                 <WriterDiv>
-                    <Normal15px as="span">{dummy2.writer}</Normal15px>
-                    <A2>{dummy2.camp}</A2>
+                    <Normal15px as="span">{data.writer}</Normal15px>
+                    <A2>{data.bootcamp}</A2>
                 </WriterDiv>
                 <WrapperDateInfo>
                     <DateInfo data={dummy1}></DateInfo>
@@ -53,7 +66,7 @@ function BoardDetailBody() {
         </WrapperStyledBoardHeader>
         <WrapperStyledBoardBody>
         <StyledBoardBody>
-            <Normal15px>{dummy2.content}</Normal15px>
+            <Normal15px>{data.content}</Normal15px>
             <LikeBtnGroup>
                 {!isLike && <FavoriteBorderIcon/>}
                 {isLike && <FavoriteIcon />}

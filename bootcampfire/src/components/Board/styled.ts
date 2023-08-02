@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { colors } from '../../constant/constant';
 
-export const BoldFont = styled.div`
+export const BoldFont = styled.span`
     color: #0E0301;
     font-family: DM Sans;
     font-style: bold;
@@ -136,7 +136,7 @@ border-radius: 10px;
 line-height: 25px;
 `;
 
-export const SrtongBtn = styled(Bold18px)<{type: string}>`
+export const StrongBtn = styled(Bold18px)<{type: string}>`
 
 ${(props) => props.type === "first" ?
     `background-color: ${colors.PRIMARY};

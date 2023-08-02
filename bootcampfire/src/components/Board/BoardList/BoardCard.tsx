@@ -14,14 +14,14 @@ interface BoardDate {
 
 function BoardCard({data, onClick}: {data: Board, onClick: () => void}){
     const dataForDateInfo: BoardDate = {
-        views: data.views,
-        likes: data.likes,
-        comments: data.comments,
-        date: data.date,
+        views: data.view,
+        likes: data.likeCnt,
+        comments: data.commentCnt,
+        date: data.createdDate.join('-'),
     }
     
     return (
-        <StyledBoardCard>
+        <StyledBoardCard onClick={onClick}>
             <Bold18px className="position1px">{data.title}</Bold18px>
             <Normal15px className="position40px">{data.content}</Normal15px>
             <Infodiv className="position110px">
@@ -29,7 +29,7 @@ function BoardCard({data, onClick}: {data: Board, onClick: () => void}){
 
                 <WriterSpan>
                     {/* <A2 text={data.camp} color="#F5A368"/> */}
-                    <A2>{data.camp}</A2>
+                    <A2>{data.bootcamp}</A2>
                     <Bold15px as="span">{data.writer}</Bold15px>
                 </WriterSpan>
             </Infodiv>
