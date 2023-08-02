@@ -31,27 +31,22 @@ const TabBox = styled.div<{ blur: boolean }>`
 interface BootCampReviewProps {
     reviewlist: ReviewItem[];
   }
-
   interface ReviewItem {
-    user_id: number;  
-    bootcamp_id: number;
-
-    tip : string;
-    good : string;
-    bad : string;
-    is_recommend : boolean;
-
-    curriculum : number;
-    potential : number;
-    back_up : number;
-    management : number;
-    mood : number;
-
-    score : number;
-    like_cnt : number;
-
-    created_at : Date;
-    updated_at : Date;
-
-    islike : boolean;
+    id: number;
+    user: string;
+    bootcampName: string;
+    tip: string;
+    good: string;
+    bad: string;
+    isRecommend: boolean;
+    likeCnt: number;
+    curriculum: number;
+    potential: number;
+    backUp: number;
+    management: number;
+    mood: number;
+    score: number;
+    createDate: Date;
+    isAlreadyReviewLike: boolean;
   }
+  

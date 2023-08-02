@@ -5,8 +5,11 @@ import SelectBox from '../../components/BootCamp/SelectBox';
 import { StyledPage } from 'pages/BoardPage/styledPage';
 import {Link, useNavigate} from 'react-router-dom';
 
+import { RootState } from 'store';
 import { useEffect, useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchBootcampStart, fetchBootcampSuccess, fetchBootcampFailure } from 'store/bootcampListSlice';
 
 
 const BootCampListPage: React.FC = () => {
@@ -16,20 +19,19 @@ const BootCampListPage: React.FC = () => {
     navigate(`/bootcampdetail/${bootcampId}`);
   };
 
-  const [a, seta] = useState<any>({});
-  // useEffect(() => {
-  //   if (Object.keys(a).length === 0) {
-  //     axios.get('http://localhost:8080/boards/3?userId=1')
-  //       .then((response: AxiosResponse<any>) => seta(response.data));
-  //   }
-  // }, [a]);
-  // const handleGetButtonClick = () => {
-  //   axios.get('http://localhost:8080/boards/3?userId=1')
-  //     .then((response: AxiosResponse<any>) => seta(response.data));
-  // };
-  // console.log(a.data);
-  // const aa = a.data.bootcamp
-  
+
+  const dispatch = useDispatch();
+  const {bootcamp, loading, error} = useSelector((state: RootState) => state.bootcamp);
+
+  useEffect(() => {
+    dispatch(fetchBootcampStart());
+    axios.get('http://localhost:8080/bootcamps/lists/names')
+    // .then((response) => console.log(response.data))
+    .then((response) => dispatch(fetchBootcampSuccess(response.data.data)))
+    .catch((error) => dispatch(fetchBootcampFailure(error.message)));
+  }, []);
+  if (loading) {return <div>Now Loading...</div>}
+  else if (!bootcamp || bootcamp.length === 0) {return <div>No data available.</div>;}
   return (
     <>
     <Container>
@@ -37,10 +39,8 @@ const BootCampListPage: React.FC = () => {
         <SelectBox />
       </TopSection>
       <CardSection>
-        {/* <button onClick={handleGetButtonClick}>GET 받는 버튼</button> */}
-        {/* <div>{a.data}</div> */}
         <CardContainer>
-          {objectList.map((item) => (
+          {bootcamp.map((item) => (
             <BootCampCardWrapper key={item.id} onClick={() => CardClick(item.id)}>
               <BootCampCard item={item} key={item.id} cur={currentDate} />
             </BootCampCardWrapper>
@@ -106,195 +106,18 @@ const BootCampCardWrapper = styled.div`
 `;
 
 
-
-interface BootCampItem {
+interface BootcampItem {
   id: number;
   name: string;
-
   cost: boolean;
   support: boolean;
-  test: boolean;
-
-  onoff: string;
-  startRecruiting: Date;
-  endRecruiting: Date;
-
+  hasCodingtest: boolean;
+  onOff: string;
+  startDate: Date; 
+  endDate: Date;   
+  imgUrl: string;
+  reviewCnt: number;
   score: number;
-  tagList: string[];
-  regions: string[];
-  img_path: string;  
-}
-
-const objectList: BootCampItem[] = [
-  { id : 1, 
-    name : '싸피',
-    
-    cost: false,
-    support : true, 
-    test : true, 
-    
-    onoff:'오프라인',
-    startRecruiting: new Date('2023-07-01T10:30:00'),  
-    endRecruiting: new Date('2023-07-27T15:35:00'),
-
-    score : 2.7,
-    tagList:['백엔드','프론트', '풀스택', '임베디드', '앱'],
-    regions:['서울', '구미', '대전'],
-    img_path:'/img1.png', 
-  },
-
-  { id : 2, 
-    name : '네이버 부트캠프',
-    
-    cost: false,
-    support : true, 
-    test : false, 
-    
-    onoff:'온라인',
-    startRecruiting: new Date('2023-06-01T10:30:00'),  
-    endRecruiting: new Date('2023-07-02T15:35:00'),
-
-    score : 5.0,
-    tagList:['데이터 분석', 'AI'],
-    regions:['서울', '경기도'],
-    img_path:'/img2.png', 
-  },
-
-  { id : 3, 
-    name : '우아한테크코스',
-    
-    cost: false,
-    support : false, 
-    test : true, 
-    
-    onoff:'온/오프라인',
-    startRecruiting: new Date('2023-07-01T10:30:00'),  
-    endRecruiting: new Date('2023-07-21T15:35:00'),
-
-    score : 3.7,
-    tagList:['백엔드','프론트','클라우드','풀스택'],
-    regions:['서울'],
-    img_path:'/img3.png', 
-  },
-
-  { id : 4, 
-    name : 'apple',
-    
-    cost: false,
-    support : true, 
-    test : true, 
-    
-    onoff:'오프라인',
-    startRecruiting: new Date('2023-07-01T10:30:00'),  
-    endRecruiting: new Date('2023-07-31T15:35:00'),
-
-    score : 4.2,
-    tagList:['앱','AI','클라우드'],
-    regions:['광주', '구미'],
-    img_path:'/img4.png', 
-  },
-
-  { id : 5, 
-    name : '부우스트캠프',
-    
-    cost: true,
-    support : false, 
-    test : true, 
-    
-    onoff:'오프라인',
-    startRecruiting: new Date('2023-07-11T10:30:00'),  
-    endRecruiting: new Date('2023-07-31T15:35:00'),
-
-    score : 1.2,
-    tagList:['임베디드','그 외'],
-    regions:['서울', '경기도'],
-    img_path:'/img5.png', 
-  },
-  { id : 1, 
-    name : '싸피',
-    
-    cost: false,
-    support : true, 
-    test : true, 
-    
-    onoff:'오프라인',
-    startRecruiting: new Date('2023-07-01T10:30:00'),  
-    endRecruiting: new Date('2023-07-27T15:35:00'),
-
-    score : 2.7,
-    tagList:['백엔드','프론트', '풀스택', '임베디드', '앱'],
-    regions:['서울', '구미', '대전'],
-    img_path:'/img1.png', 
-  },
-
-  { id : 2, 
-    name : '네이버 부트캠프',
-    
-    cost: false,
-    support : true, 
-    test : false, 
-    
-    onoff:'온라인',
-    startRecruiting: new Date('2023-06-01T10:30:00'),  
-    endRecruiting: new Date('2023-07-02T15:35:00'),
-
-    score : 5.0,
-    tagList:['데이터 분석', 'AI'],
-    regions:['서울', '경기도'],
-    img_path:'/img2.png', 
-  },
-
-  { id : 3, 
-    name : '우아한테크코스',
-    
-    cost: false,
-    support : false, 
-    test : true, 
-    
-    onoff:'온/오프라인',
-    startRecruiting: new Date('2023-07-01T10:30:00'),  
-    endRecruiting: new Date('2023-07-21T15:35:00'),
-
-    score : 3.7,
-    tagList:['백엔드','프론트','클라우드','풀스택'],
-    regions:['서울'],
-    img_path:'/img3.png', 
-  },
-
-  { id : 4, 
-    name : 'apple',
-    
-    cost: false,
-    support : true, 
-    test : true, 
-    
-    onoff:'오프라인',
-    startRecruiting: new Date('2023-07-01T10:30:00'),  
-    endRecruiting: new Date('2023-07-31T15:35:00'),
-
-    score : 4.2,
-    tagList:['앱','AI','클라우드'],
-    regions:['광주', '구미'],
-    img_path:'/img4.png', 
-  },
-
-  { id : 5, 
-    name : '부우스트캠프',
-    
-    cost: true,
-    support : false, 
-    test : true, 
-    
-    onoff:'오프라인',
-    startRecruiting: new Date('2023-07-11T10:30:00'),  
-    endRecruiting: new Date('2023-07-31T15:35:00'),
-
-    score : 1.2,
-    tagList:['임베디드','그 외'],
-    regions:['서울', '경기도'],
-    img_path:'/img5.png', 
-  },
-
-
-
-]
+  tracks: { id: number; name: string }[];
+  regions: { id: number; name: string }[];
+}    

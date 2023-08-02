@@ -5,7 +5,7 @@ import { useState } from "react";
 
 const ReviewCard: React.FC<BootCampReviewProps> = ({review}) => {
 
-    const [isLiked, setIsLiked] = useState(review.islike);
+    const [isLiked, setIsLiked] = useState(review.isRecommend);
 
   const handleToggleLike = () => {
     setIsLiked(!isLiked);
@@ -20,7 +20,7 @@ const ReviewCard: React.FC<BootCampReviewProps> = ({review}) => {
                 <FireC><FireB src="/firewood_fill.png" alt="Firewood_fill" /></FireC>
                 <Text1>({review.score})</Text1>
                 </SubDivStar>
-                    <StarRating label="복지" rating={review.back_up} />
+                    <StarRating label="복지" rating={review.backUp} />
                     <StarRating label="분위기" rating={review.mood} />
                     <StarRating label="운영진" rating={review.management} />
                     <StarRating label="커리큘럼" rating={review.curriculum} />
@@ -29,8 +29,8 @@ const ReviewCard: React.FC<BootCampReviewProps> = ({review}) => {
             <VerticalDivs2>
                 <SubDiv>
                     <HorizontalDivs>
-                        <TextName>{review.user_id}</TextName>
-                        <Text3>{review.created_at.toLocaleDateString()}</Text3>
+                        <TextName>{review.user}</TextName>
+                        <Text3>{new Date(review.createDate).toLocaleDateString()}</Text3>
                     </HorizontalDivs>
                 </SubDiv>
                 <SubDiv>
@@ -46,13 +46,13 @@ const ReviewCard: React.FC<BootCampReviewProps> = ({review}) => {
                 </SubDiv>
                 <SubDiv>
                     <HorizontalDivs2>
-                        <Text2>지인에게 추천 : {review.is_recommend ? 'O' : 'X'}</Text2>
+                        <Text2>지인에게 추천 : {review.isRecommend ? 'O' : 'X'}</Text2>
                         <HorizontalDivs>
                         <Text2> 공감 </Text2>
                         <IconButton color="error" aria-label="delete" size="large" onClick={handleToggleLike}>
                             {isLiked ? <Favorite />: <FavoriteBorder />}
                         </IconButton>
-                        <Text3>({review.like_cnt-(isLiked ? 0 : 1)})</Text3>
+                        <Text3>({review.likeCnt-(isLiked ? 0 : 1)})</Text3>
                         </HorizontalDivs>
                     </HorizontalDivs2>
                 </SubDiv>
@@ -129,27 +129,24 @@ export default ReviewCard;
 interface BootCampReviewProps {
     review: ReviewItem;
   }
-interface ReviewItem {
-    user_id: number;  
-    bootcamp_id: number;
 
-    tip : string;
-    good : string;
-    bad : string;
-    is_recommend : boolean;
 
-    curriculum : number;
-    potential : number;
-    back_up : number;
-    management : number;
-    mood : number;
-
-    score : number;
-    like_cnt : number;
-
-    created_at : Date;
-    updated_at : Date;
-
-    islike : boolean;
+  interface ReviewItem {
+    id: number;
+    user: string;
+    bootcampName: string;
+    tip: string;
+    good: string;
+    bad: string;
+    isRecommend: boolean;
+    likeCnt: number;
+    curriculum: number;
+    potential: number;
+    backUp: number;
+    management: number;
+    mood: number;
+    score: number;
+    createDate: Date;
+    isAlreadyReviewLike: boolean;
   }
-
+  

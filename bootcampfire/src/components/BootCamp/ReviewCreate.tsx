@@ -15,7 +15,7 @@ const ReviewCreate: React.FC<BootCampReviewProps> = ({review}) => {
         tip: review.tip,
         good: review.good,
         bad: review.bad,
-        is_recommend: review.is_recommend,
+        is_recommend: review.isRecommend,
       });
     
       const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +40,7 @@ const ReviewCreate: React.FC<BootCampReviewProps> = ({review}) => {
         <HorizontalTabDivs>
             <VerticalDivs1>
                     <SubDiv></SubDiv>
-                    <StarRating label="복지" rating={review.back_up} />
+                    <StarRating label="복지" rating={review.backUp} />
                     <StarRating label="분위기" rating={review.mood} />
                     <StarRating label="운영진" rating={review.management} />
                     <StarRating label="커리큘럼" rating={review.curriculum} />
@@ -67,7 +67,7 @@ const ReviewCreate: React.FC<BootCampReviewProps> = ({review}) => {
                     <HorizontalDivs>
                         <Text2>지인에게 추천 :                             
                         </Text2>
-                        <Checkbox {...label} defaultChecked={review.is_recommend} color="default" />
+                        <Checkbox {...label} defaultChecked={review.isRecommend} color="default" />
                         </HorizontalDivs>
                         <HorizontalDivs>
                         <Button variant="outlined" color="error"><Text2>작성완료</Text2></Button>
@@ -154,27 +154,22 @@ export default ReviewCreate;
 interface BootCampReviewProps {
     review: ReviewItem;
   }
-interface ReviewItem {
-    user_id: number;  
-    bootcamp_id: number;
-
-    tip : string;
-    good : string;
-    bad : string;
-    is_recommend : boolean;
-
-    curriculum : number;
-    potential : number;
-    back_up : number;
-    management : number;
-    mood : number;
-
-    score : number;
-    like_cnt : number;
-
-    created_at : Date;
-    updated_at : Date;
-
-    islike : boolean;
+  interface ReviewItem {
+    id: number;
+    user: string;
+    bootcampName: string;
+    tip: string;
+    good: string;
+    bad: string;
+    isRecommend: boolean;
+    likeCnt: number;
+    curriculum: number;
+    potential: number;
+    backUp: number;
+    management: number;
+    mood: number;
+    score: number;
+    createDate: Date;
+    isAlreadyReviewLike: boolean;
   }
-
+  
