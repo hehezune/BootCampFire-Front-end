@@ -1,7 +1,11 @@
-export default function ManngerPage() {
+import ManagerPageHeader from 'components/Manager/ManagerHeader';
+import { Outlet } from 'react-router-dom';
+
+export default function ManagerPage() {
   return (
     <div>
-      <h1>관리자 페이지</h1>
+      <ManagerPageHeader />
+      <Outlet />
     </div>
   );
 }

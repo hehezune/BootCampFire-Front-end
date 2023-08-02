@@ -28,6 +28,7 @@ const authSlice = createSlice({
       state.email = action.payload.email;
       state.isAdmin = action.payload.isAdmin;
       state.bootcampId = action.payload.bootcampId;
+      console.log(action.payload.isAdmin);
     },
     logout: (state) => {
       state.isLoggedIn = false;
