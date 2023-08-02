@@ -78,7 +78,7 @@ export default function Header() {
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const nickname = useSelector((state: RootState) => state.auth.nickname); // nickname 정보를 가져옴
   const isAdmin = useSelector((state: RootState) => state.auth.isAdmin);
-  const bootcampId = useSelector((state: RootState) => state.auth.bootCampId);
+  const bootcampId = useSelector((state: RootState) => state.auth.bootcampId);
   const navigate = useNavigate();
   const [isModalOpen, setModalOpen] = React.useState(false);
 
@@ -89,8 +89,8 @@ export default function Header() {
   const handleLogin = () => {
     // 모달 열기 함수
 
-    setModalOpen(true);
-    // dispatch(login({ nickname: '사용자123', email: 'user@example.com', isAdmin: true, bootcampId: 1 }));
+    // setModalOpen(true);
+    dispatch(login({ nickname: '사용자123', email: 'user@example.com', isAdmin: true, bootcampId: 1 }));
     console.log(bootcampId);
   };
 
@@ -137,9 +137,7 @@ export default function Header() {
                       관리자 페이지
                     </Link>
                   ) : (
-
                     <Link to={'/MyPage'} style={{ color: '#94969B', textDecorationLine: 'none' }}>
-
                       마이 페이지
                     </Link>
                   )}
