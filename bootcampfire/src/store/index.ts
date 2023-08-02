@@ -7,9 +7,7 @@ export interface RootState {
     isAdmin: boolean;
     nickname: string;
     isLoggedIn: boolean;
-
     bootcampId: number;
-
   };
   select: {
     item_lst: string[];
@@ -28,7 +26,6 @@ const store = configureStore({
   reducer: {
     auth: authReducer,
     select: selectSliceReducer,
-    manageState: selectSliceReducer,
   },
 });
 export default store;

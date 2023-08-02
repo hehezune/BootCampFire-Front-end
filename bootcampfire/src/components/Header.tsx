@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import authSlice, { login, logout } from '../store/authSlice';
-import BasicModal from './Login/LoginModal';
+import LoginModal from './Login/LoginModal';
 import React from 'react';
 import { Bold21px } from './Board/styled';
 import BoardCreateHeader from './Board/BoardCreate/BoardCreateHeader';
@@ -72,7 +72,6 @@ const LoginContentContainer = styled.div`
   align-items: center;
   margin-left: auto;
 `;
-
 export default function Header() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
@@ -82,18 +81,17 @@ export default function Header() {
   const navigate = useNavigate();
   const [isModalOpen, setModalOpen] = React.useState(false);
 
-  const handleWriteButtonClick = () => {
-    isLoggedIn ? navigate('/BoardModify') : setModalOpen(true);
-  };
-
   const handleLogin = () => {
     // 모달 열기 함수
 
-    // setModalOpen(true);
-    dispatch(login({ nickname: '사용자123', email: 'user@example.com', isAdmin: true, bootcampId: 1 }));
+    setModalOpen(true);
+    // dispatch(login({ userId: 10, nickname: '사용자123', email: 'user@example.com', isAdmin: true, bootcampId: 1 }));
     console.log(bootcampId);
   };
 
+  const handleWriteButtonClick = () => {
+    isLoggedIn ? navigate('/BoardModify') : setModalOpen(true);
+  };
   const handleLogout = () => {
     dispatch(logout());
     const isMyPage = new RegExp('My');
@@ -152,7 +150,7 @@ export default function Header() {
           )}
         </HeaderContentContainer>
         {/* 모달 컴포넌트 */}
-        <BasicModal isModalOpen={isModalOpen} onClose={handleCloseModal} />
+        <LoginModal isModalOpen={isModalOpen} onClose={handleCloseModal} />
       </div>
     </NavContainer>
   );

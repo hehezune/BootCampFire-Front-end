@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { login } from '../../store/authSlice';
 import { Bold18px, Normal13px } from 'components/Board/styled';
+import axios from 'axios';
+import { Link, Params, useNavigate, useParams } from 'react-router-dom';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -32,6 +34,20 @@ const LineBreak = styled.div`
   margin: 10px 0; // 한 줄 띄웁니다.
 `;
 
+export const KakaoLoginRedirect = () => {
+  const params: Readonly<Params<string>> | undefined = useParams();
+
+  /**온클릭 이벤트
+   * 카카오 로그인용 새창을 띄운다.
+   */
+  useEffect(() => {
+    localStorage.clear();
+    // localStorage.setItem('token', params.token);
+    window.location.replace('/');
+  }, []);
+
+  return <></>;
+};
 const HorizontalLine = styled.hr`
   margin: 20px auto; // 선 위아래로 여백을 줍니다.
   border: 0;
@@ -57,6 +73,10 @@ interface LoginModalProps {
 }
 
 const LoginModal: React.FC<LoginModalProps> = (props) => {
+  const KakaoLoginAPI = `https://kauth.kakao.com/oauth/authorize?client_id=fef18571b5f45c6a318be7b9042c4997&redirect_uri=http://localhost:8080/oauth2/authorization/kakao&response_type=code`;
+  const openKakaoLogin = () => {
+    window.open(KakaoLoginAPI, '_self');
+  };
   const socialImg = [
     {
       src: '/Kakao.png',
@@ -65,7 +85,7 @@ const LoginModal: React.FC<LoginModalProps> = (props) => {
       comment: '카카오 로그인',
       // loginURL:
       //   'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=f21dc05c1cc5d570d69aa3c69b9f8a17&redirect_uri=http://localhost:3000/auth/kakao/callback',
-      loginURL: 'http://localhost:3000/oauth2/authorization/kakao',
+      loginURL: 'http://localhost:8080/oauth2/authorization/kakao',
     },
 
     {
@@ -101,8 +121,8 @@ const LoginModal: React.FC<LoginModalProps> = (props) => {
           <HorizontalLine />
           <SocialImagesContainer>
             {socialImg.map((social) => (
-              <a href={social.loginURL} key={social.comment}>
-                <Img src={social.src} alt={social.comment} />
+              <a href={social.loginURL}>
+                <Img src={social.src} alt="카카오 로그인" onClick={openKakaoLogin} />
               </a>
             ))}
           </SocialImagesContainer>
