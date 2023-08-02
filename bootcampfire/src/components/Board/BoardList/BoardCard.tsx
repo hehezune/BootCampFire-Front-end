@@ -1,8 +1,4 @@
 import React from 'react';
-import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
-import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
-import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
-import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import A2 from '../Tag';
 import type {Board} from '../interface';
 import { Bold18px, Bold15px ,Normal15px, Normal13px } from '../styled';
@@ -45,10 +41,10 @@ const StyledBoardCard = styled.div`
     position: relative;
     border-bottom: solid;
     border-width: 1px;
-    min-width: 800px;
-    max-width: 1040px;
+    /* min-width: 600px;
+    width: 60%;
+    max-width: 1040px; */
     height: 138px;
-
     .position1px {
         position: absolute;
         top: 1px;

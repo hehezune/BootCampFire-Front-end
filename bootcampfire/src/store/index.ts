@@ -7,7 +7,9 @@ export interface RootState {
     isAdmin: boolean;
     nickname: string;
     isLoggedIn: boolean;
-    bootCampId: string;
+
+    bootcampId: number;
+
   };
   select: {
     item_lst: string[];

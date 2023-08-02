@@ -80,7 +80,7 @@ const DetailTab: React.FC<BootCampCardProps> = ({bootcamp }) => {
 export default DetailTab;
 
 const TabBox = styled.div`
-box-sizing: border-box; width: 1300px; height: 900px; background: #FFF9F9; 
+box-sizing: border-box; width: 100%; height: 900px; background: #FFF9F9; 
 border: 1px solid #FF603D;  border-radius: 24px;`;
 
 const VerticalDivs = styled.div`

@@ -88,6 +88,7 @@ export default function Header() {
 
   const handleLogin = () => {
     // 모달 열기 함수
+
     setModalOpen(true);
     // dispatch(login({ nickname: '사용자123', email: 'user@example.com', isAdmin: true, bootcampId: 1 }));
     console.log(bootcampId);
@@ -136,7 +137,9 @@ export default function Header() {
                       관리자 페이지
                     </Link>
                   ) : (
+
                     <Link to={'/MyPage'} style={{ color: '#94969B', textDecorationLine: 'none' }}>
+
                       마이 페이지
                     </Link>
                   )}

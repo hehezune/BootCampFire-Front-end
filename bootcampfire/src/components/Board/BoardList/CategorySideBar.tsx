@@ -21,6 +21,9 @@ function CategorySideBar() {
 const StyledBoardList = styled.div`
     display: flex;
     flex-direction: column;
+    min-width: 130px;
+    width: 16%;
+    max-width: 198px;
 `
 
 const StyledBtn = styled.button<{ $selected?: boolean; }>`
@@ -30,7 +33,8 @@ const StyledBtn = styled.button<{ $selected?: boolean; }>`
     border-radius: 10px;
     border-width: 0;
     background: ${props => props.$selected ? "#FEE9E6" : "#FFFFFF"};
-    width: 198px;
+    min-width: 130px;
+    /* max-width: 198px; */
     height: 55px;
     color: #0E0301;
     font-family: DM Sans;
