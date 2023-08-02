@@ -63,8 +63,9 @@ const LoginModal: React.FC<LoginModalProps> = (props) => {
       width: '32px',
       height: '32px',
       comment: '카카오 로그인',
-      loginURL:
-        'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=f21dc05c1cc5d570d69aa3c69b9f8a17&redirect_uri=http://localhost:3000/auth/kakao/callback',
+      // loginURL:
+      //   'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=f21dc05c1cc5d570d69aa3c69b9f8a17&redirect_uri=http://localhost:3000/auth/kakao/callback',
+      loginURL: 'http://localhost:3000/oauth2/authorization/kakao',
     },
 
     {
@@ -80,8 +81,7 @@ const LoginModal: React.FC<LoginModalProps> = (props) => {
       width: '32px',
       height: '32px',
       comment: '구글 로그인',
-      loginURL:
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=1085354012339-cmrj7uofqlc2an285ntc97i03sfragh1',
+      loginURL: 'http://localhost:3000/oauth2/authorization/google',
     },
   ];
 

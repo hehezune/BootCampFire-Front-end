@@ -13,18 +13,25 @@ const initialState: AuthState = {
   nickname: null,
   email: null,
   isAdmin: false,
-  bootcampId: 1,
+  bootcampId: -1,
+
 };
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    login: (state, action: PayloadAction<{ nickname: string; email: string; isAdmin: boolean; bootcampId: number}>) => {
+
+    login: (
+      state,
+      action: PayloadAction<{ nickname: string; email: string; isAdmin: boolean; bootcampId: number }>
+    ) => {
+
       state.isLoggedIn = true;
       state.nickname = action.payload.nickname;
       state.email = action.payload.email;
       state.isAdmin = action.payload.isAdmin;
       state.bootcampId = action.payload.bootcampId;
+
     },
     logout: (state) => {
       state.isLoggedIn = false;

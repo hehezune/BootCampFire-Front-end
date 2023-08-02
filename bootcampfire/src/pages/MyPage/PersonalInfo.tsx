@@ -1,3 +1,4 @@
+
 import React from "react";
 import styled from "styled-components";
 import { LightBtn, Bold15px, SrtongBtn } from "components/Board/styled";
@@ -161,3 +162,4 @@ const InvisibileLightBtn = styled(StyledLightBtn)`
     visibility: hidden;
 `
 export default PersonalInfo;
+

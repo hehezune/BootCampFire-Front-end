@@ -1,14 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './authSlice';
 import selectSliceReducer from './selectSlice';
-import loginSelectSliceReducer from './loginSelectSlice';
 
 export interface RootState {
   auth: {
-    isAdmin: any;
-    nickname: any;
+    isAdmin: boolean;
+    nickname: string;
     isLoggedIn: boolean;
+
     bootcampId: number;
+
   };
   select: {
     item_lst: string[];
@@ -16,13 +17,18 @@ export interface RootState {
     sel_lst: boolean[];
     category: boolean[];
   };
+  manageState: {
+    img: string | null;
+    nickname: string | null;
+    bootcampId: number;
+  };
 }
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
     select: selectSliceReducer,
-    login: loginSelectSliceReducer,
+    manageState: selectSliceReducer,
   },
 });
 export default store;

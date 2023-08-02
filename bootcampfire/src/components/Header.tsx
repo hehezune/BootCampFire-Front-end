@@ -78,6 +78,7 @@ export default function Header() {
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const nickname = useSelector((state: RootState) => state.auth.nickname); // nickname 정보를 가져옴
   const isAdmin = useSelector((state: RootState) => state.auth.isAdmin);
+  const bootcampId = useSelector((state: RootState) => state.auth.bootCampId);
   const navigate = useNavigate();
   const [isModalOpen, setModalOpen] = React.useState(false);
 
@@ -87,12 +88,18 @@ export default function Header() {
 
   const handleLogin = () => {
     // 모달 열기 함수
-    // setModalOpen(true);
-    dispatch(login({ nickname: '사용자123', email: 'user@example.com', isAdmin: true , bootcampId:1}));
+
+    setModalOpen(true);
+    // dispatch(login({ nickname: '사용자123', email: 'user@example.com', isAdmin: true, bootcampId: 1 }));
+    console.log(bootcampId);
   };
 
   const handleLogout = () => {
     dispatch(logout());
+    const isMyPage = new RegExp('My');
+    const isManagerPage = new RegExp('Manager');
+    const thisLocation = window.location.href;
+    if (isMyPage.test(thisLocation) || isManagerPage.test(thisLocation)) navigate('/');
   };
 
   const handleCloseModal = () => {
@@ -126,11 +133,13 @@ export default function Header() {
                 <div>안녕하세요 {nickname}님</div>
                 <div style={{ display: 'flex', gap: '10px' }}>
                   {isAdmin ? (
-                    <Link to={'/ManagerPage/ManagerPage'} style={{ color: '#94969B', textDecorationLine: 'none' }}>
+                    <Link to={'/ManagerPage'} style={{ color: '#94969B', textDecorationLine: 'none' }}>
                       관리자 페이지
                     </Link>
                   ) : (
-                    <Link to={'/MyPage/MyPage'} style={{ color: '#94969B', textDecorationLine: 'none' }}>
+
+                    <Link to={'/MyPage'} style={{ color: '#94969B', textDecorationLine: 'none' }}>
+
                       마이 페이지
                     </Link>
                   )}

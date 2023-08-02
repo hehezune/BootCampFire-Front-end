@@ -1,3 +1,4 @@
+
 import React from "react";
 import styled from "styled-components";
 import BoardCard from "components/Board/BoardList/BoardCard";
@@ -40,3 +41,4 @@ const BoardListMain = styled.div`
 `
 
 export default MyPosts;
+

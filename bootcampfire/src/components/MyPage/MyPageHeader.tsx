@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Bold18px, Bold24px } from "components/Board/styled";
 import styled from "styled-components";
@@ -51,3 +52,4 @@ const StyledBold21px = styled(Bold18px)`
     }
 `
 export default MyPageHeader;
+
