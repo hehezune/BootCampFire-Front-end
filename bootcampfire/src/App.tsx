@@ -14,11 +14,11 @@ import { Provider } from 'react-redux';
 import Header from 'components/Header';
 import BootCampListDetailPage from './pages/BootCampPage/BootCampDetailPage';
 import LoginModal from 'components/Login/LoginModal';
-import ManngerPage from 'pages/ManagerPage/ManagerPage';
 import ManagerPage from 'pages/ManagerPage/ManagerPage';
 import Regist from 'pages/ManagerPage/Regist';
 import Management from 'pages/ManagerPage/Management';
 import Mission from 'pages/ManagerPage/Mission';
+import MyPage from 'pages/MyPage/MyPage';
 
 export default function App() {
   return (

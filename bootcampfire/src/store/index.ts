@@ -21,12 +21,14 @@ export interface RootState {
     img: string | null;
     nickname: string | null;
     bootcampId: number;
+  };
   bootcamp: {
     bootcamp : BootcampItem[],
     loading : boolean,
     error: null,
   };
-}}
+
+}
 
 const store = configureStore({
   reducer: {
