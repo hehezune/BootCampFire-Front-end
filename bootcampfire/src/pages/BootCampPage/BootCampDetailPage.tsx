@@ -15,31 +15,63 @@ import { Bold18px } from "components/Board/styled";
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store';
 
+import { useEffect } from "react";
+import axios from "axios";
+
 
 const BootCampListDetailPage: React.FC = () => {
-  const { bootcampid } = useParams(); 
+  const { bootcampid } = useParams();
+  
   const bootcampIdNumber = bootcampid ? parseInt(bootcampid) : undefined;
   const [isDetailTabSelected, setIsDetailTabSelected] = useState(0);
   const handleTabClick = (isDetailTab: number) => {setIsDetailTabSelected(isDetailTab);};
-
   const { isLoggedIn, bootcampId, nickname} = useSelector((state: RootState) => state.auth);
 
+  const [bootdetail, setBootdetail] = useState<BootcampItem | null>(null);
+  const [bootreview, setbootreview] = useState<ReviewItem[]>([]);
+  const [myreview, setMyReview] = useState<ReviewItem>({} as ReviewItem);
+                          
+  const reviewData = {
+    bootcampId: 1,
+  };
+  
+  useEffect(() => {
+  if (bootcampid) {
+    const bootcampIdNumber = parseInt(bootcampid);
+    Promise.all([
+      axios.get(`http://localhost:8080/bootcamps/${bootcampIdNumber}`),
+      axios.get(`http://localhost:8080/reviews/${bootcampIdNumber}/lists`),
+      axios.get(`http://localhost:8080/reviews/${bootcampIdNumber}/vaildation`),
+    ])
+    .then(([bootcampResponse, reviewResponse, myreviewResponse]) => {
+      setBootdetail(bootcampResponse.data.data);
+      setbootreview(reviewResponse.data.data);
+      setMyReview(myreviewResponse.data.data);
+      
+    })
+    .catch((error) => {});
+  }}, []);
+
+
+  if (!bootdetail) {return <div>Loading...</div>;}
+
   return (
+    
     <>
       <BootCampDetailMain>
         <Tab>
-        <LogoContainer>
-          <LogoImage src={dummyboot.img_path} alt="BootCamp Logo" />
+        <LogoContainer>   
+          <LogoImage src={bootdetail.imgUrl.replace(".","")} alt="BootCamp Logo" />
         </LogoContainer>
         <VerticalDivs>
           <HorizontalDivs>
-            <Mtext>{dummyboot.name}</Mtext>
-            <StyledBtn type="first" as="a" href={dummyboot.site_url}>사이트로 가기</StyledBtn>
+            <Mtext>{bootdetail.name}</Mtext>
+            <StyledBtn type="first" as="a" href={bootdetail.siteUrl}>사이트로 가기</StyledBtn>
           </HorizontalDivs>
           <HorizontalDivs>
-            <Mtext2>({dummyboot.score})</Mtext2>
-            <Mtext3  style={{ marginRight: "50px" }}>{dummyboot.review_cnt} 개의 후기가 작성되었습니다.</Mtext3>
-            <Mtext2>모집 기간 : {dummyboot.startRecruiting.toLocaleDateString()} ~ {dummyboot.endRecruiting.toLocaleDateString()}</Mtext2>            
+            <Mtext2>({bootdetail.score})</Mtext2>
+            <Mtext3  style={{ marginRight: "50px" }}>{bootdetail.reviewCnt} 개의 후기가 작성되었습니다.</Mtext3>
+            <Mtext2>모집 기간 : {new Date(bootdetail.startDate).toLocaleDateString()} ~ {new Date(bootdetail.endDate).toLocaleDateString()}</Mtext2>            
           </HorizontalDivs>
         </VerticalDivs>
         </Tab>
@@ -53,7 +85,12 @@ const BootCampListDetailPage: React.FC = () => {
             {isLoggedIn &&  bootcampIdNumber === bootcampId ? <StyledBtn2 onClick={() => handleTabClick(2)}>후기 작성하기</StyledBtn2> :null }            
           </HorizontalDivs>
         </SelectTab>
-        <TabSelected isDetailTabSelected={isDetailTabSelected}/>      
+        <TabSelected
+        isDetailTabSelected={isDetailTabSelected}
+        bootdetail={bootdetail}
+        bootreview={bootreview}
+        MydummyReview={myreview}
+      />      
         </BootCampDetailMain>
     </>
   );
@@ -71,16 +108,18 @@ const SelectTab = styled.div`
 display: flex; height : 90px; width: 100%; justify-content: space-between`;
 
 const Tab = styled.div`
-display: flex; height : 180px; margin : 10px 0;
+display: flex; height : 120px; margin : 10px 0;
 // background-color: #66ffcc;`;
 
 const LogoContainer = styled.div`
-  width: 270px; height: 160px; margin: 10px;
+  width: 300px; height: 160px; margin: 10px;
   border-radius: 10px; overflow: hidden;`;
 
 const LogoImage = styled.img`
-  width: 80%; height: 80%; object-fit: cover;`;
+  width: 80%; object-fit: cover;`;
 
+
+  
 const VerticalDivs = styled.div`
 display: flex; flex-direction: column; width: 100%;`;
 
@@ -121,188 +160,69 @@ background-color: ${colors.PRIMARY}; color: ${colors.WHITE}; display: inline-fle
 padding: 5px 15px; justify-content: center; align-items: center; font-size: 22px;
 border-radius: 10px; gap: 10px; height: 38px;`;
 
-const TabSelected = ({ isDetailTabSelected }:{isDetailTabSelected: number;}) => {
+
+interface TabSelectedProps {
+  isDetailTabSelected: number;
+  bootdetail: BootcampItem;
+  bootreview: ReviewItem[];
+  MydummyReview: ReviewItem;
+}
+
+const TabSelected: React.FC<TabSelectedProps> = ({ isDetailTabSelected, bootdetail, bootreview, MydummyReview }) => {
   switch (isDetailTabSelected) {
-    case 0: return <DetailTab bootcamp={dummyboot}  />;
-    case 1: return <ReviewTab reviewlist={dummyReview}/>;
+    case 0: return <DetailTab bootcamp={bootdetail}  />;
+    case 1: return <ReviewTab reviewlist={bootreview}/>;
     case 2: return <ReviewCreate review={MydummyReview}/>;
     default:
       return null; // Handle default case or show a component for an unknown value
   }
 };
 
-// dummy data
-interface BootCampItem {
-  // id: number; props로 받아서 axios 요청할 꺼.
-  img_path: string;  
+interface BootcampItem {
+  id: number;
   name: string;
-  site_url: string;
-  score: number;
-  review_cnt : number;
-
-  tagList: string[];
-  languages: string[]; 
-  
-  schedule : string;
-  onoff: string;
-  regions: string[];
-
+  siteUrl: string;
+  process: string;
+  schedule: string;
+  description: string;
   cost: number;
+  card: boolean;
   support: boolean;
-  
-  process:string;
-  
-  // 있는데 안쓰거나, 쓰는데 없는 것.
-  test: boolean;
-  startRecruiting: Date;
-  endRecruiting: Date;  
-  description : string;
-  // 지원자격, 우대자격
+  hasCodingtest: boolean;
+  onOff: string;
+  startDate: Date; 
+  endDate: Date;   
+  imgUrl: string;
+  reviewCnt: number;
+  score: number;
+  algoCnt: number | null;
+  tracks: { id: number; name: string }[];
+  languages: { id: number; name: string }[];
+  regions: { id: number; name: string }[];
 }
-
-const dummyboot: BootCampItem = 
-  {  
-    img_path:'/img1.png', 
-    name : 'SSAFY',
-    site_url: "https://www.ssafy.com/ksp/jsp/swp/swpMain.jsp",
-    score : 2.7,
-    review_cnt: 4,
-
-    tagList:['백엔드','프론트', '풀스택', '임베디드', '앱'], 
-    languages: ['JAVA', 'PYTHON'], 
-
-    schedule: "1년, 평일", 
-    onoff:'오프라인', 
-    regions:['서울', '구미', '대전'], 
-
-    cost: 0, 
-    support : true, 
-
-    process: "코테 후 면접", 
-    test : true, 
-    description : "설명",
-    startRecruiting: new Date('2023-07-01T10:30:00'),  
-    endRecruiting: new Date('2023-07-27T15:35:00'),
-  }
-
 
   interface BootCampReviewProps {
     reviewlist: ReviewItem[];
   }
 
+
   interface ReviewItem {
-    user_id: number;  
-    bootcamp_id: number;
-
-    tip : string;
-    good : string;
-    bad : string;
-    is_recommend : boolean;
-
-    curriculum : number;
-    potential : number;
-    back_up : number;
-    management : number;
-    mood : number;
-
-    score : number;
-    like_cnt : number;
-
-    created_at : Date;
-    updated_at : Date;
-
-    islike : boolean;
+    id: number;
+    user: string;
+    bootcampName: string;
+    tip: string;
+    good: string;
+    bad: string;
+    isRecommend: boolean;
+    likeCnt: number;
+    curriculum: number;
+    potential: number;
+    backUp: number;
+    management: number;
+    mood: number;
+    score: number;
+    createDate: Date;
+    isAlreadyReviewLike: boolean;
   }
-
-  const MydummyReview:ReviewItem = {
-    user_id: 1,  
-    bootcamp_id: 1,
-
-    tip : "다 좋은데 다 좋진 않음.",
-    good : "좋다",
-    bad : "나쁘다",
-    is_recommend : true,
-
-    curriculum : 3,
-    potential : 2,
-    back_up : 5,
-    management : 1,
-    mood : 4,
-
-    score : 3,
-    like_cnt : 2,
-
-    created_at : new Date('2023-07-01T10:30:00'),
-    updated_at : new Date(''),
-    islike : true
-  }
-
-
-  const dummyReview : ReviewItem[] = [
-  {
-    user_id: 1,  
-    bootcamp_id: 1,
-
-    tip : "다 좋은데 다 좋진 않음.",
-    good : "좋다",
-    bad : "나쁘다",
-    is_recommend : true,
-
-    curriculum : 3,
-    potential : 2,
-    back_up : 5,
-    management : 1,
-    mood : 4,
-
-    score : 3,
-    like_cnt : 2,
-
-    created_at : new Date('2023-07-01T10:30:00'),
-    updated_at : new Date(''),
-    islike : true
-  },
-  {
-    user_id: 1,  
-    bootcamp_id: 1,
-
-    tip : "팁",
-    good : "좋다",
-    bad : "나쁘다",
-    is_recommend : true,
-
-    curriculum : 3,
-    potential : 2,
-    back_up : 5,
-    management : 1,
-    mood : 4,
-
-    score : 3,
-    like_cnt : 2,
-
-    created_at : new Date('2023-07-01T10:30:00'),
-    updated_at : new Date(''),
-    islike : true
-  },
-  {
-    user_id: 1,  
-    bootcamp_id: 1,
-
-    tip : "팁",
-    good : "좋다",
-    bad : "나쁘다",
-    is_recommend : true,
-
-    curriculum : 3,
-    potential : 2,
-    back_up : 5,
-    management : 1,
-    mood : 4,
-
-    score : 3,
-    like_cnt : 2,
-
-    created_at : new Date('2023-07-01T10:30:00'),
-    updated_at : new Date(''),
-    islike : true
-  },
-  ]
+  
+  
