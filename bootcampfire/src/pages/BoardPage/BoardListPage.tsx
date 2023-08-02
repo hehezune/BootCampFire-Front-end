@@ -4,35 +4,8 @@ import CategorySideBar from 'components/Board/BoardList/CategorySideBar';
 import BoardCard from 'components/Board/BoardList/BoardCard';
 import styled from 'styled-components';
 import type {Board} from 'components/Board/interface';
-
-const dummy : Board[] = 
-[{
-    boardId: 1,
-    title: "testTitle testContent testContent testContent",
-    content: "testContent testContent testContent ",
-    date: "20230725",
-    likes: 3,
-    comments: 3,
-    views: 3,
-    writer: "beom0109",
-    camp: "SSAFY"
-},
-    {
-    boardId: 2,
-    title: "testTitle",
-    content: "testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent testContent ",
-    date: "20230725",
-    likes: 3,
-    comments: 3,
-    views: 3,
-    writer: "beom0109",
-    camp: "SSAFY"
-}];
-
-for (let i = 0; i < 5; i++) {
-    dummy.push(dummy[0]);
-}
-
+import { boardListData as dummy } from 'components/Board/Dummies';
+import { StyledPage } from './styledPage';
 function BoardListPage() {
 
     const handlerClickCard = () => {
@@ -44,7 +17,7 @@ function BoardListPage() {
     ))
 
     return (
-        <>
+        <StyledPage className="test">
             <SearchBar /> 
             <BoardListMain>
                 <CategorySideBar />
@@ -52,16 +25,17 @@ function BoardListPage() {
                 {BoardList}
                 </div>
             </BoardListMain>
-        </>
+        </StyledPage>
     )
 }
 
 const BoardListMain = styled.div`
     display: flex;
     justify-content: center;
-
+    width: 100%;
     .board-list-margin {
-        margin: 0 43px;
+        margin-left: 42px;
+        width: 80%;
     }
 `
 

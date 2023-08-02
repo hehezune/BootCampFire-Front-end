@@ -16,6 +16,7 @@ function SearchBar() {
 
 const StyledSearchBar = styled.div`
     margin: 20px;
+    /* flex-grow: 1; */
     display: flex;
     justify-content: center;
     align-items: center;
