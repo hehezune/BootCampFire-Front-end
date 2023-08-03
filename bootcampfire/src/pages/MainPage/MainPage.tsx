@@ -1,16 +1,20 @@
-import styled from "styled-components";
-import CustomizedInputBase from "../../components/CustomizedInputBase"; // CustomizedInputBase 컴포넌트 import
-import HotBoard from "../../components/MainPage/HotBoard";
-import Ranking from "../../components/MainPage/Ranking";
-import LoveBoard from "../../components/MainPage/LoveBoard";
-import FreeBoard from "../../components/MainPage/FreeBoard";
-import ItBoard from "../../components/MainPage/ItBoard";
-import BootCampBoard from "../../components/MainPage/BootCampBoard";
-import QuestionBoard from "../../components/MainPage/QuestionBoard";
-import WorryBoard from "../../components/MainPage/WorryBoard";
-import StudyBoard from "../../components/MainPage/StudyBoard";
-import HealthBoard from "../../components/MainPage/HealthBoard";
-import ProjectBoard from "../../components/MainPage/ProjectBoard";
+import styled from 'styled-components';
+import CustomizedInputBase from '../../components/CustomizedInputBase'; // CustomizedInputBase 컴포넌트 import
+import HotBoard from '../../components/MainPage/HotBoard';
+import Ranking from '../../components/MainPage/Ranking';
+import LoveBoard from '../../components/MainPage/LoveBoard';
+import FreeBoard from '../../components/MainPage/FreeBoard';
+import ItBoard from '../../components/MainPage/ItBoard';
+import BootCampBoard from '../../components/MainPage/BootCampBoard';
+import QuestionBoard from '../../components/MainPage/QuestionBoard';
+import WorryBoard from '../../components/MainPage/WorryBoard';
+import StudyBoard from '../../components/MainPage/StudyBoard';
+import HealthBoard from '../../components/MainPage/HealthBoard';
+import ProjectBoard from '../../components/MainPage/ProjectBoard';
+import axios from 'axios';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Cookie } from '@mui/icons-material';
 
 const MainContainer = styled.div`
   position: relative;
@@ -24,6 +28,14 @@ const BoardDiv = styled.div`
 `;
 
 export default function MainPage() {
+  // const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   axios
+  //     .get('http://localhost:8080/users')
+  //     .then((res) => console.log(res.data))
+  //     .catch((error) => console.error('Error fetching user data:', error));
+  // }, []);
   return (
     <MainContainer>
       <BoardDiv>

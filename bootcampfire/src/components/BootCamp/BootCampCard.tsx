@@ -2,21 +2,25 @@ import React from 'react';
 import styled from 'styled-components';
 import Tag from './Tag';
 
-interface BootCampItem {
+interface BootcampItem {
   id: number;
   name: string;
-  score: number;
-  img_path: string;
-  onoff: string;
+  cost: boolean;
   support: boolean;
-  test: boolean;
-  startRecruiting: Date;
-  endRecruiting: Date;
-  tagList: string[];
+  hasCodingtest: boolean;
+  onOff: string;
+  startDate: Date; 
+  endDate: Date;   
+  imgUrl: string;
+  reviewCnt: number;
+  score: number;
+  tracks: { id: number; name: string }[];
+  regions: { id: number; name: string }[];
 }
 
+
 interface BootCampCardProps {
-  item: BootCampItem;
+  item: BootcampItem;
   cur: Date;
 }
 
@@ -24,25 +28,25 @@ const BootCampCard: React.FC<BootCampCardProps> = ({ item, cur }) => {
 
   const is_Support = item.support ? "지원금 O" : "지원금 X";
   const is_test = item.support ? "코테 O"   : "코테 X";
-  const isDateInRange = cur >= item.startRecruiting && cur <= item.endRecruiting;
-
+  const isDateInRange = new Date(cur) >= new Date(item.startDate) && new Date(cur) <= new Date(item.endDate);
+  
   return (
     <CardContainer>
       <div>
       {isDateInRange && <div>모집중</div>}
       </div>
-      <LogoImage src={item.img_path} alt="BootCamp Logo" />
+      <LogoImage src={item.imgUrl} alt="BootCamp Logo" />
       <FlexContainer>
         <CardHeading>{item.name}</CardHeading>
-        <ScoreText>{item.score}</ScoreText>
+        <ScoreText>{Math.round(item.score * 10) / 10} </ScoreText>
       </FlexContainer>
         <TagContainer>
-          <Tag text={item.onoff} color='#21C63C' />
+          <Tag text={item.onOff} color='#21C63C' />
           <Tag text={is_Support} color='#4E80FF' />
           <Tag text={is_test} color='#B131DD' /> 
         </TagContainer>
         <TagContainer>
-            {item.tagList.map((tag) => (<Tag text={tag} />))}
+            {item.tracks.map((tag) => (<Tag text={tag.name} />))}
         </TagContainer>
     </CardContainer>
   );
@@ -65,14 +69,10 @@ const CardContainer = styled.div`
   padding: 20px;
 `;
 
-
 const LogoImage = styled.img`
-//   width: 243px;
   height: 90px;
   border-radius: 10px;
 `;
-
-
 
 const TagContainer = styled.div`
 display: flex;
@@ -81,8 +81,6 @@ justify-content: center;
 padding-top:5px;
   gap: 5px;
 `;
-
-
 
 const CardHeading = styled.h2`
   font-family: 'DM Sans';
@@ -101,8 +99,6 @@ font-size: 18px; /* 작은 글자 크기 설정 */
   color: #94969b; /* 기본 글자 색상 설정 */
   margin-bottom: 8px; /* 글자 아래에 간격 추가 */
   line-height: 38px;
-
-
 `;
 
 const FlexContainer = styled.div`

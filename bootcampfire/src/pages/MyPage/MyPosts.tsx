@@ -13,11 +13,9 @@ function MyPosts() {
 
   return (
     <WrapperBoardListMain>
-      <BoardListMain className='board-list-margin'>
-      {BoardList}
-      </BoardListMain>
+      <BoardListMain className="board-list-margin">{BoardList}</BoardListMain>
     </WrapperBoardListMain>
-  )
+  );
 }
 
 const WrapperBoardListMain = styled.div`
@@ -38,4 +36,3 @@ const BoardListMain = styled.div`
 `
 
 export default MyPosts;
-

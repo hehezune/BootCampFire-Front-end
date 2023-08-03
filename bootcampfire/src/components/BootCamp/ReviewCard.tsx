@@ -2,14 +2,23 @@ import styled from "styled-components";
 import { IconButton } from "@mui/material";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import { useState } from "react";
+import axios from "axios";
 
 const ReviewCard: React.FC<BootCampReviewProps> = ({review}) => {
 
-    const [isLiked, setIsLiked] = useState(review.islike);
+    const [isLiked, setIsLiked] = useState(review.isAlreadyReviewLike);
+    const isLiked_org = review.isAlreadyReviewLike;
+    const handleToggleLike = () => {
+        setIsLiked(!isLiked);};
 
-  const handleToggleLike = () => {
-    setIsLiked(!isLiked);
-  };
+    const handleLikes = () => {
+        const api_url = !isLiked ? `${review.id}` : `cancel/${review.id}`
+        axios.post(`http://localhost:8080/review-likes/${api_url}`)
+        .then((response) => {console.log("리뷰 좋아요 성공");})
+        .catch((error) => {console.error("리뷰 좋아요 실패", error);});}
+    console.log(review);
+    console.log(review.createdDate);
+
 
     return (
         <>
@@ -20,7 +29,7 @@ const ReviewCard: React.FC<BootCampReviewProps> = ({review}) => {
                 <FireC><FireB src="/firewood_fill.png" alt="Firewood_fill" /></FireC>
                 <Text1>({review.score})</Text1>
                 </SubDivStar>
-                    <StarRating label="복지" rating={review.back_up} />
+                    <StarRating label="복지" rating={review.backUp} />
                     <StarRating label="분위기" rating={review.mood} />
                     <StarRating label="운영진" rating={review.management} />
                     <StarRating label="커리큘럼" rating={review.curriculum} />
@@ -29,8 +38,9 @@ const ReviewCard: React.FC<BootCampReviewProps> = ({review}) => {
             <VerticalDivs2>
                 <SubDiv>
                     <HorizontalDivs>
-                        <TextName>{review.user_id}</TextName>
-                        <Text3>{review.created_at.toLocaleDateString()}</Text3>
+                    <TextName>{review.id}</TextName>                        
+                        <TextName>{review.user}</TextName>
+                        <Text3>{new Date(review.createdDate).toLocaleString()}</Text3>
                     </HorizontalDivs>
                 </SubDiv>
                 <SubDiv>
@@ -46,13 +56,17 @@ const ReviewCard: React.FC<BootCampReviewProps> = ({review}) => {
                 </SubDiv>
                 <SubDiv>
                     <HorizontalDivs2>
-                        <Text2>지인에게 추천 : {review.is_recommend ? 'O' : 'X'}</Text2>
+                        <Text2>지인에게 추천 : {review.isRecommend ? 'O' : 'X'}</Text2>
                         <HorizontalDivs>
                         <Text2> 공감 </Text2>
-                        <IconButton color="error" aria-label="delete" size="large" onClick={handleToggleLike}>
+                        <IconButton color="error" aria-label="delete" size="large" onClick={() => {
+                            handleToggleLike();
+                            handleLikes();
+                            }}>
                             {isLiked ? <Favorite />: <FavoriteBorder />}
                         </IconButton>
-                        <Text3>({review.like_cnt-(isLiked ? 0 : 1)})</Text3>
+                        {isLiked_org && <Text3>({review.likeCnt + (isLiked ? 0 : -1)})</Text3>}
+                        {!isLiked_org && <Text3>({review.likeCnt + (isLiked ? 1 : 0)})</Text3>}                        
                         </HorizontalDivs>
                     </HorizontalDivs2>
                 </SubDiv>
@@ -64,7 +78,7 @@ const ReviewCard: React.FC<BootCampReviewProps> = ({review}) => {
 }
 
 const TabBox = styled.div`
-box-sizing: border-box; width: 100%;
+box-sizing: border-box; width: 100%; min-height: 300px;
 background: #FFF9F9; border: 1px solid #FF603D; border-radius: 24px;`;
 
 const VerticalDivs1 = styled.div`
@@ -129,27 +143,24 @@ export default ReviewCard;
 interface BootCampReviewProps {
     review: ReviewItem;
   }
-interface ReviewItem {
-    user_id: number;  
-    bootcamp_id: number;
 
-    tip : string;
-    good : string;
-    bad : string;
-    is_recommend : boolean;
 
-    curriculum : number;
-    potential : number;
-    back_up : number;
-    management : number;
-    mood : number;
-
-    score : number;
-    like_cnt : number;
-
-    created_at : Date;
-    updated_at : Date;
-
-    islike : boolean;
+  interface ReviewItem {
+    id: number;
+    user: string;
+    bootcampName: string;
+    tip: string;
+    good: string;
+    bad: string;
+    isRecommend: boolean;
+    likeCnt: number;
+    curriculum: number;
+    potential: number;
+    backUp: number;
+    management: number;
+    mood: number;
+    score: number;
+    createdDate: Date;
+    isAlreadyReviewLike: boolean;
   }
-
+  

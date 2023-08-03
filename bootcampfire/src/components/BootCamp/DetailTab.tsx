@@ -10,13 +10,13 @@ const DetailTab: React.FC<BootCampCardProps> = ({bootcamp }) => {
         <SubDiv>
             <Mtext>트랙</Mtext>
             <TagContainer>
-                {bootcamp.tagList.map((tag) => (<Tag text={tag} />))}
+                {bootcamp.tracks.map((tag) => (<Tag text={tag.name} />))}
             </TagContainer>
         </SubDiv>
         <SubDiv>
             <Mtext>기술 스택</Mtext>
             <TagContainer>
-                {bootcamp.languages.map((tag) => (<Tag text={tag} />))}
+                {bootcamp.languages.map((tag) => (<Tag text={tag.name} />))}
             </TagContainer>
         </SubDiv>
     </HorizontalDivs>
@@ -31,11 +31,11 @@ const DetailTab: React.FC<BootCampCardProps> = ({bootcamp }) => {
                 </HorizontalDivs>
                 <HorizontalDivs>
                     <Inner1>온오프라인 : </Inner1>
-                    <Inner2> {bootcamp.onoff}</Inner2>                    
+                    <Inner2> {bootcamp.onOff}</Inner2>                    
                 </HorizontalDivs>
                 <HorizontalDivs>
                     <Inner1>학습장소 : </Inner1>                    
-                    <Inner2> {bootcamp.regions.join(', ')}</Inner2>
+                    <Inner2> {bootcamp.regions.map((tag) => (tag.name)).join(', ')}</Inner2>
                 </HorizontalDivs>
             </VerticalDivs>
         </ContentContainer>
@@ -118,32 +118,29 @@ box-sizing: border-box; background: #FFFFFF;
 border: 2px solid #D4D2E3; border-radius: 24px; padding: 10px `;
 
 
-
-interface BootCampItem {
-    img_path: string;  
+interface BootcampItem {
+    id: number;
     name: string;
-    site_url: string;
-    score: number;
-    review_cnt : number;
-  
-    tagList: string[];
-    languages: string[]; 
-    
-    schedule : string;
-    onoff: string;
-    regions: string[];
-  
+    siteUrl: string;
+    process: string;
+    schedule: string;
+    description: string;
     cost: number;
+    card: boolean;
     support: boolean;
-    
-    process:string;
-    
-    test: boolean;
-    startRecruiting: Date;
-    endRecruiting: Date;  
-    description : string;
+    hasCodingtest: boolean;
+    onOff: string;
+    startDate: Date; 
+    endDate: Date;   
+    imgUrl: string;
+    reviewCnt: number;
+    score: number;
+    algoCnt: number | null;
+    tracks: { id: number; name: string }[];
+    languages: { id: number; name: string }[];
+    regions: { id: number; name: string }[];
   }
 
   interface BootCampCardProps {
-    bootcamp: BootCampItem;
+    bootcamp: BootcampItem;
   }

@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { login } from '../../store/authSlice';
 import { Bold18px, Normal13px } from 'components/Board/styled';
+import axios from 'axios';
+import { Link, Navigate, Params, Route, useNavigate, useParams } from 'react-router-dom';
+import { Home } from '@mui/icons-material';
+import MainPage from 'pages/MainPage/MainPage';
+import LoginDataPage from './LoginDataPage';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -57,15 +62,18 @@ interface LoginModalProps {
 }
 
 const LoginModal: React.FC<LoginModalProps> = (props) => {
+  const navigate = useNavigate();
+  const KakaoLoginAPI = 'http://localhost:8080/oauth2/authorization/kakao';
+  const kakaoLogin = () => {
+    navigate('/loginInfo');
+  };
   const socialImg = [
     {
       src: '/Kakao.png',
       width: '32px',
       height: '32px',
       comment: '카카오 로그인',
-      // loginURL:
-      //   'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=f21dc05c1cc5d570d69aa3c69b9f8a17&redirect_uri=http://localhost:3000/auth/kakao/callback',
-      loginURL: 'http://localhost:3000/oauth2/authorization/kakao',
+      loginURL: 'http://localhost:8080/oauth2/authorization/kakao',
     },
 
     {
@@ -101,9 +109,11 @@ const LoginModal: React.FC<LoginModalProps> = (props) => {
           <HorizontalLine />
           <SocialImagesContainer>
             {socialImg.map((social) => (
-              <a href={social.loginURL} key={social.comment}>
-                <Img src={social.src} alt={social.comment} />
-              </a>
+              <div>
+                {/* <a href="http://localhost:8080/oauth2/authorization/kakao"> */}
+                <Img src={social.src} alt="카카오 로그인" onClick={kakaoLogin} />
+                {/* </a> */}
+              </div>
             ))}
           </SocialImagesContainer>
         </Box>

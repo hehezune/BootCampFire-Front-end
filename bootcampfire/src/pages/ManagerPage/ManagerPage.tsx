@@ -1,11 +1,12 @@
 import ManagerPageHeader from 'components/Manager/ManagerHeader';
+import { StyledPage } from 'pages/BoardPage/styledPage';
 import { Outlet } from 'react-router-dom';
 
 export default function ManagerPage() {
   return (
-    <div>
+    <StyledPage>
       <ManagerPageHeader />
       <Outlet />
-    </div>
+    </StyledPage>
   );
 }
