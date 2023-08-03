@@ -49,7 +49,7 @@ const store = configureStore({
     select: selectSliceReducer,
     manageState: selectSliceReducer,
     search: searchReducer,
-    comment: commentReducer
+    comment: commentReducer,
     login: loginSelectSliceReducer,
     bootcamp: bootcampListSlice,
 
