@@ -1,26 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchBar from 'components/Board/BoardList/SearchBar';
 import CategorySideBar from 'components/Board/BoardList/CategorySideBar';
 import BoardCard from 'components/Board/BoardList/BoardCard';
 import styled from 'styled-components';
-import type {Board} from 'components/Board/interface';
-import { boardListData as dummy } from 'components/Board/Dummies';
+import { boardListData } from 'components/Board/Dummies';
 import { StyledPage } from './styledPage';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
+import { useNavigate } from 'react-router-dom';
+
 function BoardListPage() {
+    // Main Page와 연결했을 경우 ->>
+    // const {state} = useLocation();
+    // const [selectCategory, setSelectCategory] = useState(state.categoryId);
+    const navigate = useNavigate();
+    const [selectCategory, setSelectCategory] = useState(0);
+    const sort = useSelector((state: RootState) => state.search.sort);
+    const keyword = useSelector((state: RootState) => state.search.keyword);
+    const type = useSelector((state: RootState) => state.search.type);
+    const handlerSelectCategory = ((id : number) => {
+        setSelectCategory(id);
+    })
 
-    const handlerClickCard = () => {
-        // 해당 카드 클릭 시 카드의 id (게시글의 id)를 가져오고 그에 대한 상세 페이지로 연결
+    const a = (idx: number) => {
+        console.log(idx);
+        navigate('/Board');
     }
+    useEffect(() => {
+        // 백에서 불러오기
+    }, []); //디펜던시 -> 정렬 기준, 검색어(기준포함)
 
-    const BoardList = dummy.map((element) => (
-        <BoardCard data={element} onClick={handlerClickCard}/>
+    const BoardList = boardListData.map((element) => (
+        <BoardCard key={element.id} data={element} onClick={() => navigate(`/BoardDetail:${element.id}`)}/>
+        // <BoardCard key={element.id} data={element} onClick={() => a(element.id)}/>
     ))
 
     return (
         <StyledPage className="test">
-            <SearchBar /> 
+            <SearchBar selectCategory={selectCategory}/> 
             <BoardListMain>
-                <CategorySideBar />
+                <CategorySideBar selectCategory={selectCategory} onCategorySelect={handlerSelectCategory}/>
                 <div className='board-list-margin'>
                 {BoardList}
                 </div>
@@ -37,6 +56,11 @@ const BoardListMain = styled.div`
         margin-left: 42px;
         width: 80%;
     }
+`
+const StyledDiv = styled.div`
+    display: flex;
+    width: 500px;
+    height: 500px;
 `
 
 export default BoardListPage;

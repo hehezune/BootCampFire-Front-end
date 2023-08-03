@@ -1,6 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './authSlice';
 import selectSliceReducer from './selectSlice';
+import searchReducer from './searchSlice';
+import commentReducer from './commentSlice';
+import { Comment } from 'components/Board/interface';
 import loginSelectSliceReducer from './loginSelectSlice';
 import bootcampListSlice from './bootcampListSlice';
 
@@ -12,7 +15,6 @@ export interface RootState {
     isLoggedIn: boolean;
     bootcampId: number;
     email: string;
-
   };
   select: {
     item_lst: string[];
@@ -25,12 +27,20 @@ export interface RootState {
     nickname: string | null;
     bootcampId: number;
   };
+  search: {
+    keyword: string;
+    sort: number;
+    type: number;
+  };
+  comment: {
+    commentCnt: number;
+    commentList: Comment[];
+  }
   bootcamp: {
     bootcamp : BootcampItem[],
     loading : boolean,
     error: null,
   };
-
 }
 
 const store = configureStore({
@@ -38,11 +48,14 @@ const store = configureStore({
     auth: authReducer,
     select: selectSliceReducer,
     manageState: selectSliceReducer,
+    search: searchReducer,
+    comment: commentReducer
     login: loginSelectSliceReducer,
     bootcamp: bootcampListSlice,
 
   },
 });
+
 export default store;
 
 interface BootcampItem {

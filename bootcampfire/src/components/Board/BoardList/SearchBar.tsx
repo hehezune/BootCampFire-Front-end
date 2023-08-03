@@ -3,16 +3,23 @@ import SearchInput from './SearchInput';
 import SortDropDown from './SortDropDown';
 import styled from 'styled-components';
 import {Bold21px} from '../styled';
+import { categories } from 'constant/constant';
 
-function SearchBar() {
+
+function SearchBar({selectCategory}: {selectCategory: number}) {
     return (
         <StyledSearchBar>
-            <Bold21px>카테고리 이름</Bold21px>
+            <StyledCategoryName>{categories[selectCategory]}게시판</StyledCategoryName>
             <SearchInput/>
             <SortDropDown />
         </StyledSearchBar>
     )
 }
+
+const StyledCategoryName = styled(Bold21px)`
+    width: 180px;
+    text-align: right;
+`
 
 const StyledSearchBar = styled.div`
     margin: 20px;

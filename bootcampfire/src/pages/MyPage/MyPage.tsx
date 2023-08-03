@@ -9,7 +9,6 @@ function MyPage() {
       <MyPageHeader/>
       <Outlet />
     </StyledPage>
-
   )
 }
 

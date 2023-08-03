@@ -1,27 +1,36 @@
 
-
 export interface Board {
-    boardId: number;
+    id: number;
     title: string;
     content: string;
-    date: string;
-    likes: number;
-    views: number;
+    bootcamp: string;
     writer: string;
-    camp: string;
-    comments: number;
+    category: string;
+    commentCnt: number;
+    likeCnt: number;
+    view: number;
+    createdDate: number[];
 }
 
-export interface Comment {
-    commentId: number;
-    boardId: number;
+export interface BoardDetail extends Board {
+    isWriter: boolean,
+    isLike: boolean,
+}
+
+export interface RequestComment {
+    user: string;
+    anonymous?: boolean;
     content: string;
-    date: string;
-    writer: string;
-    camp: string;
-    reply: {
-        isReply: boolean;
-        targetId: number;
-    }
-    isAnonymous: boolean;
+    boardId?: number;
+}
+
+export interface ResponseComment extends RequestComment{
+    id: number;
+    ref: number;
+    refOrder: number;
+}
+
+export interface Comment extends ResponseComment{
+    createdDate: number[];
+    bootcamp: string;
 }

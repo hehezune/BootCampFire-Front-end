@@ -1,14 +1,20 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import styled from 'styled-components';
+import { categories } from 'constant/constant';
 
-const dummyData : string[] = ["자유", "썸/연애", "헬스/스포츠", "스터디", "프로젝트", "IT", "고민", "질문", "내 부트캠프"];
+interface CategorySideBarProps {
+    selectCategory: number;
+    onCategorySelect: (id: number) => void;
+}
 
-function CategorySideBar() {
-    const [category, setCategory] = React.useState()
+function CategorySideBar({selectCategory, onCategorySelect}: CategorySideBarProps) {
 
-    const buttons = dummyData.map((element) => 
-        <StyledBtn key={element} $selected={false}>{element}</StyledBtn>
+    const buttons = categories.map((element, idx) => 
+        <StyledBtn 
+            key={element} 
+            $selected={idx === selectCategory ? true : false}
+            onClick={() => onCategorySelect(idx)}>{element}</StyledBtn>
     )
 
     return (

@@ -3,33 +3,36 @@ import DropDownCategory from './DropDownCategory';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {StyledDropdown, Normal13px, StyledLI} from '../styled';
-
+import { useDispatch } from 'react-redux';
+import { setSort } from 'store/searchSlice';
 interface DropDownList {
-    current: string;
+    current: number;
     category : string[];
 }
 
 let dummyData : DropDownList = {
-    current: "최신순",
+    current: 0,
     category : ["최신순", "좋아요순", "조회수순"],
 }
 
 function SortDropDown() {
+    const dispatch = useDispatch();
     const [dropdownVisibility, setDropdownVisibility] = React.useState(false);
     const [dropdownSelect, setDropdownSelect] = React.useState(dummyData.current);
-    const handleLiClick = (event: React.MouseEvent<HTMLLIElement>) => {
-        setDropdownSelect(event.currentTarget.textContent ?? "");
+    const handleLiClick = (idx: number) => {
+        setDropdownSelect(idx);
         setDropdownVisibility(false);
+        dispatch(setSort({sort: idx}));
     }
     
     const categoryList = dummyData.category.map((element, idx) => 
-        <StyledLI key={element} onClick={handleLiClick}>{element}</StyledLI>
+        <StyledLI key={element} onClick={() => handleLiClick(idx)}>{element}</StyledLI>
     )
 
     return (
         <StyledDropdown>
             <Normal13px className="test" onClick={e => setDropdownVisibility(!dropdownVisibility)}>
-                {dropdownSelect}
+                {dummyData.category[dropdownSelect]}
                 {!dropdownVisibility && <KeyboardArrowDownIcon />} 
                 {dropdownVisibility && <KeyboardArrowUpIcon />} 
             </Normal13px>

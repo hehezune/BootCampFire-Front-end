@@ -4,8 +4,11 @@ import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import SearchDropDown from './SearchDropDown';
+import { setKeyword } from 'store/searchSlice';
+import { useDispatch } from 'react-redux';
 
 export default function InputSection() {
+  const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -14,6 +17,7 @@ export default function InputSection() {
 
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    dispatch(setKeyword({keyword: searchTerm}));
     // 여기에서 검색 기능을 구현하거나 검색 결과를 처리합니다.
     console.log('Search term:', searchTerm);
     // 예를 들면, 검색 결과를 표시하는 함수를 호출하거나 검색 API를 호출할 수 있습니다.

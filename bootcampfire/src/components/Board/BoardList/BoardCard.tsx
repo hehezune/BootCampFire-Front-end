@@ -6,30 +6,30 @@ import styled from 'styled-components';
 import DateInfo from './DateInfo';
 
 interface BoardDate {
-    views: number;
-    likes: number;
-    comments: number;
-    date: string;
+    view: number;
+    likeCnt: number;
+    commentCnt: number;
+    createdDate: string;
 }
+
 
 function BoardCard({data, onClick}: {data: Board, onClick: () => void}){
     const dataForDateInfo: BoardDate = {
-        views: data.views,
-        likes: data.likes,
-        comments: data.comments,
-        date: data.date,
+        view: data.view,
+        likeCnt: data.likeCnt,
+        commentCnt: data.commentCnt,
+        createdDate: data.createdDate.join('-'),
     }
     
     return (
-        <StyledBoardCard>
+        <StyledBoardCard onClick={onClick}>
             <Bold18px className="position1px">{data.title}</Bold18px>
             <Normal15px className="position40px">{data.content}</Normal15px>
             <Infodiv className="position110px">
                 <DateInfo data={dataForDateInfo}/>
 
                 <WriterSpan>
-                    {/* <A2 text={data.camp} color="#F5A368"/> */}
-                    <A2>{data.camp}</A2>
+                    <A2>{data.bootcamp}</A2>
                     <Bold15px as="span">{data.writer}</Bold15px>
                 </WriterSpan>
             </Infodiv>

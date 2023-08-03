@@ -135,10 +135,11 @@ export const LightBtn = styled(Bold15px)<{ type: string }>`
   line-height: 25px;
 `;
 
-export const SrtongBtn = styled(Bold18px)<{ type: string }>`
-  ${(props) =>
-    props.type === 'first'
-      ? `background-color: ${colors.PRIMARY};
+
+export const StrongBtn = styled(Bold18px)<{type: string}>`
+
+${(props) => props.type === "first" ?
+    `background-color: ${colors.PRIMARY};
     color: ${colors.WHITE};
     `
       : `background-color: ${colors.WHITE};
