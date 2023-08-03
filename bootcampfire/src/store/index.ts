@@ -4,10 +4,12 @@ import selectSliceReducer from './selectSlice';
 
 export interface RootState {
   auth: {
+    userId: number;
     isAdmin: boolean;
     nickname: string;
     isLoggedIn: boolean;
     bootcampId: number;
+    email: string;
   };
   select: {
     item_lst: string[];

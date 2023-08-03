@@ -67,7 +67,7 @@ const HeaderContentContainer = styled.div`
   align-items: center;
 `;
 
-const LoginContentContainer = styled.div`
+export const LoginContentContainer = styled.div`
   display: flex;
   align-items: center;
   margin-left: auto;
@@ -84,9 +84,9 @@ export default function Header() {
   const handleLogin = () => {
     // 모달 열기 함수
 
-    setModalOpen(true);
-    // dispatch(login({ userId: 10, nickname: '사용자123', email: 'user@example.com', isAdmin: true, bootcampId: 1 }));
-    console.log(bootcampId);
+    // setModalOpen(true);
+    dispatch(login({ userId: 10, nickname: '사용자123', email: 'user@example.com', isAdmin: true, bootcampId: 1 }));
+    // console.log(bootcampId);
   };
 
   const handleWriteButtonClick = () => {

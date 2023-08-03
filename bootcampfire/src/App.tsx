@@ -20,6 +20,7 @@ import ManagerPage from 'pages/ManagerPage/ManagerPage';
 import Regist from 'pages/ManagerPage/Regist';
 import Management from 'pages/ManagerPage/Management';
 import Mission from 'pages/ManagerPage/Mission';
+import LoginDataPage from 'components/Login/LoginDataPage';
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
         <main>
           <Routes>
             <Route path="/" element={<MainPage />} />
+            <Route path="/loginInfo" element={<LoginDataPage />} />
             <Route path="/Board" element={<BoardList />} />
             <Route path="/BoardDetail" element={<BoardDetail />} />
             <Route path="/BoardCreate" element={<BoardCreate />} />

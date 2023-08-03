@@ -25,7 +25,7 @@ const ManageCard = ({ email, img, nickname, bootcamp }: CardProps) => {
   return (
     <Card sx={{ height: '317px', width: '250px', boxShadow: 'none', display: 'block' }}>
       <img src={img} alt="" style={{ height: '252px' }} />
-      <div style={{ display: 'flex', gap: '80' }}>
+      <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
         <div>
           <span>닉네임: {nickname}</span>
           <div>부 캠: {bootcamp}</div>
