@@ -13,7 +13,7 @@ function ManagerHeader() {
   };
 
   return (
-    <>
+    <div>
       <StyledBold24px>관리자 페이지</StyledBold24px>
       <StyledDiv>
         <StyledLink to="/ManagerPage">
@@ -23,7 +23,7 @@ function ManagerHeader() {
         </StyledLink>
         <StyledLink to="/ManagerPage/Management">
           <StyledBold21px as="span" onClick={() => handlerTabClick(1)} className={1 === activeId ? 'active' : ''}>
-            부트 캠프 간리
+            부트 캠프 관리
           </StyledBold21px>
         </StyledLink>
         <StyledLink to="/ManagerPage/Mission">
@@ -32,7 +32,7 @@ function ManagerHeader() {
           </StyledBold21px>
         </StyledLink>
       </StyledDiv>
-    </>
+    </div>
   );
 }
 

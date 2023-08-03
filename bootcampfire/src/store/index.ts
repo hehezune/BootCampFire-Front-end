@@ -6,11 +6,13 @@ import bootcampListSlice from './bootcampListSlice';
 
 export interface RootState {
   auth: {
+    userId: number;
     isAdmin: boolean;
     nickname: string;
     isLoggedIn: boolean;
     bootcampId: number;
-    userId: number;
+    email: string;
+
   };
   select: {
     item_lst: string[];
@@ -38,6 +40,7 @@ const store = configureStore({
     manageState: selectSliceReducer,
     login: loginSelectSliceReducer,
     bootcamp: bootcampListSlice,
+
   },
 });
 export default store;
