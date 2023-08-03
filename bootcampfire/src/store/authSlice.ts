@@ -7,16 +7,20 @@ interface AuthState {
   email: string | null;
   isAdmin: boolean;
   bootcampId: number;
+  userId: number;
 }
 
 const initialState: AuthState = {
+
   userId: -1,
   isLoggedIn: false,
   nickname: null,
   email: null,
   isAdmin: false,
   bootcampId: -1,
+
 };
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,

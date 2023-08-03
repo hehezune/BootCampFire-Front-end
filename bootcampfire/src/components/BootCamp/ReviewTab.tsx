@@ -5,12 +5,13 @@ import { RootState } from "store";
 const ReviewTab: React.FC<BootCampReviewProps> = ({reviewlist}) => {
 
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
-
+  
     return (
         <>
-        <TabBox blur={isLoggedIn}>
-        {reviewlist.map((review) => (<ReviewCard review={review}/>))}
-        </TabBox>        
+        {reviewlist.length === 0 ? 
+        <TabBoxNaN> 아직 후기가 없어요! </TabBoxNaN> :
+        <TabBox blur={isLoggedIn}>{reviewlist.map((review) => (<ReviewCard review={review}/>))}</TabBox>
+        }
         </>
         )        
 }
@@ -18,7 +19,17 @@ const ReviewTab: React.FC<BootCampReviewProps> = ({reviewlist}) => {
 export default ReviewTab;
 
 
-
+const TabBoxNaN = styled.div`
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 300px;
+  background: #FFF9F9;
+  border: 1px solid #FF603D;
+  border-radius: 24px;
+  display: flex;
+  justify-content: center; align-items: center; 
+  font-family: 'DM Sans'; font-style: normal; font-weight: 700; font-size: 28px; 
+`;
 
 const TabBox = styled.div<{ blur: boolean }>`
   box-sizing: border-box;
@@ -31,27 +42,22 @@ const TabBox = styled.div<{ blur: boolean }>`
 interface BootCampReviewProps {
     reviewlist: ReviewItem[];
   }
-
   interface ReviewItem {
-    user_id: number;  
-    bootcamp_id: number;
-
-    tip : string;
-    good : string;
-    bad : string;
-    is_recommend : boolean;
-
-    curriculum : number;
-    potential : number;
-    back_up : number;
-    management : number;
-    mood : number;
-
-    score : number;
-    like_cnt : number;
-
-    created_at : Date;
-    updated_at : Date;
-
-    islike : boolean;
+    id: number;
+    user: string;
+    bootcampName: string;
+    tip: string;
+    good: string;
+    bad: string;
+    isRecommend: boolean;
+    likeCnt: number;
+    curriculum: number;
+    potential: number;
+    backUp: number;
+    management: number;
+    mood: number;
+    score: number;
+    createdDate: Date;
+    isAlreadyReviewLike: boolean;
   }
+  

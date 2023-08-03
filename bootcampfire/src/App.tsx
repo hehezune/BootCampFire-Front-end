@@ -5,7 +5,6 @@ import BoardDetail from 'pages/BoardPage/BoardDetailPage';
 import BootCamp from './pages/BootCamp';
 import BoardCreate from 'pages/BoardPage/BoardCreatePage';
 import BoardModify from 'pages/BoardPage/BoardModifyPage';
-import MyPage from 'pages/MyPage/MyPage';
 import MyPosts from 'pages/MyPage/MyPosts';
 import PersonalInfo from 'pages/MyPage/PersonalInfo';
 import VS from './pages/VSPage/VsPage';
@@ -15,12 +14,12 @@ import { Provider } from 'react-redux';
 import Header from 'components/Header';
 import BootCampListDetailPage from './pages/BootCampPage/BootCampDetailPage';
 import LoginModal from 'components/Login/LoginModal';
-import ManngerPage from 'pages/ManagerPage/ManagerPage';
 import ManagerPage from 'pages/ManagerPage/ManagerPage';
 import Regist from 'pages/ManagerPage/Regist';
 import Management from 'pages/ManagerPage/Management';
 import Mission from 'pages/ManagerPage/Mission';
 import LoginDataPage from 'components/Login/LoginDataPage';
+import MyPage from 'pages/MyPage/MyPage';
 
 export default function App() {
   return (
