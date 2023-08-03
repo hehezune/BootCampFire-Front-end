@@ -13,16 +13,24 @@ export interface Board {
 }
 
 export interface BoardDetail extends Board {
-    "isWriter": true,
-    "isLike": false,
+    isWriter: boolean,
+    isLike: boolean,
 }
 
-export interface Comment {
-    id: number;
+export interface RequestComment {
     user: string;
+    anonymous?: boolean;
     content: string;
+    boardId?: number;
+}
+
+export interface ResponseComment extends RequestComment{
+    id: number;
     ref: number;
     refOrder: number;
+}
+
+export interface Comment extends ResponseComment{
     createdDate: number[];
     bootcamp: string;
 }

@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import { colors } from "constant/constant";
-import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import {LightBtn, StyledRightFlex, Bold15px} from 'components/Board/styled';
 
 import styled from "styled-components";
-function CommentInput() {
+function CommentInput(props: {handlerExitBtn: () => void, handlerConfirmBtn: () => void}) {
     const [isChecked, setIsChecked] = useState(false);
     const handlerClickAnonymous = () => {
         setIsChecked(!isChecked);
@@ -16,8 +13,8 @@ function CommentInput() {
         <>
             <StyledInput type="textarea" placeholder='댓글을 작성해 주세요.'></StyledInput>
             <ButtonGroup>
-                <LightBtn type="">취소하기</LightBtn>
-                <LightBtn type="first">작성하기</LightBtn>
+                <LightBtn type="" onClick={props.handlerExitBtn}>취소하기</LightBtn>
+                <LightBtn type="first" onClick={props.handlerConfirmBtn}>작성하기</LightBtn>
             </ButtonGroup> 
         </>
     )

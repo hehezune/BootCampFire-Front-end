@@ -3,16 +3,13 @@ import React from "react";
 import styled from "styled-components";
 import BoardCard from "components/Board/BoardList/BoardCard";
 import { boardListData } from "components/Board/Dummies";
-
+import { useNavigate } from "react-router-dom";
 function MyPosts() {
-
-  const handlerClickCard = () => {
-    // 해당 카드 클릭 시 카드의 id (게시글의 id)를 가져오고 그에 대한 상세 페이지로 연결
-  }
+  const navigate = useNavigate();
 
   const BoardList = boardListData.map((element) => (
-    <BoardCard data={element} onClick={handlerClickCard}/>
-))
+    <BoardCard data={element} onClick={() => navigate(`/BoardDetail:${element.id}`)}/>
+  ))
 
   return (
     <WrapperBoardListMain>
@@ -24,7 +21,7 @@ function MyPosts() {
 }
 
 const WrapperBoardListMain = styled.div`
-      height: 800px;
+    height: 900px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -34,7 +31,7 @@ const BoardListMain = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-
+    width: 100%;
     .board-list-margin {
         margin: 0 43px;
     }

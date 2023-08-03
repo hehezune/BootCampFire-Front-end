@@ -7,9 +7,10 @@ import BasicModal from './Login/LoginModal';
 import React from 'react';
 import { Bold21px } from './Board/styled';
 import BoardCreateHeader from './Board/BoardCreate/BoardCreateHeader';
-
+import { colors } from 'constant/constant';
 const NavContainer = styled.div`
-  background-color: #f0f0f0;
+  background-color: #FFFFFF;
+  border-bottom: 1.5px solid ${colors.BACKGROUND_DEEP};
   padding: 10px;
   margin: 'auto';
 `;
@@ -32,6 +33,7 @@ const NavLink = styled(Link)`
     text-decoration: underline;
   }
 `;
+
 const ActionButton = styled.button`
   padding: 8px 16px;
   border: 1px solid #ffd0c1;
@@ -45,6 +47,7 @@ const ActionButton = styled.button`
     background-color: #0056b3;
   }
 `;
+
 const WritePrimaryBtn = styled.button`
   margin-left: 3%;
   margin-right: 3%;

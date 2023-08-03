@@ -6,18 +6,19 @@ import styled from 'styled-components';
 import DateInfo from './DateInfo';
 
 interface BoardDate {
-    views: number;
-    likes: number;
-    comments: number;
-    date: string;
+    view: number;
+    likeCnt: number;
+    commentCnt: number;
+    createdDate: string;
 }
+
 
 function BoardCard({data, onClick}: {data: Board, onClick: () => void}){
     const dataForDateInfo: BoardDate = {
-        views: data.view,
-        likes: data.likeCnt,
-        comments: data.commentCnt,
-        date: data.createdDate.join('-'),
+        view: data.view,
+        likeCnt: data.likeCnt,
+        commentCnt: data.commentCnt,
+        createdDate: data.createdDate.join('-'),
     }
     
     return (
@@ -28,7 +29,6 @@ function BoardCard({data, onClick}: {data: Board, onClick: () => void}){
                 <DateInfo data={dataForDateInfo}/>
 
                 <WriterSpan>
-                    {/* <A2 text={data.camp} color="#F5A368"/> */}
                     <A2>{data.bootcamp}</A2>
                     <Bold15px as="span">{data.writer}</Bold15px>
                 </WriterSpan>

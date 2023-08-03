@@ -3,16 +3,17 @@ import { colors } from 'constant/constant';
 import styled from 'styled-components';
 import DateInfo from '../BoardList/DateInfo';
 import A2 from '../Tag';
-import type {Board} from '../interface';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import type { BoardDetail } from '../interface';
-
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
 interface BoardDate {
-    views: number;
-    likes: number;
-    comments: number;
-    date: string;
+    view: number;
+    likeCnt: number;
+    commentCnt: number;
+    createdDate: string;
 }
 
 let data: BoardDetail = {
@@ -38,17 +39,29 @@ let data: BoardDetail = {
     ]
 }
 
-let dummy1 : BoardDate = {
-    views: 3,
-    likes: 4,
-    comments: 5,
-    date: "20171717"
-}
-
 // Warpper~~ element 는 경계선 작업을 위함
 // StyledBoardHeader 및 StyledBoardBody는 좌우 여백을 만들기 위함
 function BoardDetailBody({data}:{data: BoardDetail}) {
-    const isLike = false;
+    const [likeData, setLikeData] = useState({isLike: data.isLike, likeCnt: data.likeCnt});
+    const commentCnt = useSelector((state: RootState) => state.comment.commentCnt);
+    const handlerLikeBtn = () => {
+        // 백에 like 관련 요청 필요
+        // Like일때, !Like일때
+        
+        setLikeData({
+            isLike: !likeData.isLike,
+            likeCnt: !likeData.isLike === true? likeData.likeCnt + 1 :
+                likeData.likeCnt - 1
+        })
+    }
+
+    const dateInfoProps: BoardDate = {
+        view: data.view,
+        likeCnt: likeData.likeCnt,
+        commentCnt: commentCnt,
+        createdDate: data.createdDate.join('-'),
+    }
+
     return (
         <>
         <WrapperStyledBoardHeader>
@@ -60,7 +73,7 @@ function BoardDetailBody({data}:{data: BoardDetail}) {
                     <A2>{data.bootcamp}</A2>
                 </WriterDiv>
                 <WrapperDateInfo>
-                    <DateInfo data={dummy1}></DateInfo>
+                    <DateInfo data={dateInfoProps}></DateInfo>
                 </WrapperDateInfo>
             </StyledBoardHeader>
         </WrapperStyledBoardHeader>
@@ -68,8 +81,8 @@ function BoardDetailBody({data}:{data: BoardDetail}) {
         <StyledBoardBody>
             <Normal15px>{data.content}</Normal15px>
             <LikeBtnGroup>
-                {!isLike && <FavoriteBorderIcon/>}
-                {isLike && <FavoriteIcon />}
+                {!likeData.isLike && <FavoriteBorderIcon onClick={handlerLikeBtn}/>}
+                {likeData.isLike && <FavoriteIcon onClick={handlerLikeBtn}/>}
                 <Normal13px>좋아요</Normal13px>
             </LikeBtnGroup>
         </StyledBoardBody>
@@ -84,7 +97,7 @@ const LikeBtnGroup = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    `
+`
 const StyledCategory = styled(Bold18px)`
     color: ${colors.PRIMARY};
     flex-grow: 1;

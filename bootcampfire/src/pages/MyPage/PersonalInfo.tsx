@@ -4,8 +4,36 @@ import styled from "styled-components";
 import { LightBtn, Bold15px, StrongBtn } from "components/Board/styled";
 import { colors } from "constant/constant";
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+import { useState, useRef } from "react";
+import type { RootState } from "store";
+import { useSelector } from "react-redux";
+import { bootcamp as bootcampList} from "constant/constant";
 
 function PersonalInfo() {
+    const {nickname, bootcampId, /*email*/} = useSelector((state: RootState) => state.auth);
+    const [enteredNickName, setEneteredNickName] = useState(nickname);
+    const inputFileRef = useRef<HTMLInputElement>(null);
+    const handlerNickNameInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEneteredNickName(event.target.value);
+    }
+    
+    const handlerDuplicateNickname = () => {
+        // 중복 인증 axios 요청하기, enteredNickName 사용
+        
+    }
+
+    const handelrCertifyCamp = () => {
+        // 소속 인증 요청, 사진을 EC2로 업로드하는게 관건임
+    }
+
+    const handlerSubmitInfo = () => {
+        // 정보 취합하여 올리기 : 닉네임, BOJ 아이디
+    }
+
+    const handlerUploadBtn = () => {
+        inputFileRef.current?.click();
+    }
+
     return (
         <WarpperStyledPersonalInfo>
         <StyledPersonalInfo>
@@ -14,42 +42,45 @@ function PersonalInfo() {
                     <ColomnDiv>
                         <InputDiv>
                             <StyledBold15px as="label" htmlFor="nickName">닉네임</StyledBold15px>
-                            <StyledInput type="text" id="nickname"/>
+                            <StyledInput type="text" id="nickname" value={enteredNickName} onChange={handlerNickNameInput}/>
                         </InputDiv>
 
                         <InputDiv>
                             <StyledBold15px as="label" htmlFor="bojId">BOJ ID</StyledBold15px>
-                            <StyledInput type="text" id="bojId"/>
+                            <StyledInput type="text" id="bojId" />
                         </InputDiv>
 
                         <InputDiv>
                             <StyledBold15px as="label" htmlFor="camp">소속</StyledBold15px>
-                            <StyledInput type="text" value=" 소속test" id="camp" readOnly/>
+                            <StyledInput type="text" value={bootcampList[bootcampId]} id="camp" readOnly/>
                         </InputDiv>
 
                         <InputDiv>
                             <StyledBold15px as="label" htmlFor="file">인증 사진</StyledBold15px>
-                            <StyledInput type="file" id="file" />
+                            <StyledInput type="file" id="file" ref={inputFileRef}/>
                             <ImgUploadDiv as="div">
                                 <Bold15px as="span">test</Bold15px>
-                                <FileUploadOutlinedIcon sx={{marginRight: 1, color: colors.TEXT_NORMAL}} className="icon"/>
+                                <FileUploadOutlinedIcon sx={{marginRight: 1, color: colors.TEXT_NORMAL}} 
+                                                        onClick={handlerUploadBtn} 
+                                                        className="icon"
+                                                        />
                             </ImgUploadDiv>
                         </InputDiv>    
 
                         <InputDiv>
                             <StyledBold15px as="label" htmlFor="email">이메일</StyledBold15px>
-                            <StyledInput type="email" value="이메일test" id="email" readOnly />
+                            <StyledInput type="email" value="email" id="email" readOnly />
                         </InputDiv>
                     </ColomnDiv>
                     <ColomnDiv>
-                        <StyledLightBtn type="first">중복확인</StyledLightBtn>
+                        <StyledLightBtn type="first" onClick={handlerDuplicateNickname}>중복확인</StyledLightBtn>
                         <InvisibileLightBtn type="first">fasd</InvisibileLightBtn>
                         <InvisibileLightBtn type="first">asfd</InvisibileLightBtn>
-                        <StyledLightBtn type="first">소속 인증하기</StyledLightBtn>
+                        <StyledLightBtn type="first" onClick={handelrCertifyCamp}>소속 인증하기</StyledLightBtn>
                         <InvisibileLightBtn type="first">asfd</InvisibileLightBtn>
                     </ColomnDiv>
                 </RowDiv>
-                <StrongBtn type="first">수정하기</StrongBtn>
+                <StrongBtn type="first" onClick={handlerSubmitInfo}>수정하기</StrongBtn>
 
             </StyledForm>
         </StyledPersonalInfo>

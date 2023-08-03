@@ -6,10 +6,10 @@ import {Normal13px} from '../styled';
 import styled from 'styled-components';
 
 interface BoardDate {
-    views: number;
-    likes: number;
-    comments: number;
-    date: string;
+    view: number;
+    likeCnt: number;
+    commentCnt: number;
+    createdDate: string;
 }
 
 function DateInfo(props: {data: BoardDate}) {
@@ -17,19 +17,19 @@ function DateInfo(props: {data: BoardDate}) {
         <StyledInfoDiv>
             <span className="infoMargin">
                 <RemoveRedEyeOutlinedIcon sx={{fontSize:13}}/>
-                <Normal13px as="span" className="infoMargin">{String(props.data.views)}</Normal13px>
+                <Normal13px as="span" className="infoMargin">{String(props.data.view)}</Normal13px>
             </span>
             <span className="infoMargin">
                 <FavoriteBorderIcon sx={{fontSize:13}}/>
-                <Normal13px as="span" className="infoMargin">{String(props.data.likes)}</Normal13px>
+                <Normal13px as="span" className="infoMargin">{String(props.data.likeCnt)}</Normal13px>
             </span>
             <span className="infoMargin">
                 <ModeCommentOutlinedIcon sx={{fontSize:13}}/>
-                <Normal13px as="span" className="infoMargin">{String(props.data.comments)}</Normal13px>
+                <Normal13px as="span" className="infoMargin">{String(props.data.commentCnt)}</Normal13px>
             </span>
             <span className="infoMargin">
                 <AccessTimeOutlinedIcon sx={{fontSize:13}}/>
-                <Normal13px as="span" className="infoMargin">{String(props.data.date)}</Normal13px>
+                <Normal13px as="span" className="infoMargin">{String(props.data.createdDate)}</Normal13px>
             </span>
         </StyledInfoDiv>
     )
