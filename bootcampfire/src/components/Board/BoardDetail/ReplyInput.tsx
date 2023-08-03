@@ -3,7 +3,7 @@ import { colors } from "constant/constant";
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
-import {StrongBtn, StyledRightFlex, Bold15px} from 'components/Board/styled';
+import {LightBtn, StyledRightFlex, Bold15px} from 'components/Board/styled';
 
 import styled from "styled-components";
 function CommentInput() {
@@ -15,19 +15,9 @@ function CommentInput() {
     return (
         <>
             <StyledInput type="textarea" placeholder='댓글을 작성해 주세요.'></StyledInput>
-                <ButtonGroup>
-                    {isChecked && 
-                        <CheckCircleOutlineIcon 
-                            sx={{color: colors.TEXT_LIGHT}}
-                            onClick={handlerClickAnonymous}/>}
-                    {!isChecked && 
-                        <RadioButtonUncheckedIcon 
-                            sx={{color: colors.TEXT_LIGHT}}
-                            onClick={handlerClickAnonymous}/>}
-                <AnonymousText>익명으로 작성하기</AnonymousText>
-                <StrongBtn type="first">작성하기  
-                    <CreateOutlinedIcon sx={{color: colors.WHITE}}/>
-                </StrongBtn>
+            <ButtonGroup>
+                <LightBtn type="">취소하기</LightBtn>
+                <LightBtn type="first">작성하기</LightBtn>
             </ButtonGroup> 
         </>
     )
@@ -36,13 +26,18 @@ function CommentInput() {
 
 
 const ButtonGroup = styled(StyledRightFlex)`
-    margin: 20px 0;
-    gap: 10px;
+    /* position: absolute;
+    top: 90px; */
+    right: 20px;
+    margin-top: 14px;
+    gap: 20px;
 `
 const StyledInput = styled.input`
+    /* position: absolute;
+    top: 40px; */
     display: block;
     width: 100%;
-    height: 50px;
+    height: 60px;
     margin: 0 auto;
     border-radius: 5px;
     border: 1px solid ${colors.TEXT_LIGHT};

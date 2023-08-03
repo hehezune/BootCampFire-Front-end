@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { colors } from '../../constant/constant';
 
-export const BoldFont = styled.span`
+export const BoldFont = styled.div`
     color: #0E0301;
     font-family: DM Sans;
     font-style: bold;

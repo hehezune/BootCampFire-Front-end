@@ -1,20 +1,29 @@
 import styled from 'styled-components';
 import A2 from '../Tag';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import type {Comment} from '../interface';
 import {Bold15px, Normal15px, Normal13px, StyledSpaceBetween, StyledLeftFlex} from '../styled';
-import LightBtn from '../../LightBtn';
+import { LightBtn } from '../styled';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { colors } from 'constant/constant';
 import { useState } from 'react';
-import CommentInput from './CommentInput';
-
+import ReplyInput from './ReplyInput';
 function CommentCard({data}: {data: Comment}) {
     
     const [isReply, setIsReply] = useState(false);
     const [isAnonymous, setIsAnonymous] = useState(false);
+    const [isChecked, setIsChecked] = useState(false);
+    const handlerClickAnonymous = () => {
+        setIsChecked(!isChecked);
+    }
 
     let isLogin = data.id % 2 == 0 ? true : false;
+
+    const handlerReplyButton = () => {
+        setIsReply(!isReply);
+    }
     const EditBtn = <LightBtn type="first">수정하기</LightBtn>;
 
     return (
@@ -35,7 +44,7 @@ function CommentCard({data}: {data: Comment}) {
                     </div>
                     <div className='gap'>
                         {isLogin && EditBtn}
-                        <LightBtn>답글 달기</LightBtn>
+                        <LightBtn type="" onClick={handlerReplyButton}>답글 달기</LightBtn>
                     </div>
                 </CommentLastDiv>
             </StyledCommentCard>
@@ -46,11 +55,21 @@ function CommentCard({data}: {data: Comment}) {
                     <CommentCardContentsArea>
                     <ArrowForwardIcon sx={{marginRight: 1, marginTop: 1}}/>
                     <StyledCommentCard>
-                        <CommentWriter>
-                            <Bold15px>{isAnonymous === true ? "익명" : String(isLogin)}</Bold15px>
-                            <A2>{isAnonymous === true ? "익명 캠프" : String(isLogin)}</A2>
-                        </CommentWriter>
-                        <CommentInput></CommentInput>
+                        {/* <div > */}
+                        <div style={{display: 'flex', alignItems: 'center', gap: 10, height: 40}}>
+                            <Bold15px className="test">{isChecked === true ? "익명" : String(isLogin)}</Bold15px>
+                            <A2>{isChecked === true ? "익명 캠프" : String(isLogin)}</A2>
+                            {isChecked && 
+                                <CheckCircleOutlineIcon 
+                                sx={{color: colors.TEXT_LIGHT}}
+                                onClick={handlerClickAnonymous}/>}
+                            {!isChecked && 
+                                <RadioButtonUncheckedIcon 
+                                sx={{color: colors.TEXT_LIGHT}}
+                                onClick={handlerClickAnonymous}/>}
+                            <AnonymousText>익명으로 작성하기</AnonymousText>
+                        </div>
+                        <ReplyInput></ReplyInput>
                     </StyledCommentCard>
                     </CommentCardContentsArea>
                 </WrapperStyledCommentCard>
@@ -62,11 +81,12 @@ function CommentCard({data}: {data: Comment}) {
 const StyledCommentCard = styled.div`
     position: relative;
     width: 100%;
+
 `
 const WrapperStyledCommentCard = styled.div`
     /* position: relative; */
     border-bottom: 1px solid ${colors.TEXT_LIGHT};
-    `
+`
 const CommentCardContentsArea = styled.div`
     /* position: relative; */
     display: flex;
@@ -75,7 +95,7 @@ const CommentCardContentsArea = styled.div`
     margin: auto;
     .height-center {
         display: flex;
-        align-items: cneter;
+        align-items: center;
     }
     
     .gap {
@@ -91,6 +111,10 @@ const CommentWriter = styled(StyledLeftFlex)`
 const CommentContents = styled(Normal15px)`
     position: absolute;
     top: 40px;
+`
+const AnonymousText = styled(Bold15px)`
+    color: ${colors.TEXT_LIGHT};
+    margin: 0 40px 0 0 ;
 `
 
 const CommentLastDiv = styled(StyledSpaceBetween)`

@@ -3,12 +3,14 @@ import { commentListData } from "components/Board/Dummies";
 import { Comment } from "components/Board/interface";
 
 interface commentState {
+  boardId: number;
   commentCnt: number;
   commentList: Comment[];
 }
 
 // initialState는 추후 백에 요청하여 받아오는 방식으로 해야 한다.
 const initialState: commentState = {
+  boardId: 0,
   commentCnt: 0,
   commentList: commentListData,
 }

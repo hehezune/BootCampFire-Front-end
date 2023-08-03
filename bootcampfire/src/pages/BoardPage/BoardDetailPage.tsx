@@ -33,7 +33,10 @@ let boardDetail: BoardDetail = {
 function BoardDetailPage() {
   // 오픈시 요청해서 기본 정보 받아오기
   const commentList = useSelector((state: RootState) => state.comment.commentList);
-
+  const commentProps = {
+    boardId: 0,
+    commentList: commentList,
+  }
   useEffect(() => {
     // 백에서 boardDetail 및 comments 정보 가져오기
     // comments는 redux에 저장되어야 한다.
@@ -42,7 +45,7 @@ function BoardDetailPage() {
   return (
     <StyledPage>
       <BoardDetailBody data={boardDetail}/>
-      <Comments data={commentList}/>
+      <Comments boardId={0} comments={commentList}/>
     </StyledPage>
   );
 }
