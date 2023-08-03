@@ -10,6 +10,7 @@ export interface RootState {
     nickname: string;
     isLoggedIn: boolean;
     bootcampId: number;
+    userId: number;
   };
   select: {
     item_lst: string[];

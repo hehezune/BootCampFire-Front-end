@@ -15,14 +15,11 @@ import { fetchBootcampStart, fetchBootcampSuccess, fetchBootcampFailure } from '
 const BootCampListPage: React.FC = () => {
   const currentDate = new Date();
   const navigate = useNavigate();
-  const CardClick = (bootcampId: number) => {
-    navigate(`/bootcampdetail/${bootcampId}`);
-  };
-
+  const CardClick = (bootcampId: number) => { navigate(`/bootcampdetail/${bootcampId}`); };
 
   const dispatch = useDispatch();
   const {bootcamp, loading, error} = useSelector((state: RootState) => state.bootcamp);
-
+  
   useEffect(() => {
     dispatch(fetchBootcampStart());
     axios.get('http://localhost:8080/bootcamps/lists/names')

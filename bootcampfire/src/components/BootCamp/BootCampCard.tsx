@@ -16,7 +16,7 @@ interface BootcampItem {
   score: number;
   tracks: { id: number; name: string }[];
   regions: { id: number; name: string }[];
-}    
+}
 
 
 interface BootCampCardProps {
@@ -38,7 +38,7 @@ const BootCampCard: React.FC<BootCampCardProps> = ({ item, cur }) => {
       <LogoImage src={item.imgUrl} alt="BootCamp Logo" />
       <FlexContainer>
         <CardHeading>{item.name}</CardHeading>
-        <ScoreText>{item.score}</ScoreText>
+        <ScoreText>{Math.round(item.score * 10) / 10} </ScoreText>
       </FlexContainer>
         <TagContainer>
           <Tag text={item.onOff} color='#21C63C' />
@@ -69,14 +69,10 @@ const CardContainer = styled.div`
   padding: 20px;
 `;
 
-
 const LogoImage = styled.img`
-//   width: 243px;
   height: 90px;
   border-radius: 10px;
 `;
-
-
 
 const TagContainer = styled.div`
 display: flex;
@@ -85,8 +81,6 @@ justify-content: center;
 padding-top:5px;
   gap: 5px;
 `;
-
-
 
 const CardHeading = styled.h2`
   font-family: 'DM Sans';
@@ -105,8 +99,6 @@ font-size: 18px; /* 작은 글자 크기 설정 */
   color: #94969b; /* 기본 글자 색상 설정 */
   margin-bottom: 8px; /* 글자 아래에 간격 추가 */
   line-height: 38px;
-
-
 `;
 
 const FlexContainer = styled.div`

@@ -2,14 +2,23 @@ import styled from "styled-components";
 import { IconButton } from "@mui/material";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import { useState } from "react";
+import axios from "axios";
 
 const ReviewCard: React.FC<BootCampReviewProps> = ({review}) => {
 
-    const [isLiked, setIsLiked] = useState(review.isRecommend);
+    const [isLiked, setIsLiked] = useState(review.isAlreadyReviewLike);
+    const isLiked_org = review.isAlreadyReviewLike;
+    const handleToggleLike = () => {
+        setIsLiked(!isLiked);};
 
-  const handleToggleLike = () => {
-    setIsLiked(!isLiked);
-  };
+    const handleLikes = () => {
+        const api_url = !isLiked ? `${review.id}` : `cancel/${review.id}`
+        axios.post(`http://localhost:8080/review-likes/${api_url}`)
+        .then((response) => {console.log("리뷰 좋아요 성공");})
+        .catch((error) => {console.error("리뷰 좋아요 실패", error);});}
+    console.log(review);
+    console.log(review.createdDate);
+
 
     return (
         <>
@@ -29,8 +38,9 @@ const ReviewCard: React.FC<BootCampReviewProps> = ({review}) => {
             <VerticalDivs2>
                 <SubDiv>
                     <HorizontalDivs>
+                    <TextName>{review.id}</TextName>                        
                         <TextName>{review.user}</TextName>
-                        <Text3>{new Date(review.createDate).toLocaleDateString()}</Text3>
+                        <Text3>{new Date(review.createdDate).toLocaleString()}</Text3>
                     </HorizontalDivs>
                 </SubDiv>
                 <SubDiv>
@@ -49,10 +59,14 @@ const ReviewCard: React.FC<BootCampReviewProps> = ({review}) => {
                         <Text2>지인에게 추천 : {review.isRecommend ? 'O' : 'X'}</Text2>
                         <HorizontalDivs>
                         <Text2> 공감 </Text2>
-                        <IconButton color="error" aria-label="delete" size="large" onClick={handleToggleLike}>
+                        <IconButton color="error" aria-label="delete" size="large" onClick={() => {
+                            handleToggleLike();
+                            handleLikes();
+                            }}>
                             {isLiked ? <Favorite />: <FavoriteBorder />}
                         </IconButton>
-                        <Text3>({review.likeCnt-(isLiked ? 0 : 1)})</Text3>
+                        {isLiked_org && <Text3>({review.likeCnt + (isLiked ? 0 : -1)})</Text3>}
+                        {!isLiked_org && <Text3>({review.likeCnt + (isLiked ? 1 : 0)})</Text3>}                        
                         </HorizontalDivs>
                     </HorizontalDivs2>
                 </SubDiv>
@@ -64,7 +78,7 @@ const ReviewCard: React.FC<BootCampReviewProps> = ({review}) => {
 }
 
 const TabBox = styled.div`
-box-sizing: border-box; width: 100%;
+box-sizing: border-box; width: 100%; min-height: 300px;
 background: #FFF9F9; border: 1px solid #FF603D; border-radius: 24px;`;
 
 const VerticalDivs1 = styled.div`
@@ -146,7 +160,7 @@ interface BootCampReviewProps {
     management: number;
     mood: number;
     score: number;
-    createDate: Date;
+    createdDate: Date;
     isAlreadyReviewLike: boolean;
   }
   

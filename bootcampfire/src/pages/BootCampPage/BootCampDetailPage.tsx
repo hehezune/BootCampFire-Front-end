@@ -31,10 +31,6 @@ const BootCampListDetailPage: React.FC = () => {
   const [bootreview, setbootreview] = useState<ReviewItem[]>([]);
   const [myreview, setMyReview] = useState<ReviewItem>({} as ReviewItem);
                           
-  const reviewData = {
-    bootcampId: 1,
-  };
-  
   useEffect(() => {
   if (bootcampid) {
     const bootcampIdNumber = parseInt(bootcampid);
@@ -46,8 +42,7 @@ const BootCampListDetailPage: React.FC = () => {
     .then(([bootcampResponse, reviewResponse, myreviewResponse]) => {
       setBootdetail(bootcampResponse.data.data);
       setbootreview(reviewResponse.data.data);
-      setMyReview(myreviewResponse.data.data);
-      
+      setMyReview(myreviewResponse.data.data);      
     })
     .catch((error) => {});
   }}, []);
@@ -56,42 +51,40 @@ const BootCampListDetailPage: React.FC = () => {
   if (!bootdetail) {return <div>Loading...</div>;}
 
   return (
-    
     <>
       <BootCampDetailMain>
         <Tab>
         <LogoContainer>   
           <LogoImage src={bootdetail.imgUrl.replace(".","")} alt="BootCamp Logo" />
         </LogoContainer>
-        <VerticalDivs>
-          <HorizontalDivs>
+        <VerticalDivs> 
+          <HorizontalDivs> 
             <Mtext>{bootdetail.name}</Mtext>
             <StyledBtn type="first" as="a" href={bootdetail.siteUrl}>사이트로 가기</StyledBtn>
-          </HorizontalDivs>
-          <HorizontalDivs>
-            <Mtext2>({bootdetail.score})</Mtext2>
-            <Mtext3  style={{ marginRight: "50px" }}>{bootdetail.reviewCnt} 개의 후기가 작성되었습니다.</Mtext3>
-            <Mtext2>모집 기간 : {new Date(bootdetail.startDate).toLocaleDateString()} ~ {new Date(bootdetail.endDate).toLocaleDateString()}</Mtext2>            
-          </HorizontalDivs>
-        </VerticalDivs>
-        </Tab>
-        <SelectTab>
-          <HorizontalDivs>
+          </HorizontalDivs> 
+          <HorizontalDivs> 
+            <Mtext2>({Math.round(bootdetail.score*10)/10})</Mtext2> 
+            <Mtext3  style={{ marginRight: "50px" }}>{bootdetail.reviewCnt} 개의 후기가 작성되었습니다.</Mtext3> 
+            <Mtext2>모집 기간 : {new Date(bootdetail.startDate).toLocaleDateString()} ~ {new Date(bootdetail.endDate).toLocaleDateString()}</Mtext2> 
+          </HorizontalDivs> 
+        </VerticalDivs> 
+        </Tab> 
+        <SelectTab> 
+          <HorizontalDivs> 
             <MTab selected={isDetailTabSelected===0 ? true: false} onClick={() => handleTabClick(0)}>기본 정보</MTab>
-            <MTab selected={isDetailTabSelected === 1} onClick={() => handleTabClick(1)}>후기</MTab>
-            </HorizontalDivs>
-          <HorizontalDivs>
-            {isLoggedIn ? null :<Mtext2>로그인하시면 후기 이용이 가능합니다.</Mtext2>}
-            {isLoggedIn &&  bootcampIdNumber === bootcampId ? <StyledBtn2 onClick={() => handleTabClick(2)}>후기 작성하기</StyledBtn2> :null }            
+            <MTab selected={isDetailTabSelected === 1} onClick={() => handleTabClick(1)}>후기</MTab> 
+            </HorizontalDivs> 
+          <HorizontalDivs> 
+            {!isLoggedIn ? <Mtext2>로그인하시면 후기 이용이 가능합니다.</Mtext2> : 
+            bootcampIdNumber != bootcampId ? null : 
+            !myreview.id ? <StyledBtn2 onClick={() => handleTabClick(2)}>후기 작성하기</StyledBtn2> :
+            <StyledBtn2 onClick={() => handleTabClick(2)}>후기 수정하기</StyledBtn2>}
           </HorizontalDivs>
         </SelectTab>
-        <TabSelected
-        isDetailTabSelected={isDetailTabSelected}
-        bootdetail={bootdetail}
-        bootreview={bootreview}
-        MydummyReview={myreview}
-      />      
-        </BootCampDetailMain>
+      {isDetailTabSelected === 0 ? (<DetailTab bootcamp={bootdetail} />) :
+       isDetailTabSelected === 1 ? (<ReviewTab reviewlist={bootreview} />) : 
+       isDetailTabSelected === 2 ? (<ReviewCreate review={myreview} />) : null}            
+      </BootCampDetailMain>
     </>
   );
 };
@@ -161,23 +154,6 @@ padding: 5px 15px; justify-content: center; align-items: center; font-size: 22px
 border-radius: 10px; gap: 10px; height: 38px;`;
 
 
-interface TabSelectedProps {
-  isDetailTabSelected: number;
-  bootdetail: BootcampItem;
-  bootreview: ReviewItem[];
-  MydummyReview: ReviewItem;
-}
-
-const TabSelected: React.FC<TabSelectedProps> = ({ isDetailTabSelected, bootdetail, bootreview, MydummyReview }) => {
-  switch (isDetailTabSelected) {
-    case 0: return <DetailTab bootcamp={bootdetail}  />;
-    case 1: return <ReviewTab reviewlist={bootreview}/>;
-    case 2: return <ReviewCreate review={MydummyReview}/>;
-    default:
-      return null; // Handle default case or show a component for an unknown value
-  }
-};
-
 interface BootcampItem {
   id: number;
   name: string;
@@ -221,7 +197,7 @@ interface BootcampItem {
     management: number;
     mood: number;
     score: number;
-    createDate: Date;
+    createdDate: Date;
     isAlreadyReviewLike: boolean;
   }
   
