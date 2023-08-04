@@ -3,29 +3,9 @@ import { useState } from "react";
 import axios from "axios";
 import  { Checkbox, Rating, TextField, Button } from "@mui/material";
 import { styled as styled2  } from '@mui/material/styles';
-import { useEffect } from "react";
 
 import { RootState } from "store";
 import { useSelector } from "react-redux";
-
-// Long userId,
-// Long bootcampId,
-// String tip,
-// String good,
-// String bad,
-// Boolean isRecommend,
-// Integer curriculum,
-// Integer potential,
-// Integer backUp,
-// Integer management,
-// Integer mood
-// @ApiOperation(value = "리뷰 수정")
-// @PutMapping("/{bootcampId}/{reviewId}")
-// public BaseResponseDto<ReviewReponseDto> updateReview(@PathVariable Long reviewId, @RequestBody @Valid ReviewRequestDto requestDto){
-//     return BaseResponseDto.ok(reviewService.update(reviewId, requestDto));
-// }
-
-
 
 const ReviewCreate: React.FC<BootCampReviewProps> = ({review}) => {
 
@@ -53,7 +33,6 @@ const ReviewCreate: React.FC<BootCampReviewProps> = ({review}) => {
     }));
   };
   const handleSubmit = () => {
-    // 서버로 보낼 데이터 생성
     const postData = {
       userId: formData.userId,
       bootcampId: formData.bootcampId,
@@ -71,19 +50,28 @@ const ReviewCreate: React.FC<BootCampReviewProps> = ({review}) => {
     if (review.id) {
       axios
         .put(`http://localhost:8080/reviews/${bootcampId}/${review.id}`, postData)
-        .then((response) => {console.log("리뷰 수정이 완료되었습니다.");})
+        .then((response) => {
+          console.log("리뷰 수정이 완료되었습니다.");
+          window.location.reload();
+        })
         .catch((error) => {console.error("리뷰 수정 중 오류가 발생했습니다.", error);});
     } else {
       axios
         .post(`http://localhost:8080/reviews`, postData)
-        .then((response) => {console.log("리뷰 작성이 완료되었습니다.");})
+        .then((response) => {
+          console.log("리뷰 작성이 완료되었습니다.");
+          window.location.reload();
+        })
         .catch((error) => {console.error("리뷰 작성 중 오류가 발생했습니다.", error);});
     }
   };
 
   const handleDelete = () => {
     axios.delete(`http://localhost:8080/reviews/${bootcampId}/${review.id}`)
-  .then((response) => {console.log("리뷰가 삭제되었습니다.");})
+  .then((response) => {
+    console.log("리뷰가 삭제되었습니다.");
+    window.location.reload();
+  })
   .catch((error) => {console.error("리뷰 삭제 중 오류가 발생했습니다.", error);});
   }
 

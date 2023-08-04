@@ -4,46 +4,61 @@ import SeletedTag from 'components/BootCamp/SeletedTag';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store';
-import {onoff_num, onoff_text, category_onoff} from '../../store/selectSlice';
+// import {onoff_num, onoff_text, category_onoff} from '../../store/selectSlice';
+import { initTrack, initRegion, 
+          onoff_track, category_onoff } from 'store/selectSlice';
+import axios from 'axios';
+
+import { useEffect } from 'react';
+
+// /bootcamps/regions
+
+// /bootcamps/tracks
 
 const SelectBox: React.FC = () =>  {
 
-  const { sel_lst, item_lst, category, tmp_lst } = useSelector((state: RootState) => state.select);
+  // const { sel_lst, item_lst, category, tmp_lst } = useSelector((state: RootState) => state.select);
+  const { trackList, regionList, category, trackBoolean } = useSelector((state: RootState) => state.select);
   const dispatch = useDispatch();
 
-  const handleSeletedTagClick = (value: number) => {dispatch(onoff_num(value));};
   const handleCategoryToggle = (value: number) => {dispatch(category_onoff(value));};
 
-  const CATEGORY: string[] = ["트랙", "온오프", "지역", "기타"];
-  const OFFSET: number[] = [0,
-                            item_lst.indexOf("온라인"),
-                            item_lst.indexOf("서울"),
-                            item_lst.indexOf("모집중"),
-                            item_lst.length];
+  useEffect(() => {
+    axios.get(`http://localhost:8080/bootcamps/tracks`) 
+      .then((response) => dispatch(initTrack(response.data.data)))
+      .catch((error) => console.log(error.message));
+    axios.get(`http://localhost:8080/bootcamps/regions`) 
+      .then((response) => dispatch(initRegion(response.data.data)))
+      .catch((error) => console.log(error.message));
+  }, []);
+
+  const handleSeletedTagClick = (value: number) => {dispatch(onoff_track(value))};
+  console.log(trackList);
+
 
   return (
     <>
       <Container>
-        {CATEGORY.map( (item_p, idx_p) => (
-          <div >
-            <NavItem onClick={() => handleCategoryToggle(idx_p)}>
-            <span>{item_p}</span>
-            <span style={{ textAlign: "center" }}>{category[idx_p] ? "△" : "▽"}</span>
-            </NavItem>
-            
-            {category[idx_p] && <ItemBox>
-            {item_lst.slice(OFFSET[idx_p], OFFSET[idx_p+1]).map((item, idx)=> (
-              <SeletedTag text={item} isOn={sel_lst[OFFSET[idx_p]+idx]}  onClick={() => handleSeletedTagClick(OFFSET[idx_p]+idx)} />
-            ))} 
-            </ItemBox>}
-          </div>
-        ))}
+        <div>
+          <NavItem onClick={() => handleCategoryToggle(0)}>
+            <span>트랙</span>
+            <span style={{ textAlign: "center" }}>{category[0] ? "△" : "▽"}</span>
+          </NavItem>
+          {category[0] && (
+            <ItemBox>
+              {trackList.map((item, idx) => (
+                <SeletedTag text={item}
+                  isOn={trackBoolean[idx]}  
+                  onClick={() => handleSeletedTagClick(idx)}
+                />
+              ))}
+            </ItemBox>
+          )}
+        </div>
 
         <NavItem>선택 항목</NavItem>
         <ItemBox>
-          {tmp_lst.map((item, idx) => (
-            <SeletedTag text={item} isOn={sel_lst[item_lst.indexOf(item)]} onClick={() => handleSeletedTagClick(item_lst.indexOf(item))} />
-            ))}
+          nothing
         </ItemBox>
       </Container>
     </>

@@ -16,12 +16,21 @@ export interface RootState {
     bootcampId: number;
     email: string;
   };
-  select: {
-    item_lst: string[];
-    tmp_lst: string[];
-    sel_lst: boolean[];
-    category: boolean[];
-  };
+  select : {  
+    // sel_lst : boolean[];
+    // category : boolean[];
+    
+    trackList : string[];
+    regionList : string[];
+
+    trackBoolean : boolean[];
+    regionBoolean : boolean[];
+
+    tmp_lst : string[];
+    item_lst : string[];
+
+    category : boolean[];
+};
   manageState: {
     img: string | null;
     nickname: string | null;
@@ -40,6 +49,8 @@ export interface RootState {
     bootcamp : BootcampItem[],
     loading : boolean,
     error: null,
+    dropBoxidx : number,
+    bootSearch : string,
   };
 }
 

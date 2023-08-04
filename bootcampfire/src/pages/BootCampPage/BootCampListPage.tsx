@@ -11,37 +11,50 @@ import axios, { AxiosResponse } from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBootcampStart, fetchBootcampSuccess, fetchBootcampFailure } from 'store/bootcampListSlice';
 
+const BootCampListPage: React.FC = () => { 
+  const currentDate = new Date(); 
+  const navigate = useNavigate(); 
+  const CardClick = (bootcampId: number) => { navigate(`/bootcampdetail/${bootcampId}`); }; 
 
-const BootCampListPage: React.FC = () => {
-  const currentDate = new Date();
-  const navigate = useNavigate();
-  const CardClick = (bootcampId: number) => { navigate(`/bootcampdetail/${bootcampId}`); };
-
-  const dispatch = useDispatch();
-  const {bootcamp, loading, error} = useSelector((state: RootState) => state.bootcamp);
+  const dispatch = useDispatch(); 
+  const {bootcamp, loading, error, dropBoxidx, bootSearch} = useSelector((state: RootState) => state.bootcamp); 
+  const { tmp_lst } = useSelector((state: RootState) => state.select); 
   
-  useEffect(() => {
-    dispatch(fetchBootcampStart());
-    axios.get('http://localhost:8080/bootcamps/lists/names')
+  const [bootcampSearchResult, setBootcampSearchResult] = useState<BootcampItem[]>([]); 
+
+  useEffect(() => { 
+    const filteredBootcamp = bootSearch ? 
+    bootcamp.filter((item) => item.name.toLowerCase().includes(bootSearch.toLowerCase())): bootcamp; 
+    setBootcampSearchResult(filteredBootcamp); 
+  }, [bootcamp, bootSearch]); 
+  
+  useEffect(() => { 
+    dispatch(fetchBootcampStart()); 
+    const api_url = dropBoxidx === 0 ? "names" : 
+                    dropBoxidx === 1 ? "scores" : 
+                    dropBoxidx === 2 ? "reviews" : "names" 
+    axios.get(`http://localhost:8080/bootcamps/lists/${api_url}`) 
     // .then((response) => console.log(response.data))
     .then((response) => dispatch(fetchBootcampSuccess(response.data.data)))
     .catch((error) => dispatch(fetchBootcampFailure(error.message)));
-  }, []);
+  }, [dropBoxidx]);
+  console.log(bootcampSearchResult)
+
+
+
   if (loading) {return <div>Now Loading...</div>}
   else if (!bootcamp || bootcamp.length === 0) {return <div>No data available.</div>;}
   return (
     <>
     <Container>
-      <TopSection>
-        <SelectBox />
-      </TopSection>
-      <CardSection>
+      {tmp_lst}
+      <TopSection><SelectBox /></TopSection>
+      <CardSection>        
         <CardContainer>
-          {bootcamp.map((item) => (
+          {bootcampSearchResult.map((item) => (
             <BootCampCardWrapper key={item.id} onClick={() => CardClick(item.id)}>
               <BootCampCard item={item} key={item.id} cur={currentDate} />
-            </BootCampCardWrapper>
-          ))}
+            </BootCampCardWrapper>))}
         </CardContainer>      
       </CardSection>
     </Container>
@@ -118,3 +131,8 @@ interface BootcampItem {
   tracks: { id: number; name: string }[];
   regions: { id: number; name: string }[];
 }    
+
+interface BootcampTaged {
+  id : number;
+  tag : string[];
+}
