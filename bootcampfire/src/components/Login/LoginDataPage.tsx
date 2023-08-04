@@ -35,7 +35,6 @@ params.append('redirect_uri', redirectUri);
 
   console.log('hi');
   useEffect(() => {
-<<<<<<< HEAD
     localStorage.clear();
 
     if (params.token) {
@@ -49,26 +48,6 @@ params.append('redirect_uri', redirectUri);
     // axios
     //   .get('http://localhost:8080/users')
     //   .then((res) =>
-=======
-    axios.post(tokenEndpoint, params)
-  .then(response => {
-
-    // const accessToken = response.data.access_token;
-    // const refreshToken = response.data.refresh_token;
-    console.log(response);
-  })
-  .catch(error => {
-    // 에러 처리
-  });
-    // console.log(params)
-    // if(params.token) {
-    //   localStorage.setItem("token", params.token);
-    // }
-    // axios
-    //   .get('http://localhost:8080/users')
-    //   .then((res) =>{
-    //   console.log('Response:', res);
->>>>>>> Bootcamp
     //     dispatch(
     //       login({
     //         userId: res.data.id,
@@ -77,11 +56,7 @@ params.append('redirect_uri', redirectUri);
     //         isAdmin: true,
     //         bootcampId: res.data.bootcamp,
     //       })
-<<<<<<< HEAD
     //     )
-=======
-    //     )}
->>>>>>> Bootcamp
     //   )
     //   .catch((error) => console.error('Error fetching user data:', error));
   }, []);
