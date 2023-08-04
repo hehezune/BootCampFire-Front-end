@@ -15,6 +15,8 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Cookie } from '@mui/icons-material';
+import { RootState } from 'store';
+import { useSelector } from 'react-redux';
 
 const MainContainer = styled.div`
   position: relative;

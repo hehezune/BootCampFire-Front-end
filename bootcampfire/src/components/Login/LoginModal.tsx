@@ -64,9 +64,11 @@ interface LoginModalProps {
 const LoginModal: React.FC<LoginModalProps> = (props) => {
   const navigate = useNavigate();
   const KakaoLoginAPI = 'http://localhost:8080/oauth2/authorization/kakao';
-  const kakaoLogin = () => {
-    navigate('/loginInfo');
-  };
+  // const kakaoLogin = () => {
+  //   // navigate('http://localhost:8080/oauth2/authorization/kakao');
+  //   window.location.href('http://localhost:8080/oauth2/authorization/kakao');
+  //   navigate('/loginInfo');
+  // };
   const socialImg = [
     {
       src: '/Kakao.png',
@@ -110,9 +112,9 @@ const LoginModal: React.FC<LoginModalProps> = (props) => {
           <SocialImagesContainer>
             {socialImg.map((social) => (
               <div>
-                {/* <a href="http://localhost:8080/oauth2/authorization/kakao"> */}
-                <Img src={social.src} alt="카카오 로그인" onClick={kakaoLogin} />
-                {/* </a> */}
+                <a href="http://localhost:8080/oauth2/authorization/kakao">
+                  <Img src={social.src} alt="카카오 로그인" />
+                </a>
               </div>
             ))}
           </SocialImagesContainer>
