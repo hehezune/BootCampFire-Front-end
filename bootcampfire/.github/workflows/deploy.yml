@@ -1,0 +1,23 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - CICD
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy test
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          password: ${{ secrets.EC2_KEY }}
+          port: 22
+          script: |
+            cd bootcampfire/
+            npx pm2 kill
+            git pull
+            npm i
+            npx pm2 start server.js
