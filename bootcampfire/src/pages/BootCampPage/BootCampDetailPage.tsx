@@ -59,8 +59,8 @@ const BootCampListDetailPage: React.FC = () => {
         </LogoContainer>
         <VerticalDivs> 
           <HorizontalDivs> 
-            <Mtext>{bootdetail.name}</Mtext>
-            <StyledBtn type="first" as="a" href={bootdetail.siteUrl}>사이트로 가기</StyledBtn>
+            <Mtext>{bootdetail.name}</Mtext> 
+            <StyledBtn type="first" as="a" href={bootdetail.siteUrl}>사이트로 가기</StyledBtn> 
           </HorizontalDivs> 
           <HorizontalDivs> 
             <Mtext2>({Math.round(bootdetail.score*10)/10})</Mtext2> 
@@ -71,22 +71,22 @@ const BootCampListDetailPage: React.FC = () => {
         </Tab> 
         <SelectTab> 
           <HorizontalDivs> 
-            <MTab selected={isDetailTabSelected===0 ? true: false} onClick={() => handleTabClick(0)}>기본 정보</MTab>
+            <MTab selected={isDetailTabSelected===0 ? true: false} onClick={() => handleTabClick(0)}>기본 정보</MTab> 
             <MTab selected={isDetailTabSelected === 1} onClick={() => handleTabClick(1)}>후기</MTab> 
             </HorizontalDivs> 
           <HorizontalDivs> 
             {!isLoggedIn ? <Mtext2>로그인하시면 후기 이용이 가능합니다.</Mtext2> : 
             bootcampIdNumber != bootcampId ? null : 
-            !myreview.id ? <StyledBtn2 onClick={() => handleTabClick(2)}>후기 작성하기</StyledBtn2> :
-            <StyledBtn2 onClick={() => handleTabClick(2)}>후기 수정하기</StyledBtn2>}
-          </HorizontalDivs>
-        </SelectTab>
-      {isDetailTabSelected === 0 ? (<DetailTab bootcamp={bootdetail} />) :
+            !myreview.id ? <StyledBtn2 onClick={() => handleTabClick(2)}>후기 작성하기</StyledBtn2> : 
+            <StyledBtn2 onClick={() => handleTabClick(2)}>후기 수정하기</StyledBtn2>} 
+          </HorizontalDivs> 
+        </SelectTab> 
+      {isDetailTabSelected === 0 ? (<DetailTab bootcamp={bootdetail} />) : 
        isDetailTabSelected === 1 ? (<ReviewTab reviewlist={bootreview} />) : 
        isDetailTabSelected === 2 ? (<ReviewCreate review={myreview} />) : null}            
-      </BootCampDetailMain>
-    </>
-  );
+      </BootCampDetailMain> 
+    </> 
+  );  
 };
 
 export default BootCampListDetailPage;

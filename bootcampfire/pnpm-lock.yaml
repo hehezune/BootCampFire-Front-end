@@ -41,6 +41,9 @@ dependencies:
   '@types/react-dom':
     specifier: ^18.2.7
     version: 18.2.7
+  '@types/react-transition-group':
+    specifier: ^4.4.6
+    version: 4.4.6
   axios:
     specifier: ^1.4.0
     version: 1.4.0
@@ -68,6 +71,9 @@ dependencies:
   react-table:
     specifier: ^7.8.0
     version: 7.8.0(react@18.2.0)
+  react-transition-group:
+    specifier: ^4.4.5
+    version: 4.4.5(react-dom@18.2.0)(react@18.2.0)
   redux:
     specifier: ^4.2.1
     version: 4.2.1
