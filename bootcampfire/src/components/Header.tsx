@@ -9,7 +9,7 @@ import { Bold21px } from './Board/styled';
 import BoardCreateHeader from './Board/BoardCreate/BoardCreateHeader';
 import { colors } from 'constant/constant';
 const NavContainer = styled.div`
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-bottom: 1.5px solid ${colors.BACKGROUND_DEEP};
   padding: 10px;
   margin: 'auto';

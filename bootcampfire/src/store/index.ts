@@ -6,6 +6,7 @@ import commentReducer from './commentSlice';
 import { Comment } from 'components/Board/interface';
 import loginSelectSliceReducer from './loginSelectSlice';
 import bootcampListSlice from './bootcampListSlice';
+import programmingSlice from './programmingSlice';
 
 export interface RootState {
   auth: {
@@ -35,11 +36,17 @@ export interface RootState {
   comment: {
     commentCnt: number;
     commentList: Comment[];
-  }
+  };
   bootcamp: {
-    bootcamp : BootcampItem[],
-    loading : boolean,
-    error: null,
+    bootcamp: BootcampItem[];
+    loading: boolean;
+    error: null;
+  };
+  programming: {
+    item_lst: string[];
+    tmp_lst: string[];
+    sel_lst: boolean[];
+    category: boolean[];
   };
 }
 
@@ -52,7 +59,7 @@ const store = configureStore({
     comment: commentReducer,
     login: loginSelectSliceReducer,
     bootcamp: bootcampListSlice,
-
+    programming: programmingSlice,
   },
 });
 
@@ -65,11 +72,11 @@ interface BootcampItem {
   support: boolean;
   hasCodingtest: boolean;
   onOff: string;
-  startDate: Date; 
-  endDate: Date;   
+  startDate: Date;
+  endDate: Date;
   imgUrl: string;
   reviewCnt: number;
   score: number;
   tracks: { id: number; name: string }[];
   regions: { id: number; name: string }[];
-}    
+}
