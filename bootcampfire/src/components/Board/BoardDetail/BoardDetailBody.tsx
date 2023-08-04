@@ -9,6 +9,7 @@ import type { BoardDetail } from '../interface';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
+import axios from 'axios';
 interface BoardDate {
     view: number;
     likeCnt: number;
@@ -46,8 +47,14 @@ function BoardDetailBody({data}:{data: BoardDetail}) {
     const commentCnt = useSelector((state: RootState) => state.comment.commentCnt);
     const handlerLikeBtn = () => {
         // 백에 like 관련 요청 필요
-        // Like일때, !Like일때
-        
+        // if (likeData.isLike) {
+        //     axios.post(`http://localhost:8080/likes/cancel/${data.boardId}`)
+        //     .then((res) => setLikeData({isLike: false, likeCnt: res.data.likes}));
+        // } else {
+        //     axios.post(`http://localhost:8080/likes/${data.boardId}`)
+        //     .then((res) => setLikeData({isLike: false, likeCnt: res.data.likes}));
+        // }
+
         setLikeData({
             isLike: !likeData.isLike,
             likeCnt: !likeData.isLike === true? likeData.likeCnt + 1 :
