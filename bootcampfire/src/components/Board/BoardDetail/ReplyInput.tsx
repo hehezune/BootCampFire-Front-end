@@ -1,20 +1,28 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { colors } from "constant/constant";
 import {LightBtn, StyledRightFlex, Bold15px} from 'components/Board/styled';
+import { getComments } from "store/commentSlice";
 
 import styled from "styled-components";
-function CommentInput(props: {handlerExitBtn: () => void, handlerConfirmBtn: () => void}) {
+function CommentInput(props: {handlerExitBtn: () => void, handlerConfirmBtn: (input: string) => void}) {
+    const replyRef = useRef<HTMLInputElement>(null);
+    const replyValue = replyRef.current?.value;
     const [isChecked, setIsChecked] = useState(false);
+    
     const handlerClickAnonymous = () => {
         setIsChecked(!isChecked);
     }
 
     return (
         <>
-            <StyledInput type="textarea" placeholder='댓글을 작성해 주세요.'></StyledInput>
+            <StyledInput type="textarea" placeholder='댓글을 작성해 주세요.' ref={replyRef}/>
             <ButtonGroup>
                 <LightBtn type="" onClick={props.handlerExitBtn}>취소하기</LightBtn>
-                <LightBtn type="first" onClick={props.handlerConfirmBtn}>작성하기</LightBtn>
+                <LightBtn type="first" onClick={() => {
+                    props.handlerConfirmBtn(replyRef.current?.value ?? "");
+                }
+
+                }>작성하기</LightBtn>
             </ButtonGroup> 
         </>
     )

@@ -5,7 +5,6 @@ export interface Board {
     content: string;
     bootcamp: string;
     writer: string;
-    category: string;
     commentCnt: number;
     likeCnt: number;
     view: number;
@@ -18,19 +17,21 @@ export interface BoardDetail extends Board {
 }
 
 export interface RequestComment {
-    user: string;
+    userId?: number;
     anonymous?: boolean;
     content: string;
-    boardId?: number;
+    boardId: number;
 }
 
 export interface ResponseComment extends RequestComment{
     id: number;
     ref: number;
     refOrder: number;
+    user: string;
 }
 
 export interface Comment extends ResponseComment{
-    createdDate: number[];
+    createdDate?: number[];
     bootcamp: string;
+
 }

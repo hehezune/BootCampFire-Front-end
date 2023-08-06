@@ -27,28 +27,21 @@ function BoardListPage() {
         setSelectCategory(id);
     })
 
-    // 초기 렌더링
-    useEffect(() => {
-        // 백에서 불러오기
-        axios.get(`http://localhost:8080/categories/${selectCategory}`)
-        .then((res) => setBoardListData(res.data.data.content));
-
-        // const fetchData = async () => {
-        //     const response = await axios.get(`http://localhost:8080/categories/${selectCategory}`);
-        //     console.log(response.data);
-        //     setBoardListData(response.data);
-        // }
-    }, []); //디펜던시 -> 정렬 기준, 검색어(기준포함)
-
     // keyword에 따른 렌더링
-    // useEffect(() => {
-    //     const keywordType = type === 0 ? "keywords" : "nickname"; 
-    //     axios.get(API_URL + `/${keywordType}/${keyword}`)
-    //     .then((res) => setBoardListData(res.data));
-    // }, [keyword]);
+    useEffect(() => {
+        if (keyword.length === 0) return ;        
+        const keywordType = type === 0 ? "keywords" : "nickname"; 
+        axios.get(API_URL + `/${selectCategory}/${keywordType}/${keyword}`)
+        .then((res) => setBoardListData(res.data.data.content));
+    }, [keyword]);
 
     // // sort 기준에 따른 렌더링
     useEffect(() => {
+        if (sort === 0) {
+            axios.get(API_URL + `/${selectCategory}`)
+            .then((res) => setBoardListData(res.data.data.content));
+            return ;
+        }
         let sortType = "";
         if (sort === 1) {
             sortType = "likes";
@@ -56,11 +49,12 @@ function BoardListPage() {
             sortType = "views";
         }
         axios.get(API_URL + `/${selectCategory}/${sortType}`)
-        .then((res) => setBoardListData(res.data));
-    }, [sort]);
-
+        .then((res) => setBoardListData(res.data.data.content));
+    }, [selectCategory, sort]);
     const BoardList = boardListData.map((element) => (
-        <BoardCard key={element.id} data={element} onClick={() => navigate(`/BoardDetail:${element.id}`)}/>
+        <BoardCard key={element.id} 
+            data={element} 
+            onClick={() => navigate(`/BoardDetail/${element.id}`, {state: selectCategory})}/>
         // <BoardCard key={element.id} data={element} onClick={() => a(element.id)}/>
     ))
 

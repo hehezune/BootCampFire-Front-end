@@ -10,18 +10,19 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { colors } from 'constant/constant';
 import { useState } from 'react';
 import ReplyInput from './ReplyInput';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { getComments, modifyComment } from 'store/commentSlice';
+const [NORMAL, REPLY, EDIT] = [0, 1, 2];
+const TEST_USERID = 1;
 
-const NORMAL = 0;
-const REPLY = 1;
-const EDIT = 2;
-
-function CommentCard({data}: {data: Comment}) {
+function CommentCard({data, boardId, idx}: {data: Comment, boardId: number, idx: number}) {
     const [activeInputType, setActiveInputType] = useState(NORMAL)
     const [isAnonymous, setIsAnonymous] = useState(false);
     const [editComment, setEditComment] = useState(data.content);
-
+    const dispatch = useDispatch();
     let isLogin = data.id % 2 == 0 ? true : false;
-
+    
     const handlerEditComment = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEditComment(event.target.value);
     }
@@ -43,18 +44,56 @@ function CommentCard({data}: {data: Comment}) {
     }
 
     const handlerEditConfirmBtn = () => {
+        // 익명 등 각종 정보는 상위에
+        // 버튼이랑 인풋 버튼은 하위에 있음
+        // 버튼을 눌렀을때 인풋 값을 상위로 넘기고 제출하는걸 원함
+        // 결국 버튼을 눌렀을 때 상위로 넘기는 로직만 있으면 됨
+        const requestEdit = {
+            content: editComment,
+            anonymous: isAnonymous,
+        }
+        console.log(requestEdit)
+        axios.put('http://localhost:8080/comments/' + data.id, requestEdit)
+        .then((res) => {dispatch(modifyComment({idx,
+            content: res.data.data.content,
+            anonymous: res.data.data.anonymous}));
+            setActiveInputType(NORMAL);});
+        return ;
+    }
 
+    const handlerReplySubmitBtn = (input : string) => {
+        if (input.length === 0) {
+            window.alert("입력하고눌르셈");
+            return ;
+        }
+
+        const replyComment = {
+            anonymous: isAnonymous,
+            boardId: boardId,
+            content: input,
+            preCommentId: data.ref,
+            userId: TEST_USERID,
+        }
+
+        axios.post('http://localhost:8080/comments', replyComment)
+        .then((res) => {
+            if (res.data.message === "success") {
+                setActiveInputType(NORMAL);
+                axios.get('http://localhost:8080/comments/list/' + boardId)
+                .then((res) => dispatch(getComments({comments: res.data.data as Comment[], boardId: boardId})))
+            }
+        })
     }
 
     return (
         <>
         <WrapperStyledCommentCard>
             <CommentCardContentsArea>
-            {data.user === "익명" && <ArrowForwardIcon sx={{marginRight: 1, marginTop: 1}}/>}
+            {data.refOrder > 0  && <ArrowForwardIcon sx={{marginRight: 1, marginTop: 1}}/>}
             <StyledCommentCard>
                 <CommentWriter>
-                    <Bold15px>{data.user}</Bold15px>
-                    <A2>{data.bootcamp}</A2>
+                    <Bold15px>{isAnonymous ? "익명" : data.user}</Bold15px>
+                    <A2>{isAnonymous ? "익명 캠프 ": data.bootcamp}</A2>
                     {activeInputType === EDIT && isAnonymous && 
                         <CheckCircleOutlineIcon 
                             sx={{color: colors.TEXT_LIGHT}}
@@ -110,7 +149,7 @@ function CommentCard({data}: {data: Comment}) {
                                 onClick={handlerClickAnonymous}/>}
                             <AnonymousText>익명으로 작성하기</AnonymousText>
                         </div>
-                        <ReplyInput handlerExitBtn={handlerSetNormalBtn} handlerConfirmBtn={handlerEditConfirmBtn}></ReplyInput>
+                        <ReplyInput handlerExitBtn={handlerSetNormalBtn} handlerConfirmBtn={handlerReplySubmitBtn}></ReplyInput>
                     </StyledCommentCard>
                     </CommentCardContentsArea>
                 </WrapperStyledCommentCard>

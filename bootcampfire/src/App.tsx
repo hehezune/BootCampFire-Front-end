@@ -31,7 +31,7 @@ export default function App() {
             <Route path="/" element={<MainPage />} />
             <Route path="/loginInfo" element={<LoginDataPage />} />
             <Route path="/Board" element={<BoardList />} />
-            <Route path="/BoardDetail:id" element={<BoardDetail />} />
+            <Route path="/BoardDetail/:id" element={<BoardDetail />} />
             <Route path="/BoardCreate" element={<BoardCreate />} />
             <Route path="/BootCamp" element={<BootCamp />} />
             <Route path="/src/pages/VSPage/VsPage" element={<VS />} />

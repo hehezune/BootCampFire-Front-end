@@ -6,7 +6,7 @@ import authSlice, { login, logout } from '../store/authSlice';
 import LoginModal from './Login/LoginModal';
 import React from 'react';
 import { Bold21px } from './Board/styled';
-import BoardCreateHeader from './Board/BoardCreate/BoardCreateHeader';
+// import BoardCreateHeader from './Board/BoardCreate/BoardCreateHeader';
 import { colors } from 'constant/constant';
 const NavContainer = styled.div`
   background-color: #FFFFFF;
@@ -101,7 +101,7 @@ export default function Header() {
   };
 
   const handleWriteButtonClick = () => {
-    isLoggedIn ? navigate('/BoardModify') : setModalOpen(true);
+    isLoggedIn ? navigate('/BoardCreate') : setModalOpen(true);
   };
   const handleLogout = () => {
     dispatch(logout());
