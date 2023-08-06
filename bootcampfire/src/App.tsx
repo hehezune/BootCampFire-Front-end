@@ -48,7 +48,7 @@ export default function App() {
             <Route path="/ManagerPage/*" element={<ManagerPage />}>
               <Route path="" element={<Regist />} />
               <Route path="Management" element={<Management />} />
-              <Route path="Management/:bootcampid" element={<ManageCreate />} />
+              <Route path="Management/create" element={<ManageCreate />} />
               <Route path="Mission" element={<Mission />} />
             </Route>
             <Route
