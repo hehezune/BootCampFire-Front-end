@@ -47,6 +47,11 @@ const BootCampListDetailPage: React.FC = () => {
     .catch((error) => {});
   }}, []);
 
+  console.log(bootdetail);
+  console.log(bootreview);
+  console.log(myreview);
+  
+
 
   if (!bootdetail) {return <div>Loading...</div>;}
 
@@ -55,7 +60,7 @@ const BootCampListDetailPage: React.FC = () => {
       <BootCampDetailMain>
         <Tab>
         <LogoContainer>   
-          <LogoImage src={bootdetail.imgUrl.replace(".","")} alt="BootCamp Logo" />
+          <LogoImage src={bootdetail.imgUrl?.replace(".","")} alt="BootCamp Logo" />
         </LogoContainer>
         <VerticalDivs> 
           <HorizontalDivs> 

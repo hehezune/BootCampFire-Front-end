@@ -37,13 +37,13 @@ params.append('redirect_uri', redirectUri);
   useEffect(() => {
     localStorage.clear();
 
-    if (params.token) {
-      setNickname(params.token);
-      console.log(params.token);
-      localStorage.setItem('token', params.token);
+    // if (params.token) {
+    //   setNickname(params.token);
+    //   console.log(params.token);
+    //   localStorage.setItem('token', params.token);
 
-      dispatch(login({ userId: 10, nickname: '사용자123', email: 'user@example.com', isAdmin: true, bootcampId: 1 }));
-    }
+    //   dispatch(login({ userId: 10, nickname: '사용자123', email: 'user@example.com', isAdmin: true, bootcampId: 1 }));
+    // }
     window.location.replace('/');
     // axios
     //   .get('http://localhost:8080/users')
