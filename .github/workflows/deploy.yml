@@ -39,7 +39,7 @@ jobs:
       - name: Build project
         run: pnpm i && pnpm start
 
-      - name: Deploy test
+      - name: Deploy EC2
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
