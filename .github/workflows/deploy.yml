@@ -11,19 +11,20 @@ jobs:
     env: 
       CI: false
 
-    # strategy:
-    #   matrix:
-    #     node-version: [18.x]
+    strategy:
+      matrix:
+        node-version: [18.x]
 
     steps:
       - name: Checkout source code.
         uses: actions/checkout@v3
 
-      # - name: Use Node.js ${{ matrix.node-version }}
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: ${{ matrix.node-version }}
-      #     cache: "npm"
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: './bootcampfire/package-lock.json'
       
       - name: Install modules
         run: npm install
