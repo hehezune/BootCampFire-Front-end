@@ -38,20 +38,18 @@ const BootCampListPage: React.FC = () => {
       );
 
       const selectedEtc = etcList.filter((etc) => etc.isOn).map((etc) => etc.name);
+      const hasSelectedEtc = selectedEtc.includes('온라인') || selectedEtc.includes('오프라인') || selectedEtc.includes('온오프라인');
 
-  const restructuredBootcamp2 = restructuredBootcamp.filter((item) => {
-  const { onOff, cost, support, hasCodingtest } = item;
-  const isOnOffMatched = selectedEtc.includes(onOff);
-  const isCostMatched = !selectedEtc.includes('비용') || cost;
-  const isSupportMatched = !selectedEtc.includes('지원금') || support;
-  const isCodingTestMatched = !selectedEtc.includes('코딩 테스트') || hasCodingtest;
+      const restructuredBootcamp2 = restructuredBootcamp.filter((item) => {
+      const { onOff, cost, support, hasCodingtest } = item;
+      const isOnOffMatched = !hasSelectedEtc || selectedEtc.includes(onOff);
 
-  return isOnOffMatched && isCostMatched && isSupportMatched && isCodingTestMatched;
-});
-      
+      const isCostMatched = !selectedEtc.includes('비용') || cost;
+      const isSupportMatched = !selectedEtc.includes('지원금') || support;
+      const isCodingTestMatched = !selectedEtc.includes('코딩 테스트') || hasCodingtest;
 
-
-  
+      return isOnOffMatched && isCostMatched && isSupportMatched && isCodingTestMatched;
+    });  
     setBootcampSearchResult(restructuredBootcamp2);
   }, [etcList, regionList, trackList, bootcamp, bootSearch]);
   
@@ -67,7 +65,6 @@ const BootCampListPage: React.FC = () => {
   }, [dropBoxidx]);
   // console.log(bootcampSearchResult)
   // console.log(bootcamp)
-  
 
 
   if (loading) {return <div>Now Loading...</div>}
