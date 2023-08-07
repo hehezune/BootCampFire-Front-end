@@ -5,7 +5,6 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import styled from 'styled-components';
 import { StyledDropdown, StyledLI} from '../styled';
 import { useDispatch } from 'react-redux';
-import { setType } from 'store/searchSlice';
 
 interface DropDownList {
     current: number;
@@ -17,27 +16,26 @@ let dummyData : DropDownList = {
     category : ["제목+내용", "작성자"],
 }
 
-function SearchDropDown() {
+function SearchDropDown({visibility, searchType, dropDownHandler, visibilityHandler}: {
+    visibility: boolean, 
+    searchType: number, 
+    dropDownHandler: (idx: number) => void
+    visibilityHandler: React.Dispatch<React.SetStateAction<boolean>>}) {
     const dispatch = useDispatch();
     const [dropdownVisibility, setDropdownVisibility] = React.useState(false);
     const [dropdownSelect, setDropdownSelect] = React.useState(dummyData.current);
-    const handleLiClick = (idx: number) => {
-        setDropdownSelect(idx);
-        dispatch(setType({type: idx}));
-        setDropdownVisibility(false);
-    }
 
     const categoryList = dummyData.category.map((element, idx) => (
-        <StyledLI key={element} onClick={() => handleLiClick(idx)}>{element}</StyledLI>
+        <StyledLI key={element} onClick={() => dropDownHandler(idx)}>{element}</StyledLI>
     ))
 
     return (
         <StyledDropdown>
-            <div onClick={e => setDropdownVisibility(!dropdownVisibility)}>
-                {!dropdownVisibility && <ArrowDropDownIcon sx={{color: '#FF603D'}}/>} 
-                {dropdownVisibility && <ArrowDropUpIcon sx={{color: '#FF603D'}}/>} 
+            <div onClick={e => visibilityHandler(!visibility)}>
+                {!visibility && <ArrowDropDownIcon sx={{color: '#FF603D'}}/>} 
+                {visibility && <ArrowDropUpIcon sx={{color: '#FF603D'}}/>} 
             </div>
-            <DropDownCategory visibility={dropdownVisibility} >
+            <DropDownCategory visibility={visibility} >
                 <ul className="search-category">
                     {categoryList}
                 </ul>

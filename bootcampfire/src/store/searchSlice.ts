@@ -25,18 +25,13 @@ const searchSlice = createSlice({
     },
     setKeyword: (
         state, 
-        action: PayloadAction<{keyword: string}>
+        action: PayloadAction<{keyword: string, type: number}>
     ) => {
         state.keyword = action.payload.keyword;
-    },
-    setType: (
-        state, 
-        action: PayloadAction<{type: number}>
-    ) => {
         state.type = action.payload.type;
     },
   },
 });
 
-export const {setSort, setKeyword, setType} = searchSlice.actions;
+export const {setSort, setKeyword} = searchSlice.actions;
 export default searchSlice.reducer;

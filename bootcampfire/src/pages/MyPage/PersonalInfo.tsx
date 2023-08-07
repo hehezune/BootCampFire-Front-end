@@ -1,33 +1,60 @@
-
-import React from "react";
 import styled from "styled-components";
-import { LightBtn, Bold15px, StrongBtn } from "components/Board/styled";
+import { LightBtn, Bold15px, StrongBtn, Normal15px } from "components/Board/styled";
 import { colors } from "constant/constant";
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import { useState, useRef } from "react";
 import type { RootState } from "store";
 import { useSelector } from "react-redux";
 import { bootcamp as bootcampList} from "constant/constant";
+import axios from "axios";
+
+const duplicateMsg = ['중복 검사가 필요합니다.', '사용 가능한 닉네임입니다.', '이미 사용중인 닉네임입니다.']
 
 function PersonalInfo() {
-    const {nickname, bootcampId, /*email*/} = useSelector((state: RootState) => state.auth);
-    const [enteredNickName, setEneteredNickName] = useState(nickname);
+    const {nickname, bootcampId, /*email, bojId*/} = useSelector((state: RootState) => state.auth);
+    const [enteredNickName, setEneteredNickName] = useState(nickname ?? "");
+    const [duplicateState, setDuplicateState] = useState(0);
+    const [enteredBojId, setEnteredBojId] = useState("");
     const inputFileRef = useRef<HTMLInputElement>(null);
+
     const handlerNickNameInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEneteredNickName(event.target.value);
     }
     
+    // 중복 인증 axios 요청하기, enteredNickName 사용
     const handlerDuplicateNickname = () => {
-        // 중복 인증 axios 요청하기, enteredNickName 사용
-        
+        axios.post('http://localhost:8080/users/duplication', {nickname: enteredNickName})
+        .then((res) => {if (res.data.message.split(' ')[0] === '이미') {
+            setDuplicateState(2); 
+        } else {
+            setDuplicateState(1);
+        }});
     }
 
     const handelrCertifyCamp = () => {
-        // 소속 인증 요청, 사진을 EC2로 업로드하는게 관건임
+        // 소속 인증 요청, 로그인 완료 후 뭔가 작업해야 하는듣ㅅ?
+        axios.put('http://localhost:8080/users')
     }
 
     const handlerSubmitInfo = () => {
         // 정보 취합하여 올리기 : 닉네임, BOJ 아이디
+        const formdata = new FormData();
+        if (inputFileRef.current?.files) {
+            formdata.append("imgFile", inputFileRef.current?.files[0])
+        }
+        formdata.append("bojId", enteredBojId);
+        formdata.append("nickname", enteredNickName);
+
+        axios.put("http://localhost:8080/users", formdata, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+        })
+        .then((res) => {console.log(res)});
+    }
+    
+    const handlerBojIdInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEnteredBojId(event.target.value);
     }
 
     const handlerUploadBtn = () => {
@@ -40,14 +67,15 @@ function PersonalInfo() {
             <StyledForm>
                 <RowDiv>
                     <ColomnDiv>
-                        <InputDiv>
+                        <InputDiv style={{position: "relative"}}>
                             <StyledBold15px as="label" htmlFor="nickName">닉네임</StyledBold15px>
                             <StyledInput type="text" id="nickname" value={enteredNickName} onChange={handlerNickNameInput}/>
+                            <DuplicateCheckMsg type={duplicateState}>{duplicateMsg[duplicateState]}</DuplicateCheckMsg>
                         </InputDiv>
 
                         <InputDiv>
                             <StyledBold15px as="label" htmlFor="bojId">BOJ ID</StyledBold15px>
-                            <StyledInput type="text" id="bojId" />
+                            <StyledInput type="text" id="bojId" value={enteredBojId} onChange={handlerBojIdInput}/>
                         </InputDiv>
 
                         <InputDiv>
@@ -97,6 +125,19 @@ const WarpperStyledPersonalInfo = styled.div`
         color: ${colors.PRIMARY};
     }
 
+`
+const DuplicateCheckMsg = styled(Normal15px)<{type: number}>`
+    position: absolute;
+    top: 74px;
+    left: 130px;
+    color: ${(props) => {
+        switch(props.type) {
+            case 1 :
+            return `blue`
+            case 2 :
+            return `red`
+        }
+    }}
 `
 
 const StyledPersonalInfo = styled.div`

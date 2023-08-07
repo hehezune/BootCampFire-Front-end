@@ -6,14 +6,22 @@ import authSlice, { login, logout } from '../store/authSlice';
 import LoginModal from './Login/LoginModal';
 import React from 'react';
 import { Bold21px } from './Board/styled';
-import BoardCreateHeader from './Board/BoardCreate/BoardCreateHeader';
+// import BoardCreateHeader from './Board/BoardCreate/BoardCreateHeader';
 import { colors } from 'constant/constant';
 const NavContainer = styled.div`
   background-color: #ffffff;
   border-bottom: 1.5px solid ${colors.BACKGROUND_DEEP};
-  padding: 10px;
   margin: 'auto';
+  height: 80px;
 `;
+
+const HeaderContents = styled.div`
+  max-width: 1220px;
+  min-width: 800px;
+  margin: auto;
+  padding: 0 30px;
+  // 헤더 미디어 쿼리 작업 해야함
+`
 
 const LogoLink = styled(Link)`
   img {
@@ -93,7 +101,7 @@ export default function Header() {
   };
 
   const handleWriteButtonClick = () => {
-    isLoggedIn ? navigate('/BoardModify') : setModalOpen(true);
+    isLoggedIn ? navigate('/BoardCreate') : setModalOpen(true);
   };
   const handleLogout = () => {
     dispatch(logout());
@@ -110,10 +118,10 @@ export default function Header() {
 
   return (
     <NavContainer>
-      <div style={{ maxWidth: 1280, margin: 'auto' }}>
+      <HeaderContents className="test">
         <HeaderContentContainer>
           <LogoLink to="/">
-            <img src="/logo.png" alt="Home" />
+            <img src="/logo.png" alt="Home" style={{width: 67, height: 74}}/>
           </LogoLink>
           <NavLink to="/Board">
             <Bold21px as="span">Board</Bold21px>
@@ -154,7 +162,7 @@ export default function Header() {
         </HeaderContentContainer>
         {/* 모달 컴포넌트 */}
         <LoginModal isModalOpen={isModalOpen} onClose={handleCloseModal} />
-      </div>
+      </HeaderContents>
     </NavContainer>
   );
 }
