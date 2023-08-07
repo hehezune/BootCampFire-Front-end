@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { StyledPage } from "./styledPage";
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
-import { colors } from "constant/constant";
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
+import { colors } from "constant/constant";
 import { StrongBtn } from "components/Board/styled";
 // import BoardCreateHeader from "components/Board/BoardCreate/BoardCreateHeader";
 import { StyledRightFlex, Bold15px } from "components/Board/styled";
@@ -12,18 +12,8 @@ import CategoryDropDown from "components/Board/BoardCreate/CategoryDropDown";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { BoardDetail } from "components/Board/interface";
+
 const TEST_USERID = 1;
-
-interface DropDownList {
-    current: string;
-    category : string[];
-}
-
-let dummyData : DropDownList = {
-    current: "카테고리 선택",
-    category : ["카테고리 선택", "자유", "썸/연애", "헬스/스포츠", "스터디", "프로젝트", "IT", "고민",
-            "질문", "부트캠프"], // 백에서 CAMP LIST 받아와야 하는 부분
-}
 
 interface LocationState {
   boardDetail: BoardDetail;
@@ -33,15 +23,15 @@ interface LocationState {
 function BoardCreatePage() {
   const navigate = useNavigate();
   const state = useLocation().state as LocationState;
-  const titleRef = useRef<HTMLInputElement>(null);
-  const contentRef = useRef<HTMLTextAreaElement>(null);
   let [initAnonymous, initCategory, initTitle, initContent] = [false, 0, "", ""];
+
   if (state) {
     initAnonymous = state.boardDetail.isLike;
     initCategory = state.categoryId;
     initTitle = state.boardDetail.title;
     initContent = state.boardDetail.content;
   }
+
   const [isAnonymous, setIsAnonymous] = useState(initAnonymous);
   const [selectCategory, setSelectCategory] = useState<number>(initCategory);
   const [titleInput, setTitleInput] = useState(initTitle);
@@ -65,7 +55,7 @@ function BoardCreatePage() {
 
   return (
     <StyledPage>
-      <StyledWrapperDiv className="fsdsdsd?">
+      <StyledWrapperDiv>
         <StyledHeader>
         <CategoryDropDown selectCategory={selectCategory} onSelectCategory= {setSelectCategory}></CategoryDropDown>
         <StyledTitleInput type="text" 

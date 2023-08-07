@@ -11,7 +11,10 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { categories } from 'constant/constant';
 import { useLocation, useNavigate } from 'react-router-dom';
+import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import axios from 'axios';
+
 interface BoardDate {
     view: number;
     likeCnt: number;
@@ -26,7 +29,8 @@ function BoardDetailBody({boardDetail, setLike}:{boardDetail: BoardDetail, setLi
     const commentCnt = useSelector((state: RootState) => state.comment.commentCnt);
     const categoryId = useLocation().state as number;
     const navigate = useNavigate();
-    console.log(categoryId)
+    const [isDelete, setIsDelete] = useState(false);
+
     const handlerLikeBtn = () => {
         // 백에 like 관련 요청 필요
         if (boardDetail.isLike) {
@@ -36,18 +40,16 @@ function BoardDetailBody({boardDetail, setLike}:{boardDetail: BoardDetail, setLi
             axios.post(`http://localhost:8080/likes/${boardDetail.id}`)
             .then((res) => {console.log(res.data.data.likes); setLike(true)});
         }
-
-        // setLikeData({
-        //     isLike: !likeData.isLike,
-        //     likeCnt: !likeData.isLike === true? likeData.likeCnt + 1 :
-        //         likeData.likeCnt - 1
-        // })
     }
 
     const handlerEditBtn = () => {
-        console.log(categoryId)
-        navigate('/BoardCreate', {state: {boardDetail, categoryId}});
+        navigate('/BoardModify', {state: {boardDetail, categoryId}});
     }
+
+    const handlerDeleteBtn = () => {
+        axios.delete('http://localhost:8080/boards/' + boardDetail.id)
+        .then((res) => navigate(-1));
+      }
 
     const dateInfoProps: BoardDate = {
         view: boardDetail.view,
@@ -69,8 +71,19 @@ function BoardDetailBody({boardDetail, setLike}:{boardDetail: BoardDetail, setLi
                 <WrapperDateInfo>
                     <DateInfo data={dateInfoProps}></DateInfo>
                     {/* 제대로 반영하고 나면 아래 반전 복원해줘야 함 */}
-                    {!boardDetail.isWriter &&
-                        <LightBtn type="first" onClick={handlerEditBtn}>수정하기</LightBtn>}
+                    <div>
+                    {!boardDetail.isWriter && !isDelete &&
+                        <LightBtn as="span" type="" onClick={handlerEditBtn}>수정</LightBtn>}
+                    {!boardDetail.isWriter && !isDelete && 
+                        <LightBtn as="span" type="" onClick={(event) => setIsDelete(true)}>삭제</LightBtn>}
+                    {!boardDetail.isWriter && isDelete &&
+                        <LightBtn as="span" type="first">정말 삭제하시겠습니까? 
+                        </LightBtn>}
+                    {!boardDetail.isWriter && isDelete &&
+                        <Normal15px as="span" onClick={handlerDeleteBtn}>네</Normal15px>}
+                    {!boardDetail.isWriter && isDelete &&
+                        <Normal15px as="span" onClick={(event) => setIsDelete(false)}>아니오</Normal15px>}                    
+                    </div>
                 </WrapperDateInfo>
             </StyledBoardHeader>
         </WrapperStyledBoardHeader>

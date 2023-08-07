@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 // import { commentListData } from "components/Board/Dummies";
 import { Comment } from "components/Board/interface";
-import { stat } from "fs";
 
 interface commentState {
   boardId: number;

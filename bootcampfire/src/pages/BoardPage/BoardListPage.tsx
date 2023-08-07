@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import SearchBar from 'components/Board/BoardList/SearchBar';
 import CategorySideBar from 'components/Board/BoardList/CategorySideBar';
 import BoardCard from 'components/Board/BoardList/BoardCard';
 import styled from 'styled-components';
-import { boardListData } from 'components/Board/Dummies';
 import { StyledPage } from './styledPage';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
@@ -80,10 +79,5 @@ const BoardListMain = styled.div`
         width: 80%;
     }
 `
-const StyledDiv = styled.div`
-    display: flex;
-    width: 500px;
-    height: 500px;
-`
-
+    
 export default BoardListPage;

@@ -2,12 +2,11 @@ import Comments from 'components/Board/BoardDetail/Comments';
 import BoardDetailBody from 'components/Board/BoardDetail/BoardDetailBody';
 import { StyledPage } from './styledPage';
 import type { BoardDetail } from 'components/Board/interface';
-import { UseSelector, useSelector } from 'react-redux/es/hooks/useSelector';
+import {  useSelector } from 'react-redux/es/hooks/useSelector';
 import { RootState } from 'store';
-import { Comment } from 'components/Board/interface';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getComments } from 'store/commentSlice';
 const API_KEY = 'http://localhost:8080/boards/'

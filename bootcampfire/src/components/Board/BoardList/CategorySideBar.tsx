@@ -10,11 +10,12 @@ interface CategorySideBarProps {
 
 function CategorySideBar({selectCategory, onCategorySelect}: CategorySideBarProps) {
 
-    const buttons = categories.map((element, idx) => 
+    const buttons = categories.map((element, idx) => idx > 0 ?
         <StyledBtn 
             key={element} 
             $selected={idx === selectCategory ? true : false}
             onClick={() => onCategorySelect(idx)}>{element}</StyledBtn>
+        : ""
     )
 
     return (

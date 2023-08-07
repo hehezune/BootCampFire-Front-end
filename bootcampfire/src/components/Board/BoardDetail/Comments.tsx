@@ -54,20 +54,7 @@ function Comments({boardId, comments}: {boardId: number, comments: Comment[]}) {
                         dispatch(getComments({comments, boardId}));
                     });
                 }
-            })
-        // 받은 객체를 response라고 가정
-        // axios.post('http://localhost:8080/comments', newComment)
-        // .then((res) => dispatch(addComment(res.data.data));
-
-        // 아래 주석들은 데이터 갱신을 어떻게 할지에 대한 고민임.
-        // // response를 commentList에 맞는 Comment 객체로 새로 생성
-        // const resultComment = getComments(response, bootcamp[bootcampId]);
-        // // ref 번호 현황에 따른 idx 지정
-        // const idx = refCheck(comments, resultComment);
-        // dispatch(addComment({comment: resultComment, idx: idx}))
-
-        // 새로운 list 요청 : API 연결해서 확인하자
-    }
+            })   }
 
     const cardList = comments.map((element, idx) => 
         <CommentCard data={element} boardId={boardId} key={element.id} idx={idx}/>

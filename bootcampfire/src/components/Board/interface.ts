@@ -28,6 +28,7 @@ export interface ResponseComment extends RequestComment{
     ref: number;
     refOrder: number;
     user: string;
+    isWriter: boolean;
 }
 
 export interface Comment extends ResponseComment{

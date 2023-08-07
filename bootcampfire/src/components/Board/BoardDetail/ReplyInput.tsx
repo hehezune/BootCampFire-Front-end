@@ -1,17 +1,10 @@
-import React, { useRef, useState } from "react";
+import { useRef } from "react";
 import { colors } from "constant/constant";
 import {LightBtn, StyledRightFlex, Bold15px} from 'components/Board/styled';
-import { getComments } from "store/commentSlice";
 
 import styled from "styled-components";
 function CommentInput(props: {handlerExitBtn: () => void, handlerConfirmBtn: (input: string) => void}) {
     const replyRef = useRef<HTMLInputElement>(null);
-    const replyValue = replyRef.current?.value;
-    const [isChecked, setIsChecked] = useState(false);
-    
-    const handlerClickAnonymous = () => {
-        setIsChecked(!isChecked);
-    }
 
     return (
         <>
