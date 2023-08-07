@@ -27,17 +27,17 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "pnpm"
-          cache-dependency-path: './bootcampfire/package.json'
+          cache: pnpm
+          # cache-dependency-path: './bootcampfire/package.json'
       
       - name: Install modules
-        run: pnpm install
+        run: npm i -g pnpm
 
       # - name: Run test codes
       #   run: pnpm run test
 
-      # - name: Build project
-      #   run: pnpm run build
+      - name: Build project
+        run: pnpm i && pnpm build
 
       - name: Deploy test
         uses: appleboy/ssh-action@master
