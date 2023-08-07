@@ -7,7 +7,7 @@ import BoardCreate from "pages/BoardPage/BoardCreatePage";
 import BoardModify from "pages/BoardPage/BoardModifyPage";
 import MyPosts from "pages/MyPage/MyPosts";
 import PersonalInfo from "pages/MyPage/PersonalInfo";
-import VS from "./pages/VSPage/VsPage";
+import VS from "./pages/VS";
 import MainPage from "./pages/MainPage/MainPage";
 import store from "./store";
 import { Provider } from "react-redux";
@@ -22,6 +22,8 @@ import LoginDataPage from "components/Login/LoginDataPage";
 import MyPage from "pages/MyPage/MyPage";
 import ManageCreate from "pages/ManagerPage/ManageCreate";
 
+
+
 export default function App() {
   return (
     <div>
@@ -35,7 +37,7 @@ export default function App() {
             <Route path="/BoardDetail:id" element={<BoardDetail />} />
             <Route path="/BoardCreate" element={<BoardCreate />} />
             <Route path="/BootCamp" element={<BootCamp />} />
-            <Route path="/src/pages/VSPage/VsPage" element={<VS />} />
+            <Route path="/VS" element={<VS />} />
             <Route
               path="/bootcampdetail/:bootcampid"
               element={<BootCampListDetailPage />}
