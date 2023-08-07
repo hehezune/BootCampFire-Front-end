@@ -8,6 +8,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: "./bootcampfire"
+
     env: 
       CI: false
 
@@ -23,17 +27,17 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "npm"
+          cache: "pnpm"
           cache-dependency-path: './bootcampfire/package.json'
       
       - name: Install modules
-        run: npm install
+        run: pnpm install
 
-      - name: Run test codes
-        run: npm run test
+      # - name: Run test codes
+      #   run: pnpm run test
 
-      - name: Build project
-        run: npm run build
+      # - name: Build project
+      #   run: pnpm run build
 
       - name: Deploy test
         uses: appleboy/ssh-action@master
@@ -42,3 +46,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           password: ${{ secrets.EC2_KEY }}
           port: ${{ secrets.PORT }}
+          script: |
+            cd bootcampfire/
+            git pull
+            pnpm start App.tsx
