@@ -11,37 +11,78 @@ import axios, { AxiosResponse } from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBootcampStart, fetchBootcampSuccess, fetchBootcampFailure } from 'store/bootcampListSlice';
 
+const BootCampListPage: React.FC = () => { 
+  const currentDate = new Date(); 
+  const navigate = useNavigate(); 
+  const CardClick = (bootcampId: number) => { navigate(`/bootcampdetail/${bootcampId}`); }; 
 
-const BootCampListPage: React.FC = () => {
-  const currentDate = new Date();
-  const navigate = useNavigate();
-  const CardClick = (bootcampId: number) => { navigate(`/bootcampdetail/${bootcampId}`); };
-
-  const dispatch = useDispatch();
-  const {bootcamp, loading, error} = useSelector((state: RootState) => state.bootcamp);
+  const dispatch = useDispatch(); 
+  const {bootcamp, loading, error, dropBoxidx, bootSearch} = useSelector((state: RootState) => state.bootcamp); 
+  const {trackList, regionList, etcList,} = useSelector((state: RootState) => state.select); 
   
+  const { tmp_lst } = useSelector((state: RootState) => state.select); 
+  
+  const [bootcampSearchResult, setBootcampSearchResult] = useState<BootcampItem[]>([]); 
+
   useEffect(() => {
-    dispatch(fetchBootcampStart());
-    axios.get('http://localhost:8080/bootcamps/lists/names')
+    const filteredBootcamp = bootSearch
+      ? bootcamp.filter((item) => item.name.toLowerCase().includes(bootSearch.toLowerCase()))
+      : bootcamp;
+  
+      const selectedTracks = trackList.filter((track) => track.isOn).map((track) => track.name);
+      const selectedRegions = regionList.filter((region) => region.isOn).map((region) => region.name);
+      
+      const restructuredBootcamp = filteredBootcamp.filter((camp) =>
+        selectedTracks.every((trackName) => camp.tracks.some((track) => track.name === trackName)) &&
+        selectedRegions.every((regionName) => camp.regions.some((region) => region.name === regionName))
+      );
+
+      const selectedEtc = etcList.filter((etc) => etc.isOn).map((etc) => etc.name);
+
+  const restructuredBootcamp2 = restructuredBootcamp.filter((item) => {
+  const { onOff, cost, support, hasCodingtest } = item;
+  const isOnOffMatched = selectedEtc.includes(onOff);
+  const isCostMatched = !selectedEtc.includes('비용') || cost;
+  const isSupportMatched = !selectedEtc.includes('지원금') || support;
+  const isCodingTestMatched = !selectedEtc.includes('코딩 테스트') || hasCodingtest;
+
+  return isOnOffMatched && isCostMatched && isSupportMatched && isCodingTestMatched;
+});
+      
+
+
+  
+    setBootcampSearchResult(restructuredBootcamp2);
+  }, [etcList, regionList, trackList, bootcamp, bootSearch]);
+  
+  useEffect(() => { 
+    dispatch(fetchBootcampStart()); 
+    const api_url = dropBoxidx === 0 ? "names" : 
+                    dropBoxidx === 1 ? "scores" : 
+                    dropBoxidx === 2 ? "reviews" : "names" 
+    axios.get(`http://localhost:8080/bootcamps/lists/${api_url}`) 
     // .then((response) => console.log(response.data))
     .then((response) => dispatch(fetchBootcampSuccess(response.data.data)))
     .catch((error) => dispatch(fetchBootcampFailure(error.message)));
-  }, []);
+  }, [dropBoxidx]);
+  // console.log(bootcampSearchResult)
+  // console.log(bootcamp)
+  
+
+
   if (loading) {return <div>Now Loading...</div>}
   else if (!bootcamp || bootcamp.length === 0) {return <div>No data available.</div>;}
   return (
     <>
     <Container>
-      <TopSection>
-        <SelectBox />
-      </TopSection>
-      <CardSection>
+      {tmp_lst}
+      <TopSection><SelectBox /></TopSection>
+      <CardSection>        
         <CardContainer>
-          {bootcamp.map((item) => (
+          {bootcampSearchResult.map((item) => (
             <BootCampCardWrapper key={item.id} onClick={() => CardClick(item.id)}>
               <BootCampCard item={item} key={item.id} cur={currentDate} />
-            </BootCampCardWrapper>
-          ))}
+            </BootCampCardWrapper>))}
         </CardContainer>      
       </CardSection>
     </Container>
@@ -106,10 +147,10 @@ const BootCampCardWrapper = styled.div`
 interface BootcampItem {
   id: number;
   name: string;
-  cost: boolean;
-  support: boolean;
-  hasCodingtest: boolean;
-  onOff: string;
+  cost: boolean;            // 비용 value : true, false
+  support: boolean;         // 지원금 value : true, false
+  hasCodingtest: boolean;   // 코딩 테스트 value : true, false
+  onOff: string;            // value : 온라인, 온/오프라인, 오프라인
   startDate: Date; 
   endDate: Date;   
   imgUrl: string;
@@ -118,3 +159,8 @@ interface BootcampItem {
   tracks: { id: number; name: string }[];
   regions: { id: number; name: string }[];
 }    
+
+interface BootcampTaged {
+  id : number;
+  tag : string[];
+}

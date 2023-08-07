@@ -87,8 +87,8 @@ export default function Header() {
   const handleLogin = () => {
     // 모달 열기 함수
 
-    // setModalOpen(true);
-    dispatch(login({ userId: 10, nickname: '사용자123', email: 'user@example.com', isAdmin: true, bootcampId: 1 }));
+    setModalOpen(true);
+    // dispatch(login({ userId: 10, nickname: '사용자123', email: 'user@example.com', isAdmin: true, bootcampId: 1 }));
     // console.log(bootcampId);
   };
 

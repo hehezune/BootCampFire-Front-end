@@ -1,24 +1,32 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const item_lst_text:Array<string> = [
-    "백엔드", "풀스택", "임베디드", "프론트", "앱", "데이터 분석", "AI", "안드로이드", "클라우드","그 외",
-    "온라인", "오프라인", "온/오프라인",
-    "서울", "대전", "구미", "광주", "부산", "경기도",
-    "모집중", "코테 O", "비용 O"    
-                    ]
 
-interface SBoxState {  
-    item_lst : string[];
+interface SBoxState {
+    trackList : { name: string; isOn: boolean; }[];
+    regionList : { name: string; isOn: boolean; }[];
+    etcList : { name: string; isOn: boolean; }[];
+
     tmp_lst : string[];
-    sel_lst : boolean[];
+    item_lst : string[];
+    
     category : boolean[];
 }
 
 const initialState: SBoxState = {
-    item_lst: item_lst_text,
+
+    trackList : [],
+    regionList : [],
+    etcList : [{name : '온라인', isOn : false }, 
+                {name : '온오프라인', isOn : false }, 
+                {name : '오프라인', isOn : false }, 
+                {name : '비용', isOn : false }, 
+                {name : '지원금', isOn : false }, 
+                {name : '코딩 테스트', isOn : false },],
+
     tmp_lst: [],
-    sel_lst: Array(item_lst_text.length).fill(false),
-    category : Array(4).fill(false)
+    item_lst: [],
+
+    category : Array(4).fill(false),
 };
 
 
@@ -26,20 +34,40 @@ const selectSlice = createSlice({
   name: "select",
   initialState,
   reducers: {
-    onoff_num: (state, action) => {
-        state.sel_lst[action.payload] = !state.sel_lst[action.payload];
-        state.tmp_lst = state.item_lst.filter((item, index) => state.sel_lst[index]);
+    initTrack: (state, action: PayloadAction<{ id: number; name: string }[]>) => {
+        state.trackList = action.payload.map((item) => ({
+            name: item.name,
+            isOn: false, 
+          }));
     },
-
-    category_onoff:(state, action) => {
+    initRegion: (state, action: PayloadAction<{ id: number; name: string }[]>) => {
+        state.regionList = action.payload.map((item) => ({
+            name: item.name,
+            isOn: false, 
+          }));    },
+    
+    onoff_track: (state, action) => {
+        state.trackList[action.payload].isOn = !state.trackList[action.payload].isOn;
+    },
+    onoff_region: (state, action) => {
+        state.regionList[action.payload].isOn = !state.regionList[action.payload].isOn;
+    },    
+    onoff_etc: (state, action) => {
+        state.etcList[action.payload].isOn = !state.etcList[action.payload].isOn;
+    },
+        category_onoff:(state, action) => {
         state.category[action.payload] = !state.category[action.payload]; 
     },
-    onoff_text: (state, action) => {
-        const index = state.item_lst.indexOf(action.payload)
-        state.sel_lst[index] = !state.sel_lst[index];
-    },
+    // onoff_text: (state, action) => {
+    //     const index = state.item_lst.indexOf(action.payload)
+    //     state.sel_lst[index] = !state.sel_lst[index];
+    // },
   },
 });
+// state.tmp_lst = state.item_lst.filter((item, index) => state.sel_lst[index]);
 
-export const { onoff_text, onoff_num, category_onoff } = selectSlice.actions;
+export const { initTrack, initRegion, 
+    onoff_track, onoff_region, onoff_etc,
+    category_onoff } = selectSlice.actions;
+// export const { onoff_text, onoff_num, category_onoff } = selectSlice.actions;
 export default selectSlice.reducer;
