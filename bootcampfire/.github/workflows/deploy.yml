@@ -7,7 +7,33 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    env: 
+      CI: false
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
     steps:
+      - name: Checkout source code.
+        uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      
+      - name: Install modules
+        run: npm install
+
+      - name: Run test codes
+        run: npm run test
+
+      - name: Build project
+        run: npm run build
+
       - name: Deploy test
         uses: appleboy/ssh-action@master
         with:
@@ -20,4 +46,4 @@ jobs:
             npx pm2 kill
             git pull
             npm i
-            npx pm2 start server.js
+            npx pm2 start App.tsx
