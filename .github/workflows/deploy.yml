@@ -37,7 +37,7 @@ jobs:
       #   run: pnpm run test
 
       - name: Build project
-        run: pnpm i && pnpm build
+        run: pnpm i && pnpm start
 
       - name: Deploy test
         uses: appleboy/ssh-action@master
@@ -49,4 +49,4 @@ jobs:
           script: |
             cd bootcampfire/
             git pull
-            pnpm start App.tsx
+            pnpm start
