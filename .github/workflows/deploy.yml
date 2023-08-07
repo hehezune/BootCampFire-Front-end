@@ -36,8 +36,8 @@ jobs:
       # - name: Run test codes
       #   run: pnpm run test
 
-      - name: Build project
-        run: pnpm i && pnpm start
+      # - name: Build project
+      #   run: pnpm i && pnpm start
 
       - name: Deploy EC2
         uses: appleboy/ssh-action@master
