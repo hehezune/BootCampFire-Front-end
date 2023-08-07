@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: npm
-          cache-dependency-path: './bootcampfire/package-lock.json'
+          cache-dependency-path: './package-lock.json'
       
       - name: Install modules
         run: npm i -g pnpm
