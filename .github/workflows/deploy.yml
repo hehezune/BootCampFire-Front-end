@@ -42,9 +42,3 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           password: ${{ secrets.EC2_KEY }}
           port: ${{ secrets.PORT }}
-          script: |
-            cd bootcampfire/
-            npx pm2 kill
-            git pull
-            npm i
-            npx pm2 start App.tsx
