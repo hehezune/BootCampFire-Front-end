@@ -47,8 +47,8 @@ function BoardListPage() {
         } else if (sort === 2) {
             sortType = "views";
         }
-        axios.get(API_URL + `/${selectCategory}/${sortType}`)
-        .then((res) => setBoardListData(res.data.data.content));
+        // axios.get(API_URL + `/${selectCategory}/${sortType}`)
+        // .then((res) => setBoardListData(res.data.data.content));
     }, [selectCategory, sort]);
     const BoardList = boardListData.map((element) => (
         <BoardCard key={element.id} 

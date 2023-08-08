@@ -21,7 +21,7 @@ import Mission from "pages/ManagerPage/Mission";
 import LoginDataPage from "components/Login/LoginDataPage";
 import MyPage from "pages/MyPage/MyPage";
 import ManageCreate from "pages/ManagerPage/ManageCreate";
-
+import BoardListInfinityScroll from "pages/BoardPage/BoardListInfinityScroll2";
 export default function App() {
   return (
     <div>
@@ -36,6 +36,7 @@ export default function App() {
             <Route path="/BoardCreate" element={<BoardCreate />} />
             <Route path="/BootCamp" element={<BootCamp />} />
             <Route path="/src/pages/VSPage/VsPage" element={<VS />} />
+            <Route path="/infinity" element={<BoardListInfinityScroll />} />
             <Route
               path="/bootcampdetail/:bootcampid"
               element={<BootCampListDetailPage />}

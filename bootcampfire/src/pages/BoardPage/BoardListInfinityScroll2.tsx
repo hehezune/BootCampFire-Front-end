@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import SearchBar from 'components/Board/BoardList/SearchBar';
 import CategorySideBar from 'components/Board/BoardList/CategorySideBar';
 import BoardCard from 'components/Board/BoardList/BoardCard';
 import styled from 'styled-components';
-import { boardListData } from 'components/Board/Dummies';
 import { StyledPage } from './styledPage';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
@@ -14,46 +13,50 @@ import useIntersect from 'components/Board/BoardList/useIntersect';
 const API_URL = 'http://localhost:8080/categories';
 
 function BoardListInfinityScroll() {
-    // Main Page와 연결했을 경우 ->>
-    // const {state} = useLocation();
-    // const [selectCategory, setSelectCategory] = useState(state.categoryId);
     const navigate = useNavigate();
     const [selectCategory, setSelectCategory] = useState(1);
     const [boardListData, setBoardListData] = useState<Board[]>([]);
     const sort = useSelector((state: RootState) => state.search.sort);
     const keyword = useSelector((state: RootState) => state.search.keyword);
     const type = useSelector((state: RootState) => state.search.type);
-
-    const [isLoaded, setIsLoaded] = useState(true);
+    const [url, setUrl] = useState("");
     const [pageCount, setPageCount] = useState(0);
-
-    const page = useRef(pageCount);
+    const [hasNext, setHasNext] = useState(true);
 
     const handlerSelectCategory = ((id : number) => {
         setSelectCategory(id);
     })
 
+    // keyword에 따른 렌더링
     useEffect(() => {
-        const newBoardList = boardListData.slice(0);
-        getDataFromAPI(pageCount, true, API_URL + `/2`)
-        .then((res) => {console.log(res); res.forEach((element) => newBoardList.push(element));
-            setBoardListData(newBoardList); setIsLoaded(true)});
-            alert(selectCategory);
-    },[]);
+        if (keyword.length === 0) return;
+        setUrl(API_URL + `/${selectCategory}` + getURLByKeyword(keyword, type));
+        setPageCount(0);
+        // getDataFromAPI(pageCount, true, url)
+        // .then((res) => {
+        //     setBoardListData(boardListData.concat(res.content));});
+        console.log("keyword", url)
+    }, [keyword]);
+
+    // // sort 기준에 따른 렌더링
+    useEffect(() => {
+        setUrl(API_URL + `/${selectCategory}` + getURLBySort(sort));
+        setPageCount(0);
+        // getDataFromAPI(pageCount, true, url)
+        // .then((res) => {
+        //     setBoardListData(boardListData.concat(res.content));});
+        console.log("sort", url)
+    }, [selectCategory, sort]);    
     
     const [_, setRef] = useIntersect(async(entry, observer) => {
-        observer.unobserve(entry.target); // 이 entry가 누군데? 밑의 div야 아니면 불러온 엘레멘트야
+        // if (!hasNext) return ;
+        let temp = await getDataFromAPI(pageCount, url);
         
-        
-        const boardListTemp = boardListData.slice(0);
-        let temp = await getDataFromAPI(pageCount, true, API_URL + `/${selectCategory}`);
-        await temp.forEach((element) => boardListTemp.push(element));
-        setBoardListData(boardListTemp);
-        // 불러오기
-
-        // setIsLoaded(true);
-
-        observer.observe(entry.target);
+        if (!temp.hasNextPages) {
+            setHasNext(false);
+        }
+        setBoardListData(boardListData.concat(temp.content));
+        observer.unobserve(entry.target)
     }, {});
     
     const BoardList = boardListData.map((element, idx) => (
@@ -72,7 +75,7 @@ function BoardListInfinityScroll() {
                     <div className='board-list-margin'>
                     {BoardList}
                     </div>
-                    {isLoaded && <Sp ref={setRef}>is Loading</Sp>}
+                    <Sp ref={setRef}>is Loading</Sp>
                 </TStyledDiv>
             </BoardListMain>
         </StyledPage>
@@ -81,10 +84,11 @@ function BoardListInfinityScroll() {
 
 const TStyledDiv = styled.div`
     height: 730px;
+    width: 800px;
     overflow: auto;
 `
 const Sp = styled.p`
-    opacity: 0.9;
+    visibility: hidden;
 `
 
 const BoardListMain = styled.div`
@@ -102,11 +106,27 @@ const StyledDiv = styled.div`
     height: 500px;
 `
 
-const getDataFromAPI = async (pageCount: number, hasNext: boolean, url: string) => {
-    const response = await axios.get(url);
+const getDataFromAPI = async (pageCount: number, url: string) => {
+    // const response = await axios.get(`${url}?page=${pageCount}&size=10`);
+    const response = await axios.get(`${url}`);
     // console.log('response check', response);
-    return response.data.data.content as Board[];
+    return response.data.data;
     // return Board[];
+}
+
+const getURLByKeyword = (keyword: string, type: number) => {
+    const keywordType = type === 0 ? "keywords" : "nickname";
+    return `/${keywordType}/${keyword}`;
+}
+
+const getURLBySort = (sort: number) => {
+    if (sort === 0) {
+        return "";
+    } else if (sort === 1) {
+        return "/likes";
+    } else {
+        return "/views";
+    }
 }
 
 export default BoardListInfinityScroll;

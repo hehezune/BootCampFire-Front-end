@@ -49,7 +49,7 @@ interface IntersectionObserverInit {
 
 const defaultOptions: IntersectionObserverInit = {
   root: null,
-  threshold: 0.5,
+  threshold: 1,
   rootMargin: '0px',
 };
 
