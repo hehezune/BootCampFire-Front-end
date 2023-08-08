@@ -30,7 +30,7 @@ const BootCampListDetailPage: React.FC = () => {
   const [bootdetail, setBootdetail] = useState<BootcampItem | null>(null);
   const [bootreview, setbootreview] = useState<ReviewItem[]>([]);
   const [myreview, setMyReview] = useState<ReviewItem>({} as ReviewItem);
-                          
+
   useEffect(() => {
   if (bootcampid) {
     const bootcampIdNumber = parseInt(bootcampid);
@@ -47,10 +47,6 @@ const BootCampListDetailPage: React.FC = () => {
     .catch((error) => {});
   }}, []);
 
-  console.log(bootdetail);
-  console.log(bootreview);
-  console.log(myreview);
-  
 
 
   if (!bootdetail) {return <div>Loading...</div>;}

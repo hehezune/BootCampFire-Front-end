@@ -147,7 +147,7 @@ const shift = (
   direction === "left" && result.reverse();
   let i = result.length - 1;
   while (i >= 1) {
-    if (result[i].value === result[i - 1].value && result[i].value !== 2048) {
+    if (result[i].value === result[i - 1].value && result[i].value !== 16384) {
       for (let j = 0; j <= i - 1; j++) {
         const shift = direction === "right" ? 1 : -1;
         setColumn(result[j], getColumn(result[j]) + shift);
@@ -172,6 +172,7 @@ export const generateBoard = (tilesCount: number = 2): Tile[] => {
   return tiles;
 };
 
+
 export const createRandomTile = (tiles: Tile[]): Tile => {
   const getCoordinates = (position: number): [number, number] => {
     const x = Math.floor(position / 4);
@@ -188,7 +189,24 @@ export const createRandomTile = (tiles: Tile[]): Tile => {
     coordinates = getCoordinates(position);
   }
 
-  const value: Value = Math.random() <= 0.2 ? 4 : 2;
+
+  const rd = Math.random()
+  const value: Value = rd <= 0.5 ? 2 : 128
+  // 2
+                      // rd <= 0.5 ? 2 : 
+                      // rd <= 0.7 ? 4 :
+                      // rd <= 0.8 ? 8 :
+                      // rd <= 0.9 ? 16 :
+                      // rd <= 0.95 ? 32 :
+                      // 64;
+                      
+                      // rd <= 0.95 ? 32 :
+                      // rd <= 0.94 ? 64 :
+                      // rd <= 0.96 ? 128 :
+                      // rd <= 0.98 ? 256 :
+                      // rd <= 0.99 ? 512 :
+                      // rd <= 0.995 ? 1024 :
+                      // 2048;
 
   return {
     id: getNextId(tiles),
