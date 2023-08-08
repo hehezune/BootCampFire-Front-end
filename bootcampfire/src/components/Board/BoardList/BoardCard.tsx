@@ -4,7 +4,6 @@ import type {Board} from '../interface';
 import { Bold18px, Bold15px ,Normal15px, Normal13px } from '../styled';
 import styled from 'styled-components';
 import DateInfo from './DateInfo';
-
 interface BoardDate {
     view: number;
     likeCnt: number;
@@ -20,7 +19,7 @@ function BoardCard({data, onClick}: {data: Board, onClick: () => void}){
         commentCnt: data.commentCnt,
         createdDate: data.createdDate.join('-'),
     }
-    
+
     return (
         <StyledBoardCard onClick={onClick}>
             <Bold18px className="position1px">{data.title}</Bold18px>

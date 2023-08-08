@@ -14,27 +14,26 @@ interface DropDownList {
 
 let dummyData : DropDownList = {
     current: "카테고리 선택",
-    category : ["자유", "썸/연애", "헬스/스포츠", "스터디", "프로젝트", "IT", "고민",
+    category : ["카테고리 선택", "자유", "썸/연애", "헬스/스포츠", "스터디", "프로젝트", "IT", "고민",
             "질문", "부트캠프"], // 백에서 CAMP LIST 받아와야 하는 부분
 }
 
-function CategoryDropDown () {
+function CategoryDropDown ({selectCategory, onSelectCategory} : {selectCategory: number, onSelectCategory: React.Dispatch<React.SetStateAction<number>>}) {
     const [dropdownVisibility, setDropdownVisibility] = React.useState(false);
-    const [dropdownSelect, setDropdownSelect] = React.useState(dummyData.current);
-    const handleLiClick = (event: React.MouseEvent<HTMLLIElement>) => {
-        console.log(dropdownSelect);
-        setDropdownSelect(event.currentTarget.textContent ?? "");
+
+    const handleLiClick = (idx: number) => {
+        onSelectCategory(idx);
         setDropdownVisibility(false);
     }
 
-    const categoryList = dummyData.category.map((element) => (
-        <StyledLI key={element} onClick={handleLiClick}>{element}</StyledLI>
+    const categoryList = dummyData.category.map((element, idx) => (
+        idx > 0 ? <StyledLI key={element} onClick={() => handleLiClick(idx)}>{element}</StyledLI> : ""
     ))
 
     return (
         <StyledDropdown>
             <StyledCategory onClick={e => setDropdownVisibility(!dropdownVisibility)}>
-            {dropdownSelect}
+                {dummyData.category[selectCategory]}
                 {!dropdownVisibility && <ArrowDropDownIcon sx={{color: colors.TEXT_LIGHT}}/>} 
                 {dropdownVisibility && <ArrowDropUpIcon sx={{color: colors.TEXT_LIGHT}}/>} 
             </StyledCategory>
