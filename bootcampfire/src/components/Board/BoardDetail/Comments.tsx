@@ -11,9 +11,11 @@ import CommentCard from './CommentCard';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'store';
 import { useRef } from 'react';
+import axios from 'axios';
+import { getComments } from 'store/commentSlice';
 // redux를 먼저 해볼것인가 아니면 더미데이터를 만들어서 일단 진행할 것인가
 //
-
+const TEST_USERID = 1;
 
 function Comments({boardId, comments}: {boardId: number, comments: Comment[]}) {
     const dispatch = useDispatch();
@@ -33,40 +35,29 @@ function Comments({boardId, comments}: {boardId: number, comments: Comment[]}) {
         // request용 객체 생성
         const newComment: RequestComment = {
             // id: 0,
-            user: nickname,
+            userId: TEST_USERID,
             anonymous: isAnonymous,
             content: commentRef.current?.value ?? "",
             boardId
         }
-
+        console.log(newComment.boardId, boardId)
         if (commentRef.current) {
             commentRef.current.value = '';
         }
         // 백으로 요청 보내기
+        axios.post('http://localhost:8080/comments',
+            newComment).then((res) => {
+                if (res.data.message === "success") {
+                    axios.get('http://localhost:8080/comments/list/' + boardId)
+                    .then((res) => {
+                        const comments = res.data.data as Comment[];
+                        dispatch(getComments({comments, boardId}));
+                    });
+                }
+            })   }
 
-        // 받은 객체를 response라고 가정
-        const response: ResponseComment = {
-            "id": 14,
-            "boardId": 3,
-            "user": "싸피2",
-            "content": "2번째의 대댓",
-            "anonymous": true,
-            "ref": 2,
-            "refOrder": 1,
-        }
-
-        // 아래 주석들은 데이터 갱신을 어떻게 할지에 대한 고민임.
-        // // response를 commentList에 맞는 Comment 객체로 새로 생성
-        // const resultComment = getComments(response, bootcamp[bootcampId]);
-        // // ref 번호 현황에 따른 idx 지정
-        // const idx = refCheck(comments, resultComment);
-        // dispatch(addComment({comment: resultComment, idx: idx}))
-
-        // 새로운 list 요청 : API 연결해서 확인하자
-    }
-
-    const cardList = comments.map((element) => 
-        <CommentCard data={element} key={element.id}/>
+    const cardList = comments.map((element, idx) => 
+        <CommentCard data={element} boardId={boardId} key={element.id} idx={idx}/>
     )
 
     return (
@@ -138,18 +129,18 @@ const AnonymousText = styled(Bold15px)`
     margin: 0 40px 0 0 ;
 `
 
-const getComments = (response: ResponseComment, bootcamp: string):Comment => { 
-    const comment: Comment = {
-        user: response.user,
-        content: response.content,
-        id: response.id,
-        ref: response.ref,
-        refOrder: response.refOrder,
-        createdDate: [1],
-        bootcamp: bootcamp
-    }
-    return comment;
-}
+// const getComments = (response: ResponseComment, bootcamp: string):Comment => { 
+//     const comment: Comment = {
+//         user: response.user,
+//         content: response.content,
+//         id: response.id,
+//         ref: response.ref,
+//         refOrder: response.refOrder,
+//         createdDate: [1],
+//         bootcamp: bootcamp
+//     }
+//     return comment;
+// }
 
 
 const refCheck = (comments: Comment[], resultComment: Comment): number => {

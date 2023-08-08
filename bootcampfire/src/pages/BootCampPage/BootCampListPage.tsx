@@ -18,16 +18,42 @@ const BootCampListPage: React.FC = () => {
 
   const dispatch = useDispatch(); 
   const {bootcamp, loading, error, dropBoxidx, bootSearch} = useSelector((state: RootState) => state.bootcamp); 
+
+  const {trackList, regionList, etcList,} = useSelector((state: RootState) => state.select); 
+  
   const { tmp_lst } = useSelector((state: RootState) => state.select); 
   
   const [bootcampSearchResult, setBootcampSearchResult] = useState<BootcampItem[]>([]); 
 
-  useEffect(() => { 
-    const filteredBootcamp = bootSearch ? 
-    bootcamp.filter((item) => item.name.toLowerCase().includes(bootSearch.toLowerCase())): bootcamp; 
-    setBootcampSearchResult(filteredBootcamp); 
-  }, [bootcamp, bootSearch]); 
+  useEffect(() => {
+    const filteredBootcamp = bootSearch
+      ? bootcamp.filter((item) => item.name.toLowerCase().includes(bootSearch.toLowerCase()))
+      : bootcamp;
   
+      const selectedTracks = trackList.filter((track) => track.isOn).map((track) => track.name);
+      const selectedRegions = regionList.filter((region) => region.isOn).map((region) => region.name);
+      
+      const restructuredBootcamp = filteredBootcamp.filter((camp) =>
+        selectedTracks.every((trackName) => camp.tracks.some((track) => track.name === trackName)) &&
+        selectedRegions.every((regionName) => camp.regions.some((region) => region.name === regionName))
+      );
+
+      const selectedEtc = etcList.filter((etc) => etc.isOn).map((etc) => etc.name);
+      const hasSelectedEtc = selectedEtc.includes('온라인') || selectedEtc.includes('오프라인') || selectedEtc.includes('온오프라인');
+
+      const restructuredBootcamp2 = restructuredBootcamp.filter((item) => {
+      const { onOff, cost, support, hasCodingtest } = item;
+      const isOnOffMatched = !hasSelectedEtc || selectedEtc.includes(onOff);
+
+      const isCostMatched = !selectedEtc.includes('비용') || cost;
+      const isSupportMatched = !selectedEtc.includes('지원금') || support;
+      const isCodingTestMatched = !selectedEtc.includes('코딩 테스트') || hasCodingtest;
+
+      return isOnOffMatched && isCostMatched && isSupportMatched && isCodingTestMatched;
+    });  
+    setBootcampSearchResult(restructuredBootcamp2);
+  }, [etcList, regionList, trackList, bootcamp, bootSearch]);
+
   useEffect(() => { 
     dispatch(fetchBootcampStart()); 
     const api_url = dropBoxidx === 0 ? "names" : 
@@ -38,8 +64,9 @@ const BootCampListPage: React.FC = () => {
     .then((response) => dispatch(fetchBootcampSuccess(response.data.data)))
     .catch((error) => dispatch(fetchBootcampFailure(error.message)));
   }, [dropBoxidx]);
-  console.log(bootcampSearchResult)
 
+  // console.log(bootcampSearchResult)
+  // console.log(bootcamp)
 
 
   if (loading) {return <div>Now Loading...</div>}
@@ -119,10 +146,10 @@ const BootCampCardWrapper = styled.div`
 interface BootcampItem {
   id: number;
   name: string;
-  cost: boolean;
-  support: boolean;
-  hasCodingtest: boolean;
-  onOff: string;
+  cost: boolean;            // 비용 value : true, false
+  support: boolean;         // 지원금 value : true, false
+  hasCodingtest: boolean;   // 코딩 테스트 value : true, false
+  onOff: string;            // value : 온라인, 온/오프라인, 오프라인
   startDate: Date; 
   endDate: Date;   
   imgUrl: string;
@@ -135,4 +162,6 @@ interface BootcampItem {
 interface BootcampTaged {
   id : number;
   tag : string[];
+
 }
+

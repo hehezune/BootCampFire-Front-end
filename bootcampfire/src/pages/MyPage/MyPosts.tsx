@@ -1,13 +1,22 @@
 
-import React from "react";
 import styled from "styled-components";
 import BoardCard from "components/Board/BoardList/BoardCard";
-import { boardListData } from "components/Board/Dummies";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import type { Board } from "components/Board/interface";
+
 function MyPosts() {
   const navigate = useNavigate();
+  const [boardList, setBoardList] = useState<Board[]>([]);
 
-  const BoardList = boardListData.map((element) => (
+  useEffect(() => {
+    axios.get("http://localhost:8080/boards/users")
+    .then((res) => setBoardList(res.data.data.content));  
+  }, [])
+
+
+  const BoardList = boardList.map((element) => (
     <BoardCard data={element} onClick={() => navigate(`/BoardDetail:${element.id}`)}/>
   ))
 

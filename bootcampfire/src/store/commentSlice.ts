@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { commentListData } from "components/Board/Dummies";
+// import { commentListData } from "components/Board/Dummies";
 import { Comment } from "components/Board/interface";
-import { stat } from "fs";
 
 interface commentState {
   boardId: number;
@@ -13,28 +12,21 @@ interface commentState {
 const initialState: commentState = {
   boardId: 0,
   commentCnt: 0,
-  commentList: commentListData,
+  commentList: [],
 }
 
 const commentSlice = createSlice({
   name: "comment",
   initialState,
   reducers: {
-    addComment: (
-      state,
-      action: PayloadAction<{comment: Comment, idx: number}>
-    ) => {
-      state.commentCnt = state.commentCnt + 1;
-      state.commentList = state.commentList.splice(action.payload.idx, 
-        0, 
-        action.payload.comment);
-    },
     modifyComment: (
       state,
-      action: PayloadAction<{comment: Comment, idx: number}>
+      action: PayloadAction<{content: string, anonymous: boolean, idx: number}>
     ) => {
       const newComments = state.commentList.splice(0);
-      newComments[action.payload.idx] = action.payload.comment;
+      const newComment = newComments[action.payload.idx];
+      newComment.content = action.payload.content;
+      newComment.anonymous = action.payload.anonymous;
       state.commentList = newComments;
     },
     deleteComment: (
@@ -55,5 +47,5 @@ const commentSlice = createSlice({
   },
 });
 
-export const { addComment, modifyComment, deleteComment} = commentSlice.actions;
+export const { modifyComment, deleteComment, getComments} = commentSlice.actions;
 export default commentSlice.reducer;

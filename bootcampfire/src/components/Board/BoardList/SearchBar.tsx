@@ -4,13 +4,17 @@ import SortDropDown from './SortDropDown';
 import styled from 'styled-components';
 import {Bold21px} from '../styled';
 import { categories } from 'constant/constant';
+import { Board } from '../interface';
+interface SearchProps {
+    selectCategory: number;
+    setBoardList: React.Dispatch<React.SetStateAction<Board[]>>
+}
 
-
-function SearchBar({selectCategory}: {selectCategory: number}) {
+function SearchBar({selectCategory, setBoardList}: SearchProps) {
     return (
         <StyledSearchBar>
             <StyledCategoryName>{categories[selectCategory]}게시판</StyledCategoryName>
-            <SearchInput/>
+            <SearchInput />
             <SortDropDown />
         </StyledSearchBar>
     )

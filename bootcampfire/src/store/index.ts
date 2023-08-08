@@ -21,14 +21,14 @@ export interface RootState {
     // sel_lst : boolean[];
     // category : boolean[];
     
-    trackList : string[];
-    regionList : string[];
 
-    trackBoolean : boolean[];
-    regionBoolean : boolean[];
+    trackList : { name: string; isOn: boolean; }[];
+    regionList : { name: string; isOn: boolean; }[];
+    etcList : { name: string; isOn: boolean; }[];
 
     tmp_lst : string[];
     item_lst : string[];
+    
 
     category : boolean[];
 };

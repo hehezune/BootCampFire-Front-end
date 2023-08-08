@@ -10,24 +10,47 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { colors } from 'constant/constant';
 import { useState } from 'react';
 import ReplyInput from './ReplyInput';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { getComments, modifyComment } from 'store/commentSlice';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+import type { RootState } from 'store';
 
-const NORMAL = 0;
-const REPLY = 1;
-const EDIT = 2;
+const [NORMAL, REPLY, EDIT, DEL] = [0, 1, 2, 3];
+const TEST_USERID = 1;
 
-function CommentCard({data}: {data: Comment}) {
+function CommentCard({data, boardId, idx}: {data: Comment, boardId: number, idx: number}) {
     const [activeInputType, setActiveInputType] = useState(NORMAL)
     const [isAnonymous, setIsAnonymous] = useState(false);
     const [editComment, setEditComment] = useState(data.content);
-
-    let isLogin = data.id % 2 == 0 ? true : false;
-
+    const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+    const dispatch = useDispatch();
+    
     const handlerEditComment = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEditComment(event.target.value);
     }
 
     const handlerSetEditBtn = () => {
         setActiveInputType(EDIT);
+    }
+
+    const handlerCancelEditBtn = () => {
+        setActiveInputType(NORMAL);
+    }
+
+    const handlerSetDelBtn = () => {
+        setActiveInputType(DEL);
+    }
+
+    const handlerCancelDelBtn = () => {
+        setActiveInputType(NORMAL);
+    }
+
+    const handlerConfirmDelBtn = () => {
+        axios.delete('http://localhost:8080/comments/' + data.id)
+        .then((res) => axios.get('http://localhost:8080/comments/list/' + boardId)
+            .then((res) => dispatch(getComments({comments: res.data.data, boardId}))));
     }
 
     const handlerSetNormalBtn = () => {
@@ -43,18 +66,59 @@ function CommentCard({data}: {data: Comment}) {
     }
 
     const handlerEditConfirmBtn = () => {
+        // 익명 등 각종 정보는 상위에
+        // 버튼이랑 인풋 버튼은 하위에 있음
+        // 버튼을 눌렀을때 인풋 값을 상위로 넘기고 제출하는걸 원함
+        // 결국 버튼을 눌렀을 때 상위로 넘기는 로직만 있으면 됨
+        const requestEdit = {
+            content: editComment,
+            anonymous: isAnonymous,
+        }
 
+        axios.put('http://localhost:8080/comments/' + data.id, requestEdit)
+        .then((res) => {dispatch(modifyComment({idx,
+            content: res.data.data.content,
+            anonymous: res.data.data.anonymous}));
+            setActiveInputType(NORMAL);});
+        return ;
+    }
+
+    const handlerReplySubmitBtn = (input : string) => {
+        if (input.length === 0) {
+            window.alert("입력하고눌르셈");
+            return ;
+        }
+
+        const replyComment = {
+            anonymous: isAnonymous,
+            boardId: boardId,
+            content: input,
+            preCommentId: data.id,
+            userId: TEST_USERID,
+        }
+
+        axios.post('http://localhost:8080/comments', replyComment)
+        .then((res) => {
+            if (res.data.message === "success") {
+                setActiveInputType(NORMAL);
+                axios.get('http://localhost:8080/comments/list/' + boardId)
+                .then((res) => {
+
+                    dispatch(getComments({comments: res.data.data as Comment[], boardId: boardId}))})
+            }
+        })
     }
 
     return (
         <>
         <WrapperStyledCommentCard>
             <CommentCardContentsArea>
-            {data.user === "익명" && <ArrowForwardIcon sx={{marginRight: 1, marginTop: 1}}/>}
+            {data.refOrder > 0  && <ArrowForwardIcon sx={{marginRight: 1, marginTop: 1}}/>}
             <StyledCommentCard>
                 <CommentWriter>
-                    <Bold15px>{data.user}</Bold15px>
-                    <A2>{data.bootcamp}</A2>
+                    <Bold15px>{isAnonymous ? "익명" : data.user}</Bold15px>
+                    <A2>{isAnonymous ? "익명 캠프 ": data.bootcamp}</A2>
+                    {data.isWriter &&  <Normal15px>작성자</Normal15px>}
                     {activeInputType === EDIT && isAnonymous && 
                         <CheckCircleOutlineIcon 
                             sx={{color: colors.TEXT_LIGHT}}
@@ -66,8 +130,16 @@ function CommentCard({data}: {data: Comment}) {
                             sx={{color: colors.TEXT_LIGHT}}
                             onClick={handlerClickAnonymous}/>
 
-                    }
+                        }
                     {activeInputType === EDIT && <AnonymousText>익명으로 작성하기</AnonymousText>}
+
+                    {/* 우측에 위치해야할 친구들 */}
+                    {isLoggedIn && data.isWriter && activeInputType === NORMAL && <ModeEditOutlineOutlinedIcon onClick={handlerSetEditBtn}/>}
+                    {isLoggedIn && data.isWriter && activeInputType === NORMAL && <CloseOutlinedIcon onClick={handlerSetDelBtn}/>}
+                    {data.isWriter && activeInputType === EDIT && <CloseOutlinedIcon onClick={handlerCancelEditBtn}/>}
+                    {data.isWriter && activeInputType === DEL && <LightBtn as="span" type="" onClick={handlerConfirmDelBtn}>삭제 확인</LightBtn>}
+                    {data.isWriter && activeInputType === DEL && <LightBtn as="span" type="" onClick={handlerCancelDelBtn}>삭제 취소</LightBtn>}
+
                 </CommentWriter>
                     {activeInputType !== EDIT && <CommentContents>{data.content}</CommentContents>}
                     {activeInputType === EDIT && <StyledInput 
@@ -76,14 +148,16 @@ function CommentCard({data}: {data: Comment}) {
                                     placeholder='댓글을 작성해 주세요.'
                                     onChange={handlerEditComment}
                                     />}
+                    {/* isWriter 반전 해제해야 함 */}
+
                 <CommentLastDiv>
                     <div className='height-center'>
                         <AccessTimeOutlinedIcon sx={{fontSize:13, marginRight: 1}}/>
                         <Normal13px as="span">{data.createdDate}</Normal13px>
                     </div>
                     <div className='gap'>
-                        {isLogin && activeInputType === NORMAL && <LightBtn type="first" onClick={handlerSetEditBtn}>수정하기</LightBtn>}
-                        {isLogin && activeInputType === EDIT && <LightBtn type="" onClick={handlerSetNormalBtn}>취소하기</LightBtn>}
+                        {isLoggedIn && activeInputType === NORMAL && <LightBtn type="first" onClick={handlerSetEditBtn}>수정하기</LightBtn>}
+                        {isLoggedIn && activeInputType === EDIT && <LightBtn type="" onClick={handlerSetNormalBtn}>취소하기</LightBtn>}
                         {activeInputType === NORMAL && <LightBtn type="" onClick={handlerSetReplyBtn}>답글달기</LightBtn>}
                         {activeInputType === EDIT && <LightBtn type="" onClick={handlerEditConfirmBtn}>수정하기</LightBtn>}
                         
@@ -98,8 +172,8 @@ function CommentCard({data}: {data: Comment}) {
                     <ArrowForwardIcon sx={{marginRight: 1, marginTop: 1}}/>
                     <StyledCommentCard>
                         <div style={{display: 'flex', alignItems: 'center', gap: 10, height: 40}}>
-                            <Bold15px className="test">{isAnonymous === true ? "익명" : String(isLogin)}</Bold15px>
-                            <A2>{isAnonymous === true ? "익명 캠프" : String(isLogin)}</A2>
+                            <Bold15px className="test">{isAnonymous === true ? "익명" : String(isLoggedIn)}</Bold15px>
+                            <A2>{isAnonymous === true ? "익명 캠프" : String(isLoggedIn)}</A2>
                             {isAnonymous && 
                                 <CheckCircleOutlineIcon 
                                 sx={{color: colors.TEXT_LIGHT}}
@@ -110,7 +184,7 @@ function CommentCard({data}: {data: Comment}) {
                                 onClick={handlerClickAnonymous}/>}
                             <AnonymousText>익명으로 작성하기</AnonymousText>
                         </div>
-                        <ReplyInput handlerExitBtn={handlerSetNormalBtn} handlerConfirmBtn={handlerEditConfirmBtn}></ReplyInput>
+                        <ReplyInput handlerExitBtn={handlerSetNormalBtn} handlerConfirmBtn={handlerReplySubmitBtn}></ReplyInput>
                     </StyledCommentCard>
                     </CommentCardContentsArea>
                 </WrapperStyledCommentCard>

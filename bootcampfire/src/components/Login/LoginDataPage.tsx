@@ -4,8 +4,12 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { login } from 'store/authSlice';
 
+// import { NodeJS } from 'timers';
+
+
 export default function LoginDataPage() {
   const dispatch = useDispatch();
+
   // const params: Readonly<Params<string>> = useParams();
   const URL = 'http://localhost:8080/users';
   const navigate = useNavigate();
@@ -42,4 +46,5 @@ export default function LoginDataPage() {
       });
   }, []);
   return <div>되고있냐</div>;
+
 }
