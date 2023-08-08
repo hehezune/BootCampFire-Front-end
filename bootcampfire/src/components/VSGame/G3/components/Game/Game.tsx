@@ -24,10 +24,12 @@ import GameFooter from "../GameFooter";
 import useGameLocalStorage from "../../hooks/useLocalStorage";
 import { KEYBOARD_ARROW_TO_DIRECTION_MAP } from "../../constants/constants";
 
+
+const direction = ["right", "left", "up", "down"][Math.floor(Math.random() * 4)]
 const a = {
   gameState: {
     tiles: [],
-    lastMove: "up" as Direction,
+    lastMove: direction as Direction,
     status: "IN_PROGRESS" as GameStatus,
   },
   dispatch: () => {},
@@ -50,9 +52,10 @@ const getGameStatus = (tiles: Tile[]): GameStatus => {
 };
 
 const initState = (tilesCount = 2): GameState => {
+  const d = ["right", "left", "up", "down"][Math.floor(Math.random() * 4)]
   return {
     tiles: generateBoard(tilesCount),
-    lastMove: "right", // null 값을 Direction 또는 null 유형으로 강제 형변환
+    lastMove: d as Direction, 
     status: "IN_PROGRESS",
   };
 };

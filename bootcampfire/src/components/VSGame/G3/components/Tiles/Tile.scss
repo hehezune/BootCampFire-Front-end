@@ -106,6 +106,36 @@
     font-size: 35px;
   }
 }
+.tile-4096 {
+  .tileInner {
+    color: #f9f6f2;
+    background: #e2a85c;
+    box-shadow: 0 0 30px 10px rgb(243 215 116 / 56%),
+      inset 0 0 0 1px rgb(255 255 255 / 33%);
+    font-size: 35px;
+  }
+}
+
+.tile-8192 {
+  .tileInner {
+    color: #f9f6f2;
+    background: #a17c4c;
+    box-shadow: 0 0 30px 10px rgb(243 215 116 / 56%),
+      inset 0 0 0 1px rgb(255 255 255 / 33%);
+    font-size: 35px;
+  }
+}
+
+.tile-16384 {
+  .tileInner {
+    color: #e0b5d2;
+    background: #9730eb;
+    box-shadow: 0 0 30px 10px rgb(243 215 116 / 56%),
+      inset 0 0 0 1px rgb(255 255 255 / 33%);
+    font-size: 35px;
+  }
+}
+
 
 @keyframes appear {
   0% {
