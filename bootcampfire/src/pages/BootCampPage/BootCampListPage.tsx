@@ -18,6 +18,7 @@ const BootCampListPage: React.FC = () => {
 
   const dispatch = useDispatch(); 
   const {bootcamp, loading, error, dropBoxidx, bootSearch} = useSelector((state: RootState) => state.bootcamp); 
+
   const {trackList, regionList, etcList,} = useSelector((state: RootState) => state.select); 
   
   const { tmp_lst } = useSelector((state: RootState) => state.select); 
@@ -52,7 +53,7 @@ const BootCampListPage: React.FC = () => {
     });  
     setBootcampSearchResult(restructuredBootcamp2);
   }, [etcList, regionList, trackList, bootcamp, bootSearch]);
-  
+
   useEffect(() => { 
     dispatch(fetchBootcampStart()); 
     const api_url = dropBoxidx === 0 ? "names" : 
@@ -63,6 +64,7 @@ const BootCampListPage: React.FC = () => {
     .then((response) => dispatch(fetchBootcampSuccess(response.data.data)))
     .catch((error) => dispatch(fetchBootcampFailure(error.message)));
   }, [dropBoxidx]);
+
   // console.log(bootcampSearchResult)
   // console.log(bootcamp)
 
@@ -160,4 +162,6 @@ interface BootcampItem {
 interface BootcampTaged {
   id : number;
   tag : string[];
+
 }
+

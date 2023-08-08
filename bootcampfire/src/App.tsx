@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import BoardList from "pages/BoardPage/BoardListPage";
@@ -24,6 +25,7 @@ import ManageCreate from "pages/ManagerPage/ManageCreate";
 
 
 
+
 export default function App() {
   return (
     <div>
@@ -37,6 +39,7 @@ export default function App() {
             <Route path="/BoardDetail/:id" element={<BoardDetail />} />
             <Route path="/BoardCreate" element={<BoardCreate />} />
             <Route path="/BootCamp" element={<BootCamp />} />
+
             <Route path="/VS" element={<VS />} />
             <Route
               path="/bootcampdetail/:bootcampid"
@@ -50,13 +53,9 @@ export default function App() {
             <Route path="/ManagerPage/*" element={<ManagerPage />}>
               <Route path="" element={<Regist />} />
               <Route path="Management" element={<Management />} />
-              <Route path="Management/:bootcampid" element={<ManageCreate />} />
+              <Route path="Management/create" element={<ManageCreate />} />
               <Route path="Mission" element={<Mission />} />
             </Route>
-            <Route
-              path="/bootcampdetail/:bootcampid"
-              element={<BootCampListDetailPage />}
-            />
           </Routes>
         </main>
       </Provider>
