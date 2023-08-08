@@ -1,18 +1,18 @@
-import { Link, useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store";
-import authSlice, { login, logout } from "../store/authSlice";
-import LoginModal from "./Login/LoginModal";
-import React from "react";
-import { Bold21px } from "./Board/styled";
-import BoardCreateHeader from "./Board/BoardCreate/BoardCreateHeader";
-import { colors } from "constant/constant";
+import { Link, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store';
+import authSlice, { login, logout } from '../store/authSlice';
+import LoginModal from './Login/LoginModal';
+import React from 'react';
+import { Bold21px } from './Board/styled';
+import BoardCreateHeader from './Board/BoardCreate/BoardCreateHeader';
+import { colors } from 'constant/constant';
 const NavContainer = styled.div`
   background-color: #ffffff;
   border-bottom: 1.5px solid ${colors.BACKGROUND_DEEP};
   padding: 10px;
-  margin: "auto";
+  margin: 'auto';
 `;
 
 const LogoLink = styled(Link)`
@@ -87,29 +87,28 @@ export default function Header() {
   const handleLogin = () => {
     // 모달 열기 함수
 
-    // setModalOpen(true);
-    dispatch(
-      login({
-        userId: 10,
-        nickname: "사용자123",
-        email: "user@example.com",
-        isAdmin: true,
-        bootcampId: 1,
-      })
-    );
+    setModalOpen(true);
+    // dispatch(
+    //   login({
+    //     userId: 10,
+    //     nickname: '사용자123',
+    //     email: 'user@example.com',
+    //     isAdmin: true,
+    //     bootcampId: 1,
+    //   })
+    // );
     // console.log(bootcampId);
   };
 
   const handleWriteButtonClick = () => {
-    isLoggedIn ? navigate("/BoardModify") : setModalOpen(true);
+    isLoggedIn ? navigate('/BoardModify') : setModalOpen(true);
   };
   const handleLogout = () => {
     dispatch(logout());
-    const isMyPage = new RegExp("My");
-    const isManagerPage = new RegExp("Manage");
+    const isMyPage = new RegExp('My');
+    const isManagerPage = new RegExp('Manage');
     const thisLocation = window.location.href;
-    if (isMyPage.test(thisLocation) || isManagerPage.test(thisLocation))
-      navigate("/");
+    if (isMyPage.test(thisLocation) || isManagerPage.test(thisLocation)) navigate('/');
   };
 
   const handleCloseModal = () => {
@@ -119,7 +118,7 @@ export default function Header() {
 
   return (
     <NavContainer>
-      <div style={{ maxWidth: 1280, margin: "auto" }}>
+      <div style={{ maxWidth: 1280, margin: 'auto' }}>
         <HeaderContentContainer>
           <LogoLink to="/">
             <img src="/logo.png" alt="Home" />
@@ -136,30 +135,22 @@ export default function Header() {
           <NavLink to="/VS">
             <Bold21px as="span">VS</Bold21px>
           </NavLink>
-          <WritePrimaryBtn onClick={handleWriteButtonClick}>
-            글쓰기
-          </WritePrimaryBtn>
+          <WritePrimaryBtn onClick={handleWriteButtonClick}>글쓰기</WritePrimaryBtn>
           {isLoggedIn ? (
             <LoginContentContainer>
-              <div style={{ display: "flexBox" }}>
+              <div style={{ display: 'flexBox' }}>
                 <div>안녕하세요 {nickname}님</div>
-                <div style={{ display: "flex", gap: "10px" }}>
+                <div style={{ display: 'flex', gap: '10px' }}>
                   {isAdmin ? (
-                    <Link
-                      to={"/ManagerPage"}
-                      style={{ color: "#94969B", textDecorationLine: "none" }}
-                    >
+                    <Link to={'/ManagerPage'} style={{ color: '#94969B', textDecorationLine: 'none' }}>
                       관리자 페이지
                     </Link>
                   ) : (
-                    <Link
-                      to={"/MyPage"}
-                      style={{ color: "#94969B", textDecorationLine: "none" }}
-                    >
+                    <Link to={'/MyPage'} style={{ color: '#94969B', textDecorationLine: 'none' }}>
                       마이 페이지
                     </Link>
                   )}
-                  <div onClick={handleLogout} style={{ color: "#94969B" }}>
+                  <div onClick={handleLogout} style={{ color: '#94969B' }}>
                     로그아웃
                   </div>
                 </div>
