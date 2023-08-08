@@ -30,32 +30,41 @@ function BoardListInfinityScroll() {
     // keyword에 따른 렌더링
     useEffect(() => {
         if (keyword.length === 0) return;
-        setUrl(API_URL + `/${selectCategory}` + getURLByKeyword(keyword, type));
-        setPageCount(0);
-        // getDataFromAPI(pageCount, true, url)
-        // .then((res) => {
-        //     setBoardListData(boardListData.concat(res.content));});
+        const completeURL = API_URL + `/${selectCategory}` + getURLByKeyword(keyword, type);
+        getDataFromAPI(0, completeURL).then((res) => setBoardListData(res.content));
+        setUrl(completeURL);
+        setPageCount(1);
+        setHasNext(true);
         console.log("keyword", url)
     }, [keyword]);
 
     // // sort 기준에 따른 렌더링
     useEffect(() => {
-        setUrl(API_URL + `/${selectCategory}` + getURLBySort(sort));
-        setPageCount(0);
-        // getDataFromAPI(pageCount, true, url)
-        // .then((res) => {
-        //     setBoardListData(boardListData.concat(res.content));});
+        const completeURL = API_URL + `/${selectCategory}` + getURLBySort(sort);
+        getDataFromAPI(0, completeURL).then((res) => setBoardListData(res.content));
+        setUrl(completeURL);
+        setHasNext(true);
+        setPageCount(1);
         console.log("sort", url)
     }, [selectCategory, sort]);    
     
     const [_, setRef] = useIntersect(async(entry, observer) => {
-        // if (!hasNext) return ;
+        if (!hasNext) return ;
         let temp = await getDataFromAPI(pageCount, url);
         
-        if (!temp.hasNextPages) {
+        if (temp.last) {
             setHasNext(false);
         }
-        setBoardListData(boardListData.concat(temp.content));
+
+        if (pageCount === 0) {
+            console.log("test", pageCount);
+            console.log(temp.content)
+            setBoardListData(temp.content);
+        } else {
+            setBoardListData(boardListData.concat(temp.content));
+
+        }
+        setPageCount(pageCount + 1);
         observer.unobserve(entry.target)
     }, {});
     
@@ -107,9 +116,10 @@ const StyledDiv = styled.div`
 `
 
 const getDataFromAPI = async (pageCount: number, url: string) => {
-    // const response = await axios.get(`${url}?page=${pageCount}&size=10`);
-    const response = await axios.get(`${url}`);
+    const response = await axios.get(`${url}?page=${pageCount}&size=5`);
+    // const response = await axios.get(`${url}`);
     // console.log('response check', response);
+    console.log("check", response.data.data)
     return response.data.data;
     // return Board[];
 }
