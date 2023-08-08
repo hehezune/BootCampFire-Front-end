@@ -16,31 +16,35 @@ const Row = styled.tr`
 const Cell = styled.td`
   /* Add any styles for the table cell */
 `;
-function createData(user: string, link: string, text: string) {
-  return { user, link, text };
-}
-let exList: any[] = [];
-axios.get('http://localhost:8080/categories/{categoryId}/main').then((res) => {
-  exList = res.data.data;
-  console.log(exList);
-});
 
-const rows = [
-  createData('김민범', '../../pages/MyPage/MyPage.tsx', 'SSAFY'),
-  createData('김봉준', '../../pages/MyPage/MyPage.tsx', 'SSAFY'),
-  createData('박지환', '../../pages/MyPage/MyPage.tsx', 'SSAFY'),
-  createData('안나', '../../pages/MyPage/MyPage.tsx', 'SSAFY'),
-  createData('이연희', '../../pages/MyPage/MyPage.tsx', 'SSAFY'),
-  createData('임수형', '../../pages/MyPage/MyPage.tsx', 'SSAFY'),
-];
-export default function LoveBoard() {
+interface createDataProps {
+  user: string;
+  text: string;
+  img: string;
+  index: number;
+}
+
+// const rows = [
+//   createData('김민범', '../../pages/MyPage/MyPage.tsx', 'SSAFY'),
+//   createData('김봉준', '../../pages/MyPage/MyPage.tsx', 'SSAFY'),
+//   createData('박지환', '../../pages/MyPage/MyPage.tsx', 'SSAFY'),
+//   createData('안나', '../../pages/MyPage/MyPage.tsx', 'SSAFY'),
+//   createData('이연희', '../../pages/MyPage/MyPage.tsx', 'SSAFY'),
+//   createData('임수형', '../../pages/MyPage/MyPage.tsx', 'SSAFY'),
+// ];
+const SampleBoard: React.FC<createDataProps> = (props) => {
+  let rows: any[] = [];
+  axios.get(`http://localhost:8080/categories/${props.index}/main`).then((res) => {
+    rows = res.data.data;
+    console.log(rows);
+  });
   return (
     <div>
       <Container>
-        <img src="/public/logo.png" alt="" height={'auto'} width={'auto'} />
+        <img src={props.img} alt="" height={'auto'} width={'auto'} />
         <div style={{ display: 'flex', gap: '30px', marginBottom: '10px', alignItems: 'center' }}>
-          <Bold18px>썸 연애</Bold18px>
-          <MoreBtn index={2}></MoreBtn>
+          <Bold18px>{props.text}</Bold18px>
+          <MoreBtn index={props.index}></MoreBtn>
         </div>
         <div style={{ borderBottom: 'solid 1px' }} />
         <Table>
@@ -57,4 +61,6 @@ export default function LoveBoard() {
       </Container>
     </div>
   );
-}
+};
+
+export default SampleBoard;

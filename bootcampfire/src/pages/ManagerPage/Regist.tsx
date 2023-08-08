@@ -1,7 +1,8 @@
+import axios from 'axios';
 import ManageCard from 'components/Manager/ManageCard';
 
-function createData(img: string, name: string, bootcamp: string) {
-  return { img, name, bootcamp };
+function createData(img: string, nickname: string, bootcamp: string) {
+  return { img, nickname, bootcamp };
 }
 export default function Regist() {
   // const userList = [
@@ -14,16 +15,25 @@ export default function Regist() {
   //   createData('/logo512', '김민범', 'SOMA'),
   //   createData('/logo512', '김민범', '우테코'),
   // ];
-  const userList = [
-    { email: 'beom0109@naver.com', img: '/logo512.png', nickname: '김민범', bootcamp: 'SSAFY' },
-    { email: 'beom0109@naver.com', img: '/logo512.png', nickname: '김봉준', bootcamp: 'SSAFY' },
-    { email: 'beom0109@naver.com', img: '/logo512.png', nickname: '박지환', bootcamp: 'SSAFY' },
-    { email: 'beom0109@naver.com', img: '/logo512.png', nickname: '안나', bootcamp: 'SSAFY' },
-    { email: 'beom0109@naver.com', img: '/logo512.png', nickname: '이연희', bootcamp: 'SSAFY' },
-    { email: 'beom0109@naver.com', img: '/logo512.png', nickname: '임수형', bootcamp: 'SSAFY' },
-    { email: 'beom0109@naver.com', img: '/logo512.png', nickname: '김민범', bootcamp: 'SOMA' },
-    { email: 'beom0109@naver.com', img: '/logo512.png', nickname: '김민범', bootcamp: '우테코' },
-  ];
+
+  // const userList =
+  // console.log('?');
+  let exList: any[] = [];
+  axios.get('http://localhost:8080/users/admin/permission/list').then((res) => {
+    exList = res.data.data;
+    console.log(exList);
+  });
+
+  // const userList = [
+  //   { email: 'beom0109@naver.com', img: '/logo512.png', nickname: '김민범', bootcamp: 'SSAFY' },
+  //   { email: 'beom0109@naver.com', img: '/logo512.png', nickname: '김봉준', bootcamp: 'SSAFY' },
+  //   { email: 'beom0109@naver.com', img: '/logo512.png', nickname: '박지환', bootcamp: 'SSAFY' },
+  //   { email: 'beom0109@naver.com', img: '/logo512.png', nickname: '안나', bootcamp: 'SSAFY' },
+  //   { email: 'beom0109@naver.com', img: '/logo512.png', nickname: '이연희', bootcamp: 'SSAFY' },
+  //   { email: 'beom0109@naver.com', img: '/logo512.png', nickname: '임수형', bootcamp: 'SSAFY' },
+  //   { email: 'beom0109@naver.com', img: '/logo512.png', nickname: '김민범', bootcamp: 'SOMA' },
+  //   { email: 'beom0109@naver.com', img: '/logo512.png', nickname: '김민범', bootcamp: '우테코' },
+  // ];
   return (
     <div style={{ height: '800px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <div
@@ -32,7 +42,7 @@ export default function Regist() {
           display: 'flex',
           flexWrap: 'wrap',
         }}>
-        {userList.map((row) => (
+        {exList.map((row) => (
           <ManageCard email={row.email} img={row.img} nickname={row.nickname} bootcamp={row.bootcamp}></ManageCard>
         ))}
       </div>
