@@ -1,9 +1,11 @@
 import React from 'react';
-import A2 from '../Tag';
-import type {Board} from '../interface';
-import { Bold18px, Bold15px ,Normal15px, Normal13px } from '../styled';
+import A2 from 'components/Board//Tag';
+import type {Board} from 'components/Board/interface';
+import { Bold18px, Bold15px ,Normal15px,} from 'components/Board/styled';
 import styled from 'styled-components';
-import DateInfo from './DateInfo';
+import DateInfo from 'components/Board/BoardList/DateInfo';
+import { colors } from 'constant/constant';
+
 interface BoardDate {
     view: number;
     likeCnt: number;
@@ -22,13 +24,16 @@ function BoardCard({data, onClick}: {data: Board, onClick: () => void}){
 
     return (
         <StyledBoardCard onClick={onClick}>
-            <Bold18px className="position1px">{data.title}</Bold18px>
+            <div className="position1px">
+            <StyledBold18px as="span">{data.title}</StyledBold18px>
+            <StyledA2 type={colors.TEXT_LIGHT}>{data.category}</StyledA2>
+            </div>
             <Normal15px className="position40px">{data.content}</Normal15px>
             <Infodiv className="position110px">
                 <DateInfo data={dataForDateInfo}/>
 
                 <WriterSpan>
-                    <A2>{data.bootcamp}</A2>
+                    <A2 type={colors.SECONDARY}>{data.bootcamp}</A2>
                     <Bold15px as="span">{data.writer}</Bold15px>
                 </WriterSpan>
             </Infodiv>
@@ -47,6 +52,8 @@ const StyledBoardCard = styled.div`
     .position1px {
         position: absolute;
         top: 1px;
+        display: flex;
+        gap: 10px;
     }
 
     .position40px {
@@ -81,5 +88,13 @@ const WriterSpan = styled.span`
     align-items: center;
     gap: 10px;
 `
+const StyledA2 = styled(A2)`
+    padding: 0px !important;
+    margin: 0px !important;
+`
 
+const StyledBold18px = styled(Bold18px)`
+    padding-top: 0px !important;
+    /* line-height: 0px; */
+`
 export default BoardCard;

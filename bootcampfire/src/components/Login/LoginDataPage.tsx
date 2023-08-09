@@ -4,8 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { login } from 'store/authSlice';
 
-// // import { NodeJS } from 'timers';
-
+// import { NodeJS } from 'timers';
 
 export default function LoginDataPage() {
   const dispatch = useDispatch();
@@ -14,11 +13,11 @@ export default function LoginDataPage() {
   const URL = 'http://localhost:8080/users';
   const navigate = useNavigate();
   useEffect(() => {
+    localStorage.clear();
     const token = new URLSearchParams(document.location.search).get('token') ?? '';
-    console.log(token);
     const [accessToken, refreshToken] = token?.split('refresh=');
-    console.log('accessToken=', accessToken);
-    console.log('refreshToken=', refreshToken);
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
     axios
       .get(URL, {
         // params: { token: token },
@@ -46,6 +45,4 @@ export default function LoginDataPage() {
       });
   }, []);
   return <div>되고있냐</div>;
-
 }
-

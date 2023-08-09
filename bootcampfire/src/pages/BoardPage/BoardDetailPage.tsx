@@ -10,26 +10,20 @@ import { useParams} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getComments } from 'store/commentSlice';
 const API_KEY = 'http://localhost:8080/boards/'
+
 let boardDetailDummy: BoardDetail = {
-  "id": 1,
-  "title": "유저 1의 자유게시판 글이당",
-  "content": "이 글은 카테고리1의 자유게시판 글임",
-  "bootcamp": "SSAFY",
-  "writer": "싸피1",
+  "id": 0,
+  "title": "",
+  "content": "",
+  "bootcamp": "",
+  "writer": "",
   "isWriter": false,
   "commentCnt": 0,
   "likeCnt": 0,
-  "view": 1,
+  "view": 0,
   "isLike": false,
-  "createdDate": [
-    2023,
-    7,
-    31,
-    13,
-    54,
-    1,
-    212312000
-  ]
+  "createdDate": "",
+  "category": "",
 }
 
 
