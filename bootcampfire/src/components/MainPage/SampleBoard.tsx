@@ -3,6 +3,7 @@ import HotContent from './HotContent';
 import { Bold18px } from 'components/Board/styled';
 import MoreBtn from './MoreBtn';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 const Container = styled.div``;
 
 const Table = styled.table`
@@ -18,31 +19,36 @@ const Cell = styled.td`
 `;
 
 interface createDataProps {
-  user: string;
   text: string;
   img: string;
   index: number;
 }
+interface boardData {
+  id: number;
+  title: string;
+}
 
-// const rows = [
-//   createData('김민범', '../../pages/MyPage/MyPage.tsx', 'SSAFY'),
-//   createData('김봉준', '../../pages/MyPage/MyPage.tsx', 'SSAFY'),
-//   createData('박지환', '../../pages/MyPage/MyPage.tsx', 'SSAFY'),
-//   createData('안나', '../../pages/MyPage/MyPage.tsx', 'SSAFY'),
-//   createData('이연희', '../../pages/MyPage/MyPage.tsx', 'SSAFY'),
-//   createData('임수형', '../../pages/MyPage/MyPage.tsx', 'SSAFY'),
-// ];
 const SampleBoard: React.FC<createDataProps> = (props) => {
-  let rows: any[] = [];
-  axios.get(`http://localhost:8080/categories/${props.index}/main`).then((res) => {
-    rows = res.data.data;
-    console.log(rows);
-  });
+  const [rows, setRows] = useState<boardData[]>([]);
+
+  useEffect(() => {
+    console.log(props);
+    axios.get(`http://localhost:8080/categories/${props.index}/main`).then((res) => {
+      setRows(res.data.data);
+    });
+  }, []);
+
   return (
     <div>
       <Container>
         <img src={props.img} alt="" height={'auto'} width={'auto'} />
-        <div style={{ display: 'flex', gap: '30px', marginBottom: '10px', alignItems: 'center' }}>
+        <div
+          style={{
+            display: 'flex',
+            gap: '30px',
+            marginBottom: '10px',
+            alignItems: 'center',
+          }}>
           <Bold18px>{props.text}</Bold18px>
           <MoreBtn index={props.index}></MoreBtn>
         </div>
@@ -50,9 +56,9 @@ const SampleBoard: React.FC<createDataProps> = (props) => {
         <Table>
           <tbody>
             {rows.map((row) => (
-              <Row key={row.user}>
+              <Row key={row.id}>
                 <Cell>
-                  <HotContent link={row.link} text={row.text}></HotContent>
+                  <HotContent link={`/BoardDetail/${row.id}`} text={row.title}></HotContent>
                 </Cell>
               </Row>
             ))}

@@ -16,7 +16,7 @@ export default function LoginDataPage() {
     localStorage.clear();
     const token = new URLSearchParams(document.location.search).get('token') ?? '';
     const [accessToken, refreshToken] = token?.split('refresh=');
-    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('Authorization', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
     axios
       .get(URL, {

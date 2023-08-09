@@ -1,39 +1,21 @@
 import axios from 'axios';
 import ManageCard from 'components/Manager/ManageCard';
+import { useEffect, useState } from 'react';
 
-function createData(img: string, nickname: string, bootcamp: string) {
-  return { img, nickname, bootcamp };
+interface registBootCamp {
+  img: string;
+  id: number;
+  nickname: string;
 }
 export default function Regist() {
-  // const userList = [
-  //   createData('/logo512', '김민범', 'SSAFY'),
-  //   createData('/logo512', '김봉준', 'SSAFY'),
-  //   createData('/logo512', '박지환', 'SSAFY'),
-  //   createData('/logo512', '안나', 'SSAFY'),
-  //   createData('/logo512', '이연희', 'SSAFY'),
-  //   createData('/logo512', '임수형', 'SSAFY'),
-  //   createData('/logo512', '김민범', 'SOMA'),
-  //   createData('/logo512', '김민범', '우테코'),
-  // ];
+  const [rows, setRows] = useState<registBootCamp[]>([]);
 
-  // const userList =
-  // console.log('?');
-  let exList: any[] = [];
-  axios.get('http://localhost:8080/users/admin/permission/list').then((res) => {
-    exList = res.data.data;
-    console.log(exList);
-  });
+  useEffect(() => {
+    axios.get(`http://localhost:8080/users/admin/permission/list`).then((res) => {
+      setRows(res.data.data);
+    });
+  }, []);
 
-  // const userList = [
-  //   { email: 'beom0109@naver.com', img: '/logo512.png', nickname: '김민범', bootcamp: 'SSAFY' },
-  //   { email: 'beom0109@naver.com', img: '/logo512.png', nickname: '김봉준', bootcamp: 'SSAFY' },
-  //   { email: 'beom0109@naver.com', img: '/logo512.png', nickname: '박지환', bootcamp: 'SSAFY' },
-  //   { email: 'beom0109@naver.com', img: '/logo512.png', nickname: '안나', bootcamp: 'SSAFY' },
-  //   { email: 'beom0109@naver.com', img: '/logo512.png', nickname: '이연희', bootcamp: 'SSAFY' },
-  //   { email: 'beom0109@naver.com', img: '/logo512.png', nickname: '임수형', bootcamp: 'SSAFY' },
-  //   { email: 'beom0109@naver.com', img: '/logo512.png', nickname: '김민범', bootcamp: 'SOMA' },
-  //   { email: 'beom0109@naver.com', img: '/logo512.png', nickname: '김민범', bootcamp: '우테코' },
-  // ];
   return (
     <div style={{ height: '800px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <div
@@ -42,8 +24,8 @@ export default function Regist() {
           display: 'flex',
           flexWrap: 'wrap',
         }}>
-        {exList.map((row) => (
-          <ManageCard email={row.email} img={row.img} nickname={row.nickname} bootcamp={row.bootcamp}></ManageCard>
+        {rows.map((row) => (
+          <ManageCard id={row.id} img={row.img} nickname={row.nickname}></ManageCard>
         ))}
       </div>
     </div>

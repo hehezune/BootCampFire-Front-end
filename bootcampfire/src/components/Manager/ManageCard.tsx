@@ -7,13 +7,12 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ManageModal } from './ManageModal';
 interface CardProps {
-  email: string;
   img: string;
   nickname: string;
-  bootcamp: string;
+  id: number;
 }
 
-const ManageCard = ({ email, img, nickname, bootcamp }: CardProps) => {
+const ManageCard = ({ id, img, nickname }: CardProps) => {
   // 모달 열림 상태를 관리하는 변수를 만듭니다.
   const [isManageModalOpen, setManageModalOpen] = React.useState(false);
 
@@ -36,7 +35,6 @@ const ManageCard = ({ email, img, nickname, bootcamp }: CardProps) => {
           <div>
             {/* 닉네임과 부 캠 정보를 표시합니다. */}
             <span>닉네임: {nickname}</span>
-            <div>부 캠: {bootcamp}</div>
           </div>
           {/* "상세 보기" 버튼을 만들고 클릭 이벤트에 모달을 열도록 합니다. */}
           <LightBtn type="first" onClick={isManageModalHandle}>
