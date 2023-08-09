@@ -7,6 +7,7 @@ import { Comment } from 'components/Board/interface';
 import loginSelectSliceReducer from './loginSelectSlice';
 import bootcampListSlice from './bootcampListSlice';
 import programmingSlice from './programmingSlice';
+import vsSlice from './vsSlice';
 
 export interface RootState {
   auth: {
@@ -21,6 +22,7 @@ export interface RootState {
     // sel_lst : boolean[];
     // category : boolean[];
     
+
     trackList : { name: string; isOn: boolean; }[];
     regionList : { name: string; isOn: boolean; }[];
     etcList : { name: string; isOn: boolean; }[];
@@ -28,6 +30,7 @@ export interface RootState {
     tmp_lst : string[];
     item_lst : string[];
     
+
     category : boolean[];
 };
   manageState: {
@@ -62,6 +65,10 @@ export interface RootState {
     dropBoxidx : number,
     bootSearch : string,
   };
+  vs : {
+    myGameRank : gameRank;
+
+  }
 }
 
 const store = configureStore({
@@ -74,6 +81,7 @@ const store = configureStore({
     login: loginSelectSliceReducer,
     bootcamp: bootcampListSlice,
     programming: programmingSlice,
+    vs : vsSlice,
   },
 });
 
@@ -94,3 +102,11 @@ interface BootcampItem {
   tracks: { id: number; name: string }[];
   regions: { id: number; name: string }[];
 }
+
+interface gameRank {
+  nickName : string;
+  bootCamp : string;
+  score : number;
+  ranking : number;
+}
+
