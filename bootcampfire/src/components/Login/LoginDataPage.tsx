@@ -1,3 +1,4 @@
+import { LocalParking } from '@mui/icons-material';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -17,6 +18,8 @@ export default function LoginDataPage() {
     const token = new URLSearchParams(document.location.search).get('token') ?? '';
     console.log(token);
     const [accessToken, refreshToken] = token?.split('refresh=');
+    localStorage.setItem("accessToken",accessToken);
+    localStorage.setItem("refreshToken",refreshToken);
     console.log('accessToken=', accessToken);
     console.log('refreshToken=', refreshToken);
     axios
