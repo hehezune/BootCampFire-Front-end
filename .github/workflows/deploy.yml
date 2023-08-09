@@ -32,6 +32,7 @@ jobs:
       
       - name: Install modules
         run: npm i -g pnpm
+        
 
       # - name: Run test codes
       #   run: pnpm run test
@@ -49,4 +50,5 @@ jobs:
           script: |
             cd bootcampfire/
             git pull
+            pnpm i
             pnpm start
