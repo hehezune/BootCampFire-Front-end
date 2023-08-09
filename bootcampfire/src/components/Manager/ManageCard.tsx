@@ -1,11 +1,12 @@
 import { Card } from '@mui/material';
-import { LightBtn } from 'components/Board/styled';
+import { LightBtn, Normal13px } from 'components/Board/styled';
 import styled from 'styled-components';
 import { styled as styled2 } from '@mui/material/styles';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ManageModal } from './ManageModal';
+import { colors } from 'constant/constant';
 interface CardProps {
   img: string;
   nickname: string;
@@ -30,11 +31,13 @@ const ManageCard = ({ id, img, nickname }: CardProps) => {
     <div>
       <Card sx={{ height: '317px', width: '250px', boxShadow: 'none', display: 'block' }}>
         {/* 이미지를 표시합니다. */}
-        <img src={img} alt="" style={{ height: '252px' }} />
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+        <img src={img} alt="" style={{ height: '252px', borderRadius: '20px'}} />
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center', justifyContent: 'space-between', marginTop: "5px"}}>
           <div>
             {/* 닉네임과 부 캠 정보를 표시합니다. */}
-            <span>닉네임: {nickname}</span>
+
+            <div><StyledBold13px as="span">닉네임: </StyledBold13px><StyledNormal13px as="span">{nickname}</StyledNormal13px></div>
+
           </div>
           {/* "상세 보기" 버튼을 만들고 클릭 이벤트에 모달을 열도록 합니다. */}
           <LightBtn type="first" onClick={isManageModalHandle}>
@@ -48,5 +51,12 @@ const ManageCard = ({ id, img, nickname }: CardProps) => {
     </div>
   );
 };
+const StyledBold13px = styled(Normal13px)`
+  font-weight: 700;
+  color: ${colors.TEXT_NORMAL} !important;
+`
 
+const StyledNormal13px = styled(Normal13px)`
+  color: ${colors.TEXT_NORMAL} !important;
+`
 export default ManageCard;

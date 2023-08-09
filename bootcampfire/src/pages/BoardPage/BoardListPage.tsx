@@ -37,6 +37,7 @@ function BoardListPage() {
     setModalOpen(false);
   };
 
+
   // keyword에 따른 렌더링
   useEffect(() => {
     if (keyword.length === 0) return;
@@ -68,6 +69,7 @@ function BoardListPage() {
     />
     // <BoardCard key={element.id} data={element} onClick={() => a(element.id)}/>
   ));
+
 
   return (
     <StyledPage className="test">

@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { login } from 'store/authSlice';
 
-// import { NodeJS } from 'timers';
+// // import { NodeJS } from 'timers';
 
 export default function LoginDataPage() {
   const dispatch = useDispatch();
@@ -46,3 +46,4 @@ export default function LoginDataPage() {
   }, []);
   return <div>되고있냐</div>;
 }
+

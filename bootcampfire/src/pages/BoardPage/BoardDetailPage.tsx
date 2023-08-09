@@ -55,7 +55,6 @@ function BoardDetailPage() {
       setBoardDetail(boardDetailResponse.data.data);
       dispatch(getComments({comments: commentsResponse.data.data, boardId: Number(id)}));
     })
-    console.log("바뀜?")
   }, [isLike]);
 
   return (

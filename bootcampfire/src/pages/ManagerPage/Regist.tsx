@@ -1,6 +1,10 @@
 import axios from 'axios';
 import ManageCard from 'components/Manager/ManageCard';
+
 import { useEffect, useState } from 'react';
+
+import styled from 'styled-components';
+
 
 interface registBootCamp {
   img: string;
@@ -17,17 +21,26 @@ export default function Regist() {
   }, []);
 
   return (
-    <div style={{ height: '800px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <div
-        style={{
-          gap: 70,
-          display: 'flex',
-          flexWrap: 'wrap',
-        }}>
-        {rows.map((row) => (
+
+    <WrapperManageCardContainer className='Wrapper'>
+      <ManageCardContainer className='Container'>
+         {rows.map((row) => (
           <ManageCard id={row.id} img={row.img} nickname={row.nickname}></ManageCard>
         ))}
-      </div>
-    </div>
+      </ManageCardContainer>
+    </WrapperManageCardContainer>
   );
 }
+const WrapperManageCardContainer = styled.div`
+  width: 100%;
+  position: relative;
+`
+const ManageCardContainer = styled.div`
+  gap: 65px;
+  width: 100%;
+  top: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  position: absolute;
+  align-items: center;
+`

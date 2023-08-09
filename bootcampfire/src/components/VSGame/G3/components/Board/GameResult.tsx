@@ -3,10 +3,15 @@ import Button from "../Button";
 import { useGameContext } from "../Game";
 import { GameStatus, Tile } from "../interfaces";
 
+import { RootState } from "store";
+import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
+
+
 const DATA = {
   WIN: {
-    message: "축하해요! 당신이 이겼어요",
-    buttonText: "한 판 더",
+    message: "축하해요!",
+    buttonText: "다시 할래요",
     containerClass: "gameResultWin",
   },
   GAME_OVER: {
@@ -27,13 +32,15 @@ const Result = (props: {
   const { message, buttonText, containerClass } =
     isWin || playAfterWin ? DATA.WIN : DATA.GAME_OVER;
 
+
+
   return (
     <div className={`gameResult ${containerClass}`}>
       <p>{message}</p>
       <div>
         {isWin && (
           <Button className="continueButton" onClick={() => onContinue()}>
-            To be continue....
+            멈출 수가 없어요
           </Button>
         )}
         <Button onClick={() => onRestart()}>{buttonText}</Button>

@@ -49,10 +49,6 @@ const BootCampListDetailPage: React.FC = () => {
     }
   }, []);
 
-  console.log(bootdetail);
-  console.log(bootreview);
-  console.log(myreview);
-
   if (!bootdetail) {
     return <div>Loading...</div>;
   }

@@ -44,6 +44,7 @@ function BoardCreatePage() {
   };
 
   const handlerSubmitBtn = () => {
+    console.log("카테고리 번호", selectCategory)
     const requestBody = {
       anonymous: isAnonymous,
       categoryId: selectCategory,

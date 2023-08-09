@@ -6,12 +6,33 @@ import { Tile } from "../interfaces";
 import ScoreBox from "../ScoreBox";
 import { ACTIONTYPE, ScoresState } from "./Interfaces";
 
+import { RootState } from "store";
+import { loadMyRank } from "store/vsSlice";
+import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { updateScore } from "store/vsSlice";
+
 import "./ScoresContainer.scss";
 
 export const ScoresContainer = () => {
 
   const { gameState } = useGameContext();
   
+  
+  const handleSaveScore = () => {
+    const postData = {
+      bestScore : myGameRank.score,
+    };
+    if (myGameRank.score != -1){
+
+      axios
+      .post(`http://localhost:8080/games`, postData)
+      .then((response) => {
+        console.log("점수 갱신 완료");
+      })
+      .catch((error) => {console.error("점수 갱신 중 오류가 발생했습니다.", error);});
+    }
+  }
 
   const [state, dispatch] = useGameLocalStorage(
     "scores",
@@ -22,6 +43,27 @@ export const ScoresContainer = () => {
   useEffect(() => {
     dispatch({ type: "change", payload: gameState.tiles });
   }, [gameState.tiles, dispatch]);
+  
+  const { myGameRank } = useSelector((state: RootState) => state.vs)
+  const {isLoggedIn} = useSelector((state: RootState) => state.auth)
+  const dispatch2 = useDispatch();
+  // GAME_OVER
+  useEffect(() => {
+    if (gameState.status === "GAME_OVER" || gameState.status === "WIN") {
+      console.log("갱신됨")
+      console.log(myGameRank.score, "vs", state.bestScore)
+      if (myGameRank.score < state.bestScore) {
+        dispatch2(updateScore(state.bestScore))
+        console.log("디스패치 까지는 됨 ㅋㅋ ")
+        if(isLoggedIn) {
+          console.log("여기까지도 들어옴 ㅋㅋ")
+          handleSaveScore()
+        }
+      }
+      
+    }
+  }, [gameState.status, myGameRank.score, state.bestScore, dispatch2]);
+  
 
   useEffect(() => {
     
@@ -102,7 +144,7 @@ const stateReducer = (state: ScoresState, action: ACTIONTYPE) => {
 
       const score = state.score + newPoints;
       const bestScore = Math.max(score, state.bestScore);
-
+      
       return { tiles, newPoints, score, bestScore };
     }
     default: {
@@ -110,3 +152,4 @@ const stateReducer = (state: ScoresState, action: ACTIONTYPE) => {
     }
   }
 };
+
