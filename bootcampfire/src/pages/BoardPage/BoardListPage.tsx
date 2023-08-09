@@ -32,14 +32,19 @@ function BoardListPage() {
         if (keyword.length === 0) return ;        
         const keywordType = type === 0 ? "keywords" : "nickname"; 
         axios.get(API_URL + `/${selectCategory}/${keywordType}/${keyword}`)
-        .then((res) => setBoardListData(res.data.data.content));
+        .then((res) => {setBoardListData(res.data.data.content);
+        });
     }, [keyword]);
 
     // // sort 기준에 따른 렌더링
     useEffect(() => {
         if (sort === 0) {
-            axios.get(API_URL + `/${selectCategory}`)
-            .then((res) => setBoardListData(res.data.data.content));
+            console.log(API_URL + `/${selectCategory}`)
+            axios.get(API_URL + `/${selectCategory}?page=0&size=5`)
+            .then((res) => {
+                console.log(res)
+                setBoardListData(res.data.data.content);
+            });
             return ;
         }
         let sortType = "";
@@ -48,8 +53,8 @@ function BoardListPage() {
         } else if (sort === 2) {
             sortType = "views";
         }
-        axios.get(API_URL + `/${selectCategory}/${sortType}`)
-        .then((res) => setBoardListData(res.data.data.content));
+        // axios.get(API_URL + `/${selectCategory}/${sortType}`)
+        // .then((res) => setBoardListData(res.data.data.content));
     }, [selectCategory, sort]);
     const BoardList = boardListData.map((element) => (
         <BoardCard key={element.id} 

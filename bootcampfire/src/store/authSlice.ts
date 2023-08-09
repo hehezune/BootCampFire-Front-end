@@ -10,7 +10,6 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-
   userId: 3,
   isLoggedIn: true,
   nickname: null,
