@@ -109,6 +109,12 @@ const BoardListMain = styled.div`
         width: 80%;
     }
 `
+const StyledDiv = styled.div`
+    display: flex;
+    width: 500px;
+    height: 500px;
+`
+
 const getDataFromAPI = async (pageCount: number, url: string) => {
     const response = await axios.get(`${url}?page=${pageCount}&size=5`);
     // const response = await axios.get(`${url}`);
