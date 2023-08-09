@@ -6,7 +6,6 @@ import { login } from 'store/authSlice';
 
 // // import { NodeJS } from 'timers';
 
-
 export default function LoginDataPage() {
   const dispatch = useDispatch();
 
@@ -14,11 +13,11 @@ export default function LoginDataPage() {
   const URL = 'http://localhost:8080/users';
   const navigate = useNavigate();
   useEffect(() => {
+    localStorage.clear();
     const token = new URLSearchParams(document.location.search).get('token') ?? '';
-    console.log(token);
     const [accessToken, refreshToken] = token?.split('refresh=');
-    console.log('accessToken=', accessToken);
-    console.log('refreshToken=', refreshToken);
+    localStorage.setItem('Authorization', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
     axios
       .get(URL, {
         // params: { token: token },
@@ -33,7 +32,7 @@ export default function LoginDataPage() {
               userId: res.data.data.id,
               nickname: res.data.data.nickname,
               email: res.data.data.email,
-              isAdmin: false,
+              isAdmin: true,
               bootcampId: res.data.data.bootcampId,
             })
           );
@@ -46,6 +45,5 @@ export default function LoginDataPage() {
       });
   }, []);
   return <div>되고있냐</div>;
-
 }
 
