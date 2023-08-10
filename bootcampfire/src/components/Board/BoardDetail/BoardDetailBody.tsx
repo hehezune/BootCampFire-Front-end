@@ -11,8 +11,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { categories } from 'constant/constant';
 import { useLocation, useNavigate } from 'react-router-dom';
-import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import axios from 'axios';
 
 interface BoardDate {
@@ -21,7 +19,6 @@ interface BoardDate {
     commentCnt: number;
     createdDate: string;
 }
-
 
 // Warpper~~ element 는 경계선 작업을 위함
 // StyledBoardHeader 및 StyledBoardBody는 좌우 여백을 만들기 위함

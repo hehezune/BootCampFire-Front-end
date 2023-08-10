@@ -67,12 +67,12 @@ export interface RootState {
   vs : {
     GameRank10 : gameRank[];
     myGameRank : gameRank;
+  
 
-
+  };
   bootcampInfo: {
     bootcampInfo: BootcampInfoItem[];
-  };
-}
+  }
 }
 const store = configureStore({
   reducer: {
