@@ -8,7 +8,8 @@ export interface Board {
     commentCnt: number;
     likeCnt: number;
     view: number;
-    createdDate: number[];
+    createdDate: string;
+    category: string;
 }
 
 export interface BoardDetail extends Board {
