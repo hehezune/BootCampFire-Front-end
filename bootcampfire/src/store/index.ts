@@ -64,10 +64,6 @@ export interface RootState {
     dropBoxidx: number;
     bootSearch: string;
   };
-  vs: {
-    myGameRank: gameRank;
-  };
-
   vs : {
     GameRank10 : gameRank[];
     myGameRank : gameRank;
@@ -77,7 +73,7 @@ export interface RootState {
     bootcampInfo: BootcampInfoItem[];
   };
 }
-
+}
 const store = configureStore({
   reducer: {
     auth: authReducer,
