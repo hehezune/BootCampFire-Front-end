@@ -55,7 +55,7 @@ function BoardDetailBody({boardDetail, setLike}:{boardDetail: BoardDetail, setLi
         view: boardDetail.view,
         likeCnt: boardDetail.likeCnt,
         commentCnt: commentCnt,
-        createdDate: boardDetail.createdDate.join('-'),
+        createdDate: boardDetail.createdDate,
     }
 
     return (
