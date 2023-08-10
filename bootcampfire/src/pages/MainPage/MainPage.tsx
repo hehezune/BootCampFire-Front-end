@@ -3,6 +3,8 @@ import CustomizedInputBase from '../../components/CustomizedInputBase'; // Custo
 import HotBoard from '../../components/MainPage/HotBoard';
 import Ranking from '../../components/MainPage/Ranking';
 import SampleBoard from 'components/MainPage/SampleBoard';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const MainContainer = styled.div`
   position: relative;
@@ -30,6 +32,7 @@ export default function MainPage() {
     createData(8, '/asd', 'IT'),
     createData(9, '/asd', '내 부트캠프'),
   ];
+
   return (
     <MainContainer>
       <BoardDiv>
