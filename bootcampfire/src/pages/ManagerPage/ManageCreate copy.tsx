@@ -13,28 +13,51 @@ import { Language } from "@mui/icons-material";
 const API_KEY = 'http://localhost:8080/bootcamps/';
 const accessToken = localStorage.getItem("Authorization");
 
+interface bootcampInput {
+  name: string;
+  siteUrl: string;
+  process: string;
+  schedule: string;
+  description: string;
+  cost: number;
+  card: boolean;
+  support: boolean;
+  hasCodingtest: boolean;
+  onOff: string;
+  startDate: string;
+  endDate: string;
+  imgUrl: string,
+  track: {id:number, name:string}[];
+  languages: {id:number, name:string}[];
+  regions: {id:number, name:string}[];
+}
+
 const ManageCreate = () => {
-  const [selectedStacks, setSelectedStacks] = useState<{id:number, name:string}[]>([]);
-  const [selectedTracks, setSelectedTracks] = useState<{id:number, name:string}[]>([]);
-  const [selectedPlaces, setSelectedPlaces] = useState<{id:number, name:string}[]>([]);
-  const [selectOnOff, setSelectOnOff] = useState("");
-  const [selectSupport, setSelectSupport] = useState("");
-  const [selectCard, setSelectCard] = useState("");
+  const [inputData, setInputData] = useState<bootcampInput>({
+    name: "",
+    siteUrl: "",
+    process: "",
+    schedule: "",
+    description: "",
+    cost: 0,
+    card: false,
+    support: false,
+    hasCodingtest: false,
+    onOff: "",
+    startDate: "",
+    endDate: "",
+    imgUrl: "",
+    track: [],
+    languages: [],
+    regions: [],
+  });
   const [place, setPlace] = useState("");
   const [stack, setStack] = useState("");
   const [track, setTrack] = useState("");
-  const [bootcampName, setBootcampName] = useState("");
-  const [bootcampUrl, setBootcampUrl] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
   const navigate = useNavigate();
   const [tracks, setTracks] = useState([]);
   const [places, setPlaces] = useState([]);
   const [stacks, setStacks] = useState([]);
-  const [process, setProcess] = useState("");
-  const [description, setDescription] = useState("");
-  const [schedule, setSchedule] = useState("");
-  const [cost, setCost] = useState("");
 
   useEffect(() => {
     Promise.all([
@@ -47,7 +70,9 @@ const ManageCreate = () => {
       setStacks(languagesRes.data.data);
     })
   },[])
+  const handleSelectDropDown = (event: SelectChangeEvent) => {
 
+  }
 
   const handleSelectStack = (event: SelectChangeEvent) => {
     const value = event.target.value as string;
@@ -115,9 +140,9 @@ const ManageCreate = () => {
       startDate: startDate,
       endDate: endDate,
       imgUrl :"이미지 주소 어쩌구 저쩌구",
-      track : tracks,
-      languages : stacks,
-      regions : places
+      track : selectedTracks,
+      languages : selectedStacks,
+      regions : selectedPlaces
     }
     console.log(request)
     axios.post(API_KEY, request, {
@@ -142,14 +167,14 @@ const ManageCreate = () => {
       <Line/>
       <div style={{ display: "flex"}}>
         <InputCategory>부트캠프 명</InputCategory>
-        <TextField size="small" id="bootcamp" label="bootcamp" variant="outlined"
+        <TextField size="small" id="bootcamp" label="bootcamp" variant="outlined" name="name"
             value={bootcampName} onChange={(event: ChangeEvent<HTMLInputElement>) => handleStringInput(event, setBootcampName)}/>
       </div>
       <Line />
       <div style={{ display: "flex" }}>
         <StyledSpan>
           <InputCategory as="span">URL</InputCategory>
-          <TextField size="small" id="URL" label="URL" variant="outlined"
+          <TextField size="small" id="URL" label="URL" variant="outlined" name="siteUrl"
             value={bootcampUrl} onChange={(event: ChangeEvent<HTMLInputElement>) => handleStringInput(event, setBootcampUrl)} />
         </StyledSpan>
         <StyledSpan>
@@ -161,11 +186,11 @@ const ManageCreate = () => {
         <div style={{ display: "flex" }}>
           <StyledSpan>
           <InputCategory as="span">모집시작일</InputCategory>
-          <StyledShedule type="datetime-local" onChange={(event: ChangeEvent<HTMLInputElement>) => handleStringInput(event, setStartDate)}/>
+          <StyledShedule type="datetime-local" name="startDate" onChange={(event: ChangeEvent<HTMLInputElement>) => handleStringInput(event, setStartDate)}/>
           </StyledSpan>
           <StyledSpan>
           <InputCategory as="span">모집마감일</InputCategory>
-          <StyledShedule type="datetime-local" onChange={(event: ChangeEvent<HTMLInputElement>) => handleStringInput(event, setEndDate)}/>
+          <StyledShedule type="datetime-local" name="endDate" onChange={(event: ChangeEvent<HTMLInputElement>) => handleStringInput(event, setEndDate)}/>
           </StyledSpan>
         </div>
       <Line />
@@ -180,6 +205,7 @@ const ManageCreate = () => {
             onChange={handleSelectTrack}
             value={track}
             size="small"
+            name="track"
           >
             {stacks.map((element: {id: number, name: string}) => (
               <MenuItem value={element.id + element.name}>{element.name}</MenuItem>
@@ -187,7 +213,7 @@ const ManageCreate = () => {
           </Select>
         </FormControl>
         <div style={{display: "flex"}}>
-          {selectedTracks.map((row, idx) => (
+          {selectedselectedTracks.map((row, idx) => (
             <LightBtn type={""} style={{margin: "auto 0 auto 10px"}}>{row.name}
               <CloseOutlinedIcon 
                 onClick={() => handleDeleteTrack(idx)}
@@ -208,6 +234,7 @@ const ManageCreate = () => {
             onChange={handleSelectStack}
             value={stack}
             size="small"
+            name="languages"
           >
             {stacks.map((element: {id: number, name: string}) => (
               <MenuItem value={element.id + element.name}>{element.name}</MenuItem>
@@ -228,12 +255,12 @@ const ManageCreate = () => {
         <div style={{ display: "flex", flexDirection: "column" }}>
           <StyledDiv>
             <StyledBold15px>교육기간</StyledBold15px>
-            <TextField size="small" id="learning" label="교육기간" variant="outlined"
+            <TextField size="small" id="learning" label="교육기간" variant="outlined" name="schedule"
              value={schedule} onChange={(event: ChangeEvent<HTMLInputElement>) => handleStringInput(event, setSchedule)}/>
           </StyledDiv>
           <StyledDiv>
             <StyledBold15px>온/오프라인</StyledBold15px>
-            <ManageRadioBtn list={["온라인", "오프라인", "온/오프라인"]} setBtn={setSelectOnOff} selectData={selectOnOff}/>
+            <ManageRadioBtn list={["온라인", "오프라인", "온/오프라인"]} name="onOff" setBtn={setSelectOnOff} selectData={selectOnOff}/>
           </StyledDiv>
           <StyledDiv>
             <StyledBold15px>장소</StyledBold15px>
@@ -246,6 +273,7 @@ const ManageCreate = () => {
                 onChange={handleSelectPlace}
                 value={place}
                 size="small"
+                name="regions"
               >
               {stacks.map((element: {id: number, name: string}) => (
                 <MenuItem value={element.id + element.name}>{element.name}</MenuItem>
@@ -268,30 +296,30 @@ const ManageCreate = () => {
         <div>
           <StyledDiv>
           <StyledBold15px>수강료</StyledBold15px>
-          <TextField size="small"  id="calender" label="수강료" variant="outlined" value={cost}
+          <TextField size="small"  id="calender" label="수강료" variant="outlined" value={cost} name="cost"
             onChange={(event: ChangeEvent<HTMLInputElement>) => handleStringInput(event, setCost)}
           />
           </StyledDiv>
           <StyledDiv>
           <StyledBold15px>지원금</StyledBold15px>
-          <ManageRadioBtn list={["지원금 O", "지원금 X"]} setBtn={setSelectSupport} selectData={selectSupport}/>
+          <ManageRadioBtn list={["지원금 O", "지원금 X"]} name="support" setBtn={setSelectSupport} selectData={selectSupport}/>
           </StyledDiv>
           <StyledDiv>
           <StyledBold15px>내일배움카드</StyledBold15px>
-          <ManageRadioBtn  list={["카드 등록 필수 O", "카드 등록 필수 X"]} setBtn={setSelectCard} selectData={selectCard}/>
+          <ManageRadioBtn  list={["카드 등록 필수 O", "카드 등록 필수 X"]} name="card" setBtn={setSelectCard} selectData={selectCard}/>
           </StyledDiv>
         </div>
       </div>
       <Line />
       <div style={{ display: "flex" }}>
         <InputCategory>모집절차</InputCategory>
-        <TextField size="small"  id="learning" label="모집절차" variant="outlined" sx={{width: "800px"}}
+        <TextField size="small"  id="learning" label="모집절차" variant="outlined" sx={{width: "800px"}} name="process"
           value={process} onChange={(event: ChangeEvent<HTMLInputElement>) => handleStringInput(event, setProcess)}/>
       </div>
       <Line />
       <div style={{ display: "flex" }}>
         <InputCategory>설명</InputCategory>
-        <TextField size="small"  id="learning" label="설명" variant="outlined" sx={{width: "800px"}}
+        <TextField size="small"  id="learning" label="설명" variant="outlined" sx={{width: "800px"}} name="description"
           value={description} onChange={(event: ChangeEvent<HTMLInputElement>) => handleStringInput(event, setDescription)}/>
       </div>
       <Line />
