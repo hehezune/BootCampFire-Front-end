@@ -1,54 +1,69 @@
-name: deploy
+name: Deploy  # 워크플로우의 이름
 
-on:
+# 'CICD' 브랜치에 푸시되었을 때, 워크플로우를 실행
+on:  
   push:
     branches: [ CICD ]
 
-jobs:
-  Build-and-Deploy:
-    runs-on: ubuntu-latest
+# 환경 변수 설정 
+# Docker 이미지의 이름 및 저장소 위치 설정 
+env:  
+  DOCKER_IMAGE: ghcr.io/${{ github.actor }}/chargingpot  
+  VERSION: ${{ github.sha }}  # GitHub 커밋의 고유한 해시 값으로 버전 설정
+  NAME: React_docker_Image  # 사용할 Docker 컨테이너의 이름 설정
 
-    defaults:
-      run:
-        working-directory: "./bootcampfire"
-
-    env: 
-      CI: false
-
-    strategy:
-      matrix:
-        node-version: [18.16.1]
-
-    steps:
-      - name: Checkout source code.
-        uses: actions/checkout@v3
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: npm
-          cache-dependency-path: './package-lock.json'
-      
-      - name: Install modules
-        run: npm i -g pnpm
+jobs:  
+  build:  
+    name : Build 
+    runs-on: ubuntu-latest 
+    
+    steps:  
+      - name : Checkout  
+        uses : actions/checkout@v2  # GitHub 리포지토리 체크아웃 액션
         
+      - name : Setup docker buildx  # Docker Buildx 설정 단계
+        id : buildx  # 이 단계의 ID
+        uses : docker/setup-buildx-actions@v1  # Docker Buildx 액션
+        
+      - name : Cache docker layers  # Docker 레이어 캐싱 단계
+        uses : actions/cache@v2  # 캐시 액션
+        with :
+          path : /tmp/.buildx-cache  # 캐시 저장 경로
+          key : ${{ runner.os }}-buildx-${{env.VERSION}}  # 캐시 키 설정
+          restore-keys: |
+            ${{ runner.os }}-buildx-  # 복원할 캐시 키 설정
+            
+      - name : Login to ghcr  # GitHub Container Registry에 로그인하는 단계
+        uses : docker/login-actions@v1  # Docker 로그인 액션 
+        with : 
+          registry : ghcr.io  # 사용할 레지스트리 설정 
+          username : ${{ github.actor }}  # 사용자 이름 설정
+          password : ${{ secrets.SH_TOKEN }}  # 비밀 변수 사용
+        
+      - name : Build and push  # Docker 이미지 빌드 및 푸시 단계
+        id : docker_build  # 이 단계의 ID
+        uses : docker/build-push-action@v2  # Docker 이미지 빌드 및 푸시 액션 사용
+        with : 
+          builder : ${{ steps.buildx.outputs.name }}  # Buildx 인스턴스 이름 사용
+          push : true  # 이미지 푸시 설정
+          tags : ${{ env.DOCKER_IMAGE }}:latest  # 이미지 태그 설정
 
-      # - name: Run test codes
-      #   run: pnpm run test
-
-      # - name: Build project
-      #   run: pnpm i && pnpm start
-
-      - name: Deploy EC2
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          password: ${{ secrets.EC2_KEY }}
-          port: ${{ secrets.PORT }}
-          script: |
-            cd bootcampfire/
-            git pull
-            # pnpm i
-            # pnpm start
+  # deploy 작업, build 선행, 자체 호스팅된 에이전트에서 실행
+  deploy : 
+    needs : build  
+    name : Deploy  
+    runs-on : [ self-hosted ]  
+    
+    steps :  # 작업의 단계 설정
+      - name : Login to ghcr  # GitHub Container Registry에 로그인하는 단계
+        uses : docker/login-actoin@v1  # Docker 로그인 액션 사용
+        with :
+          registry : ghcr.io  # 사용할 레지스트리 설정
+          username : ${{ github.actor }}  # 사용자 이름 설정
+          password : ${{ secrets.SH_TOKEN }}  # 비밀 변수 사용
+      
+      # 기존 컨테이너 중지/삭제, 새로운 컨테이너 실행
+      - name : Docker run  
+        run : |  
+          docker stop ${{ env.NAME }} && docker rm {{ env.NAME }} && docker rmi ${{ env.DOCKER_IMAGE }}:latest  
+          docker run -d -p 3000:3000 --name superman --restart always ${{ env.DOCKER_IMAGE }}:latest  
