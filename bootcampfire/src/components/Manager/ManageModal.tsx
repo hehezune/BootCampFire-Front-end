@@ -4,7 +4,8 @@ import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
-import { boardListData } from '../Board/Dummies';
+// import { boardListData } from '../Board/Dummies';
+
 import { Row } from 'antd';
 import styled from 'styled-components';
 
@@ -17,7 +18,7 @@ interface ManageModalProps {
 }
 
 export const ManageModal: React.FC<ManageModalProps> = (props) => {
-  const infos = useSelector((state: RootState) => state.bootcampInfo);
+  // const infos = useSelector((state: RootState) => state.bootcampInfo);
 
   const onAccess = () => {
     axios.put(
@@ -65,9 +66,9 @@ export const ManageModal: React.FC<ManageModalProps> = (props) => {
               value={bootcamp}
               label="Bootcamp"
               onChange={handleChange}>
-              {infos.bootcampInfo.map((row) => (
+              {/* {infos.bootcampInfo.map((row) => (
                 <MenuItem value={row.id}>{row.name}</MenuItem>
-              ))}
+              ))} */}
             </Select>
           </FormControl>
           <button onClick={onAccess}>승인</button>
