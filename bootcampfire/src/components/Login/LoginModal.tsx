@@ -68,15 +68,14 @@ const LoginModal: React.FC<LoginModalProps> = (props) => {
       width: '32px',
       height: '32px',
       comment: '네이버 로그인',
-      loginURL:
-        'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=qKQeuYnnrFkppfXuP7SC&state=STATE_STRING&redirect_uri=http://localhost:3000/auth/naver/callback',
+      loginURL: 'http://localhost:8080/oauth2/authorization/naver',
     },
     {
       src: '/Google.png',
       width: '32px',
       height: '32px',
       comment: '구글 로그인',
-      loginURL: 'http://localhost:3000/oauth2/authorization/google',
+      loginURL: 'http://localhost:8080/oauth2/authorization/google',
     },
   ];
 

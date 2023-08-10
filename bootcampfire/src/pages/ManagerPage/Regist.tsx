@@ -2,9 +2,9 @@ import axios from 'axios';
 import ManageCard from 'components/Manager/ManageCard';
 
 import { useEffect, useState } from 'react';
-
+import { setBootcampInfo } from 'store/bootcampSimpleListSlice';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-
 
 interface registBootCamp {
   img: string;
@@ -13,6 +13,7 @@ interface registBootCamp {
 }
 export default function Regist() {
   const [rows, setRows] = useState<registBootCamp[]>([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     axios.get(`http://localhost:8080/users/admin/permission/list`).then((res) => {
@@ -20,11 +21,16 @@ export default function Regist() {
     });
   }, []);
 
-  return (
+  useEffect(() => {
+    axios.get('http://localhost:8080/bootcamps/names').then((res) => {
+      dispatch(setBootcampInfo({ list: res.data.data }));
+    });
+  }, []);
 
-    <WrapperManageCardContainer className='Wrapper'>
-      <ManageCardContainer className='Container'>
-         {rows.map((row) => (
+  return (
+    <WrapperManageCardContainer className="Wrapper">
+      <ManageCardContainer className="Container">
+        {rows.map((row) => (
           <ManageCard id={row.id} img={row.img} nickname={row.nickname}></ManageCard>
         ))}
       </ManageCardContainer>
@@ -34,7 +40,7 @@ export default function Regist() {
 const WrapperManageCardContainer = styled.div`
   width: 100%;
   position: relative;
-`
+`;
 const ManageCardContainer = styled.div`
   gap: 65px;
   width: 100%;
@@ -43,4 +49,10 @@ const ManageCardContainer = styled.div`
   flex-wrap: wrap;
   position: absolute;
   align-items: center;
-`
+`;
+function dispatch(arg0: any) {
+  throw new Error('Function not implemented.');
+}
+function bootcampInfo(arg0: { bootcampId: any; bootcampName: any }): any {
+  throw new Error('Function not implemented.');
+}

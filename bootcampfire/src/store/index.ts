@@ -8,6 +8,7 @@ import loginSelectSliceReducer from './loginSelectSlice';
 import bootcampListSlice from './bootcampListSlice';
 import programmingSlice from './programmingSlice';
 import vsSlice from './vsSlice';
+import bootcampSimpleListSlice from './bootcampSimpleListSlice';
 
 export interface RootState {
   auth: {
@@ -18,21 +19,19 @@ export interface RootState {
     bootcampId: number;
     email: string;
   };
-  select : {  
+  select: {
     // sel_lst : boolean[];
     // category : boolean[];
-    
 
-    trackList : { name: string; isOn: boolean; }[];
-    regionList : { name: string; isOn: boolean; }[];
-    etcList : { name: string; isOn: boolean; }[];
+    trackList: { name: string; isOn: boolean }[];
+    regionList: { name: string; isOn: boolean }[];
+    etcList: { name: string; isOn: boolean }[];
 
-    tmp_lst : string[];
-    item_lst : string[];
-    
+    tmp_lst: string[];
+    item_lst: string[];
 
-    category : boolean[];
-};
+    category: boolean[];
+  };
   manageState: {
     img: string | null;
     nickname: string | null;
@@ -51,24 +50,27 @@ export interface RootState {
     bootcamp: BootcampItem[];
     loading: boolean;
     error: null;
-    dropBoxidx : number,
-    bootSearch : string,
+    dropBoxidx: number;
+    bootSearch: string;
   };
   programming: {
     item_lst: string[];
     tmp_lst: string[];
     sel_lst: boolean[];
     category: boolean[];
-    bootcamp : BootcampItem[],
-    loading : boolean,
-    error: null,
-    dropBoxidx : number,
-    bootSearch : string,
+    bootcamp: BootcampItem[];
+    loading: boolean;
+    error: null;
+    dropBoxidx: number;
+    bootSearch: string;
   };
-  vs : {
-    myGameRank : gameRank;
+  vs: {
+    myGameRank: gameRank;
+  };
 
-  }
+  bootcampInfo: {
+    bootcampInfo: BootcampInfoItem[];
+  };
 }
 
 const store = configureStore({
@@ -81,7 +83,8 @@ const store = configureStore({
     login: loginSelectSliceReducer,
     bootcamp: bootcampListSlice,
     programming: programmingSlice,
-    vs : vsSlice,
+    vs: vsSlice,
+    bootcampInfo: bootcampSimpleListSlice,
   },
 });
 
@@ -104,9 +107,13 @@ interface BootcampItem {
 }
 
 interface gameRank {
-  nickName : string;
-  bootCamp : string;
-  score : number;
-  ranking : number;
+  nickName: string;
+  bootCamp: string;
+  score: number;
+  ranking: number;
 }
 
+interface BootcampInfoItem {
+  id: number;
+  name: string;
+}
