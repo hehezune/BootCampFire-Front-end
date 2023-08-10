@@ -43,13 +43,15 @@ jobs:
       - name: Print Current Directory  
         run: pwd 
     
-      - name : Build and push  # Docker 이미지 빌드 및 푸시 단계
-        id : docker_build  # 이 단계의 ID
-        uses : docker/build-push-action@v2  # Docker 이미지 빌드 및 푸시 액션 사용
+      - name: Build and push  # Docker 이미지 빌드 및 푸시 단계
+        id: docker_build  # 이 단계의 ID
+        uses: docker/build-push-action@v2  # Docker 이미지 빌드 및 푸시 액션 사용
         with : 
           builder : ${{ steps.buildx.outputs.name }}  # Buildx 인스턴스 이름 사용
           push : true  # 이미지 푸시 설정
           tags : ${{ env.DOCKER_IMAGE }}:latest  # 이미지 태그 설정
+        working-directory: ./bootcampfire  # 작업 디렉터리 변경
+
 
   # deploy 작업, build 선행, 자체 호스팅된 에이전트에서 실행
   deploy : 
