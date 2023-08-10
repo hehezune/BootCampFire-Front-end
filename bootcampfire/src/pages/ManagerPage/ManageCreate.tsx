@@ -1,110 +1,130 @@
-import {
-  Box,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  TextField,
-} from "@mui/material";
-import {
-  Bold15px,
-  Bold18px,
-  LightBtn,
-  StrongBtn,
-} from "components/Board/styled";
-import { bootcamp } from "constant/constant";
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "store";
+import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField} from "@mui/material";
+import { Bold15px, Bold18px, LightBtn, StrongBtn,} from "components/Board/styled";
+import { ChangeEvent, useState } from "react";
 import ManageRadioBtn from "components/Manager/ManageRadioBtn";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { colors } from "constant/constant";
+import { useEffect } from "react";
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import axios from "axios";
+import { Language } from "@mui/icons-material";
 
+const API_KEY = 'http://localhost:8080/bootcamps/';
+const accessToken = localStorage.getItem("Authorization");
 
 const ManageCreate = () => {
-  const [selectedStacks, setSelectedStacks] = useState<string[]>([]);
-  const [selectedTracks, setSelectedTracks] = useState<string[]>([]);
-  const [selectedPlaces, setSelectedPlaces] = useState<string[]>([]);
+  const [selectedStacks, setSelectedStacks] = useState<{id:number, name:string}[]>([]);
+  const [selectedTracks, setSelectedTracks] = useState<{id:number, name:string}[]>([]);
+  const [selectedPlaces, setSelectedPlaces] = useState<{id:number, name:string}[]>([]);
   const [selectOnOff, setSelectOnOff] = useState("");
   const [selectSupport, setSelectSupport] = useState("");
   const [selectCard, setSelectCard] = useState("");
   const [place, setPlace] = useState("");
   const [stack, setStack] = useState("");
   const [track, setTrack] = useState("");
+  const [bootcampName, setBootcampName] = useState("");
+  const [bootcampUrl, setBootcampUrl] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const navigate = useNavigate();
+  const [tracks, setTracks] = useState([]);
+  const [places, setPlaces] = useState([]);
+  const [stacks, setStacks] = useState([]);
+  const [process, setProcess] = useState("");
+  const [description, setDescription] = useState("");
+  const [schedule, setSchedule] = useState("");
+  const [cost, setCost] = useState("");
+
+  useEffect(() => {
+    Promise.all([
+      axios.get(API_KEY + "regions"),
+      axios.get(API_KEY + "tracks"),
+      axios.get(API_KEY + "languages"),
+    ]).then(([regionsRes, tracksRes, languagesRes]) => {
+      setTracks(tracksRes.data.data);
+      setPlaces(regionsRes.data.data);
+      setStacks(languagesRes.data.data);
+    })
+  },[])
+
 
   const handleSelectStack = (event: SelectChangeEvent) => {
     const value = event.target.value as string;
-    if (!selectedStacks.includes(value)) {
-      setSelectedStacks([...selectedStacks, value]);
+    // if (!selectedStacks.includes(value)) {
+      const id = Number(value.substring(0, 1));
+      const name = value.substring(1);
+      setSelectedStacks([...selectedStacks, {id, name}]);
       setStack(value);
-    }
-    console.log(selectedStacks);
+    // }
   };
   const handleSelectTrack = (event: SelectChangeEvent) => {
     const value = event.target.value as string;
-    if (!selectedTracks.includes(value)) {
-      setSelectedTracks([...selectedTracks, value]);
+    // if (!selectedTracks.includes(value)) {
+      const id = Number(value.substring(0, 1));
+      const name = value.substring(1);
+      setSelectedTracks([...selectedTracks, {id, name}]);
       setTrack(value);
-    }
-    console.log(selectedTracks);
+    // }
   };
   const handleSelectPlace = (event: SelectChangeEvent) => {
     const value = event.target.value as string;
-    if (!selectedPlaces.includes(value)) {
-      setSelectedPlaces([...selectedPlaces, value]);
-      setPlace(place);
-    }
-    console.log(selectedPlaces);
+    // if (!selectedPlaces.includes(value)) {
+      const id = Number(value.substring(0, 1));
+      const name = value.substring(1);
+      setSelectedPlaces([...selectedPlaces, {id, name}]);
+      setStack(value);
+    // }
   };
-
-  const addFile = () => {};
+  const handleDeletePlace = (idx: number) => {
+    const newPlaces = [...selectedPlaces];
+    newPlaces.splice(idx, 1);
+    setSelectedPlaces(newPlaces);
+  }
+  const handleDeleteStack = (idx: number) => {
+    const newStacks = [...selectedStacks]
+    newStacks.splice(idx, 1);
+    setSelectedStacks(newStacks);
+  }
+  const handleDeleteTrack = (idx: number) => {
+    const newTracks = [...selectedTracks]
+    newTracks.splice(idx, 1);
+    setSelectedTracks(newTracks);
+  }
+  const handleStringInput = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, 
+                setFunction: React.Dispatch<React.SetStateAction<string>>) => {
+    setFunction(event.target.value);
+  }
+  
+  const addFile = () => {
+    
+  };
 
   const onCreateBootcamp = () => {
     const request = {
-      name:"새 부트캠프",
-      siteUrl:"aaaa",
-      process:"aaaa",
-      schedule:"2023년 3월 12일 ~ 9월 10일",
-      description:"aaaa",
-      cost:"3.5",
-      card:true,
-      support:true,
+      name: bootcampName,
+      siteUrl: bootcampUrl,
+      process,
+      schedule,
+      description,
+      cost,
+      card:selectCard[selectCard.length - 1] === "O" ? true : false,
+      support:selectSupport[selectSupport. length - 1] === "O" ? true : false,
       hasCodingtest:true,
-      onOff:"온라인",
-      startDate:"1999-12-31T23:59:59.999",
-      endDate:"1999-12-31T23:59:59.999",
+      onOff:selectOnOff,
+      startDate,
+      endDate,
       imgUrl :"이미지 주소 어쩌구 저쩌구",
-      track : [
-          {
-              "id" : 8,
-              "name" :"풀스택"
-          },
-          {
-              "id": 4,
-              "name" : "앱"
-          }
-      ],
-      languages : [
-          {
-              "id" : 3,
-              "name" :"PYTHON"
-          }
-      ],
-      regions : [
-          {
-              "id" : 1,
-              "name" :"서울"
-          },
-          {
-              "id": 4,
-              "name" : "경기도"
-          }
-      ]
-  
+      track : tracks,
+      languages : stacks,
+      regions : places
     }
+
+    axios.post(API_KEY, request, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    })
     navigate("/ManagerPage/Management");
   };
 
@@ -122,13 +142,15 @@ const ManageCreate = () => {
       <Line/>
       <div style={{ display: "flex"}}>
         <InputCategory>부트캠프 명</InputCategory>
-        <TextField size="small" id="bootcamp" label="bootcamp" variant="outlined" />
+        <TextField size="small" id="bootcamp" label="bootcamp" variant="outlined"
+            value={bootcampName} onChange={(event: ChangeEvent<HTMLInputElement>) => handleStringInput(event, setBootcampName)}/>
       </div>
       <Line />
       <div style={{ display: "flex" }}>
         <StyledSpan>
           <InputCategory as="span">URL</InputCategory>
-          <TextField size="small" id="URL" label="URL" variant="outlined" />
+          <TextField size="small" id="URL" label="URL" variant="outlined"
+            value={bootcampUrl} onChange={(event: ChangeEvent<HTMLInputElement>) => handleStringInput(event, setBootcampUrl)} />
         </StyledSpan>
         <StyledSpan>
           <InputCategory as="span">로고</InputCategory>
@@ -136,16 +158,14 @@ const ManageCreate = () => {
           </StyledSpan>
         </div>
       <Line />
-        <div>
+        <div style={{ display: "flex" }}>
           <StyledSpan>
-
           <InputCategory as="span">모집시작일</InputCategory>
-          <input type="date" />
+          <StyledShedule type="date" onChange={(event: ChangeEvent<HTMLInputElement>) => handleStringInput(event, setStartDate)}/>
           </StyledSpan>
           <StyledSpan>
-
           <InputCategory as="span">모집마감일</InputCategory>
-          <input type="date" />
+          <StyledShedule type="date" onChange={(event: ChangeEvent<HTMLInputElement>) => handleStringInput(event, setEndDate)}/>
           </StyledSpan>
         </div>
       <Line />
@@ -159,23 +179,25 @@ const ManageCreate = () => {
             label="Bootcamp"
             onChange={handleSelectTrack}
             value={track}
+            size="small"
           >
-            <MenuItem value="Back-end">Back-end</MenuItem>
-            <MenuItem value="Front-end">Front-end</MenuItem>
-            <MenuItem value="Cloud">Cloud</MenuItem>
-            <MenuItem value="DBA">DBA</MenuItem>
-            <MenuItem value="AI">AI</MenuItem>
-            <MenuItem value="K8S">K8S</MenuItem>
+            {stacks.map((element: {id: number, name: string}) => (
+              <MenuItem value={element.id + element.name}>{element.name}</MenuItem>
+            ))}
           </Select>
         </FormControl>
-        <div>
-          {selectedTracks.map((row) => (
-            <LightBtn type={""}>{row}</LightBtn>
+        <div style={{display: "flex"}}>
+          {selectedTracks.map((row, idx) => (
+            <LightBtn type={""} style={{margin: "auto 0 auto 10px"}}>{row.name}
+              <CloseOutlinedIcon 
+                onClick={() => handleDeleteTrack(idx)}
+                sx={{fontSize: "18px", color: colors.TEXT_LIGHT}}/>            
+            </LightBtn>
           ))}
         </div>
       </div>
       <Line />
-      <div style={{ display: "flex" }}>
+      <div style={{display: "flex"}}>
         <InputCategory>사용언어</InputCategory>
         <FormControl sx={{width: "200px"}}>
           <InputLabel id="demo-simple-select-label">Stack</InputLabel>
@@ -185,18 +207,18 @@ const ManageCreate = () => {
             label="Bootcamp"
             onChange={handleSelectStack}
             value={stack}
+            size="small"
           >
-            <MenuItem value="JAVA">JAVA</MenuItem>
-            <MenuItem value="C++">C++</MenuItem>
-            <MenuItem value="Spring">Spring</MenuItem>
-            <MenuItem value="React">React</MenuItem>
-            <MenuItem value="JavaScript">JavaScript</MenuItem>
-            <MenuItem value="Cloud">Cloud</MenuItem>
+            {stacks.map((element: {id: number, name: string}) => (
+              <MenuItem value={element.id + element.name}>{element.name}</MenuItem>
+            ))}
           </Select>
         </FormControl>
         <div>
-          {selectedStacks.map((row) => (
-            <LightBtn type={""}>{row}</LightBtn>
+          {selectedStacks.map((row, idx) => (
+            <LightBtn type={""} style={{margin: "auto 0 auto 10px"}}>{row.name} 
+              <CloseOutlinedIcon onClick={() => handleDeleteStack(idx)} sx={{fontSize: "18px", color: colors.TEXT_LIGHT}}/>
+            </LightBtn>
           ))}
         </div>
       </div>
@@ -206,11 +228,8 @@ const ManageCreate = () => {
         <div style={{ display: "flex", flexDirection: "column" }}>
           <StyledDiv>
             <StyledBold15px>교육기간</StyledBold15px>
-            <TextField size="small" id="learning" label="learning" variant="outlined" />
-          </StyledDiv>
-          <StyledDiv>
-            <StyledBold15px>모집기간</StyledBold15px>
-            <TextField size="small"  id="calender" label="calender" variant="outlined" />
+            <TextField size="small" id="learning" label="교육기간" variant="outlined"
+             value={schedule} onChange={(event: ChangeEvent<HTMLInputElement>) => handleStringInput(event, setSchedule)}/>
           </StyledDiv>
           <StyledDiv>
             <StyledBold15px>온/오프라인</StyledBold15px>
@@ -218,7 +237,7 @@ const ManageCreate = () => {
           </StyledDiv>
           <StyledDiv>
             <StyledBold15px>장소</StyledBold15px>
-            <FormControl size="small" sx={{width: "160px"}}>
+            <FormControl sx={{width: "160px"}}>
               <InputLabel id="demo-simple-select-label">Place</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -226,18 +245,18 @@ const ManageCreate = () => {
                 label="place"
                 onChange={handleSelectPlace}
                 value={place}
+                size="small"
               >
-                <MenuItem value="서울">서울</MenuItem>
-                <MenuItem value="경기도">경기도</MenuItem>
-                <MenuItem value="충청도">충청도</MenuItem>
-                <MenuItem value="부산">부산</MenuItem>
-                <MenuItem value="대구">대구</MenuItem>
-                <MenuItem value="강원도">강원도</MenuItem>
+              {stacks.map((element: {id: number, name: string}) => (
+                <MenuItem value={element.id + element.name}>{element.name}</MenuItem>
+              ))}
               </Select>
             </FormControl>
             <div>
-              {selectedPlaces.map((row) => (
-                <LightBtn type={""}>{row}</LightBtn>
+              {selectedPlaces.map((row, idx) => (
+                <LightBtn type={""} style={{margin: "auto 0 auto 10px"}}>{row.name}
+                  <CloseOutlinedIcon onClick={() => handleDeletePlace(idx)}/>
+                </LightBtn>
               ))}
             </div>
           </StyledDiv>
@@ -249,7 +268,9 @@ const ManageCreate = () => {
         <div>
           <StyledDiv>
           <StyledBold15px>수강료</StyledBold15px>
-          <TextField size="small"  id="calender" label="calender" variant="outlined" />
+          <TextField size="small"  id="calender" label="수강료" variant="outlined" value={cost}
+            onChange={(event: ChangeEvent<HTMLInputElement>) => handleStringInput(event, setCost)}
+          />
           </StyledDiv>
           <StyledDiv>
           <StyledBold15px>지원금</StyledBold15px>
@@ -264,12 +285,14 @@ const ManageCreate = () => {
       <Line />
       <div style={{ display: "flex" }}>
         <InputCategory>모집절차</InputCategory>
-        <TextField size="small"  id="learning" label="learning" variant="outlined" />
+        <TextField size="small"  id="learning" label="모집절차" variant="outlined" sx={{width: "800px"}}
+          value={process} onChange={(event: ChangeEvent<HTMLInputElement>) => handleStringInput(event, setProcess)}/>
       </div>
       <Line />
       <div style={{ display: "flex" }}>
         <InputCategory>설명</InputCategory>
-        <TextField size="small"  id="learning" label="learning" variant="outlined" />
+        <TextField size="small"  id="learning" label="설명" variant="outlined" sx={{width: "800px"}}
+          value={description} onChange={(event: ChangeEvent<HTMLInputElement>) => handleStringInput(event, setDescription)}/>
       </div>
       <Line />
       <div
@@ -292,11 +315,11 @@ const ManageCreate = () => {
 const StyledDiv = styled.div`
   display: flex;
   flex-direction: row;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `
 
 const StyledBold15px = styled(Bold15px)`
-  margin-right: 10px;
+  margin: auto 0 auto 10px;
   color: ${colors.TEXT_LIGHT};
   width: 150px;
 `
@@ -310,13 +333,33 @@ const Line = styled.div`
 
 const InputCategory = styled(Bold15px)`
   display: inline-block;
-  background-color: gold;
-  margin-left: 10px;
+  margin: auto 0 auto 10px;
   width: 150px;
 `
 
 const StyledSpan = styled.span`
   width: 50%;
-  display: inline-block;
+  display: flex;
+  align-items: center;
+`
+
+const StyledShedule = styled.input`
+  height: 23px;
+  width: 195px;
+  padding: 6.9px 12.4px;
+  border-radius: 5px;
+  border-color: ${colors.BORDER_LIGHT};
+  appearance: none;
+  outline: none;
+  box-shadow: inset 0px 0px 0px 0px red;
+
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  &::-webkit-calendar-picker-indicator {
+  appearance: none;
+  outline: none;
+  box-shadow: none;
+  }
 `
 export default ManageCreate;

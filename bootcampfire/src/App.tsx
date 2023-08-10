@@ -14,7 +14,6 @@ import store from "./store";
 import { Provider } from "react-redux";
 import Header from "components/Header";
 import BootCampListDetailPage from "./pages/BootCampPage/BootCampDetailPage";
-import LoginModal from "components/Login/LoginModal";
 import ManagerPage from "pages/ManagerPage/ManagerPage";
 import Regist from "pages/ManagerPage/Regist";
 import Management from "pages/ManagerPage/Management";
@@ -22,7 +21,6 @@ import Mission from "pages/ManagerPage/Mission";
 import LoginDataPage from "components/Login/LoginDataPage";
 import MyPage from "pages/MyPage/MyPage";
 import ManageCreate from "pages/ManagerPage/ManageCreate";
-import BoardListInfinityScroll from "pages/BoardPage/BoardListInfinityScroll2";
 
 export default function App() {
   return (
@@ -37,7 +35,6 @@ export default function App() {
             <Route path="/BoardDetail/:id" element={<BoardDetail />} />
             <Route path="/BoardCreate" element={<BoardCreate />} />
             <Route path="/BootCamp" element={<BootCamp />} />
-            <Route path="/infinity" element={<BoardListInfinityScroll />} />
             <Route path="/VS" element={<VS />} />
             <Route
               path="/bootcampdetail/:bootcampid"

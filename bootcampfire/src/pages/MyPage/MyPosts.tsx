@@ -7,7 +7,7 @@ import type { Board } from "components/Board/interface";
 import useIntersect from "components/Board/BoardList/useIntersect";
 
 const url = "http://localhost:8080/boards/users";
-const accessToken = localStorage.getItem("accessToken");
+const accessToken = localStorage.getItem("Authorization");
 
 function MyPosts() {
   const navigate = useNavigate();
@@ -16,7 +16,9 @@ function MyPosts() {
   const [hasNext, setHasNext] = useState(true);
 
   const [_, setRef] = useIntersect(async(entry, observer) => {
+
     if (!hasNext) return ;
+
     let temp = await getDataFromAPI(pageCount, url);
     
     if (temp.last) {
@@ -69,16 +71,14 @@ const BoardListMain = styled.div`
 `
 
 const getDataFromAPI = async (pageCount: number, url: string) => {
+
   const response = await axios.get(`${url}?page=${pageCount}&size=5`, {
     headers: {
       Authorization: `Bearer ${accessToken}`
-      // "Content-Type" : "appl"
     }});
-  // const response = await axios.get(`${url}`);
-  // console.log('response check', response);
-  console.log("check", response.data.data)
+  console.log("token",accessToken)
+  console.log("check", response)
   return response.data.data;
-  // return Board[];
 }
 
 export default MyPosts;
