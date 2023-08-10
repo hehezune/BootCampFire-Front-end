@@ -42,8 +42,11 @@ jobs:
           
       - name: Print Current Directory  
         run: |
-          pwd 
+          pwd
+          ls
           cd ./bootcampfire
+          pwd
+          ls
     
       - name: Build and push  # Docker 이미지 빌드 및 푸시 단계
         id: docker_build  # 이 단계의 ID
