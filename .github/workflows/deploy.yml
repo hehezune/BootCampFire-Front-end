@@ -63,7 +63,7 @@ jobs:
     
     steps :  # 작업의 단계 설정
       - name : Login to ghcr  # GitHub Container Registry에 로그인하는 단계
-        uses : docker/login-actoin@v1  # Docker 로그인 액션 사용
+        uses : docker/login-action@v1  # Docker 로그인 액션 사용
         with :
           registry : ghcr.io  # 사용할 레지스트리 설정
           username : ${{ github.actor }}  # 사용자 이름 설정
