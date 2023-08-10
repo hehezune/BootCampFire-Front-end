@@ -37,9 +37,12 @@ jobs:
         uses : docker/login-action@v2  # Docker 로그인 액션 
         with : 
           registry : ghcr.io  # 사용할 레지스트리 설정 
-          username : ${{ github.actor }}  # 사용자 이름 설정
-          password : ${{ secrets.SH_TOKEN }}  # 비밀 변수 사용
-        
+          username : ${{ github.actor }}  # 사용자 이름 설정 
+          password : ${{ secrets.SH_TOKEN }}  # 비밀 변수 사용 
+          
+      - name: Print Current Directory  
+        run: pwd 
+    
       - name : Build and push  # Docker 이미지 빌드 및 푸시 단계
         id : docker_build  # 이 단계의 ID
         uses : docker/build-push-action@v2  # Docker 이미지 빌드 및 푸시 액션 사용
