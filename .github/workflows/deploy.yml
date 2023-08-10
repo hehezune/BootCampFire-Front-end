@@ -52,7 +52,7 @@ jobs:
           builder : ${{ steps.buildx.outputs.name }}  # Buildx 인스턴스 이름 사용
           push : true  # 이미지 푸시 설정
           tags : ${{ env.DOCKER_IMAGE }}:latest  # 이미지 태그 설정
-          context: ./Front-end/bootcampfire/
+          context: ./bootcampfire/
 
 
   # deploy 작업, build 선행, 자체 호스팅된 에이전트에서 실행
