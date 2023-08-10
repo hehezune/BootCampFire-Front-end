@@ -1,4 +1,3 @@
-
 import styled from "styled-components";
 import BoardCard from "components/MyPage/BoardCard";
 import { useNavigate } from "react-router-dom";
@@ -38,8 +37,8 @@ function MyPosts() {
 
 
   const BoardList = boardList.map((element) => (
-    <BoardCard data={element} onClick={() => navigate(`/BoardDetail:${element.id}`)}/>
-  ))
+    <BoardCard data={element} onClick={() => navigate(`/BoardDetail:${element.id}`)} />
+  ));
 
   return (
     <WrapperBoardListMain>
