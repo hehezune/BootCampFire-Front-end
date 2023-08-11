@@ -53,13 +53,12 @@ const BootCampListPage: React.FC = () => {
     });  
     setBootcampSearchResult(restructuredBootcamp2);
   }, [etcList, regionList, trackList, bootcamp, bootSearch]);
-
   useEffect(() => { 
     dispatch(fetchBootcampStart()); 
     const api_url = dropBoxidx === 0 ? "names" : 
                     dropBoxidx === 1 ? "scores" : 
                     dropBoxidx === 2 ? "reviews" : "names" 
-    axios.get(`http://i9a408.p.ssafy.io:8080/bootcamps/lists/${api_url}`) 
+    axios.get(`${process.env.REACT_APP_API_URL}/bootcamps/lists/${api_url}`) 
     // .then((response) => console.log(response.data))
     .then((response) => dispatch(fetchBootcampSuccess(response.data.data)))
     .catch((error) => dispatch(fetchBootcampFailure(error.message)));
