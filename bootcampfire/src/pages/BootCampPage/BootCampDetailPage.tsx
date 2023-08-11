@@ -38,7 +38,7 @@ const BootCampListDetailPage: React.FC = () => {
       Promise.all([
         axios.get(`${process.env.REACT_APP_API_URL}/bootcamps/${bootcampIdNumber}`),
         axios.get(`${process.env.REACT_APP_API_URL}/reviews/${bootcampIdNumber}/lists`),
-        axios.get(`${process.env.REACT_APP_API_URL}/reviews/${bootcampId}/vaildation`),
+        axios.get(`${process.env.REACT_APP_API_URL}/reviews/${bootcampIdNumber}/vaildation`),
       ])
         .then(([bootcampResponse, reviewResponse, myreviewResponse]) => {
           setBootdetail(bootcampResponse.data.data);
