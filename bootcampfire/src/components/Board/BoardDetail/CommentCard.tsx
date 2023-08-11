@@ -48,8 +48,8 @@ function CommentCard({data, boardId, idx}: {data: Comment, boardId: number, idx:
     }
 
     const handlerConfirmDelBtn = () => {
-        axios.delete('http://localhost:8080/comments/' + data.id)
-        .then((res) => axios.get('http://localhost:8080/comments/list/' + boardId)
+        axios.delete(`${process.env.REACT_APP_API_URL}/comments/` + data.id)
+        .then((res) => axios.get(`${process.env.REACT_APP_API_URL}/comments/list/` + boardId)
             .then((res) => dispatch(getComments({comments: res.data.data, boardId}))));
     }
 
@@ -75,7 +75,7 @@ function CommentCard({data, boardId, idx}: {data: Comment, boardId: number, idx:
             anonymous: isAnonymous,
         }
 
-        axios.put('http://localhost:8080/comments/' + data.id, requestEdit)
+        axios.put(`${process.env.REACT_APP_API_URL}/comments/` + data.id, requestEdit)
         .then((res) => {dispatch(modifyComment({idx,
             content: res.data.data.content,
             anonymous: res.data.data.anonymous}));
@@ -97,11 +97,11 @@ function CommentCard({data, boardId, idx}: {data: Comment, boardId: number, idx:
             userId: TEST_USERID,
         }
 
-        axios.post('http://localhost:8080/comments', replyComment)
+        axios.post(`${process.env.REACT_APP_API_URL}/comments`, replyComment)
         .then((res) => {
             if (res.data.message === "success") {
                 setActiveInputType(NORMAL);
-                axios.get('http://localhost:8080/comments/list/' + boardId)
+                axios.get(`${process.env.REACT_APP_API_URL}/comments/list/` + boardId)
                 .then((res) => {
 
                     dispatch(getComments({comments: res.data.data as Comment[], boardId: boardId}))})

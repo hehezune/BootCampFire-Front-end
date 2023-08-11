@@ -53,7 +53,7 @@ function BoardCreatePage() {
       userId: userId,
     };
     axios
-      .post('http://localhost:8080/boards', requestBody, {
+      .post(`${process.env.REACT_APP_API_URL}/boards`, requestBody, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
           'Content-Type': 'application/json',

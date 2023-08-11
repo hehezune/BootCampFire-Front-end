@@ -16,13 +16,13 @@ export default function Regist() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/users/admin/permission/list`).then((res) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/users/admin/permission/list`).then((res) => {
       setRows(res.data.data);
     });
   }, []);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/bootcamps/names').then((res) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/bootcamps/names`).then((res) => {
       dispatch(setBootcampInfo({ list: res.data.data }));
     });
   }, []);

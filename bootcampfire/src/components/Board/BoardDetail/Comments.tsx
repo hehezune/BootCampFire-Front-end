@@ -45,10 +45,10 @@ function Comments({boardId, comments}: {boardId: number, comments: Comment[]}) {
             commentRef.current.value = '';
         }
         // 백으로 요청 보내기
-        axios.post('http://localhost:8080/comments',
+        axios.post(`${process.env.REACT_APP_API_URL}/comments`,
             newComment).then((res) => {
                 if (res.data.message === "success") {
-                    axios.get('http://localhost:8080/comments/list/' + boardId)
+                    axios.get(`${process.env.REACT_APP_API_URL}/comments/list/` + boardId)
                     .then((res) => {
                         const comments = res.data.data as Comment[];
                         dispatch(getComments({comments, boardId}));

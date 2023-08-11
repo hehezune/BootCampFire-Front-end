@@ -12,7 +12,7 @@ import { Board } from 'components/Board/interface';
 import useIntersect from 'components/Board/BoardList/useIntersect';
 import LoginModal from 'components/Login/LoginModal';
 
-const API_URL = 'http://localhost:8080/categories';
+const API_URL = `${process.env.REACT_APP_API_URL}/categories`;
 const accesToken = localStorage.getItem('Authorization');
 
 function BoardListInfinityScroll() {

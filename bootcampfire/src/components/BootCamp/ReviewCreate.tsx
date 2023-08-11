@@ -49,15 +49,15 @@ const ReviewCreate: React.FC<BootCampReviewProps> = ({review}) => {
   
     if (review.id) {
       axios
-        .put(`http://localhost:8080/reviews/${bootcampId}/${review.id}`, postData)
+        .put(`${process.env.REACT_APP_API_URL}/reviews/${bootcampId}/${review.id}`, postData)
         .then((response) => {
-          console.log("리뷰 수정이 완료되었습니다.");
+          console.log("리뷰 수정이 완료되었습s니다.");
           window.location.reload();
         })
         .catch((error) => {console.error("리뷰 수정 중 오류가 발생했습니다.", error);});
     } else {
       axios
-        .post(`http://localhost:8080/reviews`, postData)
+        .post(`${process.env.REACT_APP_API_URL}/reviews`, postData)
         .then((response) => {
           console.log("리뷰 작성이 완료되었습니다.");
           window.location.reload();
@@ -67,7 +67,7 @@ const ReviewCreate: React.FC<BootCampReviewProps> = ({review}) => {
   };
 
   const handleDelete = () => {
-    axios.delete(`http://localhost:8080/reviews/${bootcampId}/${review.id}`)
+    axios.delete(`${process.env.REACT_APP_API_URL}/reviews/${bootcampId}/${review.id}`)
   .then((response) => {
     console.log("리뷰가 삭제되었습니다.");
     window.location.reload();

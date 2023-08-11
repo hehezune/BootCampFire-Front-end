@@ -60,7 +60,7 @@ const LoginModal: React.FC<LoginModalProps> = (props) => {
       width: '32px',
       height: '32px',
       comment: '카카오 로그인',
-      loginURL: 'http://localhost:8080/oauth2/authorization/kakao',
+      loginURL: `${process.env.REACT_APP_API_URL}/oauth2/authorization/kakao`,
     },
 
     {
@@ -68,14 +68,14 @@ const LoginModal: React.FC<LoginModalProps> = (props) => {
       width: '32px',
       height: '32px',
       comment: '네이버 로그인',
-      loginURL: 'http://localhost:8080/oauth2/authorization/naver',
+      loginURL: `${process.env.REACT_APP_API_URL}/oauth2/authorization/naver`,
     },
     {
       src: '/Google.png',
       width: '32px',
       height: '32px',
       comment: '구글 로그인',
-      loginURL: 'http://localhost:8080/oauth2/authorization/google',
+      loginURL: `${process.env.REACT_APP_API_URL}/oauth2/authorization/google`,
     },
   ];
 

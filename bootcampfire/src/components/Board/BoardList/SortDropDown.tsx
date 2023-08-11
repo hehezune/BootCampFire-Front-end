@@ -25,8 +25,6 @@ function SortDropDown() {
         setDropdownSelect(idx);
         setDropdownVisibility(false);
         dispatch(setSort({sort: idx}));
-        // axios
-        // axios.get(`http://localhost:8080/`)
     }
     
     const categoryList = dummyData.category.map((element, idx) => 

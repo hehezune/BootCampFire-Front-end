@@ -49,13 +49,13 @@ function BoardModifyPage() {
       title: titleInput,
       userId: TEST_USERID,
     }
-    axios.post('http://localhost:8080/boards', requestBody)
+    axios.post(`${process.env.REACT_APP_API_URL}/boards`, requestBody)
     .then((res) => navigate('/BoardDetail/' + res.data.data.id, {state: selectCategory}));
   }
 
   const handlerDeleteConfirmBtn = () => {
     console.log(state.boardDetail.id)
-    axios.delete('http://localhost:8080/boards/' + state.boardDetail.id)
+    axios.delete(`${process.env.REACT_APP_API_URL}/boards/` + state.boardDetail.id)
     .then((res) => navigate(-1));
   }
 

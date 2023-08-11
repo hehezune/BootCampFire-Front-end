@@ -13,7 +13,7 @@ const ReviewCard: React.FC<BootCampReviewProps> = ({review}) => {
 
     const handleLikes = () => {
         const api_url = !isLiked ? `${review.id}` : `cancel/${review.id}`
-        axios.post(`http://localhost:8080/review-likes/${api_url}`)
+        axios.post(`${process.env.REACT_APP_API_URL}/review-likes/${api_url}`)
         .then((response) => {console.log("리뷰 좋아요 성공");})
         .catch((error) => {console.error("리뷰 좋아요 실패", error);});}
     console.log(review);

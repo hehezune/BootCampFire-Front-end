@@ -9,7 +9,7 @@ import axios from 'axios';
 import { useParams} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getComments } from 'store/commentSlice';
-const API_KEY = 'http://localhost:8080/boards/'
+const API_KEY = `${process.env.REACT_APP_API_URL}/boards/`
 
 let boardDetailDummy: BoardDetail = {
   "id": 0,
@@ -40,7 +40,7 @@ function BoardDetailPage() {
     if (id === undefined) return ;
     Promise.all([
       axios.get(API_KEY + id),
-      axios.get('http://localhost:8080/comments/list/' + id)
+      axios.get(`${process.env.REACT_APP_API_URL}/comments/list/` + id)
     ])
     .then(([
       boardDetailResponse,

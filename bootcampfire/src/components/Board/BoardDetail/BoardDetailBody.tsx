@@ -31,10 +31,10 @@ function BoardDetailBody({boardDetail, setLike}:{boardDetail: BoardDetail, setLi
     const handlerLikeBtn = () => {
         // 백에 like 관련 요청 필요
         if (boardDetail.isLike) {
-            axios.post(`http://localhost:8080/likes/cancel/${boardDetail.id}`)
+            axios.post(`${process.env.REACT_APP_API_URL}/likes/cancel/${boardDetail.id}`)
             .then(({data}) => setLike(false));
         } else {
-            axios.post(`http://localhost:8080/likes/${boardDetail.id}`)
+            axios.post(`${process.env.REACT_APP_API_URL}/likes/${boardDetail.id}`)
             .then((res) => {console.log(res.data.data.likes); setLike(true)});
         }
     }
@@ -44,7 +44,7 @@ function BoardDetailBody({boardDetail, setLike}:{boardDetail: BoardDetail, setLi
     }
 
     const handlerDeleteBtn = () => {
-        axios.delete('http://localhost:8080/boards/' + boardDetail.id)
+        axios.delete(`${process.env.REACT_APP_API_URL}/boards/` + boardDetail.id)
         .then((res) => navigate(-1));
       }
 

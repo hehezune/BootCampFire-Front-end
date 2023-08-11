@@ -23,7 +23,7 @@ function PersonalInfo() {
 
   // 중복 인증 axios 요청하기, enteredNickName 사용
   const handlerDuplicateNickname = () => {
-    axios.post('http://localhost:8080/users/duplication', { nickname: enteredNickName }).then((res) => {
+    axios.post(`${process.env.REACT_APP_API_URL}/users/duplication`, { nickname: enteredNickName }).then((res) => {
       if (res.data.message.split(' ')[0] === '이미') {
         setDuplicateState(2);
       } else {
@@ -34,7 +34,7 @@ function PersonalInfo() {
 
   const handelrCertifyCamp = () => {
     // 소속 인증 요청, 로그인 완료 후 뭔가 작업해야 하는듣ㅅ?
-    axios.post('http://localhost:8080/users/confirm', {
+    axios.post(`${process.env.REACT_APP_API_URL}/users/confirm`, {
       headers: {
         headers: { Authorization: `Bearer ${localStorage.getItem('Authorization')}` },
       },
@@ -51,7 +51,7 @@ function PersonalInfo() {
     formdata.append('nickname', enteredNickName);
 
     axios
-      .put('http://localhost:8080/users', formdata, {
+      .put(`${process.env.REACT_APP_API_URL}/users`, formdata, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

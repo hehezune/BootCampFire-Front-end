@@ -10,7 +10,7 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import axios from "axios";
 import type { bootcampInput } from "components/Board/interface";
 
-const API_KEY = 'http://localhost:8080/bootcamps/';
+const API_KEY = `${process.env.REACT_APP_API_URL}/bootcamps/`;
 const accessToken = localStorage.getItem("Authorization");
 
 const ManageCreate = () => {

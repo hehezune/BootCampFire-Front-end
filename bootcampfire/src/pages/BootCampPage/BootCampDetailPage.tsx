@@ -36,9 +36,9 @@ const BootCampListDetailPage: React.FC = () => {
     if (bootcampid) {
       const bootcampIdNumber = parseInt(bootcampid);
       Promise.all([
-        axios.get(`http://localhost:8080/bootcamps/${bootcampIdNumber}`),
-        axios.get(`http://localhost:8080/reviews/${bootcampIdNumber}/lists`),
-        axios.get(`http://localhost:8080/reviews/${bootcampId}/vaildation`),
+        axios.get(`${process.env.REACT_APP_API_URL}/bootcamps/${bootcampIdNumber}`),
+        axios.get(`${process.env.REACT_APP_API_URL}/reviews/${bootcampIdNumber}/lists`),
+        axios.get(`${process.env.REACT_APP_API_URL}/reviews/${bootcampId}/vaildation`),
       ])
         .then(([bootcampResponse, reviewResponse, myreviewResponse]) => {
           setBootdetail(bootcampResponse.data.data);

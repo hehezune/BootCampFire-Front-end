@@ -31,10 +31,10 @@ const SelectBox: React.FC = () =>  {
   const handleCategoryToggle = (value: number) => {dispatch(category_onoff(value));};
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/bootcamps/tracks`) 
+    axios.get(`${process.env.REACT_APP_API_URL}/bootcamps/tracks`) 
       .then((response) => dispatch(initTrack(response.data.data)))
       .catch((error) => console.log(error.message));
-    axios.get(`http://localhost:8080/bootcamps/regions`) 
+    axios.get(`${process.env.REACT_APP_API_URL}/bootcamps/regions`) 
       .then((response) => dispatch(initRegion(response.data.data)))
       .catch((error) => console.log(error.message));
   }, []);

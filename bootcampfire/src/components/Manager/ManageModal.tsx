@@ -18,7 +18,7 @@ export const ManageModal: React.FC<ManageModalProps> = (props) => {
 
   const onAccess = () => {
     axios.put(
-      `http://localhost:8080/users/admin/permission/${props.userId}`,
+      `${process.env.REACT_APP_API_URL}/users/admin/permission/${props.userId}`,
       { bootcampId: bootcamp.valueOf() },
       {
         headers: {
@@ -30,7 +30,7 @@ export const ManageModal: React.FC<ManageModalProps> = (props) => {
   };
 
   const onReject = () => {
-    axios.put(`http://localhost:8080/users/admin/reject/${props.userId}`);
+    axios.put(`${process.env.REACT_APP_API_URL}/users/admin/reject/${props.userId}`);
     props.onClose();
   };
   const [bootcamp, setBootcamp] = React.useState('');

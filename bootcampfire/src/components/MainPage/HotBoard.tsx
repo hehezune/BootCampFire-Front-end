@@ -45,7 +45,7 @@ export default function HotBoard() {
   const [rows, setRows] = useState<hotData[]>([]);
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/categories/hots`).then((res) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/categories/hots`).then((res) => {
       setRows(res.data.data);
     });
   }, []);

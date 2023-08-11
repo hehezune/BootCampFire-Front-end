@@ -6,7 +6,7 @@ import axios from "axios";
 import type { Board } from "components/Board/interface";
 import useIntersect from "components/Board/BoardList/useIntersect";
 
-const url = "http://localhost:8080/boards/users";
+const url = `${process.env.REACT_APP_API_URL}/boards/users`;
 const accessToken = localStorage.getItem("Authorization");
 
 function MyPosts() {

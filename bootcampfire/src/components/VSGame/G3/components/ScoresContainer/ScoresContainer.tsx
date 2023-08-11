@@ -39,14 +39,14 @@ export const ScoresContainer = () => {
           // console.log("0.9 초후 값 : ",myGameRank.score, state.bestScore)
           dispatch2(updateScore(Math.max(myGameRank.score, state.bestScore)));
           if (isLoggedIn && state.score > 1000) {
-            axios.post(`http://localhost:8080/games`, {bestScore : state.bestScore})
+            axios.post(`${process.env.REACT_APP_API_URL}/games`, {bestScore : state.bestScore})
             .then((response) => { console.log("성공공! : ", response)})
           }
-            axios.get(`http://localhost:8080/games`)
+            axios.get(`${process.env.REACT_APP_API_URL}/games`)
             .then((response)=>dispatch2(loadGameRank(response.data.data)))          
         }
       }, 500);
-      axios.get(`http://localhost:8080/games`)
+      axios.get(`${process.env.REACT_APP_API_URL}/games`)
           .then((response)=>dispatch2(loadGameRank(response.data.data))) 
   }, [gameState.status, state.bestScore]);
 

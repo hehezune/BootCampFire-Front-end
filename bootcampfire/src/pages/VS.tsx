@@ -19,8 +19,8 @@ export default function VS() {
     setTimeout(() => {
       if (isLoggedIn) {
         // console.log("조건문 안에 있다.")
-        axios.get(`http://localhost:8080/games/my-rank`).then((response)=>{dispatch(loadMyRank(response.data.data))})
-        axios.get(`http://localhost:8080/games`).then((response)=>dispatch(loadGameRank(response.data.data)))
+        axios.get(`${process.env.REACT_APP_API_URL}/games/my-rank`).then((response)=>{dispatch(loadMyRank(response.data.data))})
+        axios.get(`${process.env.REACT_APP_API_URL}/games`).then((response)=>dispatch(loadGameRank(response.data.data)))
       }
     }, 1000);
   }, []);
