@@ -59,7 +59,7 @@ const BootCampListPage: React.FC = () => {
     const api_url = dropBoxidx === 0 ? "names" : 
                     dropBoxidx === 1 ? "scores" : 
                     dropBoxidx === 2 ? "reviews" : "names" 
-    axios.get(`http://localhost:8080/bootcamps/lists/${api_url}`) 
+    axios.get(`http://i9a408.p.ssafy.io:8080/bootcamps/lists/${api_url}`) 
     // .then((response) => console.log(response.data))
     .then((response) => dispatch(fetchBootcampSuccess(response.data.data)))
     .catch((error) => dispatch(fetchBootcampFailure(error.message)));
