@@ -21,6 +21,7 @@ import Mission from "pages/ManagerPage/Mission";
 import LoginDataPage from "components/Login/LoginDataPage";
 import MyPage from "pages/MyPage/MyPage";
 import ManageCreate from "pages/ManagerPage/ManageCreate";
+import ManageModify from "pages/ManagerPage/ManageModify";
 
 export default function App() {
   return (
@@ -49,6 +50,7 @@ export default function App() {
               <Route path="" element={<Regist />} />
               <Route path="Management" element={<Management />} />
               <Route path="Management/create" element={<ManageCreate />} />
+              <Route path="Management/modify/:id" element={<ManageModify />} />
               <Route path="Mission" element={<Mission />} />
             </Route>
           </Routes>

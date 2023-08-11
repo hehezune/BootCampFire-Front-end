@@ -14,10 +14,10 @@ interface bootcampInput {
   schedule: string;
   description: string;
   cost: number;
-  card: string;
-  support: string;
-  hasCodingtest: string;
-  onOff: string;
+  card: number;
+  support: number;
+  hasCodingtest: number;
+  onOff: number;
   startDate: string;
   endDate: string;
   imgUrl: string,
@@ -59,8 +59,8 @@ const ManageRadioBtn = ({list, setBtn, selectData, type}: {
           onChange={handleRadioChange}
           sx={{flexDirection: "row"}}
         >
-        {list.map((element) => (
-          <FormControlLabel value={element} control={<Radio />} label={element}/>
+        {list.map((element, idx) => (
+          <FormControlLabel value={idx + 1} control={<Radio />} label={list[idx]}/>
         ))}
         </RadioGroup>
       </FormControl>
