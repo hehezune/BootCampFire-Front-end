@@ -41,7 +41,7 @@ export default function App() {
               path="/bootcampdetail/:bootcampid"
               element={<BootCampListDetailPage />}
             />
-            <Route path="/BoardModify" element={<BoardModify />} />
+            <Route path="/BoardModify/:bootcampid" element={<BoardModify />} />
             <Route path="/MyPage/*" element={<MyPage />}>
               <Route path="" element={<PersonalInfo />} />
               <Route path="MyPosts" element={<MyPosts />} />
