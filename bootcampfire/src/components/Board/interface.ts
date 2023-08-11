@@ -1,3 +1,22 @@
+export interface bootcampInput {
+  name: string;
+  siteUrl: string;
+  process: string;
+  schedule: string;
+  description: string;
+  cost: number;
+  card: string;
+  support: string;
+  hasCodingtest: string;
+  onOff: string;
+  startDate: string;
+  endDate: string;
+  imgUrl: string,
+  track: {id:number, name:string}[];
+  languages: {id:number, name:string}[];
+  regions: {id:number, name:string}[];
+  [key: string]: any;
+};
 
 export interface Board {
     id: number;
