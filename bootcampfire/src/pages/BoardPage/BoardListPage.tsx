@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { StyledPage } from './styledPage';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { Board } from 'components/Board/interface';
 import useIntersect from 'components/Board/BoardList/useIntersect';
@@ -16,12 +16,13 @@ const API_URL = 'http://localhost:8080/categories';
 const accesToken = localStorage.getItem('Authorization');
 
 function BoardListInfinityScroll() {
+    const index = useLocation().state as number ?? 1;
     const navigate = useNavigate();
     const sort = useSelector((state: RootState) => state.search.sort);
     const keyword = useSelector((state: RootState) => state.search.keyword);
     const type = useSelector((state: RootState) => state.search.type);
     const user = useSelector((state: RootState) => state.auth);
-    const [selectCategory, setSelectCategory] = useState(1);
+    const [selectCategory, setSelectCategory] = useState(index);
     const [boardListData, setBoardListData] = useState<Board[]>([]);
     const [isModalOpen, setModalOpen] = useState(false);
     const [url, setUrl] = useState("");
