@@ -27,5 +27,5 @@ const A2Container = styled(Bold15px)<{type?: string | null}>`
     line-height: 20px;
   
     /* color 속성이 전달되면 해당 색상으로 스타일 적용 */
-    color: ${(props) => props.type};
+    color: ${(props) => props.type === undefined ? colors.SECONDARY : props.type};
   `;
