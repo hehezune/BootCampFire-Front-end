@@ -20,7 +20,6 @@ const ManageCreate = () => {
     process: "",
     schedule: "",
     description: "",
-    cost: 0,
     card: "",
     support: "",
     hasCodingtest: "",
@@ -31,7 +30,9 @@ const ManageCreate = () => {
     track: [],
     languages: [],
     regions: [],
+    cost: 0,
   });
+
   const [place, setPlace] = useState("");
   const [stack, setStack] = useState("");
   const [track, setTrack] = useState("");
@@ -100,7 +101,12 @@ const ManageCreate = () => {
 
   const onCreateBootcamp = () => {
     const request = {...inputData};
-    // if (nullCheck())
+
+    if (!emptyCheck(request)) {
+      alert("빈 입력값이 존재합니다.");
+      return ;
+    }
+
     console.log("inputData", inputData);
     ["card", "support", "hasCodingtest"].forEach((element) => {
       request[element] = request[element][request[element].length - 1] === "O" ? true : false;
@@ -366,4 +372,19 @@ const StyledShedule = styled.input`
   box-shadow: none;
   }
 `
+
+const emptyCheck = (request: bootcampInput) => {
+  for (const key in request) {
+    const value = request[key];
+    if (typeof value === "string" && value === "") {
+      return false;
+    } else if (Array.isArray(value) && value.length === 0) {
+      return false;
+    } else if (typeof value === "number" && value === 0) {
+      return false;
+    }
+  }
+
+  return true;
+}
 export default ManageCreate;

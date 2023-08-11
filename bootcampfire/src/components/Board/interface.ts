@@ -4,7 +4,6 @@ export interface bootcampInput {
   process: string;
   schedule: string;
   description: string;
-  cost: number;
   card: string;
   support: string;
   hasCodingtest: string;
@@ -15,6 +14,7 @@ export interface bootcampInput {
   track: {id:number, name:string}[];
   languages: {id:number, name:string}[];
   regions: {id:number, name:string}[];
+  cost: number;
   [key: string]: any;
 };
 
