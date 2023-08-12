@@ -166,8 +166,8 @@ export const createRandomTile = (tiles: Tile[]): Tile => {
 
 
   const rd = Math.random()
-  const value: Value = rd <= 0.5 ? 2 : 128
-  // 2
+  const value: Value = rd <= 0.8 ? 2 : 4
+                      // 2
                       // rd <= 0.5 ? 2 : 
                       // rd <= 0.7 ? 4 :
                       // rd <= 0.8 ? 8 :
