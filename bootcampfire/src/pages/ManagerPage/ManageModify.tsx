@@ -11,7 +11,7 @@ import axios from "axios";
 import { onOffList, onOffMap, supportSelectList, cardSelectList, codingTestSelectList } from "constant/constant";
 import type { bootcampInput, bootcampInputResponse } from "components/Board/interface";
 
-const API_KEY = 'http://i9a408.p.ssafy.io:8080/bootcamps/';
+const API_KEY = 'http://localhost:8080/bootcamps/';
 const accessToken = localStorage.getItem("Authorization");
 const header = {
   headers: {
