@@ -15,7 +15,7 @@ import LoginModal from 'components/Login/LoginModal';
 const API_URL = 'http://localhost:8080/categories';
 const accesToken = localStorage.getItem('Authorization');
 
-function BoardListInfinityScroll() {
+function BoardListPage() {
     const index = useLocation().state as number ?? 1;
     const navigate = useNavigate();
     const sort = useSelector((state: RootState) => state.search.sort);
@@ -147,4 +147,4 @@ const getURLBySort = (sort: number) => {
     }
 }
 
-export default BoardListInfinityScroll;
+export default BoardListPage;

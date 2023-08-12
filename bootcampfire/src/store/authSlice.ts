@@ -10,11 +10,11 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  userId: 19,
-  isLoggedIn: true,
+  userId: -1,
+  isLoggedIn: false,
   nickname: null,
   email: null,
-  isAdmin: true,
+  isAdmin: false,
   bootcampId: -1,
 };
 
