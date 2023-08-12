@@ -70,5 +70,4 @@
     "@types/sort-by": "^1.2.0",
     "@types/styled-components": "^5.1.26"
   },
-  "proxy": "http://i9a408.p.ssafy.io:8080"
 }
