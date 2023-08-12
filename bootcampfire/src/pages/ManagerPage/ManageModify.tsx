@@ -1,17 +1,17 @@
-import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField} from "@mui/material";
+import { Box, FormControl, Input, InputLabel, MenuItem, Select, SelectChangeEvent, TextField} from "@mui/material";
 import { Bold15px, Bold18px, LightBtn, StrongBtn,} from "components/Board/styled";
 import { ChangeEvent, useState } from "react";
 import ManageRadioBtn from "components/Manager/ManageRadioBtn";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { colors } from "constant/constant";
 import { useEffect } from "react";
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import axios from "axios";
-import type { bootcampInput } from "components/Board/interface";
-import { onOffList, supportSelectList, cardSelectList, codingTestSelectList } from "constant/constant";
+import { onOffList, onOffMap, supportSelectList, cardSelectList, codingTestSelectList } from "constant/constant";
+import type { bootcampInput, bootcampInputResponse } from "components/Board/interface";
 
-const API_KEY = `${process.env.REACT_APP_API_URL}/bootcamps/`;
+const API_KEY = 'http://localhost:8080/bootcamps/';
 const accessToken = localStorage.getItem("Authorization");
 const header = {
   headers: {
@@ -19,6 +19,7 @@ const header = {
 }}
 
 const ManageCreate = () => {
+  const {bootcampId} = useParams();
   const [inputData, setInputData] = useState<bootcampInput>({
     name: "",
     siteUrl: "",
@@ -47,14 +48,18 @@ const ManageCreate = () => {
   const [stacks, setStacks] = useState([]);
 
   useEffect(() => {
-    Promise.all([
+    const axiosRequest = [
       axios.get(API_KEY + "regions", header),
       axios.get(API_KEY + "tracks", header),
       axios.get(API_KEY + "languages", header),
-    ]).then(([regionsRes, tracksRes, languagesRes]) => {
+      axios.get(API_KEY + bootcampId, header)
+    ]
+
+    Promise.all(axiosRequest).then(([regionsRes, tracksRes, languagesRes, initRes]) => {
       setTracks(tracksRes.data.data);
       setPlaces(regionsRes.data.data);
       setStacks(languagesRes.data.data);
+      setInputData(changePropertyStringToNumber(initRes.data.data));
     })
   },[])
 
@@ -400,15 +405,15 @@ const emptyCheck = (request: bootcampInput) => {
   return true;
 }
 
-const getOnOff = (input: number) => {
-  switch (input) {
-    case 0:
-      return "온라인";
-    case 1:
-      return "오프라인";
-    default:
-      return "온/오프라인"
+const changePropertyStringToNumber = (input : bootcampInputResponse) => {
+  const initData = {...input,
+    card: input.card? 0 : 1,
+    support: input.support? 0 : 1,
+    hasCodingtest: input.hasCodingtest? 0 : 1,
+    onOff: onOffMap.get(input.onOff),
   }
+
+  return initData;
 }
 
 export default ManageCreate;
