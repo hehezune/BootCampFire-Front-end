@@ -24,6 +24,7 @@ export default function LoginDataPage() {
       .get(URL, {
         // params: { token: token },
         headers: { Authorization: `Bearer ${accessToken}` },
+        withCredentials: true,         
       })
       .then((res) => {
         if (res.status === 200) {
