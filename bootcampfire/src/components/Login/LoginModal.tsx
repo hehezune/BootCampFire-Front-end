@@ -60,7 +60,7 @@ const LoginModal: React.FC<LoginModalProps> = (props) => {
       width: '32px',
       height: '32px',
       comment: '카카오 로그인',
-      loginURL: `${process.env.REACT_APP_API_URL}/oauth2/authorization/kakao`,
+      loginURL: `http://i9a408.p.ssafy.io:8080/oauth2/authorization/kakao`,
     },
 
     {
