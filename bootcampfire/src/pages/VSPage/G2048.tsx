@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { loadGameRank, loadMyRank } from "store/vsSlice";
 import axios from "axios";
 
-export default function SpeedCodder() {
+export default function G2048() {
   const { GameRank10, myGameRank } = useSelector(
     (state: RootState) => state.vs
   );

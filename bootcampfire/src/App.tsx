@@ -1,29 +1,30 @@
-import React, { useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import BoardList from 'pages/BoardPage/BoardListPage';
-import BoardDetail from 'pages/BoardPage/BoardDetailPage';
-import BootCamp from './pages/BootCamp';
-import BoardCreate from 'pages/BoardPage/BoardCreatePage';
-import BoardModify from 'pages/BoardPage/BoardModifyPage';
-import MyPosts from 'pages/MyPage/MyPosts';
-import PersonalInfo from 'pages/MyPage/PersonalInfo';
-import MainPage from './pages/MainPage/MainPage';
-import store from './store';
-import { Provider } from 'react-redux';
-import Header from 'components/Header';
-import BootCampListDetailPage from './pages/BootCampPage/BootCampDetailPage';
-import LoginModal from 'components/Login/LoginModal';
-import ManagerPage from 'pages/ManagerPage/ManagerPage';
-import Regist from 'pages/ManagerPage/Regist';
-import Management from 'pages/ManagerPage/Management';
-import Mission from 'pages/ManagerPage/Mission';
-import LoginDataPage from 'components/Login/LoginDataPage';
-import MyPage from 'pages/MyPage/MyPage';
-import ManageCreate from 'pages/ManagerPage/ManageCreate';
-import BoardListInfinityScroll from 'pages/BoardPage/BoardListInfinityScroll2';
-import MissionPage from 'pages/VSPage/MissionPage';
-import SpeedCodder from 'pages/VSPage/SpeedCoderPage';
-import VsPage from 'pages/VSPage/VsPage';
+import React, { useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import BoardList from "pages/BoardPage/BoardListPage";
+import BoardDetail from "pages/BoardPage/BoardDetailPage";
+import BootCamp from "./pages/BootCamp";
+import BoardCreate from "pages/BoardPage/BoardCreatePage";
+import BoardModify from "pages/BoardPage/BoardModifyPage";
+import MyPosts from "pages/MyPage/MyPosts";
+import PersonalInfo from "pages/MyPage/PersonalInfo";
+import MainPage from "./pages/MainPage/MainPage";
+import store from "./store";
+import { Provider } from "react-redux";
+import Header from "components/Header";
+import BootCampListDetailPage from "./pages/BootCampPage/BootCampDetailPage";
+import LoginModal from "components/Login/LoginModal";
+import ManagerPage from "pages/ManagerPage/ManagerPage";
+import Regist from "pages/ManagerPage/Regist";
+import Management from "pages/ManagerPage/Management";
+import Mission from "pages/ManagerPage/Mission";
+import LoginDataPage from "components/Login/LoginDataPage";
+import MyPage from "pages/MyPage/MyPage";
+import ManageCreate from "pages/ManagerPage/ManageCreate";
+import BoardListInfinityScroll from "pages/BoardPage/BoardListInfinityScroll2";
+import MissionPage from "pages/VSPage/MissionPage";
+import SpeedCodder from "pages/VSPage/G2048";
+import VsPage from "pages/VSPage/VsPage";
+import G2048 from "pages/VSPage/G2048";
 
 export default function App() {
   return (
@@ -41,9 +42,12 @@ export default function App() {
             <Route path="/infinity" element={<BoardListInfinityScroll />} />
             <Route path="/VsPage/*" element={<VsPage />}>
               <Route path="" element={<MissionPage />} />
-              <Route path="SpeedCodder" element={<SpeedCodder />} />
+              <Route path="G2048" element={<G2048 />} />
             </Route>
-            <Route path="/bootcampdetail/:bootcampid" element={<BootCampListDetailPage />} />
+            <Route
+              path="/bootcampdetail/:bootcampid"
+              element={<BootCampListDetailPage />}
+            />
             <Route path="/BoardModify" element={<BoardModify />} />
             <Route path="/MyPage/*" element={<MyPage />}>
               <Route path="" element={<PersonalInfo />} />

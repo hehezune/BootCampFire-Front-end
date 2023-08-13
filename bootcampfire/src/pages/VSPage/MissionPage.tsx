@@ -5,19 +5,29 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "store";
 interface bootcampList {
-  bootcampId: number;
-  bootcampName: string;
+  id: number;
+  name: string;
 }
 export default function MissionPage() {
   const bootcampId = useSelector((state: RootState) => state.auth.bootcampId);
-  const [myBootcamp, setBootcamp] = useState<bootcampList>(Object);
-  axios.get(`${process.env.REACT_APP_API_URL}/names`).then((res) => {
-    setBootcamp(res.data.data);
-    console.log(res.data.data);
-  });
+  const [bootcamps, setBootcamps] = useState<bootcampList[]>([]);
+  const accessToken = localStorage.getItem("Authorization");
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/bootcamps/lists/names`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        setBootcamps(res.data.data);
+        console.log(res.data.data);
+      });
+  }, [accessToken]);
   return (
     <div>
-      <h3 style={{ marginTop: "20px" }}>{myBootcamp.bootcampName}</h3>
+      <h3 style={{ marginTop: "20px" }}>{bootcamps[1].name}</h3>
       <div style={{ display: "flex" }}>
         <span>
           <img src="vsCampFire.png" alt="" />

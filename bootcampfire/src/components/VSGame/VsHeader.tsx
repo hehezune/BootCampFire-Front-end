@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Bold18px, Bold24px } from 'components/Board/styled';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { colors } from 'constant/constant';
+import React, { useState } from "react";
+import { Bold18px, Bold24px } from "components/Board/styled";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { colors } from "constant/constant";
 
 function VsHeader() {
   const [activeId, setActiveId] = useState(0);
@@ -16,12 +16,20 @@ function VsHeader() {
     <div>
       <StyledDiv>
         <StyledLink to="/VsPage">
-          <StyledBold21px as="span" onClick={() => handlerTabClick(0)} className={0 === activeId ? 'active' : ''}>
+          <StyledBold21px
+            as="span"
+            onClick={() => handlerTabClick(0)}
+            className={0 === activeId ? "active" : ""}
+          >
             오늘의 미션
           </StyledBold21px>
         </StyledLink>
-        <StyledLink to="/VsPage/SpeedCodder">
-          <StyledBold21px as="span" onClick={() => handlerTabClick(1)} className={1 === activeId ? 'active' : ''}>
+        <StyledLink to="/VsPage/G2048">
+          <StyledBold21px
+            as="span"
+            onClick={() => handlerTabClick(1)}
+            className={1 === activeId ? "active" : ""}
+          >
             2048 게임
           </StyledBold21px>
         </StyledLink>

@@ -1,6 +1,8 @@
 import axios from "axios";
 import { LightBtn } from "components/Board/styled";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "store";
 
 interface missionData {
   id: number;
@@ -12,12 +14,21 @@ interface missionData {
 }
 
 const MissionData = () => {
+  const userId = useSelector((state: RootState) => state.auth.userId);
   const [algorithm, setAlgorithm] = useState<missionData>(Object);
+  const accessToken = localStorage.getItem("Authorization");
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/algorithms`).then((res) => {
-      setAlgorithm(res.data.data);
-    });
-  }, []);
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/algorithms`, {
+        headers: {
+          user: `${accessToken}`,
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        setAlgorithm(res.data.data);
+      });
+  }, [accessToken]);
   return (
     <div>
       <table>
