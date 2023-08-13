@@ -11,7 +11,7 @@ export interface bootcampInput {
   startDate: string;
   endDate: string;
   imgUrl: string,
-  track: {id:number, name:string}[];
+  tracks: {id:number, name:string}[];
   languages: {id:number, name:string}[];
   regions: {id:number, name:string}[];
   cost: number;
@@ -31,7 +31,7 @@ export interface bootcampInputResponse {
     startDate: string;
     endDate: string;
     imgUrl: string,
-    track: {id:number, name:string}[];
+    tracks: {id:number, name:string}[];
     languages: {id:number, name:string}[];
     regions: {id:number, name:string}[];
     cost: number;

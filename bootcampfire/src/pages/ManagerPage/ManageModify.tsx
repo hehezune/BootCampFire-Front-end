@@ -18,7 +18,7 @@ const header = {
     Authorization: `Bearer ${accessToken}`,
 }}
 
-const ManageCreate = () => {
+const ManageModify = () => {
   const {bootcampId} = useParams();
   const [inputData, setInputData] = useState<bootcampInput>({
     name: "",
@@ -33,7 +33,7 @@ const ManageCreate = () => {
     startDate: "",
     endDate: "",
     imgUrl: "test",
-    track: [],
+    tracks: [],
     languages: [],
     regions: [],
     cost: 0,
@@ -59,6 +59,7 @@ const ManageCreate = () => {
       setTracks(tracksRes.data.data);
       setPlaces(regionsRes.data.data);
       setStacks(languagesRes.data.data);
+      console.log(initRes)
       setInputData(changePropertyStringToNumber(initRes.data.data));
     })
   },[])
@@ -127,12 +128,12 @@ const ManageCreate = () => {
     }
 
     console.log("request", request)
-    axios.post(API_KEY, request, {
+    axios.put(API_KEY + bootcampId, request, {
       headers: {
         Authorization: `Bearer ${accessToken}`
       }
     })
-    navigate("/ManagerPage/Management");
+    navigate("/ManagerPage/Management", {state: request});
   };
 
 
@@ -168,11 +169,11 @@ const ManageCreate = () => {
         <div style={{ display: "flex" }}>
           <StyledSpan>
           <InputCategory as="span">모집시작일</InputCategory>
-          <StyledShedule type="datetime-local" name="startDate" onChange={handleStringInputChange}/>
+          <StyledShedule type="datetime-local" name="startDate" value={inputData.startDate} onChange={handleStringInputChange}/>
           </StyledSpan>
           <StyledSpan>
           <InputCategory as="span">모집마감일</InputCategory>
-          <StyledShedule type="datetime-local" name="endDate" onChange={handleEndDate}/>
+          <StyledShedule type="datetime-local" name="endDate" value={inputData.endDate} onChange={handleEndDate}/>
           </StyledSpan>
         </div>
       <Line />
@@ -187,7 +188,7 @@ const ManageCreate = () => {
             onChange={handleSelectDropDown}
             value={track}
             size="small"
-            name="track"
+            name="tracks"
           >
             {tracks.map((element: {id: number, name: string}) => (
               <MenuItem value={element.id + element.name}>{element.name}</MenuItem>
@@ -195,10 +196,10 @@ const ManageCreate = () => {
           </Select>
         </FormControl>
         <div style={{display: "flex"}}>
-          {inputData.track.map((element, idx) => 
+          {inputData.tracks.map((element, idx) => 
             <LightBtn type={""} style={{margin: "auto 0 auto 10px"}}>{element.name}
               <CloseOutlinedIcon 
-                onClick={() => handleDeleteDropDown(idx, "track")}
+                onClick={() => handleDeleteDropDown(idx, "tracks")}
                 sx={{fontSize: "18px", color: colors.TEXT_LIGHT}}/>          
             </LightBtn>
           )}
@@ -391,13 +392,13 @@ const StyledShedule = styled.input`
 const emptyCheck = (request: bootcampInput) => {
   for (const key in request) {
     const value = request[key];
-    if (value === "imgUrl") { // 이미지는 default 이미지가 존재하므로 스킵
+    if (value === "imgUrl" || key === "reviewCnt" || key === "algoCnt") { // 이미지는 default 이미지가 존재하므로 스킵
       continue;
     } else if (typeof value === "string" && value === "") {
+      console.log("어디?", key)
       return false;
     } else if (Array.isArray(value) && value.length === 0) {
-      return false;
-    } else if (typeof value === "number" && value === 0) {
+      console.log("어디?", key)
       return false;
     }
   }
@@ -407,13 +408,14 @@ const emptyCheck = (request: bootcampInput) => {
 
 const changePropertyStringToNumber = (input : bootcampInputResponse) => {
   const initData = {...input,
-    card: input.card? 0 : 1,
-    support: input.support? 0 : 1,
-    hasCodingtest: input.hasCodingtest? 0 : 1,
-    onOff: onOffMap.get(input.onOff),
+    card: input.card? 1 : 2,
+    support: input.support? 1 : 2,
+    hasCodingtest: input.hasCodingtest? 1 : 2,
+    onOff: onOffMap.get(input.onOff) + 1,
+    startDate: input.startDate.replace(' ', 'T'),
+    endDate: input.endDate.replace(' ', 'T'),
   }
-
   return initData;
 }
 
-export default ManageCreate;
+export default ManageModify;

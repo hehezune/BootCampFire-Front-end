@@ -11,6 +11,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { bootcampInputResponse } from 'components/Board/interface';
+import { useNavigate } from 'react-router-dom';
+
 function createData(index: number, bootcamp: string, score: number, reviewCnt: number) {
   return { index, bootcamp, score, reviewCnt };
 }
@@ -34,12 +36,17 @@ const header = {
 
 export default function ManageTable() {
   const [bootcampList, setBootcampList] = useState<bootcampInputResponse[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get(API_KEY + "lists/names", header)
     .then((res) => setBootcampList(res.data.data))
     .catch(err => console.log(err))
   },[])
+
+  const handleEditBootcamp = (bootcampId: number, idx: number) => {
+    navigate(`modify/${bootcampId}`);
+  }
 
   const handleDeleteBootcamp = (bootcampId: number, idx: number) => {
     if (!window.confirm("정말 삭제하시겠습니까?")) return ;
@@ -71,14 +78,12 @@ export default function ManageTable() {
         <TableBody>
           {bootcampList.map((element : bootcampInputResponse, idx :number) => (
             <TableRow key={element.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-              <TableCell align="center">{idx}</TableCell>
+              <TableCell align="center">{idx + 1}</TableCell>
               <TableCell align="center">{element.name}</TableCell>
               <TableCell align="center">{element.score}</TableCell>
               <TableCell align="center">{element.reviewCnt}</TableCell>
               <TableCell align="right">
-                <Link to={`modify/${element.id}`}>
-                  <LightBtn type="first">수정</LightBtn>
-                </Link>
+                <LightBtn onClick={() => handleEditBootcamp(element.id, idx)} type="first">수정</LightBtn>
                 <LightBtn onClick={() => handleDeleteBootcamp(element.id, idx)} type="" style={{ marginLeft: '30px' }}>
                   삭제
                 </LightBtn>
