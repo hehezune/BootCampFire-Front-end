@@ -50,7 +50,7 @@ export default function App() {
               <Route path="" element={<Regist />} />
               <Route path="Management" element={<Management />} />
               <Route path="Management/create" element={<ManageCreate />} />
-              <Route path="Management/modify/:id" element={<ManageModify />} />
+              <Route path="Management/modify/:bootcampId" element={<ManageModify />} />
               <Route path="Mission" element={<Mission />} />
             </Route>
           </Routes>

@@ -18,9 +18,9 @@ export const categories = ["카테고리", "자유", "썸/연애", "헬스/스�
 export const bootcamp = ['SSAFY'];
 
 const onOff = new Map();
-onOff.set('온라인', '0');
-onOff.set('오프라인', '1');
-onOff.set('온/오프라인', '2');
+onOff.set('온라인', 0);
+onOff.set('오프라인', 1);
+onOff.set('온/오프라인', 2);
 
 export const onOffMap = onOff;
 

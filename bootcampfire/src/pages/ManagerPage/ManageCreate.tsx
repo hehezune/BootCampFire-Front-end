@@ -32,7 +32,7 @@ const ManageCreate = () => {
     startDate: "",
     endDate: "",
     imgUrl: "test",
-    track: [],
+    tracks: [],
     languages: [],
     regions: [],
     cost: 0,
@@ -93,6 +93,7 @@ const ManageCreate = () => {
     const end = new Date(event.target.value);
     if (start >= end) {
       window.alert("모집 시작일 이후로 선택해주세요.");
+      event.target.value = "";
       return ;
     }
     setInputData({
@@ -163,11 +164,11 @@ const ManageCreate = () => {
         <div style={{ display: "flex" }}>
           <StyledSpan>
           <InputCategory as="span">모집시작일</InputCategory>
-          <StyledShedule type="datetime-local" name="startDate" onChange={handleStringInputChange}/>
+          <StyledShedule type="datetime-local" name="startDate" value={inputData.startDate} onChange={handleStringInputChange}/>
           </StyledSpan>
           <StyledSpan>
           <InputCategory as="span">모집마감일</InputCategory>
-          <StyledShedule type="datetime-local" name="endDate" onChange={handleEndDate}/>
+          <StyledShedule type="datetime-local" name="endDate" value={inputData.endDate} onChange={handleEndDate}/>
           </StyledSpan>
         </div>
       <Line />
@@ -182,7 +183,7 @@ const ManageCreate = () => {
             onChange={handleSelectDropDown}
             value={track}
             size="small"
-            name="track"
+            name="tracks"
           >
             {tracks.map((element: {id: number, name: string}) => (
               <MenuItem value={element.id + element.name}>{element.name}</MenuItem>
@@ -190,10 +191,10 @@ const ManageCreate = () => {
           </Select>
         </FormControl>
         <div style={{display: "flex"}}>
-          {inputData.track.map((element, idx) => 
+          {inputData.tracks.map((element, idx) => 
             <LightBtn type={""} style={{margin: "auto 0 auto 10px"}}>{element.name}
               <CloseOutlinedIcon 
-                onClick={() => handleDeleteDropDown(idx, "track")}
+                onClick={() => handleDeleteDropDown(idx, "tracks")}
                 sx={{fontSize: "18px", color: colors.TEXT_LIGHT}}/>          
             </LightBtn>
           )}
@@ -391,8 +392,6 @@ const emptyCheck = (request: bootcampInput) => {
     } else if (typeof value === "string" && value === "") {
       return false;
     } else if (Array.isArray(value) && value.length === 0) {
-      return false;
-    } else if (typeof value === "number" && value === 0) {
       return false;
     }
   }
