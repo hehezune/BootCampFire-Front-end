@@ -9,7 +9,7 @@ import { login } from "store/authSlice";
 
 export default function LoginDataPage() {
   const dispatch = useDispatch();
-  const URL = "http://localhost:8080/users";
+  const URL = `${process.env.REACT_APP_API_URL}/users`;
   const navigate = useNavigate();
   useEffect(() => {
     localStorage.clear();

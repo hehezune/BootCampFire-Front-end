@@ -15,9 +15,8 @@ import { updateScore } from "store/vsSlice";
 import "./ScoresContainer.scss";
 
 export const ScoresContainer = () => {
-
   const { gameState } = useGameContext();
-  
+
   const [state, dispatch] = useGameLocalStorage(
     "scores",
     initState(),
@@ -27,36 +26,40 @@ export const ScoresContainer = () => {
   useEffect(() => {
     dispatch({ type: "change", payload: gameState.tiles });
   }, [gameState.tiles, dispatch]);
-  
-  const { myGameRank } = useSelector((state: RootState) => state.vs)
-  const {isLoggedIn} = useSelector((state: RootState) => state.auth)
+
+  const { myGameRank } = useSelector((state: RootState) => state.vs);
+  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
   const dispatch2 = useDispatch();
 
   // GAME_OVER
   useEffect(() => {
-      setTimeout(() => {
-        if (myGameRank.score < state.bestScore) {
-          // console.log("0.9 초후 값 : ",myGameRank.score, state.bestScore)
-          dispatch2(updateScore(Math.max(myGameRank.score, state.bestScore)));
-          if (isLoggedIn && state.score > 1000) {
-            axios.post(`http://localhost:8080/games`, {bestScore : state.bestScore})
-            .then((response) => { console.log("성공공! : ", response)})
-          }
-            axios.get(`http://localhost:8080/games`)
-            .then((response)=>dispatch2(loadGameRank(response.data.data)))          
+    setTimeout(() => {
+      if (myGameRank.score < state.bestScore) {
+        // console.log("0.9 초후 값 : ",myGameRank.score, state.bestScore)
+        dispatch2(updateScore(Math.max(myGameRank.score, state.bestScore)));
+        if (isLoggedIn && state.score > 1000) {
+          axios
+            .post(`${process.env.REACT_APP_API_URL}/games`, {
+              bestScore: state.bestScore,
+            })
+            .then((response) => {
+              console.log("성공공! : ", response);
+            });
         }
-      }, 500);
-      axios.get(`http://localhost:8080/games`)
-          .then((response)=>dispatch2(loadGameRank(response.data.data))) 
+        axios
+          .get(`${process.env.REACT_APP_API_URL}/games`)
+          .then((response) => dispatch2(loadGameRank(response.data.data)));
+      }
+    }, 500);
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/games`)
+      .then((response) => dispatch2(loadGameRank(response.data.data)));
   }, [gameState.status, state.bestScore]);
 
-  
-
   useEffect(() => {
-    
     if (state.newPoints > 0) {
       const oldAddScore = document.getElementById("additionScore");
-      if (oldAddScore && oldAddScore.parentNode ) {
+      if (oldAddScore && oldAddScore.parentNode) {
         oldAddScore.innerText = `+${state.newPoints}`;
         const newAddScore = oldAddScore.cloneNode(true);
         oldAddScore.parentNode.replaceChild(newAddScore, oldAddScore);
@@ -131,7 +134,7 @@ const stateReducer = (state: ScoresState, action: ACTIONTYPE) => {
 
       const score = state.score + newPoints;
       const bestScore = Math.max(score, state.bestScore);
-      
+
       return { tiles, newPoints, score, bestScore };
     }
     default: {
@@ -139,4 +142,3 @@ const stateReducer = (state: ScoresState, action: ACTIONTYPE) => {
     }
   }
 };
-

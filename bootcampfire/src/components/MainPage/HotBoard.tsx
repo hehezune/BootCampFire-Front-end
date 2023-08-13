@@ -1,12 +1,12 @@
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import ChatBubbleOutlineRoundedIcon from '@mui/icons-material/ChatBubbleOutlineRounded';
-import styled from 'styled-components';
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import ChatBubbleOutlineRoundedIcon from "@mui/icons-material/ChatBubbleOutlineRounded";
+import styled from "styled-components";
 // import A2 from '../Bootcamp/Tag';
-import Tag from 'components/BootCamp/Tag';
+import Tag from "components/BootCamp/Tag";
 
-import HotContent from './HotContent';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import HotContent from "./HotContent";
+import { useEffect, useState } from "react";
+import axios from "axios";
 const Container = styled.div``;
 
 const Table = styled.table`
@@ -45,15 +45,17 @@ export default function HotBoard() {
   const [rows, setRows] = useState<hotData[]>([]);
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/categories/hots`).then((res) => {
-      setRows(res.data.data);
-    });
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/categories/hots`)
+      .then((res) => {
+        setRows(res.data.data);
+      });
   }, []);
   return (
     <div>
       <Container>
         <h2>뜨거운 이야기</h2>
-        <img src="/public/logo.png" alt="" height={'auto'} width={'auto'} />
+        <img src="/public/logo.png" alt="" height={"auto"} width={"auto"} />
         <Table>
           <tbody>
             {rows.map((row) => (
@@ -62,11 +64,15 @@ export default function HotBoard() {
                   <Tag text={row.category} />
                 </Cell>
                 <Cell>
-                  <HotContent link={`/BoardDetail/${row.id}`} text={row.title}></HotContent>
+                  <HotContent
+                    link={`/BoardDetail/${row.id}`}
+                    text={row.title}
+                  ></HotContent>
                 </Cell>
                 <Cell>
                   <IconWrapper>
-                    <StyledFavoriteBorderIcon /> {row.likeCnt} <StyledChatBubbleOutlineRoundedIcon /> {row.commentCnt}
+                    <StyledFavoriteBorderIcon /> {row.likeCnt}{" "}
+                    <StyledChatBubbleOutlineRoundedIcon /> {row.commentCnt}
                   </IconWrapper>
                 </Cell>
               </Row>

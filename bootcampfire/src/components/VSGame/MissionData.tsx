@@ -14,7 +14,7 @@ interface missionData {
 const MissionData = () => {
   const [algorithm, setAlgorithm] = useState<missionData>(Object);
   useEffect(() => {
-    axios.get("http://localhost:8080/algorithms").then((res) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/algorithms`).then((res) => {
       setAlgorithm(res.data.data);
     });
   }, []);

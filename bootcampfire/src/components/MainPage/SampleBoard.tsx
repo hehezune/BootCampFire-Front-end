@@ -1,9 +1,9 @@
-import styled from 'styled-components';
-import HotContent from './HotContent';
-import { Bold18px } from 'components/Board/styled';
-import MoreBtn from './MoreBtn';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import styled from "styled-components";
+import HotContent from "./HotContent";
+import { Bold18px } from "components/Board/styled";
+import MoreBtn from "./MoreBtn";
+import axios from "axios";
+import { useEffect, useState } from "react";
 const Container = styled.div``;
 
 const Table = styled.table`
@@ -37,33 +37,38 @@ const SampleBoard: React.FC<createDataProps> = (props) => {
     // axios.get(`http://i9a408.p.ssafy.io:8080/categories/${props.index}/main`).then((res) => {
     //   setRows(res.data.data);
     // });
-    axios.get(`http://localhost:8080/categories/${props.index}/main`).then((res) => {
-      setRows(res.data.data);
-    });
-    
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/categories/${props.index}/main`)
+      .then((res) => {
+        setRows(res.data.data);
+      });
   }, []);
 
   return (
     <div>
       <Container>
-        <img src={props.img} alt="" height={'auto'} width={'auto'} />
+        <img src={props.img} alt="" height={"auto"} width={"auto"} />
         <div
           style={{
-            display: 'flex',
-            gap: '30px',
-            marginBottom: '10px',
-            alignItems: 'center',
-          }}>
+            display: "flex",
+            gap: "30px",
+            marginBottom: "10px",
+            alignItems: "center",
+          }}
+        >
           <Bold18px>{props.text}</Bold18px>
           <MoreBtn index={props.index}></MoreBtn>
         </div>
-        <div style={{ borderBottom: 'solid 1px' }} />
+        <div style={{ borderBottom: "solid 1px" }} />
         <Table>
           <tbody>
             {rows.map((row) => (
               <Row key={row.id}>
                 <Cell>
-                  <HotContent link={`/BoardDetail/${row.id}`} text={row.title}></HotContent>
+                  <HotContent
+                    link={`/BoardDetail/${row.id}`}
+                    text={row.title}
+                  ></HotContent>
                 </Cell>
               </Row>
             ))}

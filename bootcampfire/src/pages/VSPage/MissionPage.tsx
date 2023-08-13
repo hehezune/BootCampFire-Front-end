@@ -11,7 +11,7 @@ interface bootcampList {
 export default function MissionPage() {
   const bootcampId = useSelector((state: RootState) => state.auth.bootcampId);
   const [myBootcamp, setBootcamp] = useState<bootcampList>(Object);
-  axios.get("http://localhost:8080/names").then((res) => {
+  axios.get(`${process.env.REACT_APP_API_URL}/names`).then((res) => {
     setBootcamp(res.data.data);
     console.log(res.data.data);
   });

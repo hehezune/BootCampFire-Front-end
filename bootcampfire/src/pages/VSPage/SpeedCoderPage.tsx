@@ -1,27 +1,41 @@
-import App from 'components/VSGame/G3/components/App/App';
-import styled from 'styled-components';
+import App from "components/VSGame/G3/components/App/App";
+import styled from "styled-components";
 
-import { RootState } from 'store';
-import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { loadGameRank, loadMyRank } from 'store/vsSlice';
-import axios from 'axios';
+import { RootState } from "store";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { loadGameRank, loadMyRank } from "store/vsSlice";
+import axios from "axios";
 
 export default function SpeedCodder() {
-  const { GameRank10, myGameRank } = useSelector((state: RootState) => state.vs);
+  const { GameRank10, myGameRank } = useSelector(
+    (state: RootState) => state.vs
+  );
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
   // console.log(myGameRank, isLoggedIn)
   const dispatch = useDispatch();
 
   let flag = myGameRank.rank;
   useEffect(() => {
+    const accessToken = localStorage.getItem("Authorization");
+
     setTimeout(() => {
       if (isLoggedIn) {
         // console.log("조건문 안에 있다.")
-        axios.get(`http://localhost:8080/games/my-rank`).then((response) => {
-          dispatch(loadMyRank(response.data.data));
-        });
-        axios.get(`http://localhost:8080/games`).then((response) => dispatch(loadGameRank(response.data.data)));
+        axios
+          .get(`${process.env.REACT_APP_API_URL}/games/my-rank`, {
+            headers: { Authorization: `Bearer ${accessToken}` },
+            withCredentials: true,
+          })
+          .then((response) => {
+            dispatch(loadMyRank(response.data.data));
+          });
+        axios
+          .get(`${process.env.REACT_APP_API_URL}/games`, {
+            headers: { Authorization: `Bearer ${accessToken}` },
+            withCredentials: true,
+          })
+          .then((response) => dispatch(loadGameRank(response.data.data)));
       }
     }, 1000);
   }, []);
@@ -47,7 +61,7 @@ export default function SpeedCodder() {
         </Container>
       )}
 
-      <div style={{ border: '2px solid red', padding: '10px' }}>
+      <div style={{ border: "2px solid red", padding: "10px" }}>
         <App />
       </div>
     </div>
