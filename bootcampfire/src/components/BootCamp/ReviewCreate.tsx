@@ -57,7 +57,7 @@ const ReviewCreate: React.FC<BootCampReviewProps> = ({review}) => {
         .catch((error) => {console.error("리뷰 수정 중 오류가 발생했습니다.", error);});
     } else {
       axios
-        .post(`${process.env.REACT_APP_API_URL}/reviews`, postData)
+        .post(`${process.env.REACT_APP_API_URL}/reviews/${bootcampId}`, postData)
         .then((response) => {
           console.log("리뷰 작성이 완료되었습니다.");
           window.location.reload();
