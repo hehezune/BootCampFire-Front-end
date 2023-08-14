@@ -33,10 +33,6 @@ const SampleBoard: React.FC<createDataProps> = (props) => {
 
   useEffect(() => {
     console.log(props);
-
-    // axios.get(`http://i9a408.p.ssafy.io:8080/categories/${props.index}/main`).then((res) => {
-    //   setRows(res.data.data);
-    // });
     axios.get(`${process.env.REACT_APP_API_URL}/categories/${props.index}/main`).then((res) => {
       setRows(res.data.data);
     });

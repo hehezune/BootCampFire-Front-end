@@ -22,6 +22,7 @@ import LoginDataPage from "components/Login/LoginDataPage";
 import MyPage from "pages/MyPage/MyPage";
 import ManageCreate from "pages/ManagerPage/ManageCreate";
 import MainSearchListPage from "pages/MainPage/MainSearchListPage";
+import ManageModify from "pages/ManagerPage/ManageModify";
 
 export default function App() {
   return (
@@ -42,7 +43,7 @@ export default function App() {
               path="/bootcampdetail/:bootcampid"
               element={<BootCampListDetailPage />}
             />
-            <Route path="/BoardModify" element={<BoardModify />} />
+            <Route path="/BoardModify/:bootcampid" element={<BoardModify />} />
             <Route path="/MyPage/*" element={<MyPage />}>
               <Route path="" element={<PersonalInfo />} />
               <Route path="MyPosts" element={<MyPosts />} />
@@ -51,6 +52,7 @@ export default function App() {
               <Route path="" element={<Regist />} />
               <Route path="Management" element={<Management />} />
               <Route path="Management/create" element={<ManageCreate />} />
+              <Route path="Management/modify/:bootcampId" element={<ManageModify />} />
               <Route path="Mission" element={<Mission />} />
             </Route>
           </Routes>

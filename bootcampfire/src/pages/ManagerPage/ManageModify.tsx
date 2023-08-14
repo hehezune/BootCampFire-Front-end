@@ -1,24 +1,25 @@
-import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField} from "@mui/material";
+import { Box, FormControl, Input, InputLabel, MenuItem, Select, SelectChangeEvent, TextField} from "@mui/material";
 import { Bold15px, Bold18px, LightBtn, StrongBtn,} from "components/Board/styled";
 import { ChangeEvent, useState } from "react";
 import ManageRadioBtn from "components/Manager/ManageRadioBtn";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { colors } from "constant/constant";
 import { useEffect } from "react";
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import axios from "axios";
-import type { bootcampInput } from "components/Board/interface";
-import { onOffList, supportSelectList, cardSelectList, codingTestSelectList } from "constant/constant";
+import { onOffList, onOffMap, supportSelectList, cardSelectList, codingTestSelectList } from "constant/constant";
+import type { bootcampInput, bootcampInputResponse } from "components/Board/interface";
 
-const API_KEY = `${process.env.REACT_APP_API_URL}/bootcamps/`;
+const API_KEY = 'http://localhost:8080/bootcamps/';
 const accessToken = localStorage.getItem("Authorization");
 const header = {
   headers: {
     Authorization: `Bearer ${accessToken}`,
 }}
 
-const ManageCreate = () => {
+const ManageModify = () => {
+  const {bootcampId} = useParams();
   const [inputData, setInputData] = useState<bootcampInput>({
     name: "",
     siteUrl: "",
@@ -47,14 +48,19 @@ const ManageCreate = () => {
   const [stacks, setStacks] = useState([]);
 
   useEffect(() => {
-    Promise.all([
+    const axiosRequest = [
       axios.get(API_KEY + "regions", header),
       axios.get(API_KEY + "tracks", header),
       axios.get(API_KEY + "languages", header),
-    ]).then(([regionsRes, tracksRes, languagesRes]) => {
+      axios.get(API_KEY + bootcampId, header)
+    ]
+
+    Promise.all(axiosRequest).then(([regionsRes, tracksRes, languagesRes, initRes]) => {
       setTracks(tracksRes.data.data);
       setPlaces(regionsRes.data.data);
       setStacks(languagesRes.data.data);
+      console.log(initRes)
+      setInputData(changePropertyStringToNumber(initRes.data.data));
     })
   },[])
 
@@ -93,7 +99,6 @@ const ManageCreate = () => {
     const end = new Date(event.target.value);
     if (start >= end) {
       window.alert("모집 시작일 이후로 선택해주세요.");
-      event.target.value = "";
       return ;
     }
     setInputData({
@@ -123,12 +128,12 @@ const ManageCreate = () => {
     }
 
     console.log("request", request)
-    axios.post(API_KEY, request, {
+    axios.put(API_KEY + bootcampId, request, {
       headers: {
         Authorization: `Bearer ${accessToken}`
       }
     })
-    navigate("/ManagerPage/Management");
+    navigate("/ManagerPage/Management", {state: request});
   };
 
 
@@ -387,11 +392,13 @@ const StyledShedule = styled.input`
 const emptyCheck = (request: bootcampInput) => {
   for (const key in request) {
     const value = request[key];
-    if (value === "imgUrl") { // 이미지는 default 이미지가 존재하므로 스킵
+    if (value === "imgUrl" || key === "reviewCnt" || key === "algoCnt") { // 이미지는 default 이미지가 존재하므로 스킵
       continue;
     } else if (typeof value === "string" && value === "") {
+      console.log("어디?", key)
       return false;
     } else if (Array.isArray(value) && value.length === 0) {
+      console.log("어디?", key)
       return false;
     }
   }
@@ -399,15 +406,16 @@ const emptyCheck = (request: bootcampInput) => {
   return true;
 }
 
-const getOnOff = (input: number) => {
-  switch (input) {
-    case 0:
-      return "온라인";
-    case 1:
-      return "오프라인";
-    default:
-      return "온/오프라인"
+const changePropertyStringToNumber = (input : bootcampInputResponse) => {
+  const initData = {...input,
+    card: input.card? 1 : 2,
+    support: input.support? 1 : 2,
+    hasCodingtest: input.hasCodingtest? 1 : 2,
+    onOff: onOffMap.get(input.onOff) + 1,
+    startDate: input.startDate.replace(' ', 'T'),
+    endDate: input.endDate.replace(' ', 'T'),
   }
+  return initData;
 }
 
-export default ManageCreate;
+export default ManageModify;

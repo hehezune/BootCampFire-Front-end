@@ -9,7 +9,7 @@ export default function Managements() {
   };
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      <ManageTable></ManageTable>
+      <ManageTable />
       <StrongBtn type="first" onClick={openManageCreate}>
         부트 캠프 등록
       </StrongBtn>

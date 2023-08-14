@@ -16,11 +16,21 @@ export default function VS() {
 
   let flag = myGameRank.rank;
   useEffect(() => {
+    const accessToken = localStorage.getItem('Authorization');
+
     setTimeout(() => {
       if (isLoggedIn) {
         // console.log("조건문 안에 있다.")
-        axios.get(`${process.env.REACT_APP_API_URL}/games/my-rank`).then((response)=>{dispatch(loadMyRank(response.data.data))})
-        axios.get(`${process.env.REACT_APP_API_URL}/games`).then((response)=>dispatch(loadGameRank(response.data.data)))
+        axios.get(`${process.env.REACT_APP_API_URL}/games/my-rank`,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+          withCredentials: true,
+        }).then((response)=>{dispatch(loadMyRank(response.data.data))})
+        axios.get(`${process.env.REACT_APP_API_URL}/games`,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+          withCredentials: true,
+        }).then((response)=>dispatch(loadGameRank(response.data.data)))
       }
     }, 1000);
   }, []);

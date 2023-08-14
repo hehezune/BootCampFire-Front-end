@@ -24,3 +24,15 @@ categories.forEach((element, idx) => {
 export const categoryMap = catergoryMapOrigin;
 
 export const bootcamp = ['SSAFY'];
+
+const onOff = new Map();
+onOff.set('온라인', 0);
+onOff.set('오프라인', 1);
+onOff.set('온/오프라인', 2);
+
+export const onOffMap = onOff;
+
+export const onOffList = ['온라인', '오프라인', '온/오프라인'];
+export const supportSelectList = ["지원금 O", "지원금 X"];
+export const cardSelectList = ["카드 등록 필수 O", "카드 등록 필수 X"];
+export const codingTestSelectList = ["코딩테스트 O", "코딩테스트 X"];

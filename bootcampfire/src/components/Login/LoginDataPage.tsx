@@ -12,7 +12,7 @@ export default function LoginDataPage() {
   const dispatch = useDispatch();
 
   // const params: Readonly<Params<string>> = useParams();
-  const URL = 'http://localhost:8080/users';
+  const URL = `${process.env.REACT_APP_API_URL}/users`;
   const navigate = useNavigate();
   useEffect(() => {
     localStorage.clear();
@@ -24,6 +24,7 @@ export default function LoginDataPage() {
       .get(URL, {
         // params: { token: token },
         headers: { Authorization: `Bearer ${accessToken}` },
+        withCredentials: true,         
       })
       .then((res) => {
         if (res.status === 200) {
