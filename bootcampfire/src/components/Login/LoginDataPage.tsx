@@ -40,7 +40,7 @@ export default function LoginDataPage() {
             })
           );
 
-          navigate('/');
+          navigate(-1);
         }
       })
       .catch((res) => {

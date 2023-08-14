@@ -86,7 +86,7 @@ function BoardListPage() {
 
     return (
         <StyledPage className="test">
-            <SearchBar selectCategory={selectCategory} setBoardList={setBoardListData}/> 
+            <SearchBar selectCategory={selectCategory}/> 
             <BoardListMain>
                 <CategorySideBar selectCategory={selectCategory} onCategorySelect={handlerSelectCategory}/>
                 <TStyledDiv>
@@ -127,6 +127,7 @@ const getDataFromAPI = async (pageCount: number, url: string) => {
             Authorization: `Bearer ${accesToken}`,
         }
     });
+    console.log(response)
     return response.data.data;
 }
 

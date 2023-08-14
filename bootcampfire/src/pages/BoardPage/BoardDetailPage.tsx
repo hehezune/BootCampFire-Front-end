@@ -32,7 +32,7 @@ function BoardDetailPage() {
   // const {boardId} = useParams();
   const commentList = useSelector((state: RootState) => state.comment.commentList);
   const [boardDetail, setBoardDetail] = useState<BoardDetail>(boardDetailDummy);
-  const [isLike, setIsLike] = useState(boardDetail.isLike);
+  const [isLike, setIsLike] = useState(false);
   let {id} = useParams();
   const dispatch = useDispatch();
 
@@ -46,6 +46,7 @@ function BoardDetailPage() {
       boardDetailResponse,
       commentsResponse
     ]) => {
+      console.log(boardDetailResponse)
       setBoardDetail(boardDetailResponse.data.data);
       dispatch(getComments({comments: commentsResponse.data.data, boardId: Number(id)}));
     })
