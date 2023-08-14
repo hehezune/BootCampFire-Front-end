@@ -14,12 +14,9 @@ export default A2;
 
 const A2Container = styled(Bold15px)<{type?: string | null}>`
     padding: 0px 15px 0px 15px;
-    /* gap: 5px; */
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    /* flex-shrink: 0; */
-    /* height: 20px; */
     margin: 0px;
     background: #FFFFFF;
     border: 0.5px solid ${colors.BORDER_LIGHT};

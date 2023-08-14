@@ -92,7 +92,7 @@ function MainSearchListPage() {
 
 const TStyledDiv = styled.div`
     height: 730px;
-    width: 800px;
+    width: 100%;
     overflow: auto;
 `
 const Sp = styled.p`
@@ -105,7 +105,6 @@ const BoardListMain = styled.div`
     width: 100%;
     .board-list-margin {
         margin-left: 42px;
-        width: 80%;
     }
 `
 
@@ -113,7 +112,6 @@ const getDataFromAPI = async (pageCount: number, url: string) => {
     // boardList 받아오는 axios 요청
     const response = await axios.get(`${url}?page=${pageCount}&size=5`, header
     );
-    console.log(response)
     return response.data.data;
 }
 

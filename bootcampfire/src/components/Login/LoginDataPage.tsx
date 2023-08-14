@@ -44,6 +44,7 @@ export default function LoginDataPage() {
         }
       })
       .catch((res) => {
+        
         console.log(res);
       });
   }, []);
