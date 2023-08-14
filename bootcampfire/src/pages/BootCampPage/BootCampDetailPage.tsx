@@ -33,17 +33,26 @@ const BootCampListDetailPage: React.FC = () => {
   const [myreview, setMyReview] = useState<ReviewItem>({} as ReviewItem);
 
   useEffect(() => {
+    const accessToken = localStorage.getItem('Authorization');
+    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+
     if (bootcampid) {
       const bootcampIdNumber = parseInt(bootcampid);
-      Promise.all([
+      const requests = [
         axios.get(`${process.env.REACT_APP_API_URL}/bootcamps/${bootcampIdNumber}`),
         axios.get(`${process.env.REACT_APP_API_URL}/reviews/${bootcampIdNumber}/lists`),
-        axios.get(`${process.env.REACT_APP_API_URL}/reviews/${bootcampIdNumber}/vaildation`),
-      ])
+      ];
+  
+      if (isLoggedIn && bootcampId==bootcampIdNumber) {
+        requests.push(axios.get(`${process.env.REACT_APP_API_URL}/reviews/${bootcampIdNumber}/vaildation`));
+      }
+      Promise.all(requests)
         .then(([bootcampResponse, reviewResponse, myreviewResponse]) => {
           setBootdetail(bootcampResponse.data.data);
           setbootreview(reviewResponse.data.data);
-          setMyReview(myreviewResponse.data.data);
+          if (isLoggedIn && bootcampId==bootcampIdNumber) {
+            setMyReview(myreviewResponse.data.data);
+          }
         })
         .catch((error) => {});
     }

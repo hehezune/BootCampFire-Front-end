@@ -3,13 +3,14 @@ import { useState } from "react";
 import axios from "axios";
 import  { Checkbox, Rating, TextField, Button } from "@mui/material";
 import { styled as styled2  } from '@mui/material/styles';
-
+import { useNavigate } from "react-router-dom";
 import { RootState } from "store";
 import { useSelector } from "react-redux";
 
 const ReviewCreate: React.FC<BootCampReviewProps> = ({review}) => {
 
   const { userId, bootcampId } = useSelector((state: RootState) => state.auth);
+  const navigate = useNavigate(); 
 
   const [formData, setFormData] = useState({
     userId : userId,
@@ -52,15 +53,21 @@ const ReviewCreate: React.FC<BootCampReviewProps> = ({review}) => {
         .put(`${process.env.REACT_APP_API_URL}/reviews/${bootcampId}/${review.id}`, postData)
         .then((response) => {
           console.log("리뷰 수정이 완료되었습s니다.");
-          window.location.reload();
+          setTimeout(() => {
+            window.location.reload();
+          }, 300); // 0.3초 후에 리로드
+        
+
         })
         .catch((error) => {console.error("리뷰 수정 중 오류가 발생했습니다.", error);});
     } else {
       axios
-        .post(`${process.env.REACT_APP_API_URL}/reviews`, postData)
+        .post(`${process.env.REACT_APP_API_URL}/reviews/${bootcampId}`, postData)
         .then((response) => {
           console.log("리뷰 작성이 완료되었습니다.");
-          window.location.reload();
+          setTimeout(() => {
+            window.location.reload();
+          }, 300); // 0.3초 후에 리로드
         })
         .catch((error) => {console.error("리뷰 작성 중 오류가 발생했습니다.", error);});
     }
@@ -70,7 +77,10 @@ const ReviewCreate: React.FC<BootCampReviewProps> = ({review}) => {
     axios.delete(`${process.env.REACT_APP_API_URL}/reviews/${bootcampId}/${review.id}`)
   .then((response) => {
     console.log("리뷰가 삭제되었습니다.");
-    window.location.reload();
+    setTimeout(() => {
+      window.location.reload();
+    }, 300); // 0.3초 후에 리로드
+
   })
   .catch((error) => {console.error("리뷰 삭제 중 오류가 발생했습니다.", error);});
   }
