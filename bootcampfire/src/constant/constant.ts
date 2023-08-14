@@ -12,8 +12,16 @@ export const colors = {
 };
 
 
+
 export const categories = ["카테고리", "자유", "썸/연애", "헬스/스포츠", "스터디", "프로젝트", "IT", "고민", "질문", "내 부트캠프"]
 
+const catergoryMapOrigin = new Map();
+categories.forEach((element, idx) => {
+  if (idx === 0) return;
+  catergoryMapOrigin.set(element, idx);
+})
+
+export const categoryMap = catergoryMapOrigin;
 
 export const bootcamp = ['SSAFY'];
 

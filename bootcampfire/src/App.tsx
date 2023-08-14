@@ -21,6 +21,7 @@ import Mission from "pages/ManagerPage/Mission";
 import LoginDataPage from "components/Login/LoginDataPage";
 import MyPage from "pages/MyPage/MyPage";
 import ManageCreate from "pages/ManagerPage/ManageCreate";
+import MainSearchListPage from "pages/MainPage/MainSearchListPage";
 import ManageModify from "pages/ManagerPage/ManageModify";
 
 export default function App() {
@@ -31,6 +32,7 @@ export default function App() {
         <main>
           <Routes>
             <Route path="/" element={<MainPage />} />
+            <Route path="/mainSearch/:searchType/:keyword" element={<MainSearchListPage />} />
             <Route path="/loginInfo" element={<LoginDataPage />} />
             <Route path="/Board" element={<BoardList />} />
             <Route path="/BoardDetail/:id" element={<BoardDetail />} />

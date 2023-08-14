@@ -5,6 +5,11 @@ import Ranking from '../../components/MainPage/Ranking';
 import SampleBoard from 'components/MainPage/SampleBoard';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import MainSearchBar from 'components/MainPage/MainSearchBar';
+import { useSelector } from 'react-redux';
+import type { RootState } from 'store';
+import { Root } from 'react-dom/client';
+import { useNavigate } from 'react-router-dom';
 
 const MainContainer = styled.div`
   position: relative;
@@ -33,11 +38,15 @@ export default function MainPage() {
     createData(9, '/asd', '내 부트캠프'),
   ];
 
+  const navigate = useNavigate();
+  const keyword = useSelector((state: RootState) => state.search.keyword);
+  const type = useSelector((state: RootState) => state.search.type);
+  
   return (
     <MainContainer>
       <BoardDiv>
         <h1>MainPage</h1>
-        <CustomizedInputBase />
+        <MainSearchBar activeTitle={false}/>
         <HotBoard />
         <div style={{ display: 'flex' }}>
           {rows.map((row) => (
