@@ -12,6 +12,14 @@ import { RootState } from 'store';
 import { categories } from 'constant/constant';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import useGetHeader from 'constant/useGetHeader';
+
+// const accessToken = localStorage.getItem("Authorization");
+// const header = {
+//     headers: {
+//         Authorization: `Bearer ${accessToken}`,
+//     }
+// }
 
 interface BoardDate {
     view: number;
@@ -23,6 +31,7 @@ interface BoardDate {
 // Warpper~~ element 는 경계선 작업을 위함
 // StyledBoardHeader 및 StyledBoardBody는 좌우 여백을 만들기 위함
 function BoardDetailBody({boardDetail, setLike}:{boardDetail: BoardDetail, setLike: React.Dispatch<React.SetStateAction<boolean>>}) {
+    const header = useGetHeader();
     const commentCnt = useSelector((state: RootState) => state.comment.commentCnt);
     const categoryId = useLocation().state as number;
     const navigate = useNavigate();
@@ -31,10 +40,10 @@ function BoardDetailBody({boardDetail, setLike}:{boardDetail: BoardDetail, setLi
     const handlerLikeBtn = () => {
         // 백에 like 관련 요청 필요
         if (boardDetail.isLike) {
-            axios.post(`${process.env.REACT_APP_API_URL}/likes/cancel/${boardDetail.id}`)
+            axios.post(`${process.env.REACT_APP_API_URL}/likes/cancel/${boardDetail.id}`, header)
             .then(({data}) => setLike(false));
         } else {
-            axios.post(`${process.env.REACT_APP_API_URL}/likes/${boardDetail.id}`)
+            axios.post(`${process.env.REACT_APP_API_URL}/likes/${boardDetail.id}`, header)
             .then((res) => {console.log(res.data.data.likes); setLike(true)});
         }
     }
