@@ -5,7 +5,7 @@ import Ranking from '../../components/MainPage/Ranking';
 import SampleBoard from 'components/MainPage/SampleBoard';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import MainSearchBar from 'components/MainPage/MainSearchBar';
+import MainSearchInput from 'components/MainPage/MainSearchInput';
 import { useSelector } from 'react-redux';
 import type { RootState } from 'store';
 import { Root } from 'react-dom/client';
@@ -46,7 +46,7 @@ export default function MainPage() {
     <MainContainer>
       <BoardDiv>
         <h1>MainPage</h1>
-        <MainSearchBar activeTitle={false}/>
+        <MainSearchInput activeTitle={false}/>
         <HotBoard />
         <div style={{ display: 'flex' }}>
           {rows.map((row) => (

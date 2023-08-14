@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import MainSearchBar from 'components/MainPage/MainSearchBar';
+import MainSearchInput from 'components/MainPage/MainSearchInput';
 import BoardCard from 'components/MainPage/BoardCard';
 import styled from 'styled-components';
 import { StyledPage } from '../BoardPage/styledPage';
@@ -25,7 +25,7 @@ interface stateType {
   keyword: string;
   type: number;
 }
-let check = 0;
+
 function MainSearchListPage() {
     const navigate = useNavigate();
     const [boardListData, setBoardListData] = useState<Board[]>([]);
@@ -76,7 +76,7 @@ function MainSearchListPage() {
 
     return (
         <StyledPage className="test">
-            <MainSearchBar activeTitle={true}/> 
+            <MainSearchInput activeTitle={true}/> 
             <BoardListMain>
                 <TStyledDiv>
                     <div className='board-list-margin'>
