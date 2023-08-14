@@ -134,7 +134,7 @@ const getDataFromAPI = async (pageCount: number, url: string) => {
 const getURLByKeyword = (keyword: string, type: number) => {
     // keyword에 따라 달라지는 쿼리문 조정
     const keywordType = type === 0 ? "keywords" : "nickname";
-    return `/${keywordType}/${keyword}`
+    return `/${keywordType}/${keyword}`;
 }
 
 const getURLBySort = (sort: number) => {
