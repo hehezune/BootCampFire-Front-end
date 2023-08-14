@@ -113,6 +113,8 @@ export default function Header() {
           );
           setIsLoading(false);
       }})
+    } else {
+      setIsLoading(false);
     }
   },[])
 
@@ -131,6 +133,8 @@ export default function Header() {
     const isMyPage = new RegExp('My');
     const isManagerPage = new RegExp('Manage');
     const thisLocation = window.location.href;
+    localStorage.removeItem("Authorization");
+    localStorage.removeItem("refreshToken");
     if (isMyPage.test(thisLocation) || isManagerPage.test(thisLocation)) navigate('/');
   };
 
