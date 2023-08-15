@@ -6,7 +6,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import SearchDropDown from './SearchDropDown';
 import { setKeyword } from 'store/searchSlice';
 import { useDispatch } from 'react-redux';
-
+import { Bold21px } from '../styled';
+import { categories } from 'constant/constant';
+import SortDropDown from './SortDropDown';
+import styled from 'styled-components';
 interface DropDownList {
   current: number;
   category : string[];
@@ -17,7 +20,14 @@ let dummyData : DropDownList = {
   category : ["제목+내용", "작성자"],
 }
 
-export default function InputSection() {
+const StyledBold21px = styled(Bold21px)`
+  position: absolute;
+  right: calc(100% + 20px);
+  width: 170px;
+  text-align: right;
+`
+
+export default function SearchInput({selectCategory}: {selectCategory: number}) {
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [dropdownVisibility, setDropdownVisibility] = React.useState(false);
@@ -54,8 +64,11 @@ export default function InputSection() {
         borderColor: '#FF603D',
         borderRadius: 10,
         boxShadow: 'none',
+        position: 'relative',
+        margin: 'auto',
       }}
       onSubmit={handleSearchSubmit}>
+      <StyledBold21px>{categories[selectCategory]}게시판</StyledBold21px>
       <SearchDropDown
         visibility= {dropdownVisibility}
         searchType= {dropdownSelect}
@@ -72,6 +85,7 @@ export default function InputSection() {
       <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
         <SearchIcon />
       </IconButton>
+      <SortDropDown/>
     </Paper>
   );
 }

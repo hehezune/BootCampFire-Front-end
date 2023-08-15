@@ -9,9 +9,7 @@ import { Board } from '../interface';
 function SearchBar({selectCategory}: {selectCategory: number}) {
     return (
         <StyledSearchBar>
-            <StyledCategoryName>{categories[selectCategory]}게시판</StyledCategoryName>
-            <SearchInput />
-            <SortDropDown />
+            <SearchInput selectCategory={selectCategory}/>
         </StyledSearchBar>
     )
 }
