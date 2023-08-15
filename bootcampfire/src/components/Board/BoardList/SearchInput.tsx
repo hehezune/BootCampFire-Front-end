@@ -48,14 +48,15 @@ export default function InputSection() {
         p: '2px 4px',
         display: 'flex',
         alignItems: 'center',
-        width: 400,
+        maxWidth: 600,
+        width: "53%",
         border: 3,
         borderColor: '#FF603D',
         borderRadius: 10,
         boxShadow: 'none',
       }}
       onSubmit={handleSearchSubmit}>
-      <SearchDropDown 
+      <SearchDropDown
         visibility= {dropdownVisibility}
         searchType= {dropdownSelect}
         dropDownHandler= {handleLiClick}

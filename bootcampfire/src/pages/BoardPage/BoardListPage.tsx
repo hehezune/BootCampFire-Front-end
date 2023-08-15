@@ -85,7 +85,7 @@ function BoardListPage() {
     ))
 
     return (
-        <StyledPage className="test">
+        <StyledPage>
             <SearchBar selectCategory={selectCategory}/> 
             <BoardListMain>
                 <CategorySideBar selectCategory={selectCategory} onCategorySelect={handlerSelectCategory}/>
@@ -103,7 +103,7 @@ function BoardListPage() {
 
 const TStyledDiv = styled.div`
     height: 730px;
-    width: 800px;
+    width: 100%;
     overflow: auto;
 `
 const Sp = styled.p`
@@ -116,7 +116,7 @@ const BoardListMain = styled.div`
     width: 100%;
     .board-list-margin {
         margin-left: 42px;
-        width: 80%;
+        /* width: 80%; */
     }
 `
 

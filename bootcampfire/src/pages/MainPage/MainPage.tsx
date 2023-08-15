@@ -22,6 +22,8 @@ const BoardDiv = styled.div`
   margin-left: 100;
 `;
 
+
+
 export default function MainPage() {
   function createData(index: number, img: string, text: string) {
     return { index, img, text };

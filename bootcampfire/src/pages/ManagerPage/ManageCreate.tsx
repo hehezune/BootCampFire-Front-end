@@ -375,13 +375,6 @@ const StyledShedule = styled.input`
   box-shadow: inset 0px 0px 0px 0px red;
 
   appearance: none;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  &::-webkit-calendar-picker-indicator {
-  appearance: none;
-  outline: none;
-  box-shadow: none;
-  }
 `
 
 const emptyCheck = (request: bootcampInput) => {

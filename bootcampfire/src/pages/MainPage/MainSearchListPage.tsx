@@ -79,10 +79,8 @@ function MainSearchListPage() {
             <MainSearchInput activeTitle={true}/> 
             <BoardListMain>
                 <TStyledDiv>
-                    <div className='board-list-margin'>
                     {!isEmpty && BoardList}
                     {isEmpty && <div>정보가 없습니다</div>}
-                    </div>
                     <Sp ref={setRef}>is Loading</Sp>
                 </TStyledDiv>
             </BoardListMain>
@@ -101,6 +99,7 @@ const Sp = styled.p`
 
 const BoardListMain = styled.div`
     display: flex;
+    /* flex-direction: column; */
     justify-content: center;
     width: 100%;
     .board-list-margin {
