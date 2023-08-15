@@ -24,7 +24,7 @@ function CommentCard({data, boardId, idx}: {data: Comment, boardId: number, idx:
     const [activeInputType, setActiveInputType] = useState(NORMAL)
     const [isAnonymous, setIsAnonymous] = useState(false);
     const [editComment, setEditComment] = useState(data.content);
-    const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+    const {isLoggedIn, userId, nickname, bootcampName} = useSelector((state: RootState) => state.auth);
     const dispatch = useDispatch();
     
     const handlerEditComment = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,7 +94,7 @@ function CommentCard({data, boardId, idx}: {data: Comment, boardId: number, idx:
             boardId: boardId,
             content: input,
             preCommentId: data.id,
-            userId: TEST_USERID,
+            userId,
         }
 
         axios.post(`${process.env.REACT_APP_API_URL}/comments`, replyComment)
@@ -116,51 +116,50 @@ function CommentCard({data, boardId, idx}: {data: Comment, boardId: number, idx:
             {data.refOrder > 0  && <ArrowForwardIcon sx={{marginRight: 1, marginTop: 1}}/>}
             <StyledCommentCard>
                 <CommentWriter>
+                    <div style={{display: 'flex', gap: '15px', alignItems: 'center'}}>
+
                     <Bold15px>{isAnonymous ? "익명" : data.user}</Bold15px>
                     <A2>{isAnonymous ? "익명 캠프 ": data.bootcamp}</A2>
-                    {data.isWriter &&  <Normal15px>작성자</Normal15px>}
-                    {activeInputType === EDIT && isAnonymous && 
-                        <CheckCircleOutlineIcon 
-                            sx={{color: colors.TEXT_LIGHT}}
-                            onClick={handlerClickAnonymous}/>
-                    
-                    }
-                    {activeInputType === EDIT && !isAnonymous && 
-                        <RadioButtonUncheckedIcon 
-                            sx={{color: colors.TEXT_LIGHT}}
-                            onClick={handlerClickAnonymous}/>
-
-                        }
-                    {activeInputType === EDIT && <AnonymousText>익명으로 작성하기</AnonymousText>}
+                    {data.isWriter &&  <Normal15px style={{color: colors.PRIMARY}}>작성자</Normal15px>}
+                    </div>
+                    <div style={{display: 'flex', gap: '15px'}}>
 
                     {/* 우측에 위치해야할 친구들 */}
-                    {isLoggedIn && data.isWriter && activeInputType === NORMAL && <ModeEditOutlineOutlinedIcon onClick={handlerSetEditBtn}/>}
-                    {isLoggedIn && data.isWriter && activeInputType === NORMAL && <CloseOutlinedIcon onClick={handlerSetDelBtn}/>}
-                    {data.isWriter && activeInputType === EDIT && <CloseOutlinedIcon onClick={handlerCancelEditBtn}/>}
+                    {isLoggedIn && data.isWriter && activeInputType === NORMAL && <ModeEditOutlineOutlinedIcon onClick={handlerSetEditBtn} sx={{color: colors.TEXT_LIGHT}}/>}
+                    {isLoggedIn && data.isWriter && activeInputType === NORMAL && <CloseOutlinedIcon onClick={handlerSetDelBtn} sx={{color: colors.TEXT_LIGHT}}/>}
+                    {data.isWriter && activeInputType === EDIT && <CloseOutlinedIcon onClick={handlerCancelEditBtn} sx={{color: colors.TEXT_LIGHT}}/>}
                     {data.isWriter && activeInputType === DEL && <LightBtn as="span" type="" onClick={handlerConfirmDelBtn}>삭제 확인</LightBtn>}
                     {data.isWriter && activeInputType === DEL && <LightBtn as="span" type="" onClick={handlerCancelDelBtn}>삭제 취소</LightBtn>}
+                    </div>
 
                 </CommentWriter>
-                    {activeInputType !== EDIT && <CommentContents>{data.content}</CommentContents>}
-                    {activeInputType === EDIT && <StyledInput 
-                                    type="textarea" 
-                                    value={editComment} 
-                                    placeholder='댓글을 작성해 주세요.'
-                                    onChange={handlerEditComment}
-                                    />}
-                    {/* isWriter 반전 해제해야 함 */}
-
+                {activeInputType !== EDIT && <CommentContents>{data.content}</CommentContents>}
+                {activeInputType === EDIT && <StyledInput 
+                                type="textarea" 
+                                value={editComment} 
+                                placeholder='댓글을 작성해 주세요.'
+                                onChange={handlerEditComment}
+                                />}
+                {/* isWriter 반전 해제해야 함 */}
                 <CommentLastDiv>
                     <div className='height-center'>
-                        <AccessTimeOutlinedIcon sx={{fontSize:13, marginRight: 1}}/>
+                        <AccessTimeOutlinedIcon sx={{fontSize:13, marginRight: 1, margin: '0px 5px 0 0px'}}/>
                         <Normal13px as="span">{data.createdDate}</Normal13px>
                     </div>
                     <div className='gap'>
-                        {isLoggedIn && activeInputType === NORMAL && <LightBtn type="first" onClick={handlerSetEditBtn}>수정하기</LightBtn>}
-                        {isLoggedIn && activeInputType === EDIT && <LightBtn type="" onClick={handlerSetNormalBtn}>취소하기</LightBtn>}
+                        {activeInputType === EDIT && isAnonymous && 
+                            <CheckCircleOutlineIcon 
+                                sx={{color: colors.TEXT_LIGHT, fontSize: '18px'}}
+                                onClick={handlerClickAnonymous}/>
+                        }
+                        {activeInputType === EDIT && !isAnonymous && 
+                            <RadioButtonUncheckedIcon 
+                                sx={{color: colors.TEXT_LIGHT, fontSize: '18px'}}
+                                onClick={handlerClickAnonymous}/>
+                        }
+                        {activeInputType === EDIT && <AnonymousText>익명으로 작성하기</AnonymousText>}
                         {activeInputType === NORMAL && <LightBtn type="" onClick={handlerSetReplyBtn}>답글달기</LightBtn>}
                         {activeInputType === EDIT && <LightBtn type="" onClick={handlerEditConfirmBtn}>수정하기</LightBtn>}
-                        
                     </div>
                 </CommentLastDiv>
             </StyledCommentCard>
@@ -169,22 +168,16 @@ function CommentCard({data, boardId, idx}: {data: Comment, boardId: number, idx:
         {activeInputType === REPLY && 
                 <WrapperStyledCommentCard>
                     <CommentCardContentsArea>
-                    <ArrowForwardIcon sx={{marginRight: 1, marginTop: 1}}/>
+                    <ArrowForwardIcon sx={{marginRight: 1, marginTop: "13px"}}/>
                     <StyledCommentCard>
-                        <div style={{display: 'flex', alignItems: 'center', gap: 10, height: 40}}>
-                            <Bold15px className="test">{isAnonymous === true ? "익명" : String(isLoggedIn)}</Bold15px>
-                            <A2>{isAnonymous === true ? "익명 캠프" : String(isLoggedIn)}</A2>
-                            {isAnonymous && 
-                                <CheckCircleOutlineIcon 
-                                sx={{color: colors.TEXT_LIGHT}}
-                                onClick={handlerClickAnonymous}/>}
-                            {!isAnonymous && 
-                                <RadioButtonUncheckedIcon 
-                                sx={{color: colors.TEXT_LIGHT}}
-                                onClick={handlerClickAnonymous}/>}
-                            <AnonymousText>익명으로 작성하기</AnonymousText>
+                        <div style={{position: "absolute", top: "10px", width: "100%", display: "flex", justifyContent: "space-between",alignItems: 'center',}}>
+                            <div style={{display: 'flex',alignItems: 'center',  gap: 10, height: 30}}>
+                                <Bold15px className="test">{isAnonymous === true ? "익명" : nickname}</Bold15px>
+                                <A2>{isAnonymous === true ? "익명 캠프" : bootcampName}</A2>
+                            </div>
+                        <CloseOutlinedIcon onClick={handlerSetNormalBtn} sx={{color: colors.TEXT_LIGHT}}/>
                         </div>
-                        <ReplyInput handlerExitBtn={handlerSetNormalBtn} handlerConfirmBtn={handlerReplySubmitBtn}></ReplyInput>
+                        <ReplyInput isAnonymous={isAnonymous} handlerAnonymousBtn={handlerClickAnonymous} handlerConfirmBtn={handlerReplySubmitBtn}></ReplyInput>
                     </StyledCommentCard>
                     </CommentCardContentsArea>
                 </WrapperStyledCommentCard>
@@ -205,27 +198,33 @@ const WrapperStyledCommentCard = styled.div`
 const CommentCardContentsArea = styled.div`
     /* position: relative; */
     display: flex;
-    height: 159px;
+    height: 170px;
     width: 97%;
     margin: auto;
     .height-center {
         display: flex;
         align-items: center;
+        height: 27px;
     }
     
     .gap {
         display: flex;
-        gap: 20px;
+        align-items: center;
+        gap: 10px;
     }
     
 `
 const CommentWriter = styled(StyledLeftFlex)`
     position: absolute;
+    top: 10px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
 `
 
 const CommentContents = styled(Normal15px)`
     position: absolute;
-    top: 40px;
+    top: 50px;
 `
 const AnonymousText = styled(Bold15px)`
     color: ${colors.TEXT_LIGHT};
@@ -234,19 +233,18 @@ const AnonymousText = styled(Bold15px)`
 
 const CommentLastDiv = styled(StyledSpaceBetween)`
     position: absolute;
-    top: 115px;
+    top: 127px;
 `
 
 const StyledInput = styled.input`
     position: absolute;
-    top: 40px;
+    top: 50px;
     display: block;
     width: 100%;
     height: 60px;
     margin: 0 auto;
     border-radius: 5px;
     border: 1px solid ${colors.TEXT_LIGHT};
-
     &::placeholder {
         padding-left: 10px;
     }

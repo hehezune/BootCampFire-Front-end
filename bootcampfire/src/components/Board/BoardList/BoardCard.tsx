@@ -44,7 +44,6 @@ const StyledBoardCard = styled.div`
     width: 100%;
     max-width: 1040px;
     height: 138px;
-
     .position1px {
         position: absolute;
         top: 10px;

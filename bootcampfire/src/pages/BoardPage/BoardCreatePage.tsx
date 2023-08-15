@@ -14,8 +14,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { BoardDetail } from 'components/Board/interface';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
-
-const TEST_USERID = 1;
+import useGetHeader from 'constant/useGetHeader';
 
 interface LocationState {
   boardDetail: BoardDetail;
@@ -23,6 +22,7 @@ interface LocationState {
 }
 
 function BoardCreatePage() {
+  const header = useGetHeader();
   const navigate = useNavigate();
   const state = useLocation().state as LocationState;
   let [initAnonymous, initCategory, initTitle, initContent] = [false, 0, '', ''];
@@ -53,12 +53,9 @@ function BoardCreatePage() {
       userId: userId,
     };
     axios
-      .post(`${process.env.REACT_APP_API_URL}/boards`, requestBody, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          'Content-Type': 'application/json',
-        },
-      })
+      .post(`${process.env.REACT_APP_API_URL}/boards`, 
+        requestBody, 
+        header)
       .then((res) => navigate('/BoardDetail/' + res.data.data.id, { state: selectCategory }));
   };
 

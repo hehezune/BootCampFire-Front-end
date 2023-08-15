@@ -18,6 +18,7 @@ export interface RootState {
     isLoggedIn: boolean;
     bootcampId: number;
     email: string;
+    bootcampName: string;
   };
 
   select : {  

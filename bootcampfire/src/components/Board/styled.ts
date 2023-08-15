@@ -85,7 +85,7 @@ export const StyledLeftFlex = styled.div`
   display: flex;
   justify-content: row;
   align-items: center;
-  height: 40px;
+  height: 30px;
   gap: 15px;
 `;
 
