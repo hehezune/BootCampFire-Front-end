@@ -69,7 +69,7 @@ function Comments({boardId, comments}: {boardId: number, comments: Comment[]}) {
                 <CommentInputDiv>
                 <StyledLeftFlex>
                     <Normal15px>댓글</Normal15px>
-                    <Normal13px>댓글 수</Normal13px>
+                    <Normal13px>{comments.length}</Normal13px>
                 </StyledLeftFlex>
                 <StyledInput 
                     type="textarea" 
@@ -79,11 +79,11 @@ function Comments({boardId, comments}: {boardId: number, comments: Comment[]}) {
                 <ButtonGroup>
                     {isAnonymous && 
                         <CheckCircleOutlineIcon 
-                            sx={{color: colors.TEXT_LIGHT}}
+                            sx={{color: colors.TEXT_LIGHT, fontSize: '18px'}}
                             onClick={handlerClickAnonymous}/>}
                     {!isAnonymous && 
                         <RadioButtonUncheckedIcon 
-                            sx={{color: colors.TEXT_LIGHT}}
+                            sx={{color: colors.TEXT_LIGHT, fontSize: '18px'}}
                             onClick={handlerClickAnonymous}/>}
                 <AnonymousText>익명으로 작성하기</AnonymousText>
                 <StrongBtn type="first" onClick={handlerCreateComment}>작성하기  
@@ -113,8 +113,8 @@ const ButtonGroup = styled(StyledRightFlex)`
 const StyledInput = styled.input`
     display: block;
     width: 100%;
-    height: 50px;
-    margin: 0 auto;
+    height: 60px;
+    margin: 10px auto;
     border-radius: 5px;
     border: 1px solid ${colors.TEXT_LIGHT};
 

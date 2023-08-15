@@ -53,7 +53,7 @@ function BoardDetailBody({boardDetail, setLike}:{boardDetail: BoardDetail, setLi
     }
 
     const handlerDeleteBtn = () => {
-        axios.delete(`${process.env.REACT_APP_API_URL}/boards/` + boardDetail.id)
+        axios.delete(`${process.env.REACT_APP_API_URL}/boards/` + boardDetail.id, header)
         .then((res) => navigate(-1));
       }
 
@@ -76,19 +76,18 @@ function BoardDetailBody({boardDetail, setLike}:{boardDetail: BoardDetail, setLi
                 </WriterDiv>
                 <WrapperDateInfo>
                     <DateInfo data={dateInfoProps}></DateInfo>
-                    {/* 제대로 반영하고 나면 아래 반전 복원해줘야 함 */}
-                    <div>
+                    <div style={{display: 'flex', gap: '15px'}}>
                     {!boardDetail.isWriter && !isDelete &&
-                        <LightBtn as="span" type="" onClick={handlerEditBtn}>수정</LightBtn>}
+                        <LightBtn as="span" type="" onClick={handlerEditBtn}>수정하기</LightBtn>}
                     {!boardDetail.isWriter && !isDelete && 
-                        <LightBtn as="span" type="" onClick={(event) => setIsDelete(true)}>삭제</LightBtn>}
+                        <LightBtn as="span" type="" onClick={(event) => setIsDelete(true)}>삭제하기</LightBtn>}
                     {!boardDetail.isWriter && isDelete &&
                         <LightBtn as="span" type="first">정말 삭제하시겠습니까? 
                         </LightBtn>}
                     {!boardDetail.isWriter && isDelete &&
-                        <Normal15px as="span" onClick={handlerDeleteBtn}>네</Normal15px>}
+                        <StyledNormal15px as="span" onClick={handlerDeleteBtn}>네</StyledNormal15px>}
                     {!boardDetail.isWriter && isDelete &&
-                        <Normal15px as="span" onClick={(event) => setIsDelete(false)}>아니오</Normal15px>}                    
+                        <StyledNormal15px as="span" onClick={(event) => setIsDelete(false)}>아니오</StyledNormal15px>}                    
                     </div>
                 </WrapperDateInfo>
             </StyledBoardHeader>
@@ -113,6 +112,8 @@ const LikeBtnGroup = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 5px;
+    margin-bottom: 10px;
 `
 const StyledCategory = styled(Bold18px)`
     color: ${colors.PRIMARY};
@@ -132,9 +133,11 @@ const WrapperDateInfo = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 5px;
 `
 
 const WrapperStyledBoardHeader = styled.div`
+    padding-top: 10px;
     border-bottom: 1px solid ${colors.TEXT_LIGHT};
     height: 170px;
     
@@ -147,9 +150,17 @@ const StyledBoardHeader = styled.div`
     height: 100%;
 `
 
-const WrapperStyledBoardBody = styled.div`
-border-bottom: 1px solid ${colors.TEXT_LIGHT};
+const StyledNormal15px = styled(Normal15px)`
+    margin: auto;
+    &:hover {
+        color: ${colors.SECONDARY};
+        font-weight: 700;
+    }
+`
 
+const WrapperStyledBoardBody = styled.div`
+    margin: 10px 0;
+    border-bottom: 1px solid ${colors.TEXT_LIGHT};
 `
 
 const StyledBoardBody = styled.div`

@@ -46,7 +46,7 @@ function BoardDetailPage() {
       boardDetailResponse,
       commentsResponse
     ]) => {
-      console.log(boardDetailResponse)
+      console.log("detail 결과", boardDetailResponse)
       setBoardDetail(boardDetailResponse.data.data);
       dispatch(getComments({comments: commentsResponse.data.data, boardId: Number(id)}));
     })

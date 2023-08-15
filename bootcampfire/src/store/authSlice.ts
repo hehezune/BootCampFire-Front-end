@@ -7,6 +7,7 @@ interface AuthState {
   isAdmin: boolean;
   bootcampId: number;
   userId: number;
+  bootcampName: string | null;
 }
 
 const initialState: AuthState = {
@@ -16,6 +17,7 @@ const initialState: AuthState = {
   email: null,
   isAdmin: false,
   bootcampId: -1,
+  bootcampName: null,
 };
 
 const authSlice = createSlice({
@@ -24,7 +26,7 @@ const authSlice = createSlice({
   reducers: {
     login: (
       state,
-      action: PayloadAction<{ userId: number; nickname: string; email: string; isAdmin: boolean; bootcampId: number }>
+      action: PayloadAction<{ userId: number; nickname: string; email: string; isAdmin: boolean; bootcampId: number; bootcampName:string; }>
     ) => {
       state.userId = action.payload.userId;
       state.isLoggedIn = true;
@@ -32,6 +34,7 @@ const authSlice = createSlice({
       state.email = action.payload.email;
       state.isAdmin = action.payload.isAdmin;
       state.bootcampId = action.payload.bootcampId;
+      state.bootcampName = action.payload.bootcampName;
     },
     logout: (state) => {
       state.userId = -1;
