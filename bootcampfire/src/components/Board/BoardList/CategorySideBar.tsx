@@ -48,7 +48,7 @@ const StyledBtn = styled.button<{ $selected?: boolean; }>`
     font-style: bold;
     font-weight: 700;
     &:hover {
-        background-color: gold;
+        background-color: "#FEE9E6";
     }
     
 `
