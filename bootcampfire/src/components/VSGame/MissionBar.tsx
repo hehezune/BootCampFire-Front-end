@@ -1,26 +1,42 @@
-import * as React from 'react';
-import LinearProgress, { LinearProgressProps } from '@mui/material/LinearProgress';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import * as React from "react";
+import LinearProgress, {
+  LinearProgressProps,
+} from "@mui/material/LinearProgress";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#FF603D',
+      main: "#FF603D",
     },
   },
 });
 
-function LinearProgressWithLabel(props: LinearProgressProps & { value: number }) {
+interface MissionBarData {
+  num: number;
+  img: string;
+}
+
+function LinearProgressWithLabel(
+  props: LinearProgressProps & { value: number }
+) {
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Box sx={{ width: '100%', mr: 1 }}>
-          <LinearProgress variant="determinate" color="primary" {...props} sx={{ height: '30px', borderRadius: 10 }} />
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box sx={{ width: "100%", mr: 1 }}>
+          <LinearProgress
+            variant="determinate"
+            color="primary"
+            {...props}
+            sx={{ height: "30px", borderRadius: 10 }}
+          />
         </Box>
         <Box sx={{ minWidth: 35 }}>
-          <Typography variant="body2" color="text.secondary">{`${Math.round(props.value)}%`}</Typography>
+          <Typography variant="body2" color="text.secondary">{`${Math.round(
+            props.value
+          )}%`}</Typography>
         </Box>
       </Box>
     </ThemeProvider>
@@ -28,11 +44,33 @@ function LinearProgressWithLabel(props: LinearProgressProps & { value: number })
 }
 
 export default function MissionBar() {
-  const [progress, setProgress] = React.useState(10);
+  const initialMissionData: MissionBarData = {
+    num: 10,
+    img: "vsCampFire.png",
+  };
+  const [progress, setProgress] =
+    React.useState<MissionBarData>(initialMissionData);
 
   React.useEffect(() => {
     const timer = setInterval(() => {
-      setProgress((prevProgress) => (prevProgress >= 100 ? 10 : prevProgress + 10));
+      setProgress((prevProgress: MissionBarData) => {
+        if (prevProgress.num >= 100) {
+          return {
+            num: 10,
+            img: "vsCampFire.png",
+          };
+        } else if (prevProgress.num >= 50) {
+          return {
+            num: prevProgress.num + 10,
+            img: "logo512.png",
+          };
+        } else {
+          return {
+            num: prevProgress.num + 10,
+            img: prevProgress.img,
+          };
+        }
+      });
     }, 800);
     return () => {
       clearInterval(timer);
@@ -40,8 +78,9 @@ export default function MissionBar() {
   }, []);
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <LinearProgressWithLabel value={progress} />
+    <Box sx={{ width: "100%" }}>
+      <img src={progress.img} alt="" />
+      <LinearProgressWithLabel value={progress.num} />
     </Box>
   );
 }

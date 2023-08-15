@@ -21,14 +21,14 @@ const MissionData = () => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/algorithms`, {
         headers: {
-          user: `${accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
         withCredentials: true,
       })
       .then((res) => {
         setAlgorithm(res.data.data);
       });
-  }, [accessToken]);
+  }, []);
   return (
     <div>
       <table>
