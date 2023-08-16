@@ -1,22 +1,22 @@
-import styled from "styled-components";
-import { StyledBtn } from "components/Board/styled";
-import { colors } from "../../constant/constant";
+import styled from 'styled-components';
+import { StyledBtn } from 'components/Board/styled';
+import { colors } from '../../constant/constant';
 
-import DetailTab from "components/BootCamp/DetailTab";
-import ReviewTab from "components/BootCamp/ReviewTab";
-import ReviewCreate from "components/BootCamp/ReviewCreate";
+import DetailTab from 'components/BootCamp/DetailTab';
+import ReviewTab from 'components/BootCamp/ReviewTab';
+import ReviewCreate from 'components/BootCamp/ReviewCreate';
 
-import { useParams } from "react-router-dom";
-import { useState } from "react";
-import { StyledPage } from "pages/BoardPage/styledPage";
+import { useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { StyledPage } from 'pages/BoardPage/styledPage';
 
-import { Bold18px } from "components/Board/styled";
+import { Bold18px } from 'components/Board/styled';
 
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../store";
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../store';
 
-import { useEffect } from "react";
-import axios from "axios";
+import { useEffect } from 'react';
+import axios from 'axios';
 
 const BootCampListDetailPage: React.FC = () => {
   const { bootcampid } = useParams();
@@ -26,32 +26,33 @@ const BootCampListDetailPage: React.FC = () => {
   const handleTabClick = (isDetailTab: number) => {
     setIsDetailTabSelected(isDetailTab);
   };
-  const { isLoggedIn, bootcampId, nickname } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const { isLoggedIn, bootcampId, nickname } = useSelector((state: RootState) => state.auth);
 
   const [bootdetail, setBootdetail] = useState<BootcampItem | null>(null);
   const [bootreview, setbootreview] = useState<ReviewItem[]>([]);
   const [myreview, setMyReview] = useState<ReviewItem>({} as ReviewItem);
 
   useEffect(() => {
+    const accessToken = localStorage.getItem('Authorization');
+    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+
     if (bootcampid) {
       const bootcampIdNumber = parseInt(bootcampid);
-      Promise.all([
-        axios.get(
-          `${process.env.REACT_APP_API_URL}/bootcamps/${bootcampIdNumber}`
-        ),
-        axios.get(
-          `${process.env.REACT_APP_API_URL}/reviews/${bootcampIdNumber}/lists`
-        ),
-        axios.get(
-          `${process.env.REACT_APP_API_URL}/reviews/${bootcampId}/vaildation`
-        ),
-      ])
+      const requests = [
+        axios.get(`${process.env.REACT_APP_API_URL}/bootcamps/${bootcampIdNumber}`),
+        axios.get(`${process.env.REACT_APP_API_URL}/reviews/${bootcampIdNumber}/lists`),
+      ];
+
+      if (isLoggedIn && bootcampId == bootcampIdNumber) {
+        requests.push(axios.get(`${process.env.REACT_APP_API_URL}/reviews/${bootcampIdNumber}/vaildation`));
+      }
+      Promise.all(requests)
         .then(([bootcampResponse, reviewResponse, myreviewResponse]) => {
           setBootdetail(bootcampResponse.data.data);
           setbootreview(reviewResponse.data.data);
-          setMyReview(myreviewResponse.data.data);
+          if (isLoggedIn && bootcampId == bootcampIdNumber) {
+            setMyReview(myreviewResponse.data.data);
+          }
         })
         .catch((error) => {});
     }
@@ -66,10 +67,7 @@ const BootCampListDetailPage: React.FC = () => {
       <BootCampDetailMain>
         <Tab>
           <LogoContainer>
-            <LogoImage
-              src={bootdetail.imgUrl?.replace(".", "")}
-              alt="BootCamp Logo"
-            />
+            <LogoImage src={bootdetail.imgUrl?.replace('.', '')} alt="BootCamp Logo" />
           </LogoContainer>
           <VerticalDivs>
             <HorizontalDivs>
@@ -80,12 +78,9 @@ const BootCampListDetailPage: React.FC = () => {
             </HorizontalDivs>
             <HorizontalDivs>
               <Mtext2>({Math.round(bootdetail.score * 10) / 10})</Mtext2>
-              <Mtext3 style={{ marginRight: "50px" }}>
-                {bootdetail.reviewCnt} 개의 후기가 작성되었습니다.
-              </Mtext3>
+              <Mtext3 style={{ marginRight: '50px' }}>{bootdetail.reviewCnt} 개의 후기가 작성되었습니다.</Mtext3>
               <Mtext2>
-                모집 기간 :{" "}
-                {new Date(bootdetail.startDate).toLocaleDateString()} ~{" "}
+                모집 기간 : {new Date(bootdetail.startDate).toLocaleDateString()} ~{' '}
                 {new Date(bootdetail.endDate).toLocaleDateString()}
               </Mtext2>
             </HorizontalDivs>
@@ -93,16 +88,10 @@ const BootCampListDetailPage: React.FC = () => {
         </Tab>
         <SelectTab>
           <HorizontalDivs>
-            <MTab
-              selected={isDetailTabSelected === 0 ? true : false}
-              onClick={() => handleTabClick(0)}
-            >
+            <MTab selected={isDetailTabSelected === 0 ? true : false} onClick={() => handleTabClick(0)}>
               기본 정보
             </MTab>
-            <MTab
-              selected={isDetailTabSelected === 1}
-              onClick={() => handleTabClick(1)}
-            >
+            <MTab selected={isDetailTabSelected === 1} onClick={() => handleTabClick(1)}>
               후기
             </MTab>
           </HorizontalDivs>
@@ -110,13 +99,9 @@ const BootCampListDetailPage: React.FC = () => {
             {!isLoggedIn ? (
               <Mtext2>로그인하시면 후기 이용이 가능합니다.</Mtext2>
             ) : bootcampIdNumber != bootcampId ? null : !myreview.id ? (
-              <StyledBtn2 onClick={() => handleTabClick(2)}>
-                후기 작성하기
-              </StyledBtn2>
+              <StyledBtn2 onClick={() => handleTabClick(2)}>후기 작성하기</StyledBtn2>
             ) : (
-              <StyledBtn2 onClick={() => handleTabClick(2)}>
-                후기 수정하기
-              </StyledBtn2>
+              <StyledBtn2 onClick={() => handleTabClick(2)}>후기 수정하기</StyledBtn2>
             )}
           </HorizontalDivs>
         </SelectTab>
@@ -187,7 +172,7 @@ const HorizontalDivs = styled.div`
 `;
 
 const Mtext = styled.div`
-  font-family: "DM Sans";
+  font-family: 'DM Sans';
   font-style: normal;
   font-weight: 700;
   font-size: 24px;
@@ -199,7 +184,7 @@ const Mtext = styled.div`
 `;
 
 const Mtext2 = styled.div`
-  font-family: "DM Sans";
+  font-family: 'DM Sans';
   font-style: normal;
   font-weight: 700;
   font-size: 18px;
@@ -211,7 +196,7 @@ const Mtext2 = styled.div`
 `;
 
 const Mtext3 = styled.div`
-  font-family: "DM Sans";
+  font-family: 'DM Sans';
   font-style: normal;
   font-weight: 400;
   font-size: 15px;
@@ -226,7 +211,7 @@ font-family: 'DM Sans'; font-style: normal; font-weight: 700; font-size: 22px;
 display: flex; align-items: center; color: #0E0301; margin : 0 40px;
 cursor: pointer;
   padding-bottom: 5px; /* Add padding for the orange bar */
-  border-bottom: ${(props) => (props.selected ? "5px solid #FF603D" : "none")};
+  border-bottom: ${(props) => (props.selected ? '5px solid #FF603D' : 'none')};
   &:hover { color: #FF603D; solid #FF603D;}`;
 
 const StyledBtn2 = styled(Bold18px)`

@@ -1,22 +1,22 @@
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import styled from "styled-components";
-import { Bold18px, Normal13px } from "components/Board/styled";
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import styled from 'styled-components';
+import { Bold18px, Normal13px } from 'components/Board/styled';
 
 const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "600px",
-  height: "600px",
-  bgcolor: "background.paper",
-  border: "2px solid #000",
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '600px',
+  height: '600px',
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
   boxShadow: 24,
   p: 4,
-  display: "flex", // flex 컨테이너로 설정합니다.
-  flexDirection: "column", // 세로 방향으로 아이템을 배치합니다.
-  justifyContent: "center", // 아이템을 수직 방향으로 가운데로 정렬합니다.
+  display: 'flex', // flex 컨테이너로 설정합니다.
+  flexDirection: 'column', // 세로 방향으로 아이템을 배치합니다.
+  justifyContent: 'center', // 아이템을 수직 방향으로 가운데로 정렬합니다.
 };
 
 const TextContainer = styled.div`
@@ -56,25 +56,25 @@ interface LoginModalProps {
 const LoginModal: React.FC<LoginModalProps> = (props) => {
   const socialImg = [
     {
-      src: "/Kakao.png",
-      width: "32px",
-      height: "32px",
-      comment: "카카오 로그인",
+      src: '/Kakao.png',
+      width: '32px',
+      height: '32px',
+      comment: '카카오 로그인',
       loginURL: `${process.env.REACT_APP_API_URL}/oauth2/authorization/kakao`,
     },
 
     {
-      src: "/Naver.png",
-      width: "32px",
-      height: "32px",
-      comment: "네이버 로그인",
+      src: '/Naver.png',
+      width: '32px',
+      height: '32px',
+      comment: '네이버 로그인',
       loginURL: `${process.env.REACT_APP_API_URL}/oauth2/authorization/naver`,
     },
     {
-      src: "/Google.png",
-      width: "32px",
-      height: "32px",
-      comment: "구글 로그인",
+      src: '/Google.png',
+      width: '32px',
+      height: '32px',
+      comment: '구글 로그인',
       loginURL: `${process.env.REACT_APP_API_URL}/oauth2/authorization/google`,
     },
   ];
@@ -85,8 +85,7 @@ const LoginModal: React.FC<LoginModalProps> = (props) => {
         open={props.isModalOpen}
         onClose={props.onClose}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+        aria-describedby="modal-modal-description">
         <Box sx={style}>
           <TextContainer>
             <Bold18px>로그인하기</Bold18px>

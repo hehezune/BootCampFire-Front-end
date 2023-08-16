@@ -33,6 +33,7 @@ export const ScoresContainer = () => {
 
   // GAME_OVER
   useEffect(() => {
+<<<<<<< HEAD
     setTimeout(() => {
       if (myGameRank.score < state.bestScore) {
         // console.log("0.9 초후 값 : ",myGameRank.score, state.bestScore)
@@ -54,6 +55,31 @@ export const ScoresContainer = () => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/games`)
       .then((response) => dispatch2(loadGameRank(response.data.data)));
+=======
+    const accessToken = localStorage.getItem('Authorization');
+    
+      setTimeout(() => {
+        if (myGameRank.score < state.bestScore) {
+          // console.log("0.9 초후 값 : ",myGameRank.score, state.bestScore)
+          dispatch2(updateScore(Math.max(myGameRank.score, state.bestScore)));
+          if (isLoggedIn && state.score > 1000) {
+            axios.post(`${process.env.REACT_APP_API_URL}/games`, {
+              headers: { Authorization: `Bearer ${accessToken}` },
+              withCredentials: true,
+              bestScore : state.bestScore
+            })
+            .then((response) => { console.log("성공공! : ", response)})
+          }
+            axios.get(`${process.env.REACT_APP_API_URL}/games`, {
+              headers: { Authorization: `Bearer ${accessToken}` },
+              withCredentials: true,
+            })
+            .then((response)=>dispatch2(loadGameRank(response.data.data)))          
+        }
+      }, 500);
+      axios.get(`${process.env.REACT_APP_API_URL}/games`)
+          .then((response)=>dispatch2(loadGameRank(response.data.data))) 
+>>>>>>> main
   }, [gameState.status, state.bestScore]);
 
   useEffect(() => {

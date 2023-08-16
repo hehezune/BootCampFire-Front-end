@@ -7,18 +7,39 @@ import {
   Paper,
 } from "@mui/material";
 
-const ManageRadioBtn = ({list, setBtn, selectData}: {
-    list: string[], 
-    setBtn: React.Dispatch<React.SetStateAction<string>>,
-    selectData: string}) => {
-  // 선택된 값을 상태로 관리합니다.
+interface bootcampInput {
+  name: string;
+  siteUrl: string;
+  process: string;
+  schedule: string;
+  description: string;
+  cost: number;
+  card: number;
+  support: number;
+  hasCodingtest: number;
+  onOff: number;
+  startDate: string;
+  endDate: string;
+  imgUrl: string,
+  tracks: {id:number, name:string}[];
+  languages: {id:number, name:string}[];
+  regions: {id:number, name:string}[];
+  [key: string]: any;
+}
 
+const ManageRadioBtn = ({list, setBtn, selectData, type}: {
+    list: string[], 
+    setBtn: React.Dispatch<React.SetStateAction<bootcampInput>>,
+    selectData: bootcampInput
+    type: string}) => 
+  // 선택된 값을 상태로 관리합니다.
   // 라디오 버튼 값이 변경되었을 때 처리하는 함수
-  const handleRadioChange = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setBtn(event.target.value);
-  };
+  { const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setBtn({
+      ...selectData,
+      [type]: event.target.value
+    });
+  }
 
   return (
     <Paper
@@ -34,17 +55,18 @@ const ManageRadioBtn = ({list, setBtn, selectData}: {
         <RadioGroup
           aria-label="radio-group"
           name="radio-group"
-          value={selectData}
+          value={selectData[type]}
           onChange={handleRadioChange}
           sx={{flexDirection: "row"}}
         >
-        {list.map((element) => (
-          <FormControlLabel value={element} control={<Radio />} label={element}/>
+        {list.map((element, idx) => (
+          <FormControlLabel value={idx + 1} control={<Radio />} label={list[idx]}/>
         ))}
         </RadioGroup>
       </FormControl>
     </Paper>
   );
 };
+
 
 export default ManageRadioBtn;

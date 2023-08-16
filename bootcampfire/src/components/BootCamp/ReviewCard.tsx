@@ -1,8 +1,8 @@
-import styled from "styled-components";
-import { IconButton } from "@mui/material";
-import { Favorite, FavoriteBorder } from "@mui/icons-material";
-import { useState } from "react";
-import axios from "axios";
+import styled from 'styled-components';
+import { IconButton } from '@mui/material';
+import { Favorite, FavoriteBorder } from '@mui/icons-material';
+import { useState } from 'react';
+import axios from 'axios';
 
 const ReviewCard: React.FC<BootCampReviewProps> = ({ review }) => {
   const [isLiked, setIsLiked] = useState(review.isAlreadyReviewLike);
@@ -16,10 +16,10 @@ const ReviewCard: React.FC<BootCampReviewProps> = ({ review }) => {
     axios
       .post(`${process.env.REACT_APP_API_URL}/review-likes/${api_url}`)
       .then((response) => {
-        console.log("리뷰 좋아요 성공");
+        console.log('리뷰 좋아요 성공');
       })
       .catch((error) => {
-        console.error("리뷰 좋아요 실패", error);
+        console.error('리뷰 좋아요 실패', error);
       });
   };
   console.log(review);
@@ -63,7 +63,7 @@ const ReviewCard: React.FC<BootCampReviewProps> = ({ review }) => {
             </SubDiv>
             <SubDiv>
               <HorizontalDivs2>
-                <Text2>지인에게 추천 : {review.isRecommend ? "O" : "X"}</Text2>
+                <Text2>지인에게 추천 : {review.isRecommend ? 'O' : 'X'}</Text2>
                 <HorizontalDivs>
                   <Text2> 공감 </Text2>
                   <IconButton
@@ -73,16 +73,11 @@ const ReviewCard: React.FC<BootCampReviewProps> = ({ review }) => {
                     onClick={() => {
                       handleToggleLike();
                       handleLikes();
-                    }}
-                  >
+                    }}>
                     {isLiked ? <Favorite /> : <FavoriteBorder />}
                   </IconButton>
-                  {isLiked_org && (
-                    <Text3>({review.likeCnt + (isLiked ? 0 : -1)})</Text3>
-                  )}
-                  {!isLiked_org && (
-                    <Text3>({review.likeCnt + (isLiked ? 1 : 0)})</Text3>
-                  )}
+                  {isLiked_org && <Text3>({review.likeCnt + (isLiked ? 0 : -1)})</Text3>}
+                  {!isLiked_org && <Text3>({review.likeCnt + (isLiked ? 1 : 0)})</Text3>}
                 </HorizontalDivs>
               </HorizontalDivs2>
             </SubDiv>
@@ -144,7 +139,7 @@ const SubDivStar = styled.div`margin 4px 30px;`;
 const SubDiv = styled.div`margin 20px;`;
 
 const Text1 = styled.div`
-  font-family: "DM Sans";
+  font-family: 'DM Sans';
   font-style: normal;
   font-weight: 700;
   font-size: 18px;
@@ -154,7 +149,7 @@ const Text1 = styled.div`
 `;
 
 const TextName = styled.span`
-  font-family: "DM Sans";
+  font-family: 'DM Sans';
   font-style: normal;
   font-weight: 700;
   font-size: 21px;
@@ -164,7 +159,7 @@ const TextName = styled.span`
 `;
 
 const Text2 = styled.div`
-  font-family: "DM Sans";
+  font-family: 'DM Sans';
   font-style: normal;
   font-weight: 700;
   font-size: 18px;
@@ -173,7 +168,7 @@ const Text2 = styled.div`
 `;
 
 const Text3 = styled.span`
-  font-family: "DM Sans";
+  font-family: 'DM Sans';
   font-style: normal;
   font-weight: 400;
   font-size: 15px;
@@ -194,10 +189,7 @@ const FireB = styled.img`
   width: 100px;
 `;
 
-const StarRating: React.FC<{ label: string; rating: number }> = ({
-  label,
-  rating,
-}) => {
+const StarRating: React.FC<{ label: string; rating: number }> = ({ label, rating }) => {
   return (
     <SubDivStar>
       <Text1>{label}</Text1>

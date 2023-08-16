@@ -1,11 +1,12 @@
-import React from "react";
-import DropDownCategory from "./DropDownCategory";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { StyledDropdown, Normal13px, StyledLI } from "../styled";
-import { useDispatch } from "react-redux";
-import { setSort } from "store/searchSlice";
-import axios from "axios";
+import React from 'react';
+import DropDownCategory from './DropDownCategory';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { StyledDropdown, Normal13px, StyledLI } from '../styled';
+import { useDispatch } from 'react-redux';
+import { setSort } from 'store/searchSlice';
+import axios from 'axios';
+import styled from 'styled-components';
 
 interface DropDownList {
   current: number;
@@ -14,7 +15,7 @@ interface DropDownList {
 
 let dummyData: DropDownList = {
   current: 0,
-  category: ["최신순", "좋아요순", "조회수순"],
+  category: ['최신순', '좋아요순', '조회수순'],
 };
 
 function SortDropDown() {
@@ -25,8 +26,6 @@ function SortDropDown() {
     setDropdownSelect(idx);
     setDropdownVisibility(false);
     dispatch(setSort({ sort: idx }));
-    // axios
-    // axios.get(`${process.env.REACT_APP_API_URL}/`)
   };
 
   const categoryList = dummyData.category.map((element, idx) => (
@@ -36,11 +35,8 @@ function SortDropDown() {
   ));
 
   return (
-    <StyledDropdown>
-      <Normal13px
-        className="test"
-        onClick={(e) => setDropdownVisibility(!dropdownVisibility)}
-      >
+    <StyledSortDropdown>
+      <Normal13px className="test" onClick={(e) => setDropdownVisibility(!dropdownVisibility)}>
         {dummyData.category[dropdownSelect]}
         {!dropdownVisibility && <KeyboardArrowDownIcon />}
         {dropdownVisibility && <KeyboardArrowUpIcon />}
@@ -48,8 +44,14 @@ function SortDropDown() {
       <DropDownCategory visibility={dropdownVisibility}>
         <ul className="search-category">{categoryList}</ul>
       </DropDownCategory>
-    </StyledDropdown>
+    </StyledSortDropdown>
   );
 }
+
+const StyledSortDropdown = styled(StyledDropdown)`
+  position: absolute;
+  left: calc(100% + 30px);
+  width: 80px;
+`;
 
 export default SortDropDown;

@@ -1,21 +1,20 @@
-import React, { useRef, useState } from "react";
-import styled from "styled-components";
-import { StyledPage } from "./styledPage";
-import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
-import { colors } from "constant/constant";
-import { StrongBtn } from "components/Board/styled";
+import React, { useRef, useState } from 'react';
+import styled from 'styled-components';
+import { StyledPage } from './styledPage';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
+import { colors } from 'constant/constant';
+import { StrongBtn } from 'components/Board/styled';
 // import BoardCreateHeader from "components/Board/BoardCreate/BoardCreateHeader";
-import { StyledRightFlex, Bold15px } from "components/Board/styled";
-import CategoryDropDown from "components/Board/BoardCreate/CategoryDropDown";
-import axios from "axios";
-import { useNavigate, useLocation } from "react-router-dom";
-import { BoardDetail } from "components/Board/interface";
-import { useSelector } from "react-redux";
-import { RootState } from "store";
-
-const TEST_USERID = 1;
+import { StyledRightFlex, Bold15px } from 'components/Board/styled';
+import CategoryDropDown from 'components/Board/BoardCreate/CategoryDropDown';
+import axios from 'axios';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { BoardDetail } from 'components/Board/interface';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
+import useGetHeader from 'constant/useGetHeader';
 
 interface LocationState {
   boardDetail: BoardDetail;
@@ -23,14 +22,10 @@ interface LocationState {
 }
 
 function BoardCreatePage() {
+  const header = useGetHeader();
   const navigate = useNavigate();
   const state = useLocation().state as LocationState;
-  let [initAnonymous, initCategory, initTitle, initContent] = [
-    false,
-    0,
-    "",
-    "",
-  ];
+  let [initAnonymous, initCategory, initTitle, initContent] = [false, 0, '', ''];
 
   if (state) {
     initAnonymous = state.boardDetail.isLike;
@@ -49,7 +44,7 @@ function BoardCreatePage() {
   };
 
   const handlerSubmitBtn = () => {
-    console.log("카테고리 번호", selectCategory);
+    console.log('카테고리 번호', selectCategory);
     const requestBody = {
       anonymous: isAnonymous,
       categoryId: selectCategory,
@@ -58,25 +53,15 @@ function BoardCreatePage() {
       userId: userId,
     };
     axios
-      .post(`${process.env.REACT_APP_API_URL}/boards`, requestBody, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) =>
-        navigate("/BoardDetail/" + res.data.data.id, { state: selectCategory })
-      );
+      .post(`${process.env.REACT_APP_API_URL}/boards`, requestBody, header)
+      .then((res) => navigate('/BoardDetail/' + res.data.data.id, { state: selectCategory }));
   };
 
   return (
     <StyledPage>
       <StyledWrapperDiv>
         <StyledHeader>
-          <CategoryDropDown
-            selectCategory={selectCategory}
-            onSelectCategory={setSelectCategory}
-          ></CategoryDropDown>
+          <CategoryDropDown selectCategory={selectCategory} onSelectCategory={setSelectCategory}></CategoryDropDown>
           <StyledTitleInput
             type="text"
             placeholder="글 제목을 작성하세요."
@@ -84,18 +69,8 @@ function BoardCreatePage() {
             onChange={(event) => setTitleInput(event.target.value)}
           />
           <StyledAnonymousBtn>
-            {isAnonymous && (
-              <CheckCircleOutlineIcon
-                sx={{ color: colors.TEXT_LIGHT }}
-                onClick={handlerAnonymous}
-              />
-            )}
-            {!isAnonymous && (
-              <RadioButtonUncheckedIcon
-                sx={{ color: colors.TEXT_LIGHT }}
-                onClick={handlerAnonymous}
-              />
-            )}
+            {isAnonymous && <CheckCircleOutlineIcon sx={{ color: colors.TEXT_LIGHT }} onClick={handlerAnonymous} />}
+            {!isAnonymous && <RadioButtonUncheckedIcon sx={{ color: colors.TEXT_LIGHT }} onClick={handlerAnonymous} />}
             <AnonymousText>익명으로 작성하기</AnonymousText>
           </StyledAnonymousBtn>
         </StyledHeader>

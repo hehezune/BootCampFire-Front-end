@@ -1,19 +1,15 @@
-import React from "react";
-import styled from "styled-components";
-import BootCampCard from "../../components/BootCamp/BootCampCard";
-import SelectBox from "../../components/BootCamp/SelectBox";
-import { StyledPage } from "pages/BoardPage/styledPage";
-import { Link, useNavigate } from "react-router-dom";
+import React from 'react';
+import styled from 'styled-components';
+import BootCampCard from '../../components/BootCamp/BootCampCard';
+import SelectBox from '../../components/BootCamp/SelectBox';
+import { StyledPage } from 'pages/BoardPage/styledPage';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { RootState } from "store";
-import { useEffect, useState } from "react";
-import axios, { AxiosResponse } from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchBootcampStart,
-  fetchBootcampSuccess,
-  fetchBootcampFailure,
-} from "store/bootcampListSlice";
+import { RootState } from 'store';
+import { useEffect, useState } from 'react';
+import axios, { AxiosResponse } from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchBootcampStart, fetchBootcampSuccess, fetchBootcampFailure } from 'store/bootcampListSlice';
 
 const BootCampListPage: React.FC = () => {
   const currentDate = new Date();
@@ -23,86 +19,55 @@ const BootCampListPage: React.FC = () => {
   };
 
   const dispatch = useDispatch();
-  const { bootcamp, loading, error, dropBoxidx, bootSearch } = useSelector(
-    (state: RootState) => state.bootcamp
-  );
+  const { bootcamp, loading, error, dropBoxidx, bootSearch } = useSelector((state: RootState) => state.bootcamp);
 
-  const { trackList, regionList, etcList } = useSelector(
-    (state: RootState) => state.select
-  );
+  const { trackList, regionList, etcList } = useSelector((state: RootState) => state.select);
 
   const { tmp_lst } = useSelector((state: RootState) => state.select);
 
-  const [bootcampSearchResult, setBootcampSearchResult] = useState<
-    BootcampItem[]
-  >([]);
+  const [bootcampSearchResult, setBootcampSearchResult] = useState<BootcampItem[]>([]);
 
   useEffect(() => {
     const filteredBootcamp = bootSearch
-      ? bootcamp.filter((item) =>
-          item.name.toLowerCase().includes(bootSearch.toLowerCase())
-        )
+      ? bootcamp.filter((item) => item.name.toLowerCase().includes(bootSearch.toLowerCase()))
       : bootcamp;
 
-    const selectedTracks = trackList
-      .filter((track) => track.isOn)
-      .map((track) => track.name);
-    const selectedRegions = regionList
-      .filter((region) => region.isOn)
-      .map((region) => region.name);
+    const selectedTracks = trackList.filter((track) => track.isOn).map((track) => track.name);
+    const selectedRegions = regionList.filter((region) => region.isOn).map((region) => region.name);
 
     const restructuredBootcamp = filteredBootcamp.filter(
       (camp) =>
-        selectedTracks.every((trackName) =>
-          camp.tracks.some((track) => track.name === trackName)
-        ) &&
-        selectedRegions.every((regionName) =>
-          camp.regions.some((region) => region.name === regionName)
-        )
+        selectedTracks.every((trackName) => camp.tracks.some((track) => track.name === trackName)) &&
+        selectedRegions.every((regionName) => camp.regions.some((region) => region.name === regionName))
     );
 
-    const selectedEtc = etcList
-      .filter((etc) => etc.isOn)
-      .map((etc) => etc.name);
+    const selectedEtc = etcList.filter((etc) => etc.isOn).map((etc) => etc.name);
     const hasSelectedEtc =
-      selectedEtc.includes("온라인") ||
-      selectedEtc.includes("오프라인") ||
-      selectedEtc.includes("온오프라인");
+      selectedEtc.includes('온라인') || selectedEtc.includes('오프라인') || selectedEtc.includes('온오프라인');
 
     const restructuredBootcamp2 = restructuredBootcamp.filter((item) => {
       const { onOff, cost, support, hasCodingtest } = item;
       const isOnOffMatched = !hasSelectedEtc || selectedEtc.includes(onOff);
 
-      const isCostMatched = !selectedEtc.includes("비용") || cost;
-      const isSupportMatched = !selectedEtc.includes("지원금") || support;
-      const isCodingTestMatched =
-        !selectedEtc.includes("코딩 테스트") || hasCodingtest;
+      const isCostMatched = !selectedEtc.includes('비용') || cost;
+      const isSupportMatched = !selectedEtc.includes('지원금') || support;
+      const isCodingTestMatched = !selectedEtc.includes('코딩 테스트') || hasCodingtest;
 
-      return (
-        isOnOffMatched &&
-        isCostMatched &&
-        isSupportMatched &&
-        isCodingTestMatched
-      );
+      return isOnOffMatched && isCostMatched && isSupportMatched && isCodingTestMatched;
     });
     setBootcampSearchResult(restructuredBootcamp2);
   }, [etcList, regionList, trackList, bootcamp, bootSearch]);
-
   useEffect(() => {
-    dispatch(fetchBootcampStart());
-    const api_url =
-      dropBoxidx === 0
-        ? "names"
-        : dropBoxidx === 1
-        ? "scores"
-        : dropBoxidx === 2
-        ? "reviews"
-        : "names";
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/bootcamps/lists/${api_url}`)
-      // .then((response) => console.log(response.data))
-      .then((response) => dispatch(fetchBootcampSuccess(response.data.data)))
-      .catch((error) => dispatch(fetchBootcampFailure(error.message)));
+    if (bootcamp.length == 0) {
+      dispatch(fetchBootcampStart());
+      const api_url = dropBoxidx === 0 ? 'names' : dropBoxidx === 1 ? 'scores' : dropBoxidx === 2 ? 'reviews' : 'names';
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/bootcamps/lists/${api_url}`)
+        .then((response) => dispatch(fetchBootcampSuccess(response.data.data)))
+        .catch((error) => dispatch(fetchBootcampFailure(error.message)));
+    }
+
+    // .then((response) => console.log(response.data))
   }, [dropBoxidx]);
 
   // console.log(bootcampSearchResult)
@@ -123,10 +88,7 @@ const BootCampListPage: React.FC = () => {
         <CardSection>
           <CardContainer>
             {bootcampSearchResult.map((item) => (
-              <BootCampCardWrapper
-                key={item.id}
-                onClick={() => CardClick(item.id)}
-              >
+              <BootCampCardWrapper key={item.id} onClick={() => CardClick(item.id)}>
                 <BootCampCard item={item} key={item.id} cur={currentDate} />
               </BootCampCardWrapper>
             ))}
@@ -169,7 +131,7 @@ const BootCampCardWrapper = styled.div`
   cursor: pointer;
 
   &::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 0;

@@ -9,6 +9,8 @@ import { login } from 'store/authSlice';
 
 export default function LoginDataPage() {
   const dispatch = useDispatch();
+
+  // const params: Readonly<Params<string>> = useParams();
   const URL = `${process.env.REACT_APP_API_URL}/users`;
   const navigate = useNavigate();
   useEffect(() => {
@@ -21,25 +23,28 @@ export default function LoginDataPage() {
       .get(URL, {
         // params: { token: token },
         headers: { Authorization: `Bearer ${accessToken}` },
+        withCredentials: true,
       })
       .then((res) => {
         if (res.status === 200) {
           axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-          console.log(res.data);
+
           dispatch(
             login({
               userId: res.data.data.id,
               nickname: res.data.data.nickname,
               email: res.data.data.email,
               isAdmin: true,
+              bootcampName: res.data.data.bootcampName,
               bootcampId: res.data.data.bootcampId,
             })
           );
-          navigate('/');
+
+          navigate(-1);
         }
       })
       .catch((res) => {
-        console.error(res);
+        console.log(res);
       });
   }, []);
   return <div>되고있냐</div>;

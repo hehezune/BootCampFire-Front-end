@@ -1,76 +1,61 @@
-import { useState } from "react";
-import type { Comment, RequestComment, ResponseComment } from "../interface";
-import {
-  Normal13px,
-  Normal15px,
-  StyledLeftFlex,
-  Bold15px,
-  StyledRightFlex,
-} from "../styled";
-import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import styled from "styled-components";
-import { colors } from "constant/constant";
-import { StrongBtn } from "../styled";
-import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
-import CommentCard from "./CommentCard";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "store";
-import { useRef } from "react";
-import axios from "axios";
-import { getComments } from "store/commentSlice";
+import { useState } from 'react';
+import type { Comment, RequestComment, ResponseComment } from '../interface';
+import { Normal13px, Normal15px, StyledLeftFlex, Bold15px, StyledRightFlex } from '../styled';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import styled from 'styled-components';
+import { colors } from 'constant/constant';
+import { StrongBtn } from '../styled';
+import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
+import CommentCard from './CommentCard';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from 'store';
+import { useRef } from 'react';
+import axios from 'axios';
+import { getComments } from 'store/commentSlice';
+import useGetHeader from 'constant/useGetHeader';
 // redux를 먼저 해볼것인가 아니면 더미데이터를 만들어서 일단 진행할 것인가
 //
-const TEST_USERID = 1;
 
-function Comments({
-  boardId,
-  comments,
-}: {
-  boardId: number;
-  comments: Comment[];
-}) {
+function Comments({ boardId, comments }: { boardId: number; comments: Comment[] }) {
+  const header = useGetHeader();
   const dispatch = useDispatch();
   const commentRef = useRef<HTMLInputElement>(null);
   const [isAnonymous, setIsAnonymous] = useState(false);
-  const { isLoggedIn, nickname, bootcampId } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const { isLoggedIn, nickname, bootcampId, userId } = useSelector((state: RootState) => state.auth);
   const handlerClickAnonymous = () => {
     setIsAnonymous(!isAnonymous);
   };
 
   const handlerCreateComment = () => {
     if (!isLoggedIn) {
-      console.log("로그인 plz");
+      console.log('로그인 plz');
       return;
     }
 
     // request용 객체 생성
     const newComment: RequestComment = {
       // id: 0,
-      userId: TEST_USERID,
+      userId,
       anonymous: isAnonymous,
-      content: commentRef.current?.value ?? "",
+      content: commentRef.current?.value ?? '',
       boardId,
     };
     console.log(newComment.boardId, boardId);
     if (commentRef.current) {
-      commentRef.current.value = "";
+      commentRef.current.value = '';
     }
+
+    console.log(newComment);
     // 백으로 요청 보내기
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/comments`, newComment)
-      .then((res) => {
-        if (res.data.message === "success") {
-          axios
-            .get(`${process.env.REACT_APP_API_URL}/comments/list/` + boardId)
-            .then((res) => {
-              const comments = res.data.data as Comment[];
-              dispatch(getComments({ comments, boardId }));
-            });
-        }
-      });
+    axios.post(`${process.env.REACT_APP_API_URL}/comments`, newComment).then((res) => {
+      if (res.data.message === 'success') {
+        axios.get(`${process.env.REACT_APP_API_URL}/comments/list/` + boardId, header).then((res) => {
+          const comments = res.data.data as Comment[];
+          dispatch(getComments({ comments, boardId }));
+        });
+      }
+    });
   };
 
   const cardList = comments.map((element, idx) => (
@@ -83,23 +68,19 @@ function Comments({
         <CommentInputDiv>
           <StyledLeftFlex>
             <Normal15px>댓글</Normal15px>
-            <Normal13px>댓글 수</Normal13px>
+            <Normal13px>{comments.length}</Normal13px>
           </StyledLeftFlex>
-          <StyledInput
-            type="textarea"
-            placeholder="댓글을 작성해 주세요."
-            ref={commentRef}
-          />
+          <StyledInput type="textarea" placeholder="댓글을 작성해 주세요." ref={commentRef} />
           <ButtonGroup>
             {isAnonymous && (
               <CheckCircleOutlineIcon
-                sx={{ color: colors.TEXT_LIGHT }}
+                sx={{ color: colors.TEXT_LIGHT, fontSize: '18px' }}
                 onClick={handlerClickAnonymous}
               />
             )}
             {!isAnonymous && (
               <RadioButtonUncheckedIcon
-                sx={{ color: colors.TEXT_LIGHT }}
+                sx={{ color: colors.TEXT_LIGHT, fontSize: '18px' }}
                 onClick={handlerClickAnonymous}
               />
             )}
@@ -132,8 +113,8 @@ const ButtonGroup = styled(StyledRightFlex)`
 const StyledInput = styled.input`
   display: block;
   width: 100%;
-  height: 50px;
-  margin: 0 auto;
+  height: 60px;
+  margin: 10px auto;
   border-radius: 5px;
   border: 1px solid ${colors.TEXT_LIGHT};
 

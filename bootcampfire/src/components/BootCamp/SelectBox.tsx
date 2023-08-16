@@ -1,22 +1,15 @@
-import React from "react";
-import styled from "styled-components";
-import SeletedTag from "components/BootCamp/SeletedTag";
+import React from 'react';
+import styled from 'styled-components';
+import SeletedTag from 'components/BootCamp/SeletedTag';
 
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../store";
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../store';
 // import {onoff_num, onoff_text, category_onoff} from '../../store/selectSlice';
-import {
-  initTrack,
-  initRegion,
-  onoff_track,
-  onoff_region,
-  onoff_etc,
-  category_onoff,
-} from "store/selectSlice";
+import { initTrack, initRegion, onoff_track, onoff_region, onoff_etc, category_onoff } from 'store/selectSlice';
 
-import axios from "axios";
+import axios from 'axios';
 
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
 // /bootcamps/regions
 
@@ -25,9 +18,7 @@ import { useEffect } from "react";
 const SelectBox: React.FC = () => {
   // const { sel_lst, item_lst, category, tmp_lst } = useSelector((state: RootState) => state.select);
 
-  const { trackList, regionList, etcList, category, tmp_lst } = useSelector(
-    (state: RootState) => state.select
-  );
+  const { trackList, regionList, etcList, category, tmp_lst } = useSelector((state: RootState) => state.select);
 
   const dispatch = useDispatch();
 
@@ -68,18 +59,12 @@ const SelectBox: React.FC = () => {
         <div>
           <NavItem onClick={() => handleCategoryToggle(0)}>
             <span>트랙</span>
-            <span style={{ textAlign: "center" }}>
-              {category[0] ? "△" : "▽"}
-            </span>
+            <span style={{ textAlign: 'center' }}>{category[0] ? '△' : '▽'}</span>
           </NavItem>
           {category[0] && (
             <ItemBox>
               {trackList.map((item, idx) => (
-                <SeletedTag
-                  text={item.name}
-                  isOn={item.isOn}
-                  onClick={() => handleSeletedTagClick(0, idx)}
-                />
+                <SeletedTag text={item.name} isOn={item.isOn} onClick={() => handleSeletedTagClick(0, idx)} />
               ))}
             </ItemBox>
           )}
@@ -88,18 +73,12 @@ const SelectBox: React.FC = () => {
         <div>
           <NavItem onClick={() => handleCategoryToggle(1)}>
             <span>지역</span>
-            <span style={{ textAlign: "center" }}>
-              {category[1] ? "△" : "▽"}
-            </span>
+            <span style={{ textAlign: 'center' }}>{category[1] ? '△' : '▽'}</span>
           </NavItem>
           {category[1] && (
             <ItemBox>
               {regionList.map((item, idx) => (
-                <SeletedTag
-                  text={item.name}
-                  isOn={item.isOn}
-                  onClick={() => handleSeletedTagClick(1, idx)}
-                />
+                <SeletedTag text={item.name} isOn={item.isOn} onClick={() => handleSeletedTagClick(1, idx)} />
               ))}
             </ItemBox>
           )}
@@ -108,18 +87,12 @@ const SelectBox: React.FC = () => {
         <div>
           <NavItem onClick={() => handleCategoryToggle(2)}>
             <span>온/오프</span>
-            <span style={{ textAlign: "center" }}>
-              {category[2] ? "△" : "▽"}
-            </span>
+            <span style={{ textAlign: 'center' }}>{category[2] ? '△' : '▽'}</span>
           </NavItem>
           {category[2] && (
             <ItemBox>
               {etcList.slice(0, 3).map((item, idx) => (
-                <SeletedTag
-                  text={item.name}
-                  isOn={item.isOn}
-                  onClick={() => handleSeletedTagClick(2, idx)}
-                />
+                <SeletedTag text={item.name} isOn={item.isOn} onClick={() => handleSeletedTagClick(2, idx)} />
               ))}
             </ItemBox>
           )}
@@ -128,18 +101,12 @@ const SelectBox: React.FC = () => {
         <div>
           <NavItem onClick={() => handleCategoryToggle(3)}>
             <span>비용 및 기타</span>
-            <span style={{ textAlign: "center" }}>
-              {category[3] ? "△" : "▽"}
-            </span>
+            <span style={{ textAlign: 'center' }}>{category[3] ? '△' : '▽'}</span>
           </NavItem>
           {category[3] && (
             <ItemBox>
               {etcList.slice(3).map((item, idx) => (
-                <SeletedTag
-                  text={item.name}
-                  isOn={item.isOn}
-                  onClick={() => handleSeletedTagClick(2, idx + 3)}
-                />
+                <SeletedTag text={item.name} isOn={item.isOn} onClick={() => handleSeletedTagClick(2, idx + 3)} />
               ))}
             </ItemBox>
           )}
@@ -183,7 +150,7 @@ const NavItem = styled.div`
   z-index: 1; /* Add this line to set z-index */
 
   ::before {
-    content: "";
+    content: '';
     position: absolute;
     width: 100%;
     height: 1px;

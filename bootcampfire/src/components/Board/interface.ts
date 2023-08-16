@@ -1,3 +1,42 @@
+export interface bootcampInput {
+  name: string;
+  siteUrl: string;
+  process: string;
+  schedule: string;
+  description: string;
+  card: number;
+  support: number;
+  hasCodingtest: number;
+  onOff: number;
+  startDate: string;
+  endDate: string;
+  imgUrl: string,
+  tracks: {id:number, name:string}[];
+  languages: {id:number, name:string}[];
+  regions: {id:number, name:string}[];
+  cost: number;
+  [key: string]: any;
+};
+
+export interface bootcampInputResponse {
+    name: string;
+    siteUrl: string;
+    process: string;
+    schedule: string;
+    description: string;
+    card: boolean;
+    support: boolean;
+    hasCodingtest: boolean;
+    onOff: string;
+    startDate: string;
+    endDate: string;
+    imgUrl: string,
+    tracks: {id:number, name:string}[];
+    languages: {id:number, name:string}[];
+    regions: {id:number, name:string}[];
+    cost: number;
+    [key: string]: any;
+  };
 
 export interface Board {
     id: number;

@@ -1,9 +1,9 @@
 import React from 'react';
-import A2 from '../Tag';
-import type {Board} from '../interface';
-import { Bold18px, Bold15px ,Normal15px, Normal13px } from '../styled';
+import A2 from 'components/Board/Tag';
+import type {Board} from 'components/Board/interface';
+import { Bold18px, Bold15px ,Normal15px, Normal13px } from 'components/Board/styled';
 import styled from 'styled-components';
-import DateInfo from './DateInfo';
+import DateInfo from 'components/Board/BoardList/DateInfo';
 interface BoardDate {
     view: number;
     likeCnt: number;
@@ -11,6 +11,12 @@ interface BoardDate {
     createdDate: string;
 }
 
+const BoardCardTitle = styled.div`
+    display: flex;
+    gap: 15px;
+    height: 25px;
+    align-items: center;
+`
 
 function BoardCard({data, onClick}: {data: Board, onClick: () => void}){
     const dataForDateInfo: BoardDate = {
@@ -21,9 +27,14 @@ function BoardCard({data, onClick}: {data: Board, onClick: () => void}){
     }
 
     return (
-        <StyledBoardCard onClick={onClick} className="asdfasdfas">
-            <Bold18px className="position1px">{data.title}</Bold18px>
+        <StyledBoardCard onClick={onClick}>
+            <BoardCardTitle className="position1px">
+
+            <Bold18px >{data.title}</Bold18px>
+            <A2>{data.category}</A2>
+            </BoardCardTitle>
             <Normal15px className="position40px">{data.content}</Normal15px>
+
             <Infodiv className="position110px">
                 <DateInfo data={dataForDateInfo}/>
 
@@ -40,10 +51,9 @@ const StyledBoardCard = styled.div`
     position: relative;
     border-bottom: solid;
     border-width: 1px;
-    min-width: 600px;
-    width: 100%;
-    max-width: 1040px;
     height: 138px;
+    margin: auto;
+    width: 98%;
     .position1px {
         position: absolute;
         top: 10px;

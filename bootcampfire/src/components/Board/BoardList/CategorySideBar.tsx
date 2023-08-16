@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { categories } from 'constant/constant';
+import { colors } from 'constant/constant';
+import { useState } from 'react';
 
 interface CategorySideBarProps {
     selectCategory: number;
@@ -7,7 +9,6 @@ interface CategorySideBarProps {
 }
 
 function CategorySideBar({selectCategory, onCategorySelect}: CategorySideBarProps) {
-
     const buttons = categories.map((element, idx) => idx > 0 ?
         <StyledBtn 
             key={element} 
@@ -27,8 +28,8 @@ const StyledBoardList = styled.div`
     display: flex;
     flex-direction: column;
     min-width: 130px;
-    width: 16%;
-    max-width: 198px;
+    width: 20%;
+    max-width: 203px;
 `
 
 const StyledBtn = styled.button<{ $selected?: boolean; }>`
@@ -46,9 +47,9 @@ const StyledBtn = styled.button<{ $selected?: boolean; }>`
     font-size: 18px;
     font-style: bold;
     font-weight: 700;
-
     &:hover {
-        background: #FEE9E6;
+        background-color: ${props => props.$selected ? colors.BACKGROUND_MID : colors.BACKGROUND_LIGHT};
     }
+    
 `
 export default CategorySideBar;

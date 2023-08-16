@@ -14,12 +14,9 @@ export default A2;
 
 const A2Container = styled(Bold15px)<{type?: string | null}>`
     padding: 0px 15px 0px 15px;
-    /* gap: 5px; */
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    /* flex-shrink: 0; */
-    /* height: 20px; */
     margin: 0px;
     background: #FFFFFF;
     border: 0.5px solid ${colors.BORDER_LIGHT};
@@ -27,5 +24,5 @@ const A2Container = styled(Bold15px)<{type?: string | null}>`
     line-height: 20px;
   
     /* color 속성이 전달되면 해당 색상으로 스타일 적용 */
-    color: ${(props) => props.type};
+    color: ${(props) => props.type === undefined ? colors.SECONDARY : props.type};
   `;

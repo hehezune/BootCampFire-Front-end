@@ -4,10 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import authSlice, { login, logout } from '../store/authSlice';
 import LoginModal from './Login/LoginModal';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Bold21px } from './Board/styled';
 // import BoardCreateHeader from './Board/BoardCreate/BoardCreateHeader';
 import { colors } from 'constant/constant';
+import axios from 'axios';
+
 const NavContainer = styled.div`
   background-color: #ffffff;
   border-bottom: 1.5px solid ${colors.BACKGROUND_DEEP};
@@ -87,6 +89,35 @@ export default function Header() {
   const bootcampId = useSelector((state: RootState) => state.auth.bootcampId);
   const navigate = useNavigate();
   const [isModalOpen, setModalOpen] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem('Authorization');
+    if (!isLoggedIn && accessToken) {
+      axios.get(`${process.env.REACT_APP_API_URL}/users`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          withCredentials: true,
+        }
+      }).then((res) => {
+        if (res.status === 200) {
+          axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+          dispatch(
+            login({
+              userId: res.data.data.id,
+              nickname: res.data.data.nickname,
+              email: res.data.data.email,
+              isAdmin: true,
+              bootcampId: res.data.data.bootcampId,
+              bootcampName: res.data.data.bootcampName,
+            })
+          );
+          setIsLoading(false);
+      }})
+    } else {
+      setIsLoading(false);
+    }
+  },[])
 
   const handleLogin = () => {
     // 모달 열기 함수
@@ -97,11 +128,14 @@ export default function Header() {
   const handleWriteButtonClick = () => {
     isLoggedIn ? navigate('/BoardCreate') : setModalOpen(true);
   };
+
   const handleLogout = () => {
     dispatch(logout());
     const isMyPage = new RegExp('My');
     const isManagerPage = new RegExp('Manage');
     const thisLocation = window.location.href;
+    localStorage.removeItem("Authorization");
+    localStorage.removeItem("refreshToken");
     if (isMyPage.test(thisLocation) || isManagerPage.test(thisLocation)) navigate('/');
   };
 
@@ -130,7 +164,8 @@ export default function Header() {
             <Bold21px as="span">VS</Bold21px>
           </NavLink>
           <WritePrimaryBtn onClick={handleWriteButtonClick}>글쓰기</WritePrimaryBtn>
-          {isLoggedIn ? (
+          {isLoading && <ActionButton onClick={handleLogin} style={{visibility:"hidden"}}>로그인</ActionButton>}
+          {!isLoading && isLoggedIn && (
             <LoginContentContainer>
               <div style={{ display: 'flexBox' }}>
                 <div>안녕하세요 {nickname}님</div>
@@ -150,9 +185,10 @@ export default function Header() {
                 </div>
               </div>
             </LoginContentContainer>
-          ) : (
-            <ActionButton onClick={handleLogin}>로그인</ActionButton>
           )}
+          {!isLoading && !isLoggedIn &&
+            <ActionButton onClick={handleLogin}>로그인</ActionButton>
+          }
         </HeaderContentContainer>
         {/* 모달 컴포넌트 */}
         <LoginModal isModalOpen={isModalOpen} onClose={handleCloseModal} />

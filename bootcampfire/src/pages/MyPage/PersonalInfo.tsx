@@ -1,31 +1,20 @@
-import styled from "styled-components";
-import {
-  LightBtn,
-  Bold15px,
-  StrongBtn,
-  Normal15px,
-} from "components/Board/styled";
-import { colors } from "constant/constant";
-import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
-import { useState, useRef } from "react";
-import type { RootState } from "store";
-import { useSelector } from "react-redux";
-import { bootcamp as bootcampList } from "constant/constant";
-import axios from "axios";
+import styled from 'styled-components';
+import { LightBtn, Bold15px, StrongBtn, Normal15px } from 'components/Board/styled';
+import { colors } from 'constant/constant';
+import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+import { useState, useRef } from 'react';
+import type { RootState } from 'store';
+import { useSelector } from 'react-redux';
+import { bootcamp as bootcampList } from 'constant/constant';
+import axios from 'axios';
 
-const duplicateMsg = [
-  "중복 검사가 필요합니다.",
-  "사용 가능한 닉네임입니다.",
-  "이미 사용중인 닉네임입니다.",
-];
+const duplicateMsg = ['중복 검사가 필요합니다.', '사용 가능한 닉네임입니다.', '이미 사용중인 닉네임입니다.'];
 
 function PersonalInfo() {
-  const { nickname, bootcampId /*email, bojId*/ } = useSelector(
-    (state: RootState) => state.auth
-  );
-  const [enteredNickName, setEneteredNickName] = useState(nickname ?? "");
+  const { nickname, bootcampId /*email, bojId*/ } = useSelector((state: RootState) => state.auth);
+  const [enteredNickName, setEneteredNickName] = useState(nickname ?? '');
   const [duplicateState, setDuplicateState] = useState(0);
-  const [enteredBojId, setEnteredBojId] = useState("");
+  const [enteredBojId, setEnteredBojId] = useState('');
   const inputFileRef = useRef<HTMLInputElement>(null);
 
   const handlerNickNameInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,17 +23,13 @@ function PersonalInfo() {
 
   // 중복 인증 axios 요청하기, enteredNickName 사용
   const handlerDuplicateNickname = () => {
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/users/duplication`, {
-        nickname: enteredNickName,
-      })
-      .then((res) => {
-        if (res.data.message.split(" ")[0] === "이미") {
-          setDuplicateState(2);
-        } else {
-          setDuplicateState(1);
-        }
-      });
+    axios.post(`${process.env.REACT_APP_API_URL}/users/duplication`, { nickname: enteredNickName }).then((res) => {
+      if (res.data.message.split(' ')[0] === '이미') {
+        setDuplicateState(2);
+      } else {
+        setDuplicateState(1);
+      }
+    });
   };
 
   const handelrCertifyCamp = () => {
@@ -52,7 +37,7 @@ function PersonalInfo() {
     axios.post(`${process.env.REACT_APP_API_URL}/users/confirm`, {
       headers: {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("Authorization")}`,
+          Authorization: `Bearer ${localStorage.getItem('Authorization')}`,
         },
       },
     });
@@ -62,15 +47,15 @@ function PersonalInfo() {
     // 정보 취합하여 올리기 : 닉네임, BOJ 아이디
     const formdata = new FormData();
     if (inputFileRef.current?.files) {
-      formdata.append("imgFile", inputFileRef.current?.files[0]);
+      formdata.append('imgFile', inputFileRef.current?.files[0]);
     }
-    formdata.append("bojId", enteredBojId);
-    formdata.append("nickname", enteredNickName);
+    formdata.append('bojId', enteredBojId);
+    formdata.append('nickname', enteredNickName);
 
     axios
       .put(`${process.env.REACT_APP_API_URL}/users`, formdata, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
         },
       })
       .then((res) => {
@@ -92,43 +77,26 @@ function PersonalInfo() {
         <StyledForm>
           <RowDiv>
             <ColomnDiv>
-              <InputDiv style={{ position: "relative" }}>
+              <InputDiv style={{ position: 'relative' }}>
                 <StyledBold15px as="label" htmlFor="nickName">
                   닉네임
                 </StyledBold15px>
-                <StyledInput
-                  type="text"
-                  id="nickname"
-                  value={enteredNickName}
-                  onChange={handlerNickNameInput}
-                />
-                <DuplicateCheckMsg type={duplicateState}>
-                  {duplicateMsg[duplicateState]}
-                </DuplicateCheckMsg>
+                <StyledInput type="text" id="nickname" value={enteredNickName} onChange={handlerNickNameInput} />
+                <DuplicateCheckMsg type={duplicateState}>{duplicateMsg[duplicateState]}</DuplicateCheckMsg>
               </InputDiv>
 
               <InputDiv>
                 <StyledBold15px as="label" htmlFor="bojId">
                   BOJ ID
                 </StyledBold15px>
-                <StyledInput
-                  type="text"
-                  id="bojId"
-                  value={enteredBojId}
-                  onChange={handlerBojIdInput}
-                />
+                <StyledInput type="text" id="bojId" value={enteredBojId} onChange={handlerBojIdInput} />
               </InputDiv>
 
               <InputDiv>
                 <StyledBold15px as="label" htmlFor="camp">
                   소속
                 </StyledBold15px>
-                <StyledInput
-                  type="text"
-                  value={bootcampList[bootcampId]}
-                  id="camp"
-                  readOnly
-                />
+                <StyledInput type="text" value={bootcampList[bootcampId]} id="camp" readOnly />
               </InputDiv>
 
               <InputDiv>
@@ -264,7 +232,7 @@ const StyledInput = styled.input`
   padding: 0;
   border: 1px solid ${colors.TEXT_LIGHT};
 
-  &[type="file"] {
+  &[type='file'] {
     position: absolute;
     width: 0;
     height: 0;
