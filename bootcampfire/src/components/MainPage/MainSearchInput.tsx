@@ -49,31 +49,18 @@ export default function MainSearchInput({activeTitle} : {activeTitle: boolean}) 
     <Paper
       component="form"
       sx={{
-        p: '2px 4px',
+        // p: '2px 4px',
+        margin: '40px auto',
         display: 'flex',
         alignItems: 'center',
-        width: "80%",
-        maxWidth: "600px",
-        border: 3,
-        height: "60px",
-        borderColor: '#FF603D',
+        width: "85%",
+        maxWidth: "700px",
+        border: `2px solid ${colors.PRIMARY}`,
+        height: "56px",
         borderRadius: 10,
         boxShadow: 'none',
         position: 'relative',
-        margin: 'auto',
       }}
-      className='asdfasdfasdfasdfasdfasdf'
-    // <form style={{
-    //   // p: '2px 4px',
-    //   display: 'flex',
-    //   alignItems: 'center',
-    //   width: '99%',
-    //   maxWidth: '500px',
-    //   border: 3,
-    //   borderColor: '#FF603D',
-    //   borderRadius: 10,
-    //   boxShadow: 'none',
-    // }}
       onSubmit={handleSearchSubmit}>
       { activeTitle && <StyledBold21px>통합 검색</StyledBold21px> }
       <SearchDropDown 

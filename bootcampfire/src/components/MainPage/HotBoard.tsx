@@ -8,12 +8,14 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { colors } from 'constant/constant';
 
-const Container = styled.div``;
+const Container = styled.div`
+  margin-top: 50px;
+`;
 
 const IconWrapper = styled.div`
   display: flex;
-  gap: 5px;
-  /* align-items: center; */
+  gap: 10px;
+  align-items: center;
 `;
 
 const StyledFavoriteBorderIcon = styled(FavoriteBorderIcon)`
@@ -28,13 +30,14 @@ const HotBoardTitle = styled.div`
   display: flex;
   align-items: center;
   padding-bottom: 10px;
-  border-bottom: 2px solid ${colors.TEXT_LIGHT};
+  border-bottom: 1.5px solid ${colors.TEXT_LIGHT};
 `;
 const ContentsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  row-gap: 5px;
-  margin-top: 5px;
+  row-gap: 10px;
+  margin-top: 15px;
+  height: 340px;
 `;
 const ContainerRow = styled.div`
   display: flex;
@@ -78,7 +81,7 @@ export default function HotBoard() {
                 {row.likeCnt}
               </Normal13px>
               <StyledChatBubbleOutlineRoundedIcon />
-              <Normal13px as="span" style={{ marginRight: '10px' }}>
+              <Normal13px as="span" style={{ marginRight: '15px' }}>
                 {row.commentCnt}
               </Normal13px>
             </IconWrapper>

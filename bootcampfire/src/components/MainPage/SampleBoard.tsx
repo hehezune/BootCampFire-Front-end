@@ -19,12 +19,14 @@ const ContentList = styled.div`
   /* Add any styles for the table */
   display: flex;
   flex-direction: column;
-  row-gap: 5px;
-  height: 116px;
+  row-gap: 10px;
+  height: 145px;
+  margin-top: 15px;
 `;
 
 const Container = styled.div`
-  width: 40%;
+  width: 45%;
+  margin: 40px 10px 0px 0px;
 `;
 const BoardThumbnailTitle = styled.div`
   height: 40px;
@@ -36,7 +38,7 @@ const BoardThumbnailTitle = styled.div`
 const TitleStart = styled.div`
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
 `;
 
 interface createDataProps {
@@ -71,7 +73,6 @@ const SampleBoard: React.FC<createDataProps> = (props) => {
           {props.index === 6 && <Diversity3Icon sx={{ color: `${colors.PRIMARY}`, fontSize: '18px' }} />}
           {props.index === 7 && <QuestionMarkIcon sx={{ color: `${colors.PRIMARY}`, fontSize: '18px' }} />}
           {props.index === 8 && <ComputerIcon sx={{ color: `${colors.PRIMARY}`, fontSize: '18px' }} />}
-          {props.index === 9 && <HomeIcon sx={{ color: `${colors.PRIMARY}`, fontSize: '18px' }} />}
           <Bold18px as="span">{props.text}</Bold18px>
         </TitleStart>
         <MoreBtn index={props.index}></MoreBtn>
