@@ -42,22 +42,28 @@ export default function MissionBar() {
   React.useEffect(() => {
     const timer = setInterval(() => {
       setProgress((prevProgress: MissionBarData) => {
-        if (prevProgress.num >= 90) {
+        if (prevProgress.num >= 100) {
           return {
-            num: 100,
+            num: 0,
+            img: 'step0_campfire.png',
+          };
+        }
+        else if (prevProgress.num >= 80) {
+          return {
+            num: prevProgress.num + 10,
             img: 'step4_campfire.png',
           };
-        } else if (prevProgress.num >= 75) {
+        } else if (prevProgress.num >= 60) {
           return {
             num: prevProgress.num + 10,
             img: 'step3_campfire.png',
           };
-        } else if (prevProgress.num >= 50) {
+        } else if (prevProgress.num >= 40) {
           return {
             num: prevProgress.num + 10,
             img: 'step2_campfire.png',
           };
-        } else if (prevProgress.num >= 25) {
+        } else if (prevProgress.num >= 20) {
           return {
             num: prevProgress.num + 10,
             img: 'step1_campfire.png',
