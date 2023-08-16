@@ -11,15 +11,24 @@ export const colors = {
   BORDER_LIGHT: '#D4D2E3',
 };
 
-
-
-export const categories = ["카테고리", "자유", "썸/연애", "헬스/스포츠", "스터디", "프로젝트", "IT", "고민", "질문", "내 부트캠프"]
+export const categories = [
+  '카테고리',
+  '자유',
+  '썸/연애',
+  '헬스/다이어트',
+  '스터디',
+  '프로젝트',
+  'IT',
+  '고민',
+  '질문',
+  '내 부트캠프',
+];
 
 const catergoryMapOrigin = new Map();
 categories.forEach((element, idx) => {
   if (idx === 0) return;
   catergoryMapOrigin.set(element, idx);
-})
+});
 
 export const categoryMap = catergoryMapOrigin;
 
@@ -33,6 +42,6 @@ onOff.set('온/오프라인', 2);
 export const onOffMap = onOff;
 
 export const onOffList = ['온라인', '오프라인', '온/오프라인'];
-export const supportSelectList = ["지원금 O", "지원금 X"];
-export const cardSelectList = ["카드 등록 필수 O", "카드 등록 필수 X"];
-export const codingTestSelectList = ["코딩테스트 O", "코딩테스트 X"];
+export const supportSelectList = ['지원금 O', '지원금 X'];
+export const cardSelectList = ['카드 등록 필수 O', '카드 등록 필수 X'];
+export const codingTestSelectList = ['코딩테스트 O', '코딩테스트 X'];

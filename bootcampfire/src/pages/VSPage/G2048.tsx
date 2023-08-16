@@ -1,23 +1,21 @@
-import App from "components/VSGame/G3/components/App/App";
-import styled from "styled-components";
+import App from 'components/VSGame/G3/components/App/App';
+import styled from 'styled-components';
 
-import { RootState } from "store";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { loadGameRank, loadMyRank } from "store/vsSlice";
-import axios from "axios";
+import { RootState } from 'store';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { loadGameRank, loadMyRank } from 'store/vsSlice';
+import axios from 'axios';
 
 export default function G2048() {
-  const { GameRank10, myGameRank } = useSelector(
-    (state: RootState) => state.vs
-  );
+  const { GameRank10, myGameRank } = useSelector((state: RootState) => state.vs);
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
   // console.log(myGameRank, isLoggedIn)
   const dispatch = useDispatch();
 
   let flag = myGameRank.rank;
   useEffect(() => {
-    const accessToken = localStorage.getItem("Authorization");
+    const accessToken = localStorage.getItem('Authorization');
 
     setTimeout(() => {
       if (isLoggedIn) {
@@ -61,7 +59,7 @@ export default function G2048() {
         </Container>
       )}
 
-      <div style={{ border: "2px solid red", padding: "10px" }}>
+      <div style={{ border: '2px solid red', padding: '10px' }}>
         <App />
       </div>
     </div>
