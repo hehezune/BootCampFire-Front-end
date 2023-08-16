@@ -7,15 +7,54 @@ import type { RootState } from 'store';
 import { useSelector } from 'react-redux';
 import { bootcamp as bootcampList } from 'constant/constant';
 import axios from 'axios';
+import useCheckFileSize from 'constant/useCheckFileSize';
+import useCheckImageExtension from 'constant/useCheckImageExtension';
+import AWS from 'aws-sdk';
 
 const duplicateMsg = ['중복 검사가 필요합니다.', '사용 가능한 닉네임입니다.', '이미 사용중인 닉네임입니다.'];
 
+AWS.config.update({
+  region: process.env.REACT_APP_AWS_REGION,
+  accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+});
+
 function PersonalInfo() {
-  const { nickname, bootcampId /*email, bojId*/ } = useSelector((state: RootState) => state.auth);
+  const isRightFileSize = useCheckFileSize;
+  const isRightCheckImageExtension = useCheckImageExtension;
+  const { nickname, bootcampId /*email, bojId*/, userId } = useSelector((state: RootState) => state.auth);
   const [enteredNickName, setEneteredNickName] = useState(nickname ?? '');
   const [duplicateState, setDuplicateState] = useState(0);
   const [enteredBojId, setEnteredBojId] = useState('');
+  const [isSendCertify, setIsSendCertify] = useState(true);
+  const [fileName, setFileName] = useState<string | undefined>();
   const inputFileRef = useRef<HTMLInputElement>(null);
+
+
+
+  const handleUploadFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const fullName = event.target.value.split('\\').pop() ?? "";
+
+    if (inputFileRef.current && inputFileRef.current.files && inputFileRef.current.files.length > 0) {
+      const imageFile = inputFileRef.current?.files[0];
+      if (!isRightCheckImageExtension(imageFile.name.split('.').pop())) {
+        alert("이미지 파일을 업로드해주세요.");
+        inputFileRef.current.files = null;
+        setFileName("");
+        return ;
+      }
+      if (!isRightFileSize(imageFile.size)) {
+        alert("5MB 이하의 사진을 업로드해주세요.");
+        inputFileRef.current.files = null;
+        setFileName("");
+        return ;
+      }
+      setFileName(fullName);
+      if (fullName?.length > 0) {
+        setIsSendCertify(false);
+      }
+    }
+  }
 
   const handlerNickNameInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEneteredNickName(event.target.value);
@@ -23,7 +62,12 @@ function PersonalInfo() {
 
   // 중복 인증 axios 요청하기, enteredNickName 사용
   const handlerDuplicateNickname = () => {
+    if (enteredNickName.length === 0) {
+      setDuplicateState(0);
+      return ;
+    }
     axios.post(`${process.env.REACT_APP_API_URL}/users/duplication`, { nickname: enteredNickName }).then((res) => {
+      console.log(res)
       if (res.data.message.split(' ')[0] === '이미') {
         setDuplicateState(2);
       } else {
@@ -34,32 +78,44 @@ function PersonalInfo() {
 
   const handelrCertifyCamp = () => {
     // 소속 인증 요청, 로그인 완료 후 뭔가 작업해야 하는듣ㅅ?
-    axios.post(`${process.env.REACT_APP_API_URL}/users/confirm`, {
-      headers: {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('Authorization')}`,
-        },
-      },
-    });
+    const now = new Date();
+    console.log(now.toUTCString());
+    axios.post(`${process.env.REACT_APP_API_URL}/users/confirm`)
+    .then((res) => setIsSendCertify(true))
+    .catch((err) => {setIsSendCertify(false);})
   };
 
-  const handlerSubmitInfo = () => {
+  const handlerSubmitInfo = async () => {
     // 정보 취합하여 올리기 : 닉네임, BOJ 아이디
-    const formdata = new FormData();
-    if (inputFileRef.current?.files) {
-      formdata.append('imgFile', inputFileRef.current?.files[0]);
+    if (duplicateState !== 1) {
+      window.alert('적합한 nickname을 입력해주세요.');
+      return ;
     }
-    formdata.append('bojId', enteredBojId);
-    formdata.append('nickname', enteredNickName);
+
+    const numberOfFile = inputFileRef.current?.files?.length ?? 0;
+
+    if (inputFileRef.current?.files === null || numberOfFile === 0) return;
+    if (!isSendCertify) {
+      window.alert("인증 요청을 눌러주세요!");
+      return ;
+    }
+
+    const now = new Date();
+    const fileNameToUpload = userId + now.toUTCString();
+    const url = await uploadImg(inputFileRef.current?.files, fileNameToUpload);
+
+    console.log("url 결과", await url);
+
+    const request = {
+      nickname: enteredNickName,
+      bojId: enteredBojId,
+      imgUrl: fileNameToUpload,
+    }
 
     axios
-      .put(`${process.env.REACT_APP_API_URL}/users`, formdata, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
+      .put(`${process.env.REACT_APP_API_URL}/users`, request)
       .then((res) => {
-        console.log(res);
+        console.log("성공", res);
       });
   };
 
@@ -69,6 +125,7 @@ function PersonalInfo() {
 
   const handlerUploadBtn = () => {
     inputFileRef.current?.click();
+    console.log(inputFileRef.current?.files);
   };
 
   return (
@@ -103,12 +160,11 @@ function PersonalInfo() {
                 <StyledBold15px as="label" htmlFor="file">
                   인증 사진
                 </StyledBold15px>
-                <StyledInput type="file" id="file" ref={inputFileRef} />
-                <ImgUploadDiv as="div">
-                  <Bold15px as="span">test</Bold15px>
-                  <FileUploadOutlinedIcon
+                <StyledInput type="file" id="file" ref={inputFileRef} onChange={handleUploadFile}/>
+                <ImgUploadDiv as="div" onClick={handlerUploadBtn}>
+                  <FileInputText as="span">{fileName}</FileInputText>
+                  <StyledFileUploadOutlinedIcon
                     sx={{ marginRight: 1, color: colors.TEXT_NORMAL }}
-                    onClick={handlerUploadBtn}
                     className="icon"
                   />
                 </ImgUploadDiv>
@@ -142,14 +198,37 @@ function PersonalInfo() {
   );
 }
 
+const uploadImg = async (files: FileList | undefined, name: string) => {
+  if (!files) return;
+  const imageFile = files[0];
+
+  console.log("선택된 이미지", imageFile.name);
+  const uploadToS3 = new AWS.S3.ManagedUpload({
+    params: {
+        Bucket: process.env.REACT_APP_AWS_BUCKER || 'default-bucket-name', // 버킷 이름
+        Key: `certifyCamp/${name}.png`, 
+        Body: imageFile, 
+    },
+  })
+
+  const result = await uploadToS3.promise();
+  try {
+    console.log(result);
+    return result;
+  } catch (err) {
+    console.error("Error uploading image:", err);
+  }
+}
+
+
 const WarpperStyledPersonalInfo = styled.div`
   height: 800px;
   display: flex;
   align-items: center;
 
-  .icon:hover {
-    color: ${colors.PRIMARY};
-  }
+  /* .icon:hover {
+    color: gold;
+  } */
 `;
 const DuplicateCheckMsg = styled(Normal15px)<{ type: number }>`
   position: absolute;
@@ -165,6 +244,11 @@ const DuplicateCheckMsg = styled(Normal15px)<{ type: number }>`
   }};
 `;
 
+const StyledFileUploadOutlinedIcon = styled(FileUploadOutlinedIcon)`
+  &:hover {
+    color: ${colors.SECONDARY};
+  }
+`
 const StyledPersonalInfo = styled.div`
   margin: auto;
   min-width: 800px;
@@ -175,6 +259,13 @@ const StyledPersonalInfo = styled.div`
   background-color: ${colors.BACKGROUND_LIGHT};
   border-radius: 25px;
 `;
+
+const FileInputText = styled(Bold15px)`
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+`
 
 const StyledForm = styled.form`
   display: flex;
@@ -252,6 +343,10 @@ const StyledInput = styled.input`
 
 const StyledLightBtn = styled(LightBtn)`
   margin: 29.5px 0;
+
+  &:focus {
+    color: black !important;
+  }
 `;
 
 const InvisibileLightBtn = styled(StyledLightBtn)`
