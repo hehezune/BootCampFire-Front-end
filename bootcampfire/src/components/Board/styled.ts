@@ -136,7 +136,7 @@ export const LightBtn = styled(Bold15px)<{ type: string }>`
 `;
 
 
-export const StrongBtn = styled(Bold18px)<{type: string}>`
+export const StrongBtn = styled(Bold18px)<{type: string, black?: boolean}>`
 
 ${(props) => props.type === "first" ?
     `background-color: ${colors.PRIMARY};
@@ -155,4 +155,6 @@ ${(props) => props.type === "first" ?
   border-radius: 10px;
   gap: 10px;
   height: 38px;
+  color: ${(props) => props.black ? colors.TEXT_NORMAL : ""} !important;
+  border-color: ${(props) => props.black ? colors.TEXT_LIGHT : ""} !important;
 `;

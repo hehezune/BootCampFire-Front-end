@@ -27,7 +27,7 @@ import ManageModify from 'pages/ManagerPage/ManageModify';
 
 export default function App() {
   return (
-    <div>
+    <div className="asfdassfasdfasdfasdfsafd">
       <Provider store={store}>
         <Header />
         <main>

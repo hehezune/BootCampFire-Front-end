@@ -9,11 +9,11 @@ const MainContainer = styled(StyledPage)`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 100%;
+  /* width: 100%; */
 `;
 
 const BoardDiv = styled.div`
-  margin-left: 100;
+  margin: auto;
   width: 100%;
   max-width: 800px;
 `;
