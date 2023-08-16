@@ -48,10 +48,12 @@ function Comments({boardId, comments}: {boardId: number, comments: Comment[]}) {
 
         console.log(newComment)
         // 백으로 요청 보내기
+        console.log("헤더 확인", header)
         axios.post(`${process.env.REACT_APP_API_URL}/comments`,
-            newComment).then((res) => {
+            newComment, header).then((res) => {
                 if (res.data.message === "success") {
-                    axios.get(`${process.env.REACT_APP_API_URL}/comments/list/` + boardId, header)
+                    const accessToken = localStorage.getItem("Authorization");
+                    axios.get(`${process.env.REACT_APP_API_URL}/comments/list/` + boardId)
                     .then((res) => {
                         const comments = res.data.data as Comment[];
                         dispatch(getComments({comments, boardId}));

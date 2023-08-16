@@ -33,6 +33,7 @@ interface BoardDate {
 function BoardDetailBody({boardDetail, setLike}:{boardDetail: BoardDetail, setLike: React.Dispatch<React.SetStateAction<boolean>>}) {
     const header = useGetHeader();
     const commentCnt = useSelector((state: RootState) => state.comment.commentCnt);
+    const {isAdmin} = useSelector((state: RootState) => state.auth);
     const categoryId = useLocation().state as number;
     const navigate = useNavigate();
     const [isDelete, setIsDelete] = useState(false);
@@ -77,16 +78,16 @@ function BoardDetailBody({boardDetail, setLike}:{boardDetail: BoardDetail, setLi
                 <WrapperDateInfo>
                     <DateInfo data={dateInfoProps}></DateInfo>
                     <div style={{display: 'flex', gap: '15px'}}>
-                    {!boardDetail.isWriter && !isDelete &&
+                    {boardDetail.isWriter && !isDelete &&
                         <LightBtn as="span" type="" onClick={handlerEditBtn}>수정하기</LightBtn>}
-                    {!boardDetail.isWriter && !isDelete && 
+                    {(isAdmin || boardDetail.isWriter) && !isDelete && 
                         <LightBtn as="span" type="" onClick={(event) => setIsDelete(true)}>삭제하기</LightBtn>}
-                    {!boardDetail.isWriter && isDelete &&
+                    {(isAdmin || boardDetail.isWriter) && boardDetail.isWriter && isDelete &&
                         <LightBtn as="span" type="first">정말 삭제하시겠습니까? 
                         </LightBtn>}
-                    {!boardDetail.isWriter && isDelete &&
+                    {(isAdmin || boardDetail.isWriter) && boardDetail.isWriter && isDelete &&
                         <StyledNormal15px as="span" onClick={handlerDeleteBtn}>네</StyledNormal15px>}
-                    {!boardDetail.isWriter && isDelete &&
+                    {(isAdmin || boardDetail.isWriter) && boardDetail.isWriter && isDelete &&
                         <StyledNormal15px as="span" onClick={(event) => setIsDelete(false)}>아니오</StyledNormal15px>}                    
                     </div>
                 </WrapperDateInfo>

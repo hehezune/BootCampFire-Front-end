@@ -11,7 +11,7 @@ import axios from 'axios';
 import { Board } from 'components/Board/interface';
 import useIntersect from 'components/Board/BoardList/useIntersect';
 import LoginModal from 'components/Login/LoginModal';
-
+import useGetHeader from 'constant/useGetHeader';
 const API_URL = `${process.env.REACT_APP_API_URL}/categories`;
 const accesToken = localStorage.getItem('Authorization');
 
@@ -53,6 +53,7 @@ function BoardListPage() {
     // sort 및 selectCategory 변화에 따른 반영
     useEffect(() => {
         const completeURL = API_URL + `/${selectCategory}` + getURLBySort(sort);
+        console.log("번호 확인", selectCategory)
         getDataFromAPI(0, completeURL).then((res) => setBoardListData(res.content));
         setUrl(completeURL);
         setHasNext(true);
@@ -125,7 +126,8 @@ const getDataFromAPI = async (pageCount: number, url: string) => {
     const response = await axios.get(`${url}?page=${pageCount}&size=5`, {
         headers: {
             Authorization: `Bearer ${accesToken}`,
-        }
+        },
+        withCredentials : true
     });
     console.log(response)
     return response.data.data;

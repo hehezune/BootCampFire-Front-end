@@ -16,17 +16,19 @@ import { getComments, modifyComment } from 'store/commentSlice';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import type { RootState } from 'store';
+import useGetHeader from 'constant/useGetHeader';
 
 const [NORMAL, REPLY, EDIT, DEL] = [0, 1, 2, 3];
-const TEST_USERID = 1;
 
 function CommentCard({data, boardId, idx}: {data: Comment, boardId: number, idx: number}) {
+    const header = useGetHeader();
     const [activeInputType, setActiveInputType] = useState(NORMAL)
     const [isAnonymous, setIsAnonymous] = useState(false);
     const [editComment, setEditComment] = useState(data.content);
-    const {isLoggedIn, userId, nickname, bootcampName} = useSelector((state: RootState) => state.auth);
+    const {isLoggedIn, userId, nickname, bootcampName, isAdmin} = useSelector((state: RootState) => state.auth);
+    const {commentList} = useSelector((state: RootState) => state.comment);
     const dispatch = useDispatch();
-    
+
     const handlerEditComment = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEditComment(event.target.value);
     }
@@ -85,7 +87,7 @@ function CommentCard({data, boardId, idx}: {data: Comment, boardId: number, idx:
 
     const handlerReplySubmitBtn = (input : string) => {
         if (input.length === 0) {
-            window.alert("입력하고눌르셈");
+            window.alert("댓글을 입력해주세요");
             return ;
         }
 
@@ -93,18 +95,16 @@ function CommentCard({data, boardId, idx}: {data: Comment, boardId: number, idx:
             anonymous: isAnonymous,
             boardId: boardId,
             content: input,
-            preCommentId: data.id,
+            preCommentId: getIdByRef(data.ref, commentList),
             userId,
         }
 
-        axios.post(`${process.env.REACT_APP_API_URL}/comments`, replyComment)
+        axios.post(`${process.env.REACT_APP_API_URL}/comments`, replyComment, header)
         .then((res) => {
             if (res.data.message === "success") {
                 setActiveInputType(NORMAL);
                 axios.get(`${process.env.REACT_APP_API_URL}/comments/list/` + boardId)
-                .then((res) => {
-
-                    dispatch(getComments({comments: res.data.data as Comment[], boardId: boardId}))})
+                .then((res) => {dispatch(getComments({comments: res.data.data as Comment[], boardId: boardId}))})
             }
         })
     }
@@ -118,18 +118,18 @@ function CommentCard({data, boardId, idx}: {data: Comment, boardId: number, idx:
                 <CommentWriter>
                     <div style={{display: 'flex', gap: '15px', alignItems: 'center'}}>
 
-                    <Bold15px>{isAnonymous ? "익명" : data.user}</Bold15px>
-                    <A2>{isAnonymous ? "익명 캠프 ": data.bootcamp}</A2>
+                    <Bold15px>{activeInputType === EDIT && isAnonymous ? "익명" : data.user}</Bold15px>
+                    <A2>{activeInputType === EDIT && isAnonymous ? "익명의 캠프" : data.bootcamp}</A2>
                     {data.isWriter &&  <Normal15px style={{color: colors.PRIMARY}}>작성자</Normal15px>}
                     </div>
                     <div style={{display: 'flex', gap: '15px'}}>
 
                     {/* 우측에 위치해야할 친구들 */}
-                    {isLoggedIn && data.isWriter && activeInputType === NORMAL && <ModeEditOutlineOutlinedIcon onClick={handlerSetEditBtn} sx={{color: colors.TEXT_LIGHT}}/>}
-                    {isLoggedIn && data.isWriter && activeInputType === NORMAL && <CloseOutlinedIcon onClick={handlerSetDelBtn} sx={{color: colors.TEXT_LIGHT}}/>}
-                    {data.isWriter && activeInputType === EDIT && <CloseOutlinedIcon onClick={handlerCancelEditBtn} sx={{color: colors.TEXT_LIGHT}}/>}
-                    {data.isWriter && activeInputType === DEL && <LightBtn as="span" type="" onClick={handlerConfirmDelBtn}>삭제 확인</LightBtn>}
-                    {data.isWriter && activeInputType === DEL && <LightBtn as="span" type="" onClick={handlerCancelDelBtn}>삭제 취소</LightBtn>}
+                    {data.user === nickname && activeInputType === NORMAL && <ModeEditOutlineOutlinedIcon onClick={handlerSetEditBtn} sx={{color: colors.TEXT_LIGHT}}/>}
+                    {(isAdmin || (data.user === nickname)) && activeInputType === NORMAL && <CloseOutlinedIcon onClick={handlerSetDelBtn} sx={{color: colors.TEXT_LIGHT}}/>}
+                    {data.user === nickname && activeInputType === EDIT && <CloseOutlinedIcon onClick={handlerCancelEditBtn} sx={{color: colors.TEXT_LIGHT}}/>}
+                    {(isAdmin || (data.user === nickname)) && activeInputType === DEL && <LightBtn as="span" type="" onClick={handlerConfirmDelBtn}>삭제 확인</LightBtn>}
+                    {(isAdmin || (data.user === nickname)) && activeInputType === DEL && <LightBtn as="span" type="" onClick={handlerCancelDelBtn}>삭제 취소</LightBtn>}
                     </div>
 
                 </CommentWriter>
@@ -254,4 +254,13 @@ const StyledInput = styled.input`
         border: 1.5px solid ${colors.PRIMARY};
     }
 `
+
+const getIdByRef = (ref: number, commentList: Comment[]) => {
+    for (const comment of commentList) {
+        if (comment.ref === ref && comment.refOrder === 0) {
+            return comment.id;
+        }
+    }
+}
+
 export default CommentCard;
