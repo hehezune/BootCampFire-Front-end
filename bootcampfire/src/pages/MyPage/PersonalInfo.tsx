@@ -36,7 +36,9 @@ function PersonalInfo() {
     // 소속 인증 요청, 로그인 완료 후 뭔가 작업해야 하는듣ㅅ?
     axios.post(`${process.env.REACT_APP_API_URL}/users/confirm`, {
       headers: {
-        headers: { Authorization: `Bearer ${localStorage.getItem('Authorization')}` },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('Authorization')}`,
+        },
       },
     });
   };

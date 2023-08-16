@@ -1,14 +1,14 @@
-import { configureStore } from '@reduxjs/toolkit';
-import authReducer from './authSlice';
-import selectSliceReducer from './selectSlice';
-import searchReducer from './searchSlice';
-import commentReducer from './commentSlice';
-import { Comment } from 'components/Board/interface';
-import loginSelectSliceReducer from './loginSelectSlice';
-import bootcampListSlice from './bootcampListSlice';
-import programmingSlice from './programmingSlice';
-import vsSlice from './vsSlice';
-import bootcampSimpleListSlice from './bootcampSimpleListSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import authReducer from "./authSlice";
+import selectSliceReducer from "./selectSlice";
+import searchReducer from "./searchSlice";
+import commentReducer from "./commentSlice";
+import { Comment } from "components/Board/interface";
+import loginSelectSliceReducer from "./loginSelectSlice";
+import bootcampListSlice from "./bootcampListSlice";
+import programmingSlice from "./programmingSlice";
+import vsSlice from "./vsSlice";
+import bootcampSimpleListSlice from "./bootcampSimpleListSlice";
 
 export interface RootState {
   auth: {
@@ -21,9 +21,7 @@ export interface RootState {
     bootcampName: string;
   };
 
-  select : {  
-
-
+  select: {
     trackList: { name: string; isOn: boolean }[];
     regionList: { name: string; isOn: boolean }[];
     etcList: { name: string; isOn: boolean }[];
@@ -65,15 +63,13 @@ export interface RootState {
     dropBoxidx: number;
     bootSearch: string;
   };
-  vs : {
-    GameRank10 : gameRank[];
-    myGameRank : gameRank;
-  
-
+  vs: {
+    GameRank10: gameRank[];
+    myGameRank: gameRank;
   };
   bootcampInfo: {
     bootcampInfo: BootcampInfoItem[];
-  }
+  };
 }
 const store = configureStore({
   reducer: {
@@ -109,14 +105,13 @@ interface BootcampItem {
 }
 
 interface gameRank {
-
-  userNickname : string;
-  bootcampName : string;
-  score : number;
-  rank : number;
+  userNickname: string;
+  bootcampName: string;
+  score: number;
+  rank: number;
 }
 
 interface BootcampInfoItem {
-  id: number;
-  name: string;
+  bootcampId: number;
+  bootcampName: string;
 }

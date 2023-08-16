@@ -1,25 +1,24 @@
-import styled from "styled-components";
-import { useState } from "react";
-import axios from "axios";
-import  { Checkbox, Rating, TextField, Button } from "@mui/material";
-import { styled as styled2  } from '@mui/material/styles';
-import { useNavigate } from "react-router-dom";
-import { RootState } from "store";
-import { useSelector } from "react-redux";
+import styled from 'styled-components';
+import { useState } from 'react';
+import axios from 'axios';
+import { Checkbox, Rating, TextField, Button } from '@mui/material';
+import { styled as styled2 } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+import { RootState } from 'store';
+import { useSelector } from 'react-redux';
 
-const ReviewCreate: React.FC<BootCampReviewProps> = ({review}) => {
-
+const ReviewCreate: React.FC<BootCampReviewProps> = ({ review }) => {
   const { userId, bootcampId } = useSelector((state: RootState) => state.auth);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    userId : userId,
-    bootcampId : bootcampId,
-    backUp : review.backUp,
-    mood : review.mood,
-    management : review.management,
-    curriculum : review.curriculum,
-    potential : review.potential,
+    userId: userId,
+    bootcampId: bootcampId,
+    backUp: review.backUp,
+    mood: review.mood,
+    management: review.management,
+    curriculum: review.curriculum,
+    potential: review.potential,
     tip: review.tip,
     good: review.good,
     bad: review.bad,
@@ -47,200 +46,275 @@ const ReviewCreate: React.FC<BootCampReviewProps> = ({review}) => {
       bad: formData.bad,
       isRecommend: formData.is_recommend,
     };
-  
+
     if (review.id) {
       axios
         .put(`${process.env.REACT_APP_API_URL}/reviews/${bootcampId}/${review.id}`, postData)
         .then((response) => {
-          console.log("리뷰 수정이 완료되었습s니다.");
+          console.log('리뷰 수정이 완료되었습s니다.');
           setTimeout(() => {
             window.location.reload();
           }, 300); // 0.3초 후에 리로드
-        
-
         })
-        .catch((error) => {console.error("리뷰 수정 중 오류가 발생했습니다.", error);});
+        .catch((error) => {
+          console.error('리뷰 수정 중 오류가 발생했습니다.', error);
+        });
     } else {
       axios
         .post(`${process.env.REACT_APP_API_URL}/reviews/${bootcampId}`, postData)
         .then((response) => {
-          console.log("리뷰 작성이 완료되었습니다.");
+          console.log('리뷰 작성이 완료되었습니다.');
           setTimeout(() => {
             window.location.reload();
           }, 300); // 0.3초 후에 리로드
         })
-        .catch((error) => {console.error("리뷰 작성 중 오류가 발생했습니다.", error);});
+        .catch((error) => {
+          console.error('리뷰 작성 중 오류가 발생했습니다.', error);
+        });
     }
   };
 
   const handleDelete = () => {
-    axios.delete(`${process.env.REACT_APP_API_URL}/reviews/${bootcampId}/${review.id}`)
-  .then((response) => {
-    console.log("리뷰가 삭제되었습니다.");
-    setTimeout(() => {
-      window.location.reload();
-    }, 300); // 0.3초 후에 리로드
+    axios
+      .delete(`${process.env.REACT_APP_API_URL}/reviews/${bootcampId}/${review.id}`)
+      .then((response) => {
+        console.log('리뷰가 삭제되었습니다.');
+        setTimeout(() => {
+          window.location.reload();
+        }, 300); // 0.3초 후에 리로드
+      })
+      .catch((error) => {
+        console.error('리뷰 삭제 중 오류가 발생했습니다.', error);
+      });
+  };
 
-  })
-  .catch((error) => {console.error("리뷰 삭제 중 오류가 발생했습니다.", error);});
-  }
-
-return (
+  return (
     <>
-    <TabBox>
-    <HorizontalTabDivs>          
-      <VerticalDivs1>
-        <RatingStar label="복지" value={formData.backUp}
-          onChange={(newValue) => setFormData((prevFormData) => ({ ...prevFormData, backUp: newValue }))}
-        />
-        <RatingStar label="분위기" value={formData.mood} 
-          onChange={(newValue) => setFormData((prevFormData) => ({ ...prevFormData, mood: newValue }))}
-        />
-        <RatingStar label="운영진" value={formData.management}
-          onChange={(newValue) => setFormData((prevFormData) => ({ ...prevFormData, management: newValue }))}
-        />
-        <RatingStar label="커리큘럼" value={formData.curriculum}
-          onChange={(newValue) => setFormData((prevFormData) => ({ ...prevFormData, curriculum: newValue }))}
-        />
-        <RatingStar label="성장가능성" value={formData.potential}
-          onChange={(newValue) => setFormData((prevFormData) => ({ ...prevFormData, potential: newValue }))}
-        />
-      </VerticalDivs1>
-      <VerticalDivs2>
-        {createTextField('팁', formData.tip, (newValue) => setFormData((prevFormData) => ({ ...prevFormData, tip: newValue })))}
-        {createTextField('장점', formData.good, (newValue) => setFormData((prevFormData) => ({ ...prevFormData, good: newValue })))}
-        {createTextField('단점', formData.bad, (newValue) => setFormData((prevFormData) => ({ ...prevFormData, bad: newValue })))}
-        <SubDiv>
-          <HorizontalDivs2>
-            <HorizontalDivs>
-              <Text2>지인에게 추천 : <Checkbox id="is-recommend-checkbox" checked={formData.is_recommend}
-              color="default" onChange={handleRecommendChange}/></Text2>
-            </HorizontalDivs>
-            <HorizontalDivs>
-              {!review.id && <Button variant="outlined" color="error" onClick={handleSubmit}><Text2>작성하기</Text2></Button>}
-              {review.id && <>
-              <Button variant="outlined" color="error" onClick={handleSubmit}><Text2>수정하기</Text2></Button>
-              <Button variant="outlined" color="error" onClick={handleDelete}><Text2>삭제하기</Text2></Button>
-              </>}
-            </HorizontalDivs>
-          </HorizontalDivs2>
-        </SubDiv>
-      </VerticalDivs2>
-    </HorizontalTabDivs>
-    </TabBox>
+      <TabBox>
+        <HorizontalTabDivs>
+          <VerticalDivs1>
+            <RatingStar
+              label="복지"
+              value={formData.backUp}
+              onChange={(newValue) => setFormData((prevFormData) => ({ ...prevFormData, backUp: newValue }))}
+            />
+            <RatingStar
+              label="분위기"
+              value={formData.mood}
+              onChange={(newValue) => setFormData((prevFormData) => ({ ...prevFormData, mood: newValue }))}
+            />
+            <RatingStar
+              label="운영진"
+              value={formData.management}
+              onChange={(newValue) => setFormData((prevFormData) => ({ ...prevFormData, management: newValue }))}
+            />
+            <RatingStar
+              label="커리큘럼"
+              value={formData.curriculum}
+              onChange={(newValue) => setFormData((prevFormData) => ({ ...prevFormData, curriculum: newValue }))}
+            />
+            <RatingStar
+              label="성장가능성"
+              value={formData.potential}
+              onChange={(newValue) => setFormData((prevFormData) => ({ ...prevFormData, potential: newValue }))}
+            />
+          </VerticalDivs1>
+          <VerticalDivs2>
+            {createTextField('팁', formData.tip, (newValue) =>
+              setFormData((prevFormData) => ({ ...prevFormData, tip: newValue }))
+            )}
+            {createTextField('장점', formData.good, (newValue) =>
+              setFormData((prevFormData) => ({ ...prevFormData, good: newValue }))
+            )}
+            {createTextField('단점', formData.bad, (newValue) =>
+              setFormData((prevFormData) => ({ ...prevFormData, bad: newValue }))
+            )}
+            <SubDiv>
+              <HorizontalDivs2>
+                <HorizontalDivs>
+                  <Text2>
+                    지인에게 추천 :{' '}
+                    <Checkbox
+                      id="is-recommend-checkbox"
+                      checked={formData.is_recommend}
+                      color="default"
+                      onChange={handleRecommendChange}
+                    />
+                  </Text2>
+                </HorizontalDivs>
+                <HorizontalDivs>
+                  {!review.id && (
+                    <Button variant="outlined" color="error" onClick={handleSubmit}>
+                      <Text2>작성하기</Text2>
+                    </Button>
+                  )}
+                  {review.id && (
+                    <>
+                      <Button variant="outlined" color="error" onClick={handleSubmit}>
+                        <Text2>수정하기</Text2>
+                      </Button>
+                      <Button variant="outlined" color="error" onClick={handleDelete}>
+                        <Text2>삭제하기</Text2>
+                      </Button>
+                    </>
+                  )}
+                </HorizontalDivs>
+              </HorizontalDivs2>
+            </SubDiv>
+          </VerticalDivs2>
+        </HorizontalTabDivs>
+      </TabBox>
     </>
-)
-}
+  );
+};
 
 const TabBox = styled.div`
-box-sizing: border-box; width: 100%;
-background: #FFF9F9; border: 1px solid #FF603D; border-radius: 24px;`;
+  box-sizing: border-box;
+  width: 100%;
+  background: #fff9f9;
+  border: 1px solid #ff603d;
+  border-radius: 24px;
+`;
 
 const VerticalDivs1 = styled.div`
-flex: 2; display: flex; flex-direction: column; width: 100%; margin: 10px`;
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 10px;
+`;
 
 const VerticalDivs2 = styled.div`
-flex: 5; display: flex; flex-direction: column; width: 100%; margin: 10px`;
+  flex: 5;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 10px;
+`;
 
 const HorizontalTabDivs = styled.div`
-display: flex; flex-direction: row; margin:10px`;
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+`;
 
 const HorizontalDivs = styled.div`
-display: flex; flex-direction: row;`;
+  display: flex;
+  flex-direction: row;
+`;
 
 const HorizontalDivs2 = styled.div`
-display: flex; flex-direction: row; justify-content: space-between;
-margin-right:100px`;
-
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-right: 100px;
+`;
 
 const SubDivStar = styled.div`margin 4px 30px;`;
 
 const SubDiv = styled.div`margin 20px;`;
 
 const Text1 = styled.div`
-font-family: 'DM Sans'; font-style: normal; font-weight: 700;
-font-size: 18px; line-height: 38px; color: #290E08;
-text-align: center;`;
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 38px;
+  color: #290e08;
+  text-align: center;
+`;
 
 const Text2 = styled.div`
-font-family: 'DM Sans'; font-style: normal; font-weight: 700;
-font-size: 18px; line-height: 38px; margin: 5px`;
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 38px;
+  margin: 5px;
+`;
 
 const FireC = styled.div`
-display: flex;justify-content: center;align-items: center; margin-bottom: 5px;`;
-const Fire = styled.img`width: 32px;`;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5px;
+`;
+const Fire = styled.img`
+  width: 32px;
+`;
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
-
 const StyledRating = styled2(Rating)({
-    '& .MuiRating-iconFilled': {
-      color: '#ff6d75',
-    },
-    '& .MuiRating-iconHover': {
-      color: '#ff3d47',
-    },
-  });
+  '& .MuiRating-iconFilled': {
+    color: '#ff6d75',
+  },
+  '& .MuiRating-iconHover': {
+    color: '#ff3d47',
+  },
+});
 
-  type RatingStarProps = {
-    label: string;
-    value: number;
-    onChange: (newValue: number) => void;
-  };
-  const RatingStar: React.FC<RatingStarProps> = ({ label, value, onChange }) => {
-    return (
-      <SubDivStar>
-        <Text1>{label}</Text1>
-        <FireC>
-          <StyledRating
-            name="customized-color"
-            value={value}
-            getLabelText={(value: number) => `${value} Heart${value !== 1 ? 's' : ''}`}
-            precision={1}
-            icon={<Fire src="/firewood_fill.png" alt="Firewood_empty" />}
-            emptyIcon={<Fire src="/firewood_empty.png" alt="Firewood_empty" />}
-            onChange={(event, newValue) => onChange(newValue !== null ? newValue : 0)}
-          />
-        </FireC>
-      </SubDivStar>
-    );
-  };
-
-
-  const createTextField = (label: string, value: string, onChange: (newValue: string) => void) => (
-    <SubDiv>
-      <Text2>{label}</Text2>
-      <TextField id="standard-multiline-flexible" value={value} fullWidth multiline variant="outlined"
-        onChange={(event) => {
-          const newValue = event.target.value;
-          onChange(newValue);
-        }}
-      />
-    </SubDiv>
+type RatingStarProps = {
+  label: string;
+  value: number;
+  onChange: (newValue: number) => void;
+};
+const RatingStar: React.FC<RatingStarProps> = ({ label, value, onChange }) => {
+  return (
+    <SubDivStar>
+      <Text1>{label}</Text1>
+      <FireC>
+        <StyledRating
+          name="customized-color"
+          value={value}
+          getLabelText={(value: number) => `${value} Heart${value !== 1 ? 's' : ''}`}
+          precision={1}
+          icon={<Fire src="/firewood_fill.png" alt="Firewood_empty" />}
+          emptyIcon={<Fire src="/firewood_empty.png" alt="Firewood_empty" />}
+          onChange={(event, newValue) => onChange(newValue !== null ? newValue : 0)}
+        />
+      </FireC>
+    </SubDivStar>
   );
+};
 
+const createTextField = (label: string, value: string, onChange: (newValue: string) => void) => (
+  <SubDiv>
+    <Text2>{label}</Text2>
+    <TextField
+      id="standard-multiline-flexible"
+      value={value}
+      fullWidth
+      multiline
+      variant="outlined"
+      onChange={(event) => {
+        const newValue = event.target.value;
+        onChange(newValue);
+      }}
+    />
+  </SubDiv>
+);
 
 export default ReviewCreate;
 
 interface BootCampReviewProps {
-    review: ReviewItem;
-  }
-  interface ReviewItem {
-    id: number;
-    user: string;
-    bootcampName: string;
-    tip: string;
-    good: string;
-    bad: string;
-    isRecommend: boolean;
-    likeCnt: number;
-    curriculum: number;
-    potential: number;
-    backUp: number;
-    management: number;
-    mood: number;
-    score: number;
-    createdDate: Date;
-    isAlreadyReviewLike: boolean;
-  }
-  
+  review: ReviewItem;
+}
+interface ReviewItem {
+  id: number;
+  user: string;
+  bootcampName: string;
+  tip: string;
+  good: string;
+  bad: string;
+  isRecommend: boolean;
+  likeCnt: number;
+  curriculum: number;
+  potential: number;
+  backUp: number;
+  management: number;
+  mood: number;
+  score: number;
+  createdDate: Date;
+  isAlreadyReviewLike: boolean;
+}

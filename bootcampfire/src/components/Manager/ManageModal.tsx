@@ -17,6 +17,7 @@ export const ManageModal: React.FC<ManageModalProps> = (props) => {
   const infos = useSelector((state: RootState) => state.bootcampInfo);
 
   const onAccess = () => {
+    console.log(bootcamp);
     axios.put(
       `${process.env.REACT_APP_API_URL}/users/admin/permission/${props.userId}`,
       { bootcampId: bootcamp.valueOf() },
@@ -63,7 +64,7 @@ export const ManageModal: React.FC<ManageModalProps> = (props) => {
               label="Bootcamp"
               onChange={handleChange}>
               {infos.bootcampInfo.map((row) => (
-                <MenuItem value={row.id}>{row.name}</MenuItem>
+                <MenuItem value={row.bootcampId}>{row.bootcampName}</MenuItem>
               ))}
             </Select>
           </FormControl>

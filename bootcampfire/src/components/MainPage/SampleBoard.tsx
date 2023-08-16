@@ -25,19 +25,19 @@ const ContentList = styled.div`
 
 const Container = styled.div`
   width: 40%;
-`
+`;
 const BoardThumbnailTitle = styled.div`
   height: 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-`
+`;
 
-const TitleStart= styled.div`
+const TitleStart = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
-`
+`;
 
 interface createDataProps {
   text: string;
@@ -55,37 +55,34 @@ const SampleBoard: React.FC<createDataProps> = (props) => {
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/categories/${props.index}/main`).then((res) => {
-
       setRows(res.data.data);
     });
-    
   }, []);
 
-
   return (
-      <Container>
-        <BoardThumbnailTitle>
-          <TitleStart>
-        {props.index === 1 && <ChatIcon sx={{color: `${colors.PRIMARY}`, fontSize: '18px'}}/>}
-        {props.index === 2 && <FavoriteIcon sx={{color: `${colors.PRIMARY}`, fontSize: '18px'}}/>}
-        {props.index === 3 && <FitnessCenterIcon sx={{color: `${colors.PRIMARY}`, fontSize: '18px'}}/>}
-        {props.index === 4 && <SupportAgentIcon sx={{color: `${colors.PRIMARY}`, fontSize: '18px'}}/>}
-        {props.index === 5 && <TerminalIcon sx={{color: `${colors.PRIMARY}`, fontSize: '18px'}}/>}
-        {props.index === 6 && <Diversity3Icon sx={{color: `${colors.PRIMARY}`, fontSize: '18px'}}/>}
-        {props.index === 7 && <QuestionMarkIcon sx={{color: `${colors.PRIMARY}`, fontSize: '18px'}}/>}
-        {props.index === 8 && <ComputerIcon sx={{color: `${colors.PRIMARY}`, fontSize: '18px'}}/>}
-        {props.index === 9 && <HomeIcon sx={{color: `${colors.PRIMARY}`, fontSize: '18px'}}/>}
+    <Container>
+      <BoardThumbnailTitle>
+        <TitleStart>
+          {props.index === 1 && <ChatIcon sx={{ color: `${colors.PRIMARY}`, fontSize: '18px' }} />}
+          {props.index === 2 && <FavoriteIcon sx={{ color: `${colors.PRIMARY}`, fontSize: '18px' }} />}
+          {props.index === 3 && <FitnessCenterIcon sx={{ color: `${colors.PRIMARY}`, fontSize: '18px' }} />}
+          {props.index === 4 && <SupportAgentIcon sx={{ color: `${colors.PRIMARY}`, fontSize: '18px' }} />}
+          {props.index === 5 && <TerminalIcon sx={{ color: `${colors.PRIMARY}`, fontSize: '18px' }} />}
+          {props.index === 6 && <Diversity3Icon sx={{ color: `${colors.PRIMARY}`, fontSize: '18px' }} />}
+          {props.index === 7 && <QuestionMarkIcon sx={{ color: `${colors.PRIMARY}`, fontSize: '18px' }} />}
+          {props.index === 8 && <ComputerIcon sx={{ color: `${colors.PRIMARY}`, fontSize: '18px' }} />}
+          {props.index === 9 && <HomeIcon sx={{ color: `${colors.PRIMARY}`, fontSize: '18px' }} />}
           <Bold18px as="span">{props.text}</Bold18px>
-          </TitleStart>
-          <MoreBtn index={props.index}></MoreBtn>
-        </BoardThumbnailTitle>
-        <div style={{ borderTop: `solid 1px ${colors.TEXT_LIGHT}`, marginBottom: '5px' }} />
-        <ContentList>
-            {rows.map((row) => (
-              <HotContent link={`/BoardDetail/${row.id}`} key={row.id} text={row.title}></HotContent>
-            ))}
-        </ContentList>
-      </Container>
+        </TitleStart>
+        <MoreBtn index={props.index}></MoreBtn>
+      </BoardThumbnailTitle>
+      <div style={{ borderTop: `solid 1px ${colors.TEXT_LIGHT}`, marginBottom: '5px' }} />
+      <ContentList>
+        {rows.map((row) => (
+          <HotContent link={`/BoardDetail/${row.id}`} key={row.id} text={row.title}></HotContent>
+        ))}
+      </ContentList>
+    </Container>
   );
 };
 

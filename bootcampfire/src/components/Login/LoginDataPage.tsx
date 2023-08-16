@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { login } from 'store/authSlice';
 
-
 // // import { NodeJS } from 'timers';
 
 export default function LoginDataPage() {
@@ -24,7 +23,7 @@ export default function LoginDataPage() {
       .get(URL, {
         // params: { token: token },
         headers: { Authorization: `Bearer ${accessToken}` },
-        withCredentials: true,         
+        withCredentials: true,
       })
       .then((res) => {
         if (res.status === 200) {
@@ -45,7 +44,6 @@ export default function LoginDataPage() {
         }
       })
       .catch((res) => {
-        
         console.log(res);
       });
   }, []);
