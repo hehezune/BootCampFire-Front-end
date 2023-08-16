@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 interface registBootCamp {
-  img: string;
+  imgUrl: string;
   id: number;
   nickname: string;
 }
@@ -17,6 +17,7 @@ export default function Regist() {
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/users/admin/permission/list`).then((res) => {
+      console.log(res)
       setRows(res.data.data);
     });
   }, []);
@@ -31,7 +32,7 @@ export default function Regist() {
     <WrapperManageCardContainer className="Wrapper">
       <ManageCardContainer className="Container">
         {rows.map((row) => (
-          <ManageCard id={row.id} img={row.img} nickname={row.nickname}></ManageCard>
+          <ManageCard id={row.id} img={row.imgUrl} nickname={row.nickname}></ManageCard>
         ))}
       </ManageCardContainer>
     </WrapperManageCardContainer>
