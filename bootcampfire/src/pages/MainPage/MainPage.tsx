@@ -8,20 +8,23 @@ import { StyledPage } from 'pages/BoardPage/styledPage';
 const MainContainer = styled(StyledPage)`
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 `;
 
 const BoardDiv = styled.div`
   margin-left: 100;
   width: 100%;
-  max-width: 835px;
+  max-width: 800px;
 `;
 
 const BoardThumbnail = styled.div`
   display: flex;
+  justify-content: space-between;
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
-  gap: 10%;
+  gap: 3%;
 `;
 export default function MainPage() {
   function createData(index: number, img: string, text: string) {
@@ -37,11 +40,10 @@ export default function MainPage() {
     createData(6, '/asd', '스터디'),
     createData(7, '/asd', '질문'),
     createData(8, '/asd', 'IT'),
-    createData(9, '/asd', '내 부트캠프'),
   ];
 
   return (
-    <MainContainer className="asdf">
+    <MainContainer>
       <BoardDiv>
         <MainSearchInput activeTitle={false} />
         <HotBoard />
