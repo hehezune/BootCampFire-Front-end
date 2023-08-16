@@ -1,9 +1,9 @@
-import MissionBar from "../../components/VSGame/MissionBar";
-import axios from "axios";
-import MissionData from "components/VSGame/MissionData";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "store";
+import MissionBar from '../../components/VSGame/MissionBar';
+import axios from 'axios';
+import MissionData from 'components/VSGame/MissionData';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
 interface bootcampList {
   id: number;
   name: string;
@@ -35,7 +35,7 @@ export default function MissionPage() {
   const [myFastBootCamps, setMyFastBootCamps] = useState<myFastBootCampList>();
   const [manyBootCamps, setManyBootCamps] = useState<manyBootCampList[]>([]);
   const [myManyBootCamps, setMyManyBootCamps] = useState<myManyBootCampList>();
-  const accessToken = localStorage.getItem("Authorization");
+  const accessToken = localStorage.getItem('Authorization');
 
   useEffect(() => {
     axios
@@ -49,16 +49,12 @@ export default function MissionPage() {
         setBootcamps(res.data.data);
       });
 
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/algorithms/algo-fifty`)
-      .then((res) => {
-        setFastBootCamps(res.data.data);
-      });
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/algorithms/algo-many`)
-      .then((res) => {
-        setManyBootCamps(res.data.data);
-      });
+    axios.get(`${process.env.REACT_APP_API_URL}/algorithms/algo-fifty`).then((res) => {
+      setFastBootCamps(res.data.data);
+    });
+    axios.get(`${process.env.REACT_APP_API_URL}/algorithms/algo-many`).then((res) => {
+      setManyBootCamps(res.data.data);
+    });
     axios
       .get(`${process.env.REACT_APP_API_URL}/algorithms/algo-fifty/my-rank`, {
         headers: {
@@ -84,29 +80,28 @@ export default function MissionPage() {
 
   return (
     <div>
-      <h3 style={{ marginTop: "20px" }}>1</h3>
-      <div style={{ display: "flex" }}>
+      <h3 style={{ marginTop: '20px' }}>1</h3>
+      <div style={{ display: 'flex' }}>
         <span>
           <MissionBar />
         </span>
         <span>
-          <div style={{ display: "flex" }}>
+          <div style={{ display: 'flex' }}>
             <MissionData />
           </div>
         </span>
       </div>
-      <div style={{ display: "flex" }}>
-        <span style={{ marginLeft: "auto", marginRight: "auto" }}>
+      <div style={{ display: 'flex' }}>
+        <span style={{ marginLeft: 'auto', marginRight: 'auto' }}>
           <div>가장 불을 먼저 점화시킨 부트 캠프</div>
           <div
             style={{
-              marginTop: "20px",
-              borderBottom: "solid",
-              marginLeft: "auto",
-              color: "#94969B",
-              marginBottom: "20px",
-            }}
-          ></div>
+              marginTop: '20px',
+              borderBottom: 'solid',
+              marginLeft: 'auto',
+              color: '#94969B',
+              marginBottom: '20px',
+            }}></div>
           <table>
             <tbody>
               {fastBootCamps.map((row) => (
@@ -119,16 +114,15 @@ export default function MissionPage() {
             </tbody>
           </table>
         </span>
-        <span style={{ marginLeft: "auto", marginRight: "auto" }}>
+        <span style={{ marginLeft: 'auto', marginRight: 'auto' }}>
           <div>가장 많이 문제를 푼 부트 캠프</div>
           <div
             style={{
-              marginTop: "20px",
-              borderBottom: "solid",
-              marginLeft: "auto",
-              color: "#94969B",
-            }}
-          ></div>
+              marginTop: '20px',
+              borderBottom: 'solid',
+              marginLeft: 'auto',
+              color: '#94969B',
+            }}></div>
           <table>
             <tbody>
               {manyBootCamps.map((row) => (

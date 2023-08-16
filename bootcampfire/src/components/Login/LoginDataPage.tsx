@@ -1,9 +1,9 @@
-import { LocalParking } from "@mui/icons-material";
-import axios from "axios";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { login } from "store/authSlice";
+import { LocalParking } from '@mui/icons-material';
+import axios from 'axios';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { login } from 'store/authSlice';
 
 // // import { NodeJS } from 'timers';
 
@@ -13,11 +13,10 @@ export default function LoginDataPage() {
   const navigate = useNavigate();
   useEffect(() => {
     localStorage.clear();
-    const token =
-      new URLSearchParams(document.location.search).get("token") ?? "";
-    const [accessToken, refreshToken] = token?.split("refresh=");
-    localStorage.setItem("Authorization", accessToken);
-    localStorage.setItem("refreshToken", refreshToken);
+    const token = new URLSearchParams(document.location.search).get('token') ?? '';
+    const [accessToken, refreshToken] = token?.split('refresh=');
+    localStorage.setItem('Authorization', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
     axios
       .get(URL, {
         // params: { token: token },
@@ -25,9 +24,7 @@ export default function LoginDataPage() {
       })
       .then((res) => {
         if (res.status === 200) {
-          axios.defaults.headers.common[
-            "Authorization"
-          ] = `Bearer ${accessToken}`;
+          axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
           console.log(res.data);
           dispatch(
             login({
@@ -38,7 +35,7 @@ export default function LoginDataPage() {
               bootcampId: res.data.data.bootcampId,
             })
           );
-          navigate("/");
+          navigate('/');
         }
       })
       .catch((res) => {
