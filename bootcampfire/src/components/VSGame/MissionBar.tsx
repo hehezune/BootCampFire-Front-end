@@ -19,9 +19,8 @@ interface MissionBarData {
   img: string;
 }
 
-interface bootcampData {
+interface myBootCampRank {
   algoCnt: string;
-  bootcampName: string;
 }
 
 function LinearProgressWithLabel(
@@ -48,7 +47,7 @@ function LinearProgressWithLabel(
   );
 }
 
-export default function MissionBar(props: bootcampData) {
+export default function MissionBar(props: myBootCampRank) {
   const initialMissionData: MissionBarData = {
     num: 0,
     img: "step0_campfire.png",
@@ -57,39 +56,34 @@ export default function MissionBar(props: bootcampData) {
     React.useState<MissionBarData>(initialMissionData);
 
   React.useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress((prevProgress: MissionBarData) => {
-        if (prevProgress.num >= 90) {
-          return {
-            num: 100,
-            img: "step4_campfire.png",
-          };
-        } else if (prevProgress.num >= 75) {
-          return {
-            num: prevProgress.num + 10,
-            img: "step3_campfire.png",
-          };
-        } else if (prevProgress.num >= 50) {
-          return {
-            num: prevProgress.num + 10,
-            img: "step2_campfire.png",
-          };
-        } else if (prevProgress.num >= 25) {
-          return {
-            num: prevProgress.num + 10,
-            img: "step1_campfire.png",
-          };
-        } else {
-          return {
-            num: prevProgress.num + 10,
-            img: "step0_campfire.png",
-          };
-        }
-      });
-    }, 1000);
-    return () => {
-      clearInterval(timer);
-    };
+    setProgress(() => {
+      if (parseInt(props.algoCnt) >= 50) {
+        return {
+          num: 100,
+          img: "step4_campfire.png",
+        };
+      } else if (parseInt(props.algoCnt) >= 35) {
+        return {
+          num: parseInt(props.algoCnt) * 2,
+          img: "step3_campfire.png",
+        };
+      } else if (parseInt(props.algoCnt) >= 17) {
+        return {
+          num: parseInt(props.algoCnt) * 2,
+          img: "step2_campfire.png",
+        };
+      } else if (parseInt(props.algoCnt) > 0) {
+        return {
+          num: parseInt(props.algoCnt) * 2,
+          img: "step1_campfire.png",
+        };
+      } else {
+        return {
+          num: 0,
+          img: "step0_campfire.png",
+        };
+      }
+    });
   }, []);
 
   return (

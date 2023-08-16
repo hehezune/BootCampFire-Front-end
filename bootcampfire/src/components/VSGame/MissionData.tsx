@@ -1,10 +1,12 @@
 import axios from "axios";
 import { LightBtn } from "components/Board/styled";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
 import Alert from "@mui/material/Alert";
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { error } from "store/errorSlice";
 interface missionData {
   id: number;
   num: number;
@@ -12,6 +14,11 @@ interface missionData {
   title: string;
   description: string;
   date: string;
+}
+
+interface ErrorMsg {
+  err: string;
+  msg: string;
 }
 
 // interface missionResult {
@@ -27,7 +34,7 @@ const MissionData = () => {
   const accessToken = localStorage.getItem("Authorization");
   const [isErrorTrue, setError] = useState("none");
   const [isSuccessTrue, setSuccess] = useState("none");
-
+  const navigate = useNavigate();
   const isSolved = () => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/algorithms/${algorithm.num}`, {
@@ -41,6 +48,17 @@ const MissionData = () => {
           setSuccess("");
         } else setError("");
       });
+  };
+
+  const dispatch = useDispatch();
+  const isError = () => {
+    dispatch(
+      error({
+        errorMsg: "하이",
+        msg: "하이",
+      })
+    );
+    navigate("/ErrorPage");
   };
   useEffect(() => {
     axios
@@ -103,12 +121,24 @@ const MissionData = () => {
           }}
           onClick={isSolved}
         >
-          알고리즘 풀었습니다!
+          알고리즘 확인받기!
         </LightBtn>
       </span>
-
+      <span>
+        <LightBtn
+          type=""
+          style={{
+            marginTop: "20px",
+            justifyContent: "right",
+            marginRight: "auto",
+          }}
+          onClick={isError}
+        >
+          에러페이지 확인
+        </LightBtn>
+      </span>
       <Alert severity="error" sx={{ display: isErrorTrue }}>
-        알고리즘을 풀지 않으셨어요
+        알고리즘을 풀지 않으셨거나 이미 등록하셨어요
       </Alert>
       <Alert severity="success" sx={{ display: isSuccessTrue }}>
         참여해주셔서 감사합니다

@@ -50,23 +50,13 @@ export default function MissionPage() {
     useState<myManyBootCampList>(initialMyManyData);
   const accessToken = localStorage.getItem("Authorization");
 
+  const [isFastInclude, setFastInclude] = useState("none");
+  const [isManyInclude, setManyInclude] = useState("none");
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/bootcamps/lists/names`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        withCredentials: true,
-      })
-      .then((res) => {
-        setBootcamps(res.data.data);
-      });
-
     axios
       .get(`${process.env.REACT_APP_API_URL}/algorithms/algo-fifty`)
       .then((res) => {
         setFastBootCamps(res.data.data);
-        console.log("이거임", res);
       });
     axios
       .get(`${process.env.REACT_APP_API_URL}/algorithms/algo-many`)
@@ -74,6 +64,16 @@ export default function MissionPage() {
         setManyBootCamps(res.data.data);
       });
     if (isLoggedIn) {
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/bootcamps/lists/names`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          withCredentials: true,
+        })
+        .then((res) => {
+          setBootcamps(res.data.data);
+        });
       axios
         .get(`${process.env.REACT_APP_API_URL}/algorithms/algo-fifty/my-rank`, {
           headers: {
@@ -83,6 +83,13 @@ export default function MissionPage() {
         })
         .then((res) => {
           setMyFastBootCamps(res.data.data);
+          for (let i = 0; i < 10; i++) {
+            setFastInclude(
+              fastBootCamps[i].bootcampName === res.data.data.bootcampName
+                ? ""
+                : isFastInclude
+            );
+          }
         });
       axios
         .get(`${process.env.REACT_APP_API_URL}/algorithms/algo-many/my-rank`, {
@@ -93,20 +100,22 @@ export default function MissionPage() {
         })
         .then((res) => {
           setMyManyBootCamps(res.data.data);
-          console.log(res.data);
+          for (let i = 0; i < 10; i++) {
+            setManyInclude(
+              manyBootCamps[i].bootcampName === res.data.data.bootcampName
+                ? ""
+                : isManyInclude
+            );
+          }
         });
     }
   }, []);
-
   return (
     <div>
       <h3 style={{ marginTop: "20px" }}>1</h3>
       <div style={{ display: "flex" }}>
         <span>
-          <MissionBar
-            algoCnt={myFastBootCamps.algoCnt}
-            bootcampName={myFastBootCamps.bootcampName}
-          />
+          <MissionBar algoCnt={myFastBootCamps.algoCnt} />
         </span>
         <span>
           <div style={{ display: "flex" }}>
@@ -135,6 +144,11 @@ export default function MissionPage() {
                   <td>{row.algoCnt}</td>
                 </tr>
               ))}
+              <tr style={{ display: isFastInclude }}>
+                <td>{myFastBootCamps.rank}</td>
+                <td>{myFastBootCamps.bootcampName}</td>
+                <td>{myFastBootCamps.algoCnt}</td>
+              </tr>
             </tbody>
           </table>
         </span>
@@ -157,6 +171,11 @@ export default function MissionPage() {
                   <td>{row.algoCnt}</td>
                 </tr>
               ))}
+              <tr style={{ display: isManyInclude }}>
+                <td>{myManyBootCamps.rank}</td>
+                <td>{myManyBootCamps.bootcampName}</td>
+                <td>{myManyBootCamps.algoCnt}</td>
+              </tr>
             </tbody>
           </table>
         </span>

@@ -35,9 +35,6 @@ export default function MissionTable() {
     setMissionId(id);
     setMissionNum(num);
     setMissionDate(date);
-    console.log(id);
-    console.log(num);
-    console.log(date);
     setMissionModifyModalOpen(true);
   };
 
