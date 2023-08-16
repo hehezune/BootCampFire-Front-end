@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import SearchDropDown from 'components/Board/BoardList/SearchDropDown';
 import { useNavigate } from 'react-router-dom';
+import { colors } from 'constant/constant';
 import { Bold21px } from 'components/Board/styled';
 import styled from 'styled-components';
 
@@ -54,12 +55,25 @@ export default function MainSearchInput({activeTitle} : {activeTitle: boolean}) 
         width: "80%",
         maxWidth: "600px",
         border: 3,
+        height: "60px",
         borderColor: '#FF603D',
         borderRadius: 10,
         boxShadow: 'none',
         position: 'relative',
         margin: 'auto',
       }}
+      className='asdfasdfasdfasdfasdfasdf'
+    // <form style={{
+    //   // p: '2px 4px',
+    //   display: 'flex',
+    //   alignItems: 'center',
+    //   width: '99%',
+    //   maxWidth: '500px',
+    //   border: 3,
+    //   borderColor: '#FF603D',
+    //   borderRadius: 10,
+    //   boxShadow: 'none',
+    // }}
       onSubmit={handleSearchSubmit}>
       { activeTitle && <StyledBold21px>통합 검색</StyledBold21px> }
       <SearchDropDown 
@@ -76,8 +90,9 @@ export default function MainSearchInput({activeTitle} : {activeTitle: boolean}) 
         onChange={handleSearchChange}
         />
       <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
-        <SearchIcon />
+        <SearchIcon sx={{color: colors.PRIMARY, fontSize: "40px", marginRight: "5px"}}/>
       </IconButton>
+    {/* </form> */}
     </Paper>
   );
 }
