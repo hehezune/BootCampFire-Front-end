@@ -19,7 +19,7 @@ const A2Container = styled(Bold15px)<{type?: string | null}>`
     align-items: center;
     margin: 0px;
     background: #FFFFFF;
-    border: 0.5px solid ${colors.BORDER_LIGHT};
+    border: 0.5px solid ${colors.TEXT_LIGHT};
     border-radius: 50px;
     line-height: 20px;
   

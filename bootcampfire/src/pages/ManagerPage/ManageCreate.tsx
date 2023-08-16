@@ -10,7 +10,7 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import axios from "axios";
 import type { bootcampInput } from "components/Board/interface";
 import { onOffList, supportSelectList, cardSelectList, codingTestSelectList } from "constant/constant";
-
+import AWS from "aws-sdk"
 const API_KEY = `${process.env.REACT_APP_API_URL}/bootcamps/`;
 const accessToken = localStorage.getItem("Authorization");
 const header = {
@@ -31,7 +31,7 @@ const ManageCreate = () => {
     onOff: 0,
     startDate: "",
     endDate: "",
-    imgUrl: "test",
+    imgUrl: "none",
     tracks: [],
     languages: [],
     regions: [],
@@ -45,6 +45,14 @@ const ManageCreate = () => {
   const [tracks, setTracks] = useState([]);
   const [places, setPlaces] = useState([]);
   const [stacks, setStacks] = useState([]);
+  const [upload, setUpload] = useState<AWS.S3.ManagedUpload | null>(null);
+
+  // AWS 세팅
+  AWS.config.update({
+    region: process.env.REACT_APP_AWS_REGION,
+    accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+  });  // 
 
   useEffect(() => {
     Promise.all([
@@ -101,9 +109,35 @@ const ManageCreate = () => {
       [event.target.name]: event.target.value
     })
   }
-  const addFile = () => {
-    
+
+  const addFile = async (e : any) => {
+    const selectedFile = e.target.files[0];
+
+    if (selectedFile) {
+        console.log("Selected image name:", selectedFile.name);
+        const newUpload = new AWS.S3.ManagedUpload({
+          params: {
+              Bucket: process.env.REACT_APP_AWS_BUCKER || 'default-bucket-name', // 버킷 이름
+              Key: `logo/${inputData.name}.png`, 
+              Body: selectedFile, 
+          },
+        }); 
+        setUpload(newUpload);   
+        setInputData({
+          ...inputData,
+          name: inputData.name
+        })    
+    }   
   };
+  const upload2S3 = async () => {
+    if (upload) {
+        try {
+            const result = await upload.promise(); // upload 실행
+            console.log("Image uploaded successfully:", result.Location);
+        } catch (error) {console.error("Error uploading image:", error);
+        }} else { console.log("No upload in progress."); }
+};
+
 
   const onCreateBootcamp = () => {
     const requestReady = {...inputData};
@@ -128,6 +162,7 @@ const ManageCreate = () => {
         Authorization: `Bearer ${accessToken}`
       }
     })
+    upload2S3()
     navigate("/ManagerPage/Management");
   };
 
@@ -157,7 +192,10 @@ const ManageCreate = () => {
         </StyledSpan>
         <StyledSpan>
           <InputCategory as="span">로고</InputCategory>
-          <button onClick={addFile}>파일첨부</button>
+          <input
+            type="file" 
+            accept="image/*"
+            onChange={addFile} />
           </StyledSpan>
         </div>
       <Line />

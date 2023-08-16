@@ -28,7 +28,7 @@ import ErrorPage from "pages/ErrorPage/ErrorPage";
 
 export default function App() {
   return (
-    <div>
+    <div className="asfdassfasdfasdfasdfsafd">
       <Provider store={store}>
         <Header />
         <main>

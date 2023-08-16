@@ -2,19 +2,25 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
-import authSlice, { login, logout } from '../store/authSlice';
+import { login, logout } from '../store/authSlice';
 import LoginModal from './Login/LoginModal';
 import React, { useEffect } from 'react';
-import { Bold21px } from './Board/styled';
+import { Bold21px, StrongBtn } from './Board/styled';
+import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
+import PersonIcon from '@mui/icons-material/Person';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 // import BoardCreateHeader from './Board/BoardCreate/BoardCreateHeader';
 import { colors } from 'constant/constant';
 import axios from 'axios';
-
+const MEDIA_MIN = 900;
 const NavContainer = styled.div`
   background-color: #ffffff;
   border-bottom: 1.5px solid ${colors.BACKGROUND_DEEP};
   margin: 'auto';
   height: 80px;
+
 `;
 
 const HeaderContents = styled.div`
@@ -22,6 +28,8 @@ const HeaderContents = styled.div`
   min-width: 800px;
   margin: auto;
   padding: 0 30px;
+  height: 80px;
+  border-bottom: 1.5px solid ${colors.BACKGROUND_DEEP};
   // 헤더 미디어 쿼리 작업 해야함
 `;
 
@@ -34,8 +42,8 @@ const LogoLink = styled(Link)`
 `;
 
 const NavLink = styled(Link)`
-  margin-right: 5%;
-  margin-left: 5%;
+  /* margin-right: 5%;
+  margin-left: 5%; */
   color: #333;
   text-decoration: none;
 
@@ -52,15 +60,17 @@ const ActionButton = styled.button`
   color: #000000;
   font-size: 16px;
   cursor: pointer;
-
+  @media (max-width: 900px) {
+    display: none;
+  }
   &:hover {
     background-color: #0056b3;
   }
 `;
 
 const WritePrimaryBtn = styled.button`
-  margin-left: 3%;
-  margin-right: 3%;
+  /* margin-left: 3%; */
+  /* margin-right: 3%; */
   padding: 8px 16px;
   border: none;
   border-radius: 4px;
@@ -69,17 +79,60 @@ const WritePrimaryBtn = styled.button`
   font-size: 16px;
   text-decoration: none;
   cursor: pointer;
+  width: 74px;
+  @media (max-width: 900px) {
+    display: none;
+  }
 `;
 
+const HeaderMidDiv = styled.div`
+  display: flex;
+  width: 60%;
+  min-width: 550px;
+  gap: 10%;
+  justify-content: center;
+  .hide {
+    visibility: hidden;
+  }
+`
+
+const MiniStateBtn = styled(StrongBtn)`
+  padding: 2px 10px;
+  @media (min-width: 900px) {
+    display: none;
+  }
+`
 const HeaderContentContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  
 `;
+
+const HeaderRightDiv = styled.div`
+  display: flex;
+  gap: 15px;
+  width: 280px;
+  align-items: center;
+  justify-content: center;
+`
+const HelloDiv = styled.div`
+width: 100%;
+text-overflow: ellipsis;
+white-space: nowrap;
+overflow: hidden;
+`
 
 export const LoginContentContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-left: auto;
+  width: 140px;
+  text-align: left;
+  flex-direction: column;
+
+  @media (max-width: 900px) {
+    display: none;
+  }
 `;
 export default function Header() {
   const dispatch = useDispatch();
@@ -107,28 +160,31 @@ export default function Header() {
               userId: res.data.data.id,
               nickname: res.data.data.nickname,
               email: res.data.data.email,
-              isAdmin: true,
+              isAdmin: res.data.data.isAdmin,
               bootcampId: res.data.data.bootcampId,
               bootcampName: res.data.data.bootcampName,
             })
           );
           setIsLoading(false);
-      }})
+      }}).catch((err) => {
+        setIsLoading(false);
+      })
     } else {
       setIsLoading(false);
     }
   },[])
-
+  
+  
   const handleLogin = () => {
     // 모달 열기 함수
     setModalOpen(true);
     // console.log(bootcampId);
   };
-
+  
   const handleWriteButtonClick = () => {
     isLoggedIn ? navigate('/BoardCreate') : setModalOpen(true);
   };
-
+  
   const handleLogout = () => {
     dispatch(logout());
     const isMyPage = new RegExp('My');
@@ -138,37 +194,44 @@ export default function Header() {
     localStorage.removeItem("refreshToken");
     if (isMyPage.test(thisLocation) || isManagerPage.test(thisLocation)) navigate('/');
   };
-
+  
   const handleCloseModal = () => {
     // 모달 닫기 함수
     setModalOpen(false);
   };
-
+  
   return (
     <NavContainer>
-      <HeaderContents className="test">
-        <HeaderContentContainer>
-          <LogoLink to="/">
-            <img src="/logo.png" alt="Home" style={{ width: 67, height: 74 }} />
-          </LogoLink>
-          <NavLink to="/Board">
-            <Bold21px as="span">Board</Bold21px>
-          </NavLink>
-          <NavLink to="/BootCamp">
-            <Bold21px as="span">BootCamp</Bold21px>
-          </NavLink>
-          <NavLink to="/CampArticle">
-            <Bold21px as="span">CampArticle</Bold21px>
-          </NavLink>
-          <NavLink to="/VsPage">
-            <Bold21px as="span">VS</Bold21px>
-          </NavLink>
+    <HeaderContents className="test">
+      <HeaderContentContainer>
+        <LogoLink to="/">
+          <img src="/logo.png" alt="Home" style={{ width: 67, height: 74 }} />
+        </LogoLink>
+        <HeaderMidDiv>
+
+        <NavLink to="/Board">
+          <Bold21px as="span">게시판</Bold21px>
+        </NavLink>
+        <NavLink to="/BootCamp">
+          <Bold21px as="span">부캠정보</Bold21px>
+        </NavLink>
+        <NavLink to="/VS">
+          <Bold21px as="span">VS</Bold21px>
+        </NavLink>
+        <NavLink to="/CampArticle" className={!isLoggedIn ? "hide" : ""}>
+          <Bold21px as="span">My 캠프</Bold21px>
+        </NavLink>
+        </HeaderMidDiv>
+        <HeaderRightDiv>
           <WritePrimaryBtn onClick={handleWriteButtonClick}>글쓰기</WritePrimaryBtn>
+          <MiniStateBtn type="first" onClick={handleWriteButtonClick}>
+            <CreateOutlinedIcon/>
+          </MiniStateBtn>
           {isLoading && <ActionButton onClick={handleLogin} style={{visibility:"hidden"}}>로그인</ActionButton>}
+          {isLoading &&  <MiniStateBtn type="" onClick={handleLogin} ><LoginIcon/></MiniStateBtn>}
           {!isLoading && isLoggedIn && (
             <LoginContentContainer>
-              <div style={{ display: 'flexBox' }}>
-                <div>안녕하세요 {nickname}님</div>
+                <HelloDiv>안녕하세요 {nickname}님</HelloDiv>
                 <div style={{ display: 'flex', gap: '10px' }}>
                   {isAdmin ? (
                     <Link to={'/ManagerPage'} style={{ color: '#94969B', textDecorationLine: 'none' }}>
@@ -183,16 +246,28 @@ export default function Header() {
                     로그아웃
                   </div>
                 </div>
-              </div>
             </LoginContentContainer>
           )}
-          {!isLoading && !isLoggedIn &&
+          {!isLoading && isLoggedIn && !isAdmin && 
+              <Link to={'/MyPage'} style={{ color: '#94969B', textDecorationLine: 'none' }}>
+                <MiniStateBtn type=""><PersonIcon/></MiniStateBtn>
+            </Link>}
+          {!isLoading && isLoggedIn && isAdmin && 
+             <Link to={'/ManagerPage'} style={{ color: '#94969B', textDecorationLine: 'none' }}>
+               <MiniStateBtn type=""><ManageAccountsIcon/></MiniStateBtn>
+           </Link>}
+          {!isLoading && isLoggedIn && <MiniStateBtn type="" onClick={handleLogout}><LogoutIcon/></MiniStateBtn>}
+          {!isLoading && !isLoggedIn && 
             <ActionButton onClick={handleLogin}>로그인</ActionButton>
           }
-        </HeaderContentContainer>
-        {/* 모달 컴포넌트 */}
-        <LoginModal isModalOpen={isModalOpen} onClose={handleCloseModal} />
-      </HeaderContents>
-    </NavContainer>
+          {!isLoading && !isLoggedIn && 
+            <MiniStateBtn type="" onClick={handleLogin}><LoginIcon/></MiniStateBtn>
+          }
+        </HeaderRightDiv>
+      </HeaderContentContainer>
+      {/* 모달 컴포넌트 */}
+      <LoginModal isModalOpen={isModalOpen} onClose={handleCloseModal} />
+    </HeaderContents>
+  </NavContainer>
   );
 }

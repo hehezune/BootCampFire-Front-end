@@ -56,6 +56,7 @@ export default function MissionBar(props: myBootCampRank) {
     React.useState<MissionBarData>(initialMissionData);
 
   React.useEffect(() => {
+
     setProgress(() => {
       if (parseInt(props.algoCnt) >= 50) {
         return {
@@ -84,6 +85,7 @@ export default function MissionBar(props: myBootCampRank) {
         };
       }
     });
+
   }, []);
 
   return (

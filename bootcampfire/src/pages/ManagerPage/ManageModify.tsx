@@ -10,6 +10,7 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import axios from "axios";
 import { onOffList, onOffMap, supportSelectList, cardSelectList, codingTestSelectList } from "constant/constant";
 import type { bootcampInput, bootcampInputResponse } from "components/Board/interface";
+import AWS from "aws-sdk"
 
 const API_KEY = 'http://localhost:8080/bootcamps/';
 const accessToken = localStorage.getItem("Authorization");
@@ -17,6 +18,12 @@ const header = {
   headers: {
     Authorization: `Bearer ${accessToken}`,
 }}
+
+AWS.config.update({
+  region: process.env.REACT_APP_AWS_REGION,
+  accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+});  // 
 
 const ManageModify = () => {
   const {bootcampId} = useParams();
@@ -32,7 +39,7 @@ const ManageModify = () => {
     onOff: 0,
     startDate: "",
     endDate: "",
-    imgUrl: "test",
+    imgUrl: "none",
     tracks: [],
     languages: [],
     regions: [],
@@ -46,6 +53,8 @@ const ManageModify = () => {
   const [tracks, setTracks] = useState([]);
   const [places, setPlaces] = useState([]);
   const [stacks, setStacks] = useState([]);
+  const [upload, setUpload] = useState<AWS.S3.ManagedUpload | null>(null);
+  const [isimg, setIsimg] = useState("");
 
   useEffect(() => {
     const axiosRequest = [
@@ -61,8 +70,26 @@ const ManageModify = () => {
       setStacks(languagesRes.data.data);
       console.log(initRes)
       setInputData(changePropertyStringToNumber(initRes.data.data));
-    })
+      if(initRes.data.data.imgUrl != "none") {downloadFile(initRes.data.data.name);}
+          })
   },[])
+
+  const downloadFile = async (Bname : string) => {
+    const s3 = new AWS.S3();  
+    const params = {
+      Bucket: process.env.REACT_APP_AWS_BUCKER || 'default-bucket-name',
+      Key: `logo/${Bname}.png`,
+    };
+  
+    try {
+      const res = await s3.getObject(params).promise();
+      console.log(res);
+      setIsimg(Bname);
+
+    } catch (error) {
+      console.error('Error downloading file:', error);
+    }
+  };
 
   const handleSelectDropDown = (event: SelectChangeEvent) => {
     const value = event.target.value as string;
@@ -106,9 +133,34 @@ const ManageModify = () => {
       [event.target.name]: event.target.value
     })
   }
-  const addFile = () => {
-    
+  
+
+  const addFile = async (e : any) => {
+    const selectedFile = e.target.files[0];
+
+    if (selectedFile) {
+        console.log("Selected image name:", selectedFile.name);
+        const newUpload = new AWS.S3.ManagedUpload({
+          params: {
+              Bucket: process.env.REACT_APP_AWS_BUCKER || 'default-bucket-name', // 버킷 이름
+              Key: `logo/${inputData.name}.png`, 
+              Body: selectedFile, 
+          },
+        }); 
+        setUpload(newUpload);       
+    }   
   };
+  const upload2S3 = async () => {
+    if (upload) {
+        try {
+            const result = await upload.promise(); // upload 실행
+            console.log("Image uploaded successfully:", result.Location);
+        } catch (error) {console.error("Error uploading image:", error);
+        }} else { console.log("No upload in progress."); }
+};
+
+
+
 
   const onCreateBootcamp = () => {
     const requestReady = {...inputData};
@@ -133,6 +185,7 @@ const ManageModify = () => {
         Authorization: `Bearer ${accessToken}`
       }
     })
+    upload2S3()
     navigate("/ManagerPage/Management", {state: request});
   };
 
@@ -162,8 +215,12 @@ const ManageModify = () => {
         </StyledSpan>
         <StyledSpan>
           <InputCategory as="span">로고</InputCategory>
-          <button onClick={addFile}>파일첨부</button>
-          </StyledSpan>
+          <input
+            type="file" 
+            accept="image/*"
+            onChange={addFile} />    
+            {  isimg == "" ?  "not in S3" : "in S3"}  
+            </StyledSpan>
         </div>
       <Line />
         <div style={{ display: "flex" }}>

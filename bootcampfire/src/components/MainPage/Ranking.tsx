@@ -1,14 +1,15 @@
-import { Card } from "@mui/material";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { colors } from "constant/constant";
+import { StrongBtn, Bold18px, Normal13px } from "components/Board/styled";
 
 function createData(
   rank: number,
   name: string,
   bootCampName: string,
-  rankDate: string
+  record: number
 ) {
-  return { rank, name, bootCampName, rankDate };
+  return { rank, name, bootCampName, record };
 }
 const VSBtn = styled(Link)`
   margin-right: 20px;
@@ -23,49 +24,90 @@ const VSBtn = styled(Link)`
 `;
 
 const rows = [
-  createData(1, "김민범", "SSAFY", Date()),
-  createData(2, "김봉준", "SSAFY", Date()),
-  createData(3, "박지환", "SSAFY", Date()),
-  createData(4, "안나", "SSAFY", Date()),
-  createData(5, "이연희", "SSAFY", Date()),
-  createData(6, "임수형", "SSAFY", Date()),
+  createData(1, "김민범", "SSAFY", 8888),
+  createData(2, "김봉준", "SSAFY", 8888),
+  createData(3, "박지환", "SSAFY", 8888),
+  createData(4, "안나", "SSAFY", 8888),
+  createData(5, "이연희", "SSAFY", 8888),
+  createData(6, "임수형", "SSAFY", 8888),
 ];
 
 const Sample = styled.div`
-  position: absolute;
+  /* position: absolute;
   top: 120px;
   right: 20px;
   display: "flex";
   flex-direction: "column";
   box-shadow: "none";
-  margin-left: 80;
-`;
+  margin-left: 80; */
+  margin-left: 25px;
+  display: flex;
+  margin-top: 140px;
+  flex-direction: column;
+  justify-content: start;
 
+  @media (max-width: 950px) {
+    display: none;
+  }
+`;
 const Sample2 = styled.div`
-  background-color: #ffd0c1;
+  background-color: ${colors.BACKGROUND_MID};
   box-shadow: "none";
   margin-right: "20px";
+  border-radius: 15px;
+  padding: 20px 25px;
+  width: 290px;
 `;
+
+const StyledTd = styled(Normal13px)`
+  color: ${colors.TEXT_NORMAL} !important;
+  text-align: center;
+  `
+const StyledTr = styled.tr`
+  margin-top: 15px;
+  display: flex;
+  column-gap: 20px;
+  width: 100%;
+  row-gap: 25px;
+  .rank {
+    flex-grow: 1;
+  }
+
+  .name {
+    flex-grow: 3;
+    width: 71px;
+  }
+
+  .bootcamp {
+    flex-grow: 3;
+  }
+
+  .record {
+    flex-grow: 3;
+  }
+`
 
 export default function Ranking() {
   return (
     <Sample>
       <Sample2>
-        <h3>VS 랭킹</h3>
-        <table>
-          <tbody>
+        <Bold18px>VS 랭킹</Bold18px>
+        <table style={{width: "100%", marginTop: "5px"}}>
+          <tbody style={{width: "100%"}}>
             {rows.map((row) => (
-              <tr key={row.rank}>
-                <td>{row.rank}</td>
-                <td>{row.name}</td>
-                <td>{row.bootCampName}</td>
-                <td>{row.rankDate}</td>
-              </tr>
+              <StyledTr key={row.rank}>
+                <StyledTd className="rank">{row.rank}</StyledTd>
+                <StyledTd className="name">{row.name}</StyledTd>
+                <StyledTd className="bootcamp">{row.bootCampName}</StyledTd>
+                <StyledTd className="record">{row.record}</StyledTd>
+              </StyledTr>
             ))}
           </tbody>
         </table>
       </Sample2>
-      <VSBtn to="/VsPage">바로가기</VSBtn>
+      <Link to="/VsPage/G2048" style={{display: "inline-block", margin: "25px auto"}}>
+        <StrongBtn type="first" >게임 하러 가기</StrongBtn>
+      </Link>
     </Sample>
   );
 }
