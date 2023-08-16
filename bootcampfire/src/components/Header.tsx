@@ -113,7 +113,9 @@ export default function Header() {
             })
           );
           setIsLoading(false);
-      }})
+      }}).catch((err) => {
+        setIsLoading(false);
+      })
     } else {
       setIsLoading(false);
     }
