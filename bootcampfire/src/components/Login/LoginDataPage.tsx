@@ -1,4 +1,4 @@
-import { LocalParking } from '@mui/icons-material';
+import { Cookie, LocalParking } from '@mui/icons-material';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -17,6 +17,7 @@ export default function LoginDataPage() {
     localStorage.clear();
     const token = new URLSearchParams(document.location.search).get('token') ?? '';
     const [accessToken, refreshToken] = token?.split('refresh=');
+
     localStorage.setItem('Authorization', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
     axios
