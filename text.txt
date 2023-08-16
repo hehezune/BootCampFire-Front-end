@@ -1,2 +1,2 @@
-oinit
+init
 
