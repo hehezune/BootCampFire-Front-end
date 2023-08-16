@@ -1,30 +1,26 @@
-import React, { useEffect } from "react";
-import useGameLocalStorage from "../../hooks/useLocalStorage";
-import { getMaxId } from "../../utils/boardUtils";
-import { useGameContext } from "../Game/Game";
-import { Tile } from "../interfaces";
-import ScoreBox from "../ScoreBox";
-import { ACTIONTYPE, ScoresState } from "./Interfaces";
+import React, { useEffect } from 'react';
+import useGameLocalStorage from '../../hooks/useLocalStorage';
+import { getMaxId } from '../../utils/boardUtils';
+import { useGameContext } from '../Game/Game';
+import { Tile } from '../interfaces';
+import ScoreBox from '../ScoreBox';
+import { ACTIONTYPE, ScoresState } from './Interfaces';
 
-import { RootState } from "store";
-import { loadMyRank, loadGameRank } from "store/vsSlice";
-import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
-import { updateScore } from "store/vsSlice";
+import { RootState } from 'store';
+import { loadMyRank, loadGameRank } from 'store/vsSlice';
+import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateScore } from 'store/vsSlice';
 
-import "./ScoresContainer.scss";
+import './ScoresContainer.scss';
 
 export const ScoresContainer = () => {
   const { gameState } = useGameContext();
 
-  const [state, dispatch] = useGameLocalStorage(
-    "scores",
-    initState(),
-    stateReducer
-  );
+  const [state, dispatch] = useGameLocalStorage('scores', initState(), stateReducer);
 
   useEffect(() => {
-    dispatch({ type: "change", payload: gameState.tiles });
+    dispatch({ type: 'change', payload: gameState.tiles });
   }, [gameState.tiles, dispatch]);
 
   const { myGameRank } = useSelector((state: RootState) => state.vs);
@@ -33,7 +29,8 @@ export const ScoresContainer = () => {
 
   // GAME_OVER
   useEffect(() => {
-<<<<<<< HEAD
+    const accessToken = localStorage.getItem('Authorization');
+
     setTimeout(() => {
       if (myGameRank.score < state.bestScore) {
         // console.log("0.9 초후 값 : ",myGameRank.score, state.bestScore)
@@ -41,50 +38,28 @@ export const ScoresContainer = () => {
         if (isLoggedIn && state.score > 1000) {
           axios
             .post(`${process.env.REACT_APP_API_URL}/games`, {
+              headers: { Authorization: `Bearer ${accessToken}` },
+              withCredentials: true,
               bestScore: state.bestScore,
             })
             .then((response) => {
-              console.log("성공공! : ", response);
+              console.log('성공공! : ', response);
             });
         }
         axios
-          .get(`${process.env.REACT_APP_API_URL}/games`)
+          .get(`${process.env.REACT_APP_API_URL}/games`, {
+            headers: { Authorization: `Bearer ${accessToken}` },
+            withCredentials: true,
+          })
           .then((response) => dispatch2(loadGameRank(response.data.data)));
       }
     }, 500);
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/games`)
-      .then((response) => dispatch2(loadGameRank(response.data.data)));
-=======
-    const accessToken = localStorage.getItem('Authorization');
-    
-      setTimeout(() => {
-        if (myGameRank.score < state.bestScore) {
-          // console.log("0.9 초후 값 : ",myGameRank.score, state.bestScore)
-          dispatch2(updateScore(Math.max(myGameRank.score, state.bestScore)));
-          if (isLoggedIn && state.score > 1000) {
-            axios.post(`${process.env.REACT_APP_API_URL}/games`, {
-              headers: { Authorization: `Bearer ${accessToken}` },
-              withCredentials: true,
-              bestScore : state.bestScore
-            })
-            .then((response) => { console.log("성공공! : ", response)})
-          }
-            axios.get(`${process.env.REACT_APP_API_URL}/games`, {
-              headers: { Authorization: `Bearer ${accessToken}` },
-              withCredentials: true,
-            })
-            .then((response)=>dispatch2(loadGameRank(response.data.data)))          
-        }
-      }, 500);
-      axios.get(`${process.env.REACT_APP_API_URL}/games`)
-          .then((response)=>dispatch2(loadGameRank(response.data.data))) 
->>>>>>> main
+    axios.get(`${process.env.REACT_APP_API_URL}/games`).then((response) => dispatch2(loadGameRank(response.data.data)));
   }, [gameState.status, state.bestScore]);
 
   useEffect(() => {
     if (state.newPoints > 0) {
-      const oldAddScore = document.getElementById("additionScore");
+      const oldAddScore = document.getElementById('additionScore');
       if (oldAddScore && oldAddScore.parentNode) {
         oldAddScore.innerText = `+${state.newPoints}`;
         const newAddScore = oldAddScore.cloneNode(true);
@@ -95,7 +70,7 @@ export const ScoresContainer = () => {
 
   return (
     <div className="scoresContainer">
-      <div style={{ position: "relative" }}>
+      <div style={{ position: 'relative' }}>
         <ScoreBox title="현재 점수" score={state.score} />
         <div className="addScore" id="additionScore"></div>
       </div>
@@ -120,14 +95,11 @@ const containsTile = (tiles: Tile[], tile: Tile): boolean => {
 
 const stateReducer = (state: ScoresState, action: ACTIONTYPE) => {
   switch (action.type) {
-    case "change": {
+    case 'change': {
       const tiles = action.payload;
 
       // handles page refresh
-      if (
-        state.tiles.length === tiles.length &&
-        state.tiles.every((t) => containsTile(tiles, t))
-      ) {
+      if (state.tiles.length === tiles.length && state.tiles.every((t) => containsTile(tiles, t))) {
         return state;
       }
 
@@ -141,20 +113,14 @@ const stateReducer = (state: ScoresState, action: ACTIONTYPE) => {
       }
 
       // handles add new tile
-      if (
-        state.tiles.every((t) => containsTile(tiles, t)) &&
-        tiles.length === state.tiles.length + 1
-      ) {
+      if (state.tiles.every((t) => containsTile(tiles, t)) && tiles.length === state.tiles.length + 1) {
         return { ...state, tiles: tiles, newPoints: 0 };
       }
 
       // handles merge
       const lastGeneratedTileId = getMaxId(tiles);
       const newPoints = tiles.reduce((acc: number, curr: Tile) => {
-        const add =
-          curr.id === lastGeneratedTileId || containsTile(state.tiles, curr)
-            ? 0
-            : curr.value;
+        const add = curr.id === lastGeneratedTileId || containsTile(state.tiles, curr) ? 0 : curr.value;
         return acc + add;
       }, 0);
 

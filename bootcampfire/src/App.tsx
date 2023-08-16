@@ -19,9 +19,7 @@ import Mission from 'pages/ManagerPage/Mission';
 import LoginDataPage from 'components/Login/LoginDataPage';
 import MyPage from 'pages/MyPage/MyPage';
 import ManageCreate from 'pages/ManagerPage/ManageCreate';
-import BoardListInfinityScroll from 'pages/BoardPage/BoardListInfinityScroll2';
 import MissionPage from 'pages/VSPage/MissionPage';
-import SpeedCodder from 'pages/VSPage/G2048';
 import VsPage from 'pages/VSPage/VsPage';
 import G2048 from 'pages/VSPage/G2048';
 import MainSearchListPage from 'pages/MainPage/MainSearchListPage';
@@ -41,7 +39,6 @@ export default function App() {
             <Route path="/BoardDetail/:id" element={<BoardDetail />} />
             <Route path="/BoardCreate" element={<BoardCreate />} />
             <Route path="/BootCamp" element={<BootCamp />} />
-            <Route path="/infinity" element={<BoardListInfinityScroll />} />
             <Route path="/VsPage/*" element={<VsPage />}>
               <Route path="" element={<MissionPage />} />
               <Route path="G2048" element={<G2048 />} />
