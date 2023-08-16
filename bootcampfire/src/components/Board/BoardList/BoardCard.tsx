@@ -21,7 +21,7 @@ function BoardCard({data, onClick}: {data: Board, onClick: () => void}){
     }
 
     return (
-        <StyledBoardCard onClick={onClick}>
+        <StyledBoardCard onClick={onClick} className="asdfasdfas">
             <Bold18px className="position1px">{data.title}</Bold18px>
             <Normal15px className="position40px">{data.content}</Normal15px>
             <Infodiv className="position110px">
@@ -40,18 +40,18 @@ const StyledBoardCard = styled.div`
     position: relative;
     border-bottom: solid;
     border-width: 1px;
-    /* min-width: 600px;
-    width: 60%;
-    max-width: 1040px; */
+    min-width: 600px;
+    width: 100%;
+    max-width: 1040px;
     height: 138px;
     .position1px {
         position: absolute;
-        top: 1px;
+        top: 10px;
     }
 
     .position40px {
         position: absolute;
-        top: 40px;
+        top: 45px;
     }
 
     .position110px {

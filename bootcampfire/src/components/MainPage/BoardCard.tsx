@@ -11,6 +11,12 @@ interface BoardDate {
     createdDate: string;
 }
 
+const BoardCardTitle = styled.div`
+    display: flex;
+    gap: 15px;
+    height: 25px;
+    align-items: center;
+`
 
 function BoardCard({data, onClick}: {data: Board, onClick: () => void}){
     const dataForDateInfo: BoardDate = {
@@ -22,9 +28,13 @@ function BoardCard({data, onClick}: {data: Board, onClick: () => void}){
 
     return (
         <StyledBoardCard onClick={onClick}>
-            <Bold18px className="position1px">{data.title}</Bold18px>
-            <Normal15px className="position40px">{data.content}</Normal15px>
+            <BoardCardTitle className="position1px">
+
+            <Bold18px >{data.title}</Bold18px>
             <A2>{data.category}</A2>
+            </BoardCardTitle>
+            <Normal15px className="position40px">{data.content}</Normal15px>
+
             <Infodiv className="position110px">
                 <DateInfo data={dataForDateInfo}/>
 
@@ -41,18 +51,17 @@ const StyledBoardCard = styled.div`
     position: relative;
     border-bottom: solid;
     border-width: 1px;
-    /* min-width: 600px;
-    width: 60%;
-    max-width: 1040px; */
     height: 138px;
+    margin: auto;
+    width: 98%;
     .position1px {
         position: absolute;
-        top: 1px;
+        top: 10px;
     }
 
     .position40px {
         position: absolute;
-        top: 40px;
+        top: 45px;
     }
 
     .position110px {

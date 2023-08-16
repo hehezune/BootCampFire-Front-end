@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import MainSearchBar from 'components/MainPage/MainSearchBar';
+import MainSearchInput from 'components/MainPage/MainSearchInput';
 import BoardCard from 'components/MainPage/BoardCard';
 import styled from 'styled-components';
 import { StyledPage } from '../BoardPage/styledPage';
@@ -25,7 +25,7 @@ interface stateType {
   keyword: string;
   type: number;
 }
-let check = 0;
+
 function MainSearchListPage() {
     const navigate = useNavigate();
     const [boardListData, setBoardListData] = useState<Board[]>([]);
@@ -76,13 +76,11 @@ function MainSearchListPage() {
 
     return (
         <StyledPage className="test">
-            <MainSearchBar activeTitle={true}/> 
+            <MainSearchInput activeTitle={true}/> 
             <BoardListMain>
                 <TStyledDiv>
-                    <div className='board-list-margin'>
                     {!isEmpty && BoardList}
                     {isEmpty && <div>정보가 없습니다</div>}
-                    </div>
                     <Sp ref={setRef}>is Loading</Sp>
                 </TStyledDiv>
             </BoardListMain>
@@ -92,7 +90,7 @@ function MainSearchListPage() {
 
 const TStyledDiv = styled.div`
     height: 730px;
-    width: 800px;
+    width: 100%;
     overflow: auto;
 `
 const Sp = styled.p`
@@ -101,11 +99,11 @@ const Sp = styled.p`
 
 const BoardListMain = styled.div`
     display: flex;
+    /* flex-direction: column; */
     justify-content: center;
     width: 100%;
     .board-list-margin {
         margin-left: 42px;
-        width: 80%;
     }
 `
 
@@ -113,7 +111,6 @@ const getDataFromAPI = async (pageCount: number, url: string) => {
     // boardList 받아오는 axios 요청
     const response = await axios.get(`${url}?page=${pageCount}&size=5`, header
     );
-    console.log(response)
     return response.data.data;
 }
 

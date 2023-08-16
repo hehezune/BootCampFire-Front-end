@@ -40,7 +40,7 @@ export default function ManageTable() {
 
   useEffect(() => {
     axios.get(API_KEY + "lists/names", header)
-    .then((res) => setBootcampList(res.data.data))
+    .then((res) => {setBootcampList(res.data.data); console.log('부캠리스트', res)})
     .catch(err => console.log(err))
   },[])
 

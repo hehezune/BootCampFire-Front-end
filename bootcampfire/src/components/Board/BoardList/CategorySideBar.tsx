@@ -28,8 +28,8 @@ const StyledBoardList = styled.div`
     display: flex;
     flex-direction: column;
     min-width: 130px;
-    width: 16%;
-    max-width: 198px;
+    width: 20%;
+    max-width: 203px;
 `
 
 const StyledBtn = styled.button<{ $selected?: boolean; }>`
@@ -38,7 +38,7 @@ const StyledBtn = styled.button<{ $selected?: boolean; }>`
     outline-width: 1px;
     border-radius: 10px;
     border-width: 0;
-    background: ${props => props.$selected ? colors.BACKGROUND_MID : colors.WHITE} !important;
+    background: ${props => props.$selected ? "#FEE9E6" : "#FFFFFF"};
     min-width: 130px;
     /* max-width: 198px; */
     height: 55px;
@@ -47,9 +47,9 @@ const StyledBtn = styled.button<{ $selected?: boolean; }>`
     font-size: 18px;
     font-style: bold;
     font-weight: 700;
-
     &:hover {
-        background: black;
+        background-color: ${props => props.$selected ? colors.BACKGROUND_MID : colors.BACKGROUND_LIGHT};
     }
+    
 `
 export default CategorySideBar;

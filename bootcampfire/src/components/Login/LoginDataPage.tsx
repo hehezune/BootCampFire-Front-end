@@ -29,13 +29,14 @@ export default function LoginDataPage() {
       .then((res) => {
         if (res.status === 200) {
           axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-          console.log(res.data);
+
           dispatch(
             login({
               userId: res.data.data.id,
               nickname: res.data.data.nickname,
               email: res.data.data.email,
               isAdmin: true,
+              bootcampName: res.data.data.bootcampName,
               bootcampId: res.data.data.bootcampId,
             })
           );
@@ -44,6 +45,7 @@ export default function LoginDataPage() {
         }
       })
       .catch((res) => {
+        
         console.log(res);
       });
   }, []);

@@ -109,6 +109,7 @@ export default function Header() {
               email: res.data.data.email,
               isAdmin: true,
               bootcampId: res.data.data.bootcampId,
+              bootcampName: res.data.data.bootcampName,
             })
           );
           setIsLoading(false);

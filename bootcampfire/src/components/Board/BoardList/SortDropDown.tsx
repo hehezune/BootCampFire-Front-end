@@ -6,6 +6,7 @@ import {StyledDropdown, Normal13px, StyledLI} from '../styled';
 import { useDispatch } from 'react-redux';
 import { setSort } from 'store/searchSlice';
 import axios from 'axios';
+import styled from 'styled-components';
 
 interface DropDownList {
     current: number;
@@ -32,7 +33,7 @@ function SortDropDown() {
     )
 
     return (
-        <StyledDropdown>
+        <StyledSortDropdown>
             <Normal13px className="test" onClick={e => setDropdownVisibility(!dropdownVisibility)}>
                 {dummyData.category[dropdownSelect]}
                 {!dropdownVisibility && <KeyboardArrowDownIcon />} 
@@ -43,8 +44,14 @@ function SortDropDown() {
                     {categoryList}
                 </ul>
             </DropDownCategory>
-        </StyledDropdown>
+        </StyledSortDropdown>
     )
 }
+
+const StyledSortDropdown = styled(StyledDropdown)`
+    position: absolute;
+    left: calc(100% + 30px);
+    width: 80px;
+`
 
 export default SortDropDown;
