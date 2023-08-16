@@ -22,15 +22,15 @@ const BoardThumbnail = styled.div`
   flex-wrap: wrap;
   width: 100%;
   gap: 10%;
-`
+`;
 export default function MainPage() {
   function createData(index: number, img: string, text: string) {
     return { index, img, text };
   }
 
   const rows = [
-    createData(1, "/asd", '자유게시판'),
-    createData(2, "/asd", '썸/연애'),
+    createData(1, '/asd', '자유게시판'),
+    createData(2, '/asd', '썸/연애'),
     createData(3, '/asd', '헬스/다이어트'),
     createData(4, '/asd', '고민'),
     createData(5, '/asd', '프로젝트'),
@@ -41,9 +41,9 @@ export default function MainPage() {
   ];
 
   return (
-    <MainContainer className='asdf'>
+    <MainContainer className="asdf">
       <BoardDiv>
-        <MainSearchInput activeTitle={false}/>
+        <MainSearchInput activeTitle={false} />
         <HotBoard />
         <BoardThumbnail>
           {rows.map((row) => (

@@ -29,18 +29,18 @@ const HotBoardTitle = styled.div`
   align-items: center;
   padding-bottom: 10px;
   border-bottom: 2px solid ${colors.TEXT_LIGHT};
-`
+`;
 const ContentsContainer = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 5px;
   margin-top: 5px;
-`
+`;
 const ContainerRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`
+`;
 
 interface hotData {
   id: number;
@@ -50,39 +50,41 @@ interface hotData {
   commentCnt: number;
 }
 
-
 export default function HotBoard() {
   const [rows, setRows] = useState<hotData[]>([]);
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/categories/hots`).then((res) => {
-      console.log(res)
+      console.log(res);
       setRows(res.data.data);
     });
   }, []);
   return (
     <Container>
-        <HotBoardTitle style={{display: "flex", alignItems: "center", gap: '5px'}}>
-
-        <img src="/hotBoardIcon.png" alt="" height={'32px'} width={'32px'} style={{marginRight: "10px"}}/>
+      <HotBoardTitle style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+        <img src="/hotBoardIcon.png" alt="" height={'32px'} width={'32px'} style={{ marginRight: '10px' }} />
         <Bold24px as="span">뜨거운 이야기</Bold24px>
-        </HotBoardTitle>
-        <ContentsContainer>
-            {rows.map((row) => (
-              <ContainerRow>
-                <span style={{width: "180px"}}> 
-                  <Tag type={colors.TEXT_LIGHT}>{row.category}</Tag>
-                </span>
-                  <HotContent link={`/BoardDetail/${row.id}`} text={row.title} />
-                  <IconWrapper>
-                      <StyledFavoriteBorderIcon /> 
-                      <Normal13px as="span" style={{marginRight: "10px"}}>{row.likeCnt}</Normal13px>
-                      <StyledChatBubbleOutlineRoundedIcon /> 
-                      <Normal13px as="span" style={{marginRight: "10px"}}>{row.commentCnt}</Normal13px>
-                  </IconWrapper>
-              </ContainerRow>
-            ))}
-        </ContentsContainer>
+      </HotBoardTitle>
+      <ContentsContainer>
+        {rows.map((row) => (
+          <ContainerRow>
+            <span style={{ width: '180px' }}>
+              <Tag type={colors.TEXT_LIGHT}>{row.category}</Tag>
+            </span>
+            <HotContent link={`/BoardDetail/${row.id}`} text={row.title} />
+            <IconWrapper>
+              <StyledFavoriteBorderIcon />
+              <Normal13px as="span" style={{ marginRight: '10px' }}>
+                {row.likeCnt}
+              </Normal13px>
+              <StyledChatBubbleOutlineRoundedIcon />
+              <Normal13px as="span" style={{ marginRight: '10px' }}>
+                {row.commentCnt}
+              </Normal13px>
+            </IconWrapper>
+          </ContainerRow>
+        ))}
+      </ContentsContainer>
     </Container>
   );
 }

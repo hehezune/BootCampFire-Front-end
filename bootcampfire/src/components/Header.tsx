@@ -160,7 +160,7 @@ export default function Header() {
           <NavLink to="/CampArticle">
             <Bold21px as="span">CampArticle</Bold21px>
           </NavLink>
-          <NavLink to="/VS">
+          <NavLink to="/VsPage">
             <Bold21px as="span">VS</Bold21px>
           </NavLink>
           <WritePrimaryBtn onClick={handleWriteButtonClick}>글쓰기</WritePrimaryBtn>

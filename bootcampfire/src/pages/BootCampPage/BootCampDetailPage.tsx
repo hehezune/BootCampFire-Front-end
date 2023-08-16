@@ -42,15 +42,15 @@ const BootCampListDetailPage: React.FC = () => {
         axios.get(`${process.env.REACT_APP_API_URL}/bootcamps/${bootcampIdNumber}`),
         axios.get(`${process.env.REACT_APP_API_URL}/reviews/${bootcampIdNumber}/lists`),
       ];
-  
-      if (isLoggedIn && bootcampId==bootcampIdNumber) {
+
+      if (isLoggedIn && bootcampId == bootcampIdNumber) {
         requests.push(axios.get(`${process.env.REACT_APP_API_URL}/reviews/${bootcampIdNumber}/vaildation`));
       }
       Promise.all(requests)
         .then(([bootcampResponse, reviewResponse, myreviewResponse]) => {
           setBootdetail(bootcampResponse.data.data);
           setbootreview(reviewResponse.data.data);
-          if (isLoggedIn && bootcampId==bootcampIdNumber) {
+          if (isLoggedIn && bootcampId == bootcampIdNumber) {
             setMyReview(myreviewResponse.data.data);
           }
         })
