@@ -46,17 +46,17 @@ function Comments({ boardId, comments }: { boardId: number; comments: Comment[] 
       commentRef.current.value = '';
     }
 
-    console.log(newComment);
-    // 백으로 요청 보내기
-    axios.post(`${process.env.REACT_APP_API_URL}/comments`, newComment).then((res) => {
-      if (res.data.message === 'success') {
-        axios.get(`${process.env.REACT_APP_API_URL}/comments/list/` + boardId, header).then((res) => {
-          const comments = res.data.data as Comment[];
-          dispatch(getComments({ comments, boardId }));
-        });
-      }
-    });
-  };
+    axios.post(`${process.env.REACT_APP_API_URL}/comments`,
+            newComment, header).then((res) => {
+                if (res.data.message === "success") {
+                    const accessToken = localStorage.getItem("Authorization");
+                    axios.get(`${process.env.REACT_APP_API_URL}/comments/list/` + boardId)
+                    .then((res) => {
+                        const comments = res.data.data as Comment[];
+                        dispatch(getComments({comments, boardId}));
+                    });
+                }
+            })   }
 
   const cardList = comments.map((element, idx) => (
     <CommentCard data={element} boardId={boardId} key={element.id} idx={idx} />
