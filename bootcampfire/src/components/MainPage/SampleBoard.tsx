@@ -13,6 +13,7 @@ import Diversity3Icon from '@mui/icons-material/Diversity3';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import ComputerIcon from '@mui/icons-material/Computer';
 import HomeIcon from '@mui/icons-material/Home';
+import { Link } from 'react-router-dom';
 import { colors } from 'constant/constant';
 
 const ContentList = styled.div`
@@ -34,7 +35,15 @@ const BoardThumbnailTitle = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
-
+const StyledLink = styled(Link)`
+  color: #333;
+  width: 80%;
+  text-decoration: none;
+  display: inline-block;
+  &:hover {
+    text-decoration: underline;
+  }
+`
 const TitleStart = styled.div`
   display: flex;
   align-items: center;
@@ -80,7 +89,9 @@ const SampleBoard: React.FC<createDataProps> = (props) => {
       <div style={{ borderTop: `solid 1px ${colors.TEXT_LIGHT}`, marginBottom: '5px' }} />
       <ContentList>
         {rows.map((row) => (
-          <HotContent link={`/BoardDetail/${row.id}`} key={row.id} text={row.title}></HotContent>
+          <StyledLink to={`/BoardDetail/${row.id}`} state={props.index} key={row.id} >
+            {row.title}
+          </StyledLink>
         ))}
       </ContentList>
     </Container>

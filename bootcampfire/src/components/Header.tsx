@@ -149,6 +149,7 @@ export default function Header() {
   const isAdmin = useSelector((state: RootState) => state.auth.isAdmin);
   const bootcampId = useSelector((state: RootState) => state.auth.bootcampId);
   const navigate = useNavigate();
+  const [enteredNickname, setNickName] = React.useState(nickname);
   const [isModalOpen, setModalOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
 
@@ -169,7 +170,7 @@ export default function Header() {
               nickname: res.data.data.nickname,
               email: res.data.data.email,
               // isAdmin: true,
-              isAdmin: res.data.data.roll === 'USER' ? false : true,
+              isAdmin: res.data.data.role === 'USER' ? false : true,
               bootcampId: res.data.data.bootcampId,
               bootcampName: res.data.data.bootcampName,
               bojId: res.data.data.bojId,
@@ -241,7 +242,7 @@ export default function Header() {
           {isLoading &&  <MiniStateBtn type="" onClick={handleLogin} ><LoginIcon/></MiniStateBtn>}
           {!isLoading && isLoggedIn && (
             <LoginContentContainer>
-                <HelloDiv>안녕하세요 <br/>{nickname}님</HelloDiv>
+                <HelloDiv>안녕하세요 <br/>{enteredNickname}님</HelloDiv>
                 <Underdiv>
                   {isAdmin ? (
                     <Link to={'/ManagerPage'} style={{ color: '#94969B', textDecorationLine: 'none'}}>

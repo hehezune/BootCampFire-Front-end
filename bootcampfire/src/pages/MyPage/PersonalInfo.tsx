@@ -10,9 +10,11 @@ import axios from 'axios';
 import useCheckFileSize from 'constant/useCheckFileSize';
 import useCheckImageExtension from 'constant/useCheckImageExtension';
 import AWS from 'aws-sdk';
+import { useDispatch } from 'react-redux';
+import { login } from 'store/authSlice';
 
 const duplicateMsg = ['중복 검사가 필요합니다.', '사용 가능한 닉네임입니다.', '이미 사용중인 닉네임입니다.'];
-
+const accessToken = localStorage.getItem("Authorization");
 AWS.config.update({
   region: process.env.REACT_APP_AWS_REGION,
   accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
@@ -29,8 +31,7 @@ function PersonalInfo() {
   const [isSendCertify, setIsSendCertify] = useState(true);
   const [fileName, setFileName] = useState<string | undefined>();
   const inputFileRef = useRef<HTMLInputElement>(null);
-
-
+  const dispatch = useDispatch()
 
   const handleUploadFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fullName = event.target.value.split('\\').pop() ?? "";
@@ -66,6 +67,12 @@ function PersonalInfo() {
       setDuplicateState(0);
       return ;
     }
+
+    if (enteredNickName === nickname) {
+      setDuplicateState(1);
+      return ;
+    }
+
     axios.post(`${process.env.REACT_APP_API_URL}/users/duplication`, { nickname: enteredNickName }).then((res) => {
       if (res.data.message.split(' ')[0] === '이미') {
         setDuplicateState(2);
@@ -85,25 +92,27 @@ function PersonalInfo() {
   };
 
   const handlerSubmitInfo = async () => {
-    // 정보 취합하여 올리기 : 닉네임, BOJ 아이디
-    if (duplicateState !== 1) {
+    let url = "";
+    let fileNameToUpload = "";
+
+    if (enteredNickName !== nickname && duplicateState !== 1) {
+      // 닉네임을 입력하였으나 적합 판정을 받지 못한 경우
       window.alert('적합한 nickname을 입력해주세요.');
       return ;
     }
 
     const numberOfFile = inputFileRef.current?.files?.length ?? 0;
 
-    if (inputFileRef.current?.files === null || numberOfFile === 0) return;
-    if (!isSendCertify) {
-      window.alert("인증 요청을 눌러주세요!");
-      return ;
+    if (inputFileRef.current?.files !== null && numberOfFile > 0) {
+      // 파일 업로드 진행
+      if (!isSendCertify) {
+        window.alert("인증 요청을 눌러주세요!");
+        return ;
+      }
+      const now = new Date();
+      fileNameToUpload = userId + now.toUTCString();
+      await uploadImg(inputFileRef.current?.files, fileNameToUpload);
     }
-
-    const now = new Date();
-    const fileNameToUpload = userId + now.toUTCString();
-    const url = await uploadImg(inputFileRef.current?.files, fileNameToUpload);
-
-    console.log("url 결과", await url);
 
     const request = {
       nickname: enteredNickName,
@@ -111,11 +120,37 @@ function PersonalInfo() {
       imgUrl: fileNameToUpload,
     }
 
-    axios
-      .put(`${process.env.REACT_APP_API_URL}/users`, request)
-      .then((res) => {
-        console.log("성공", res);
+    console.log("뭐보냄", request)
+    await axios.put(`${process.env.REACT_APP_API_URL}/users`, request, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      withCredentials: true,
+    })
+    .then((res) => console.log(res))
+    
+    console.log("토큰확인",localStorage.getItem("Authorization"));
+    try {
+      const newUserInfo = await axios.get(`${process.env.REACT_APP_API_URL}/users`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        withCredentials: true,
       });
+
+      dispatch(login({
+        userId: newUserInfo.data.data.id,
+        nickname: newUserInfo.data.data.nickname,
+        email: newUserInfo.data.data.email,
+        isAdmin: newUserInfo.data.data.role === 'USER' ? false : true,
+        bootcampName: newUserInfo.data.data.bootcampName,
+        bootcampId: newUserInfo.data.data.bootcampId,
+        bojId: newUserInfo.data.data.bojId,
+      }))
+      window.location.reload();
+
+    } catch (err) {console.log(err)}
+    
   };
 
   const handlerBojIdInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -201,7 +236,6 @@ const uploadImg = async (files: FileList | undefined, name: string) => {
   if (!files) return;
   const imageFile = files[0];
 
-  console.log("선택된 이미지", imageFile.name);
   const uploadToS3 = new AWS.S3.ManagedUpload({
     params: {
         Bucket: process.env.REACT_APP_AWS_BUCKER || 'default-bucket-name', // 버킷 이름

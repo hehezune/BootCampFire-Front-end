@@ -27,6 +27,9 @@ const ReviewCard: React.FC<BootCampReviewProps> = ({ review }) => {
       });
   };
 
+  const maskedUsername = review.user[0] + review.user.slice(1).replace(/./g, '*');
+
+
   return (
     <>
       <TabBox>
@@ -47,8 +50,8 @@ const ReviewCard: React.FC<BootCampReviewProps> = ({ review }) => {
           <VerticalDivs2>
             <SubDiv>
               <HorizontalDivs>
-                <TextName>{review.id}</TextName>
-                <TextName>{review.user}</TextName>
+                {/* <TextName>{review.id} 번째 리뷰</TextName> */}
+                <TextName>{maskedUsername}</TextName>
                 <Text3>{new Date(review.createdDate).toLocaleString()}</Text3>
               </HorizontalDivs>
             </SubDiv>

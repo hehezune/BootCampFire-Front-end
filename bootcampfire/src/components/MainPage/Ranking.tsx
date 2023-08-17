@@ -105,7 +105,7 @@ export default function Ranking() {
           </tbody>
         </table>
       </Sample2>
-      <Link to="/VsPage/G2048" style={{display: "inline-block", margin: "25px auto"}}>
+      <Link to="/VsPage/G2048" state={1} style={{display: "inline-block", margin: "25px auto"}}>
         <StrongBtn type="first" >게임 하러 가기</StrongBtn>
       </Link>
     </Sample>

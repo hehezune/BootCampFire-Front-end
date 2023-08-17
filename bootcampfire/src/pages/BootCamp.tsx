@@ -15,7 +15,7 @@ import { StyledDropdown, Normal13px, StyledLI } from 'components/Board/styled';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from "store";
-import { selectDropBox, updateBootSearch } from "store/bootcampListSlice";
+import { flagTurn, selectDropBox, updateBootSearch } from "store/bootcampListSlice";
 
 export default function BootCamp() {
   return (
@@ -39,7 +39,7 @@ interface DropDownList {
 }
 
 let dummyData : DropDownList = {
-  current: "이름순",
+  current: "선택해요",
   category : ["이름순", "평점순", "후기개수순"],
 }
 
@@ -55,6 +55,7 @@ const SortDropDown = () => {
       : event.currentTarget.textContent === "후기개수순" ? 2 : 0));
       setDropdownSelect(event.currentTarget.textContent ?? "");
       setDropdownVisibility(false);
+      dispatch(flagTurn(false));
   }
   return (
       <StyledDropdown>

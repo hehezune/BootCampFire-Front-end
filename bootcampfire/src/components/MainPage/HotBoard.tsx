@@ -7,6 +7,8 @@ import HotContent from './HotContent';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { colors } from 'constant/constant';
+import { Link } from 'react-router-dom';
+import { categoryMap } from 'constant/constant';
 
 const Container = styled.div`
   margin-top: 50px;
@@ -44,6 +46,15 @@ const ContainerRow = styled.div`
   align-items: center;
   justify-content: center;
 `;
+const StyledLink = styled(Link)`
+  color: #333;
+  width: 80%;
+  text-decoration: none;
+  display: inline-block;
+  &:hover {
+    text-decoration: underline;
+  }
+`
 
 interface hotData {
   id: number;
@@ -74,7 +85,9 @@ export default function HotBoard() {
             <div style={{width: '180px' }}>
               <Tag type={colors.TEXT_LIGHT}>{row.category}</Tag>
             </div>
-            <HotContent link={`/BoardDetail/${row.id}`} text={row.title} />
+            <StyledLink to={`/BoardDetail/${row.id}`} state={categoryMap.get(row.category)}>
+              {row.title}
+            </StyledLink>
             <IconWrapper>
               <StyledFavoriteBorderIcon />
               <Normal13px as="span" style={{ marginRight: '10px' }}>
