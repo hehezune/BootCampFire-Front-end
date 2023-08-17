@@ -35,13 +35,13 @@ export default function LoginDataPage() {
               userId: res.data.data.id,
               nickname: res.data.data.nickname,
               email: res.data.data.email,
-              isAdmin: res.data.data.isAdmin,
+              isAdmin: res.data.data.roll === 'USER' ? false : true,
               bootcampName: res.data.data.bootcampName,
               bootcampId: res.data.data.bootcampId,
             })
           );
 
-          navigate(-1);
+          navigate('/');
         }
       })
       .catch((res) => {
