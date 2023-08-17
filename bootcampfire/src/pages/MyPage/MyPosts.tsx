@@ -73,6 +73,7 @@ const getDataFromAPI = async (pageCount: number, url: string) => {
   const response = await axios.get(`${url}?page=${pageCount}&size=5`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
+      withCredentials: true,
     },
   });
   console.log('token', accessToken);
