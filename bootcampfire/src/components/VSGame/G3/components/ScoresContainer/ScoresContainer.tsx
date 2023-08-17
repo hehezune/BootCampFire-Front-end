@@ -43,7 +43,6 @@ export const ScoresContainer = () => {
               bestScore: state.bestScore,
             })
             .then((response) => {
-              console.log('성공공! : ', response);
             });
         }
         axios
