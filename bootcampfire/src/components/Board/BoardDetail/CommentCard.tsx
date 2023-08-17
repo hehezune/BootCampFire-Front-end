@@ -30,7 +30,6 @@ function CommentCard({data, boardId, idx}: {data: Comment, boardId: number, idx:
     const {isLoggedIn, userId, nickname, bootcampName, isAdmin} = useSelector((state: RootState) => state.auth);
     const {commentList} = useSelector((state: RootState) => state.comment);
     const dispatch = useDispatch();
-
     const handlerEditComment = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEditComment(event.target.value);
     }
@@ -83,13 +82,20 @@ function CommentCard({data, boardId, idx}: {data: Comment, boardId: number, idx:
             alert("내용을 254자 이내로 작성해주세요.");
             return ;
         }
-
+        console.log("이전", data)
         axios.put(`${process.env.REACT_APP_API_URL}/comments/` + data.id, requestEdit)
-        .then((res) => {dispatch(modifyComment({idx,
+        .then((res) => {
+            console.log("이후", res)
+            dispatch(modifyComment({idx,
             content: res.data.data.content,
             anonymous: res.data.data.anonymous}));
             setActiveInputType(NORMAL);
-            setIsAnonymous(false)});
+            setIsAnonymous(false);
+            axios.get(`${process.env.REACT_APP_API_URL}/comments/list/` + boardId)
+            .then((res) => {
+                dispatch(getComments({comments:res.data.data, boardId}));
+            })
+            });
         return ;
     }
 
@@ -139,11 +145,11 @@ function CommentCard({data, boardId, idx}: {data: Comment, boardId: number, idx:
                     <div style={{display: 'flex', gap: '15px'}}>
 
                     {/* 우측에 위치해야할 친구들 */}
-                    {data.isLoginUser && activeInputType === NORMAL && <ModeEditOutlineOutlinedIcon onClick={handlerSetEditBtn} sx={{color: colors.TEXT_LIGHT}}/>}
-                    {(isAdmin || data.isLoginUser) && activeInputType === NORMAL && <CloseOutlinedIcon onClick={handlerSetDelBtn} sx={{color: colors.TEXT_LIGHT}}/>}
+                    {data.user === nickname && activeInputType === NORMAL && <ModeEditOutlineOutlinedIcon onClick={handlerSetEditBtn} sx={{color: colors.TEXT_LIGHT}}/>}
+                    {(isAdmin || data.user === nickname) && activeInputType === NORMAL && <CloseOutlinedIcon onClick={handlerSetDelBtn} sx={{color: colors.TEXT_LIGHT}}/>}
                     {data.user === nickname && activeInputType === EDIT && <CloseOutlinedIcon onClick={handlerCancelEditBtn} sx={{color: colors.TEXT_LIGHT}}/>}
-                    {(isAdmin || data.isLoginUser) && activeInputType === DEL && <LightBtn as="span" type="" onClick={handlerConfirmDelBtn}>삭제 확인</LightBtn>}
-                    {(isAdmin || data.isLoginUser) && activeInputType === DEL && <LightBtn as="span" type="" onClick={handlerCancelDelBtn}>삭제 취소</LightBtn>}
+                    {(isAdmin || data.user === nickname) && activeInputType === DEL && <LightBtn as="span" type="" onClick={handlerConfirmDelBtn}>삭제 확인</LightBtn>}
+                    {(isAdmin || data.user === nickname) && activeInputType === DEL && <LightBtn as="span" type="" onClick={handlerCancelDelBtn}>삭제 취소</LightBtn>}
                     </div>
 
                 </CommentWriter>

@@ -84,8 +84,6 @@ function PersonalInfo() {
 
   const handelrCertifyCamp = () => {
     // 소속 인증 요청, 로그인 완료 후 뭔가 작업해야 하는듣ㅅ?
-    const now = new Date();
-    console.log(now.toUTCString());
     axios.post(`${process.env.REACT_APP_API_URL}/users/confirm`)
     .then((res) => setIsSendCertify(true))
     .catch((err) => {setIsSendCertify(false);})
@@ -120,16 +118,15 @@ function PersonalInfo() {
       imgUrl: fileNameToUpload,
     }
 
-    console.log("뭐보냄", request)
     await axios.put(`${process.env.REACT_APP_API_URL}/users`, request, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
+        withCredentials: true,
       },
-      withCredentials: true,
     })
     .then((res) => console.log(res))
+    .catch((err) => console.log(err));
     
-    console.log("토큰확인",localStorage.getItem("Authorization"));
     try {
       const newUserInfo = await axios.get(`${process.env.REACT_APP_API_URL}/users`, {
         headers: {

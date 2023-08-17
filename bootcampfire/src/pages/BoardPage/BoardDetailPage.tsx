@@ -54,7 +54,7 @@ function BoardDetailPage() {
   return (
     <StyledPage>
       <BoardDetailBody boardDetail={boardDetail} setLike={setIsLike} />
-      <Comments boardId={Number(id)} comments={commentList} />
+      <Comments boardId={Number(id)} />
     </StyledPage>
   );
 }
