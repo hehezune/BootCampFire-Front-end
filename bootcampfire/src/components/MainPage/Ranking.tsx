@@ -2,15 +2,44 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { colors } from "constant/constant";
 import { StrongBtn, Bold18px, Normal13px } from "components/Board/styled";
+import axios from "axios";
+import { useSelector, useDispatch } from 'react-redux';
+import { loadGameRank } from 'store/vsSlice';
+import { RootState } from "store";
 
-function createData(
-  rank: number,
-  name: string,
-  bootCampName: string,
-  record: number
-) {
-  return { rank, name, bootCampName, record };
+export default function Ranking() {
+  const dispatch = useDispatch();
+  const { GameRank10 } = useSelector((state: RootState) => state.vs);
+
+  axios.get(`${process.env.REACT_APP_API_URL}/games`)
+  .then((response) => dispatch(loadGameRank(response.data.data)));
+
+  return (
+    <Sample>
+      <Sample2>
+        <Bold18px>VS 랭킹</Bold18px>
+        <table style={{width: "100%", marginTop: "5px"}}>
+          <tbody style={{width: "100%"}}>
+            {GameRank10.map((row) => (
+              <StyledTr key={row.rank}>
+                <StyledTd className="rank">{row.rank}</StyledTd>
+                <StyledTd className="name">{row.userNickname}</StyledTd>
+                <StyledTd className="bootcamp">{row.bootcampName}</StyledTd>
+                <StyledTd className="record">{row.score}</StyledTd>
+              </StyledTr>
+            ))}
+          </tbody>
+        </table>
+      </Sample2>
+      <Link to="/VsPage/G2048" state={1} style={{display: "inline-block", margin: "25px auto"}}>
+        <StrongBtn type="first" >게임 하러 가기</StrongBtn>
+      </Link>
+    </Sample>
+  );
 }
+
+
+
 const VSBtn = styled(Link)`
   margin-right: 20px;
   padding: 8px 16px;
@@ -22,15 +51,6 @@ const VSBtn = styled(Link)`
   text-decoration: none;
   cursor: pointer;
 `;
-
-const rows = [
-  createData(1, "김민범", "SSAFY", 8888),
-  createData(2, "김봉준", "SSAFY", 8888),
-  createData(3, "박지환", "SSAFY", 8888),
-  createData(4, "안나", "SSAFY", 8888),
-  createData(5, "이연희", "SSAFY", 8888),
-  createData(6, "임수형", "SSAFY", 8888),
-];
 
 const Sample = styled.div`
   /* position: absolute;
@@ -86,28 +106,3 @@ const StyledTr = styled.tr`
     flex-grow: 3;
   }
 `
-
-export default function Ranking() {
-  return (
-    <Sample>
-      <Sample2>
-        <Bold18px>VS 랭킹</Bold18px>
-        <table style={{width: "100%", marginTop: "5px"}}>
-          <tbody style={{width: "100%"}}>
-            {rows.map((row) => (
-              <StyledTr key={row.rank}>
-                <StyledTd className="rank">{row.rank}</StyledTd>
-                <StyledTd className="name">{row.name}</StyledTd>
-                <StyledTd className="bootcamp">{row.bootCampName}</StyledTd>
-                <StyledTd className="record">{row.record}</StyledTd>
-              </StyledTr>
-            ))}
-          </tbody>
-        </table>
-      </Sample2>
-      <Link to="/VsPage/G2048" state={1} style={{display: "inline-block", margin: "25px auto"}}>
-        <StrongBtn type="first" >게임 하러 가기</StrongBtn>
-      </Link>
-    </Sample>
-  );
-}
