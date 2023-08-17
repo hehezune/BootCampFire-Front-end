@@ -24,7 +24,7 @@ AWS.config.update({
 function PersonalInfo() {
   const isRightFileSize = useCheckFileSize;
   const isRightCheckImageExtension = useCheckImageExtension;
-  const { nickname, bootcampId, email, bojId, userId } = useSelector((state: RootState) => state.auth);
+  const { nickname, bootcampId, email, bojId, userId, bootcampName} = useSelector((state: RootState) => state.auth);
   const [enteredNickName, setEneteredNickName] = useState(nickname ?? '');
   const [duplicateState, setDuplicateState] = useState(0);
   const [enteredBojId, setEnteredBojId] = useState(bojId);
@@ -187,7 +187,7 @@ function PersonalInfo() {
                 <StyledBold15px as="label" htmlFor="camp">
                   소속
                 </StyledBold15px>
-                <StyledInput type="text" value={bootcampList[bootcampId]} id="camp" readOnly />
+                <StyledInput type="text" value={bootcampName} id="camp" readOnly />
               </InputDiv>
 
               <InputDiv>

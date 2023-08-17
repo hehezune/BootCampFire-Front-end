@@ -227,7 +227,7 @@ export default function Header() {
         <NavLink to="/BootCamp">
           <Bold21px as="span">부캠정보</Bold21px>
         </NavLink>
-        <NavLink to="/VsPage">
+        <NavLink to="/VsPage/G2048" state={1}>
           <Bold21px as="span">VS</Bold21px>
         </NavLink>
         <NavLink to="/Board" state={9} className={!isLoggedIn ? "hide" : ""}>
