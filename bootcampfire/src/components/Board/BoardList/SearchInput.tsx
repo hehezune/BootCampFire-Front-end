@@ -32,7 +32,7 @@ export default function SearchInput({selectCategory}: {selectCategory: number}) 
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [dropdownVisibility, setDropdownVisibility] = React.useState(false);
   const [dropdownSelect, setDropdownSelect] = React.useState(dummyData.current);
-
+  console.log(dropdownSelect, "셀렉트확인")
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
@@ -47,6 +47,7 @@ export default function SearchInput({selectCategory}: {selectCategory: number}) 
   };
 
   const handleLiClick = (idx: number) => {
+    console.log(idx);
     setDropdownSelect(idx);
     setDropdownVisibility(false);
 }

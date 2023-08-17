@@ -21,9 +21,6 @@ function SearchDropDown({visibility, searchType, dropDownHandler, visibilityHand
     searchType: number, 
     dropDownHandler: (idx: number) => void
     visibilityHandler: React.Dispatch<React.SetStateAction<boolean>>}) {
-    const dispatch = useDispatch();
-    const [dropdownVisibility, setDropdownVisibility] = React.useState(false);
-    const [dropdownSelect, setDropdownSelect] = React.useState(dummyData.current);
 
     const categoryList = dummyData.category.map((element, idx) => (
         <StyledLI key={element} onClick={() => dropDownHandler(idx)}>{element}</StyledLI>
