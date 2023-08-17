@@ -17,16 +17,16 @@ export default function Regist() {
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/users/admin/permission/list`).then((res) => {
-      console.log(res)
+      console.log(res);
       setRows(res.data.data);
     });
   }, []);
 
-  useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/bootcamps/names`).then((res) => {
-      dispatch(setBootcampInfo({ list: res.data.data }));
-    });
-  }, []);
+  // useEffect(() => {
+  //   axios.get(`${process.env.REACT_APP_API_URL}/bootcamps/names`).then((res) => {
+  //     dispatch(setBootcampInfo({ list: res.data.data }));
+  //   });
+  // }, []);
 
   return (
     <WrapperManageCardContainer className="Wrapper">
