@@ -28,7 +28,6 @@ export default function Ranking() {
               <StyledTr key={row.rank}>
                 <StyledTd className="rank">{row.rank}</StyledTd>
                 <StyledTd className="name">{row.userNickname}</StyledTd>
-                <StyledTd className="bootcamp">{row.bootcampName}</StyledTd>
                 <StyledTd className="record">{row.score}</StyledTd>
               </StyledTr>
             ))}
