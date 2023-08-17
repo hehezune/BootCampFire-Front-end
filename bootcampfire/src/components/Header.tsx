@@ -169,7 +169,7 @@ export default function Header() {
               nickname: res.data.data.nickname,
               email: res.data.data.email,
               // isAdmin: true,
-              isAdmin: res.data.data.isAdmin,
+              isAdmin: res.data.data.roll === 'USER' ? false : true,
               bootcampId: res.data.data.bootcampId,
               bootcampName: res.data.data.bootcampName,
               bojId: res.data.data.bojId,
