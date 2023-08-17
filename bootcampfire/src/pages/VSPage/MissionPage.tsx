@@ -69,10 +69,8 @@ export default function MissionPage() {
         })
         .then((res) => {
           console.log(res);
-          if (res === null) {
-            setMyFastBootCamps(res.data.data);
-            if (myFastBootCamps.rank > 10) setFastInclude("");
-          }
+          setMyFastBootCamps(res.data.data);
+          if (myFastBootCamps.rank > 10) setFastInclude("");
         });
       axios
         .get(`${process.env.REACT_APP_API_URL}/algorithms/algo-many/my-rank`, {
