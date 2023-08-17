@@ -62,6 +62,8 @@ const BootCampListDetailPage: React.FC = () => {
     return <div>Loading...</div>;
   }
 
+  const score1 = isNaN(bootdetail.score) ? 0 : Math.round(bootdetail.score * 10) / 10;
+
   return (
     <>
       <BootCampDetailMain>
@@ -77,7 +79,7 @@ const BootCampListDetailPage: React.FC = () => {
               </StyledBtn>
             </HorizontalDivs>
             <HorizontalDivs>
-              <Mtext2>({Math.round(bootdetail.score * 10) / 10})</Mtext2>
+              <Mtext2>({score1})</Mtext2>
               <Mtext3 style={{ marginRight: '50px' }}>{bootdetail.reviewCnt} 개의 후기가 작성되었습니다.</Mtext3>
               <Mtext2>
                 모집 기간 : {new Date(bootdetail.startDate).toLocaleDateString()} ~{' '}

@@ -35,8 +35,8 @@ const BootCampCard: React.FC<BootCampCardProps> = ({ item, cur }) => {
   const is_Support = item.support ? "지원금 O" : "지원금 X";
   const is_test = item.support ? "코테 O"   : "코테 X";
   const isDateInRange = new Date(cur) >= new Date(item.startDate) && new Date(cur) <= new Date(item.endDate);
-  const score1 = item.score == undefined ? Math.round(item.score * 10) / 10 : 0;
-  console.log({score1})
+  const score1 = isNaN(item.score) ? 0 : Math.round(item.score * 10) / 10;
+  
   return (
     <CardContainer>
       <div>
