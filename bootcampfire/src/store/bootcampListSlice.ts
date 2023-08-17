@@ -6,6 +6,7 @@ const initialState: bootcampListState={
     error : null,
     dropBoxidx : 0,
     bootSearch : "",
+    flag : false,
 }    
 
 const bootcampListSlice = createSlice({
@@ -29,6 +30,9 @@ const bootcampListSlice = createSlice({
           },
           updateBootSearch(state, action) {
             state.bootSearch = action.payload;
+          },
+          flagTurn(state, action){
+            state.flag = action.payload;
           }
 
     }      
@@ -40,7 +44,8 @@ export const {
   fetchBootcampSuccess, 
   fetchBootcampFailure, 
   selectDropBox, 
-  updateBootSearch
+  updateBootSearch,
+  flagTurn
 } = bootcampListSlice.actions;
 
 
@@ -70,5 +75,6 @@ interface bootcampListState{
     error: null,
     dropBoxidx : number, 
     bootSearch : string,
+    flag : boolean,
 }        
 

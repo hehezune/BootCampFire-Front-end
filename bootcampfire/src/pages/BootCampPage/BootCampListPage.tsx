@@ -9,7 +9,7 @@ import { RootState } from 'store';
 import { useEffect, useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchBootcampStart, fetchBootcampSuccess, fetchBootcampFailure } from 'store/bootcampListSlice';
+import { fetchBootcampStart, fetchBootcampSuccess, fetchBootcampFailure, flagTurn } from 'store/bootcampListSlice';
 
 const BootCampListPage: React.FC = () => {
   const currentDate = new Date();
@@ -19,7 +19,7 @@ const BootCampListPage: React.FC = () => {
   };
 
   const dispatch = useDispatch();
-  const { bootcamp, loading, error, dropBoxidx, bootSearch } = useSelector((state: RootState) => state.bootcamp);
+  const { bootcamp, loading, error, dropBoxidx, bootSearch, flag } = useSelector((state: RootState) => state.bootcamp);
 
   const { trackList, regionList, etcList } = useSelector((state: RootState) => state.select);
 
@@ -56,13 +56,18 @@ const BootCampListPage: React.FC = () => {
     });
     setBootcampSearchResult(restructuredBootcamp2);
   }, [etcList, regionList, trackList, bootcamp, bootSearch]);
+
   useEffect(() => {
-    dispatch(fetchBootcampStart());
-    const api_url = dropBoxidx === 0 ? 'names' : dropBoxidx === 1 ? 'scores' : dropBoxidx === 2 ? 'reviews' : 'names';
-    axios
-    .get(`${process.env.REACT_APP_API_URL}/bootcamps/lists/${api_url}`)
-    .then((response) => dispatch(fetchBootcampSuccess(response.data.data)))
-    .catch((error) => dispatch(fetchBootcampFailure(error.message)));
+
+    if(!flag) {
+      dispatch(fetchBootcampStart());
+      const api_url = dropBoxidx === 0 ? 'names' : dropBoxidx === 1 ? 'scores' : dropBoxidx === 2 ? 'reviews' : 'names';
+      axios
+      .get(`${process.env.REACT_APP_API_URL}/bootcamps/lists/${api_url}`)
+      .then((response) => dispatch(fetchBootcampSuccess(response.data.data)))
+      .catch((error) => dispatch(fetchBootcampFailure(error.message)));
+      dispatch(flagTurn(true));
+    }
 
   }, [dropBoxidx]);
 
