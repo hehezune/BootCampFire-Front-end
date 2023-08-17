@@ -123,8 +123,8 @@ interface gameRank {
 }
 
 interface BootcampInfoItem {
-  bootcampId: number;
-  bootcampName: string;
+  id: number;
+  name: string;
 }
 
 interface ErrorState {
