@@ -26,7 +26,7 @@ const rows = [
   // createData(6, 'GOOGLE', 16.0, 49),
 ];
 
-const API_KEY = "http://localhost:8080/bootcamps/"
+const API_KEY = "http://i9a408.p.ssafy.io:8080/bootcamps/"
 const accessToken = localStorage.getItem('Authorization');
 const header = {
   headers: {
