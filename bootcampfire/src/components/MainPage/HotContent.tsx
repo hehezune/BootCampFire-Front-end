@@ -4,7 +4,7 @@ import { Normal15px } from 'components/Board/styled';
 
 const HotContentContainer = styled(Link)`
   color: #333;
-  width: 100%;
+  width: 80%;
   text-decoration: none;
   display: inline-block;
   &:hover {

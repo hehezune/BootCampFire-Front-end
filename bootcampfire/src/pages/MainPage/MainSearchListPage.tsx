@@ -12,7 +12,7 @@ import useIntersect from 'components/Board/BoardList/useIntersect';
 import { categoryMap } from 'constant/constant';
 import { useParams } from 'react-router-dom';
 
-const API_URL = 'http://localhost:8080/categories';
+const API_URL = `${process.env.REACT_APP_API_URL}/categories`;
 const accessToken = localStorage.getItem('Authorization');
 const header = {
   headers: {

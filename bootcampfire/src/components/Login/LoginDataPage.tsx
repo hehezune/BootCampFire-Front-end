@@ -38,6 +38,7 @@ export default function LoginDataPage() {
               isAdmin: res.data.data.roll === 'USER' ? false : true,
               bootcampName: res.data.data.bootcampName,
               bootcampId: res.data.data.bootcampId,
+              bojId: res.data.data.bojId,
             })
           );
 

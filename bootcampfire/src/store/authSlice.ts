@@ -8,6 +8,7 @@ interface AuthState {
   bootcampId: number;
   userId: number;
   bootcampName: string | null;
+  bojId: string | null;
 }
 
 const initialState: AuthState = {
@@ -18,6 +19,7 @@ const initialState: AuthState = {
   isAdmin: false,
   bootcampId: -1,
   bootcampName: null,
+  bojId: null,
 };
 
 const authSlice = createSlice({
@@ -33,6 +35,7 @@ const authSlice = createSlice({
         isAdmin: boolean;
         bootcampId: number;
         bootcampName: string;
+        bojId: string;
       }>
     ) => {
       state.userId = action.payload.userId;
@@ -42,6 +45,7 @@ const authSlice = createSlice({
       state.isAdmin = action.payload.isAdmin;
       state.bootcampId = action.payload.bootcampId;
       state.bootcampName = action.payload.bootcampName;
+      state.bojId = action.payload.bojId
     },
     logout: (state) => {
       state.userId = -1;
@@ -50,6 +54,8 @@ const authSlice = createSlice({
       state.email = null;
       state.isAdmin = false;
       state.bootcampId = -1;
+      state.bojId = null;
+      state.bootcampName = null;
     },
   },
 });

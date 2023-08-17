@@ -89,7 +89,7 @@ const ManageCard = ({ id, img, nickname }: CardProps) => {
       </Card>
       <ManageModal
         nickname={nickname}
-        imgSrc={img}
+        imgSrc={imageUrl}
         isManageModalOpen={isManageModalOpen}
         onClose={handleCloseModal}
         userId={id}
