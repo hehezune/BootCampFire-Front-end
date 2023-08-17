@@ -22,9 +22,14 @@ let dummyData : DropDownList = {
 
 const StyledBold21px = styled(Bold21px)`
   position: absolute;
-  right: calc(100% + 20px);
-  width: 170px;
+  right: calc(100% + 10px);
   text-align: right;
+  display: inline-block;
+  width: 180px;
+  &.beShort {
+    letter-spacing: -1px;
+  }
+
 `
 
 export default function SearchInput({selectCategory}: {selectCategory: number}) {
@@ -68,7 +73,7 @@ export default function SearchInput({selectCategory}: {selectCategory: number}) 
         margin: 'auto',
       }}
       onSubmit={handleSearchSubmit}>
-      <StyledBold21px>{categories[selectCategory]}게시판</StyledBold21px>
+      <StyledBold21px  className={categories[selectCategory].length > 4 ? "beShort" : ""}>{categories[selectCategory]}게시판</StyledBold21px>
       <SearchDropDown
         visibility= {dropdownVisibility}
         searchType= {dropdownSelect}
