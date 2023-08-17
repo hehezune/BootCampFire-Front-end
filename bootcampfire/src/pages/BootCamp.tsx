@@ -39,7 +39,7 @@ interface DropDownList {
 }
 
 let dummyData : DropDownList = {
-  current: "이름순",
+  current: "선택해요",
   category : ["이름순", "평점순", "후기개수순"],
 }
 
