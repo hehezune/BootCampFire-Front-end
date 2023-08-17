@@ -14,7 +14,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 // import BoardCreateHeader from './Board/BoardCreate/BoardCreateHeader';
 import { colors } from 'constant/constant';
 import axios from 'axios';
-const MEDIA_MIN = 900;
+
 const NavContainer = styled.div`
   background-color: #ffffff;
   border-bottom: 1.5px solid ${colors.BACKGROUND_DEEP};
@@ -60,7 +60,7 @@ const ActionButton = styled.button`
   color: #000000;
   font-size: 16px;
   cursor: pointer;
-  @media (max-width: 900px) {
+  @media (max-width: 950px) {
     display: none;
   }
   &:hover {
@@ -69,8 +69,8 @@ const ActionButton = styled.button`
 `;
 
 const WritePrimaryBtn = styled.button`
-  /* margin-left: 3%; */
-  /* margin-right: 3%; */
+  /* margin-left: 10px; */
+  margin-right: 10px;
   padding: 8px 16px;
   border: none;
   border-radius: 4px;
@@ -79,8 +79,8 @@ const WritePrimaryBtn = styled.button`
   font-size: 16px;
   text-decoration: none;
   cursor: pointer;
-  width: 74px;
-  @media (max-width: 900px) {
+  width: 80px;
+  @media (max-width: 950px) {
     display: none;
   }
 `;
@@ -96,9 +96,17 @@ const HeaderMidDiv = styled.div`
   }
 `
 
+const Underdiv = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: start;
+  gap: 15px;
+
+`
+
 const MiniStateBtn = styled(StrongBtn)`
   padding: 2px 10px;
-  @media (min-width: 900px) {
+  @media (min-width: 950px) {
     display: none;
   }
 `
@@ -112,25 +120,25 @@ const HeaderContentContainer = styled.div`
 const HeaderRightDiv = styled.div`
   display: flex;
   gap: 15px;
-  width: 280px;
+  width: 320px;
   align-items: center;
   justify-content: center;
 `
 const HelloDiv = styled.div`
-width: 100%;
-text-overflow: ellipsis;
-white-space: nowrap;
-overflow: hidden;
+  width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `
 
 export const LoginContentContainer = styled.div`
   display: flex;
   align-items: center;
-  width: 140px;
+  width: 200px;
   text-align: left;
   flex-direction: column;
 
-  @media (max-width: 900px) {
+  @media (max-width: 950px) {
     display: none;
   }
 `;
@@ -160,9 +168,11 @@ export default function Header() {
               userId: res.data.data.id,
               nickname: res.data.data.nickname,
               email: res.data.data.email,
+              // isAdmin: true,
               isAdmin: res.data.data.isAdmin,
               bootcampId: res.data.data.bootcampId,
               bootcampName: res.data.data.bootcampName,
+              bojId: res.data.data.bojId,
             })
           );
           setIsLoading(false);
@@ -215,10 +225,10 @@ export default function Header() {
         <NavLink to="/BootCamp">
           <Bold21px as="span">부캠정보</Bold21px>
         </NavLink>
-        <NavLink to="/VS">
+        <NavLink to="/VsPage">
           <Bold21px as="span">VS</Bold21px>
         </NavLink>
-        <NavLink to="/CampArticle" className={!isLoggedIn ? "hide" : ""}>
+        <NavLink to="/Board" state={9} className={!isLoggedIn ? "hide" : ""}>
           <Bold21px as="span">My 캠프</Bold21px>
         </NavLink>
         </HeaderMidDiv>
@@ -231,21 +241,21 @@ export default function Header() {
           {isLoading &&  <MiniStateBtn type="" onClick={handleLogin} ><LoginIcon/></MiniStateBtn>}
           {!isLoading && isLoggedIn && (
             <LoginContentContainer>
-                <HelloDiv>안녕하세요 {nickname}님</HelloDiv>
-                <div style={{ display: 'flex', gap: '10px' }}>
+                <HelloDiv>안녕하세요 <br/>{nickname}님</HelloDiv>
+                <Underdiv>
                   {isAdmin ? (
-                    <Link to={'/ManagerPage'} style={{ color: '#94969B', textDecorationLine: 'none' }}>
+                    <Link to={'/ManagerPage'} style={{ color: '#94969B', textDecorationLine: 'none'}}>
                       관리자 페이지
                     </Link>
                   ) : (
-                    <Link to={'/MyPage'} style={{ color: '#94969B', textDecorationLine: 'none' }}>
+                    <Link to={'/MyPage'} style={{ color: '#94969B', textDecorationLine: 'none'}}>
                       마이 페이지
                     </Link>
                   )}
                   <div onClick={handleLogout} style={{ color: '#94969B' }}>
                     로그아웃
                   </div>
-                </div>
+                </Underdiv>
             </LoginContentContainer>
           )}
           {!isLoading && isLoggedIn && !isAdmin && 

@@ -19,6 +19,7 @@ export interface RootState {
     bootcampId: number;
     email: string;
     bootcampName: string;
+    bojId: string;
   };
 
   select: {

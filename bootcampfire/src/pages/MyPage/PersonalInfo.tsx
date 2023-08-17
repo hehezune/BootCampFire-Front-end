@@ -22,10 +22,10 @@ AWS.config.update({
 function PersonalInfo() {
   const isRightFileSize = useCheckFileSize;
   const isRightCheckImageExtension = useCheckImageExtension;
-  const { nickname, bootcampId /*email, bojId*/, userId } = useSelector((state: RootState) => state.auth);
+  const { nickname, bootcampId, email, bojId, userId } = useSelector((state: RootState) => state.auth);
   const [enteredNickName, setEneteredNickName] = useState(nickname ?? '');
   const [duplicateState, setDuplicateState] = useState(0);
-  const [enteredBojId, setEnteredBojId] = useState('');
+  const [enteredBojId, setEnteredBojId] = useState(bojId);
   const [isSendCertify, setIsSendCertify] = useState(true);
   const [fileName, setFileName] = useState<string | undefined>();
   const inputFileRef = useRef<HTMLInputElement>(null);
@@ -67,7 +67,6 @@ function PersonalInfo() {
       return ;
     }
     axios.post(`${process.env.REACT_APP_API_URL}/users/duplication`, { nickname: enteredNickName }).then((res) => {
-      console.log(res)
       if (res.data.message.split(' ')[0] === '이미') {
         setDuplicateState(2);
       } else {
@@ -174,7 +173,7 @@ function PersonalInfo() {
                 <StyledBold15px as="label" htmlFor="email">
                   이메일
                 </StyledBold15px>
-                <StyledInput type="email" value="email" id="email" readOnly />
+                <StyledInput type="email" value={email} id="email" readOnly />
               </InputDiv>
             </ColomnDiv>
             <ColomnDiv>

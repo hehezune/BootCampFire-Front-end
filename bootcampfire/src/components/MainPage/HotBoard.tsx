@@ -71,9 +71,9 @@ export default function HotBoard() {
       <ContentsContainer>
         {rows.map((row) => (
           <ContainerRow>
-            <span style={{ width: '180px' }}>
+            <div style={{width: '180px' }}>
               <Tag type={colors.TEXT_LIGHT}>{row.category}</Tag>
-            </span>
+            </div>
             <HotContent link={`/BoardDetail/${row.id}`} text={row.title} />
             <IconWrapper>
               <StyledFavoriteBorderIcon />

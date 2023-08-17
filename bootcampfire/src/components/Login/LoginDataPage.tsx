@@ -37,6 +37,7 @@ export default function LoginDataPage() {
               isAdmin: res.data.data.isAdmin,
               bootcampName: res.data.data.bootcampName,
               bootcampId: res.data.data.bootcampId,
+              bojId: res.data.data.bojId,
             })
           );
 
