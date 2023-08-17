@@ -25,6 +25,7 @@ interface MissionModifyModalProps {
   missionDate: string;
 }
 interface TableRegistData {
+  id: number;
   date: string;
   num: number;
 }
@@ -40,23 +41,18 @@ export const MissionModifyModal: React.FC<MissionModifyModalProps> = (
 ) => {
   const initialMissionData: MissionRegistData = {
     id: props.missionId,
-    num: props.missionNum,
-    date: props.missionDate,
-  };
-  const initialTableData: TableRegistData = {
     date: props.missionDate,
     num: props.missionNum,
   };
+
   const [problemData, setProblemData] =
     useState<MissionRegistData>(initialMissionData);
-  const [tableData, setTableData] = useState<TableRegistData>(initialTableData);
+
   const onAccess = () => {
-    console.log(tableData.date);
-    console.log(tableData.num);
     axios
       .put(`${process.env.REACT_APP_API_URL}/algorithms/${props.missionId}`, {
-        date: tableData.date,
-        num: tableData.num,
+        date: problemData.date,
+        num: problemData.num,
       })
       .then((res) => {
         setProblemData(res.data.data);
@@ -69,7 +65,7 @@ export const MissionModifyModal: React.FC<MissionModifyModalProps> = (
     columnKey: keyof MissionRegistData,
     value: string | number
   ) => {
-    setTableData((prevData) => ({
+    setProblemData((prevData) => ({
       ...prevData,
       [columnKey]: value,
     }));
@@ -104,7 +100,8 @@ export const MissionModifyModal: React.FC<MissionModifyModalProps> = (
                     <TextField
                       fullWidth
                       variant="outlined"
-                      value={tableData.date}
+                      defaultValue={initialMissionData.date}
+                      value={problemData.date}
                       onChange={(event) =>
                         handleTextFieldChange("date", event.target.value)
                       }
@@ -119,7 +116,8 @@ export const MissionModifyModal: React.FC<MissionModifyModalProps> = (
                     <TextField
                       fullWidth
                       variant="outlined"
-                      value={tableData.num}
+                      defaultValue={initialMissionData.num}
+                      value={problemData.num}
                       onChange={(event) =>
                         handleTextFieldChange("num", event.target.value)
                       }

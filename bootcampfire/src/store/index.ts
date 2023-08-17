@@ -9,6 +9,7 @@ import bootcampListSlice from "./bootcampListSlice";
 import programmingSlice from "./programmingSlice";
 import vsSlice from "./vsSlice";
 import bootcampSimpleListSlice from "./bootcampSimpleListSlice";
+import errorSlice from "./errorSlice";
 
 export interface RootState {
   auth: {
@@ -71,6 +72,11 @@ export interface RootState {
   bootcampInfo: {
     bootcampInfo: BootcampInfoItem[];
   };
+
+  error: {
+    errorMsg: string;
+    msg: string;
+  };
 }
 const store = configureStore({
   reducer: {
@@ -84,6 +90,7 @@ const store = configureStore({
     programming: programmingSlice,
     vs: vsSlice,
     bootcampInfo: bootcampSimpleListSlice,
+    error: errorSlice,
   },
 });
 
@@ -103,6 +110,8 @@ interface BootcampItem {
   score: number;
   tracks: { id: number; name: string }[];
   regions: { id: number; name: string }[];
+  errorMsg: string;
+  msg: string;
 }
 
 interface gameRank {
@@ -115,4 +124,9 @@ interface gameRank {
 interface BootcampInfoItem {
   bootcampId: number;
   bootcampName: string;
+}
+
+interface ErrorState {
+  errorMsg: string;
+  msg: string;
 }

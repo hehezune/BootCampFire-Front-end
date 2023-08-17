@@ -9,7 +9,6 @@ function VsHeader() {
 
   const handlerTabClick = (id: number) => {
     setActiveId(id);
-    console.log(id);
   };
 
   return (

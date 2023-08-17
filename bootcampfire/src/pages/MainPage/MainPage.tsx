@@ -35,11 +35,13 @@ export default function MainPage() {
     createData(1, '/asd', '자유게시판'),
     createData(2, '/asd', '썸/연애'),
     createData(3, '/asd', '헬스/다이어트'),
-    createData(4, '/asd', '고민'),
+    createData(4, '/asd', '스터디'),
     createData(5, '/asd', '프로젝트'),
-    createData(6, '/asd', '스터디'),
-    createData(7, '/asd', '질문'),
-    createData(8, '/asd', 'IT'),
+
+    createData(6, '/asd', 'IT'),
+    createData(7, '/asd', '고민'),
+    createData(8, '/asd', '질문'),
+
   ];
 
   return (

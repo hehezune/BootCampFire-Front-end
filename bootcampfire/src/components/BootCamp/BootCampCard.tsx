@@ -1,7 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import Tag from './Tag';
-
+import AWS from "aws-sdk"
+import { useEffect, useState } from 'react';
+AWS.config.update({
+  region: process.env.REACT_APP_AWS_REGION,
+  accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+});  
 interface BootcampItem {
   id: number;
   name: string;
@@ -18,27 +24,45 @@ interface BootcampItem {
   regions: { id: number; name: string }[];
 }
 
-
 interface BootCampCardProps {
   item: BootcampItem;
   cur: Date;
 }
 
 const BootCampCard: React.FC<BootCampCardProps> = ({ item, cur }) => {
+  const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
+
+  const downloadFile = async (Bname : string) => {
+    const s3 = new AWS.S3();  
+    const params = {
+      Bucket: process.env.REACT_APP_AWS_BUCKER || 'default-bucket-name',
+      Key: `logo/${Bname}.png`,
+    };
+  
+    try {
+      const res = await s3.getObject(params).promise();
+      const blob = new Blob([res.Body as ArrayBuffer], { type: 'image/png' });
+      const url = URL.createObjectURL(blob);
+      setImageUrl(url);
+    } catch (error) {
+      console.error('Error downloading file:', error);
+    }
+  };
+  if(item.imgUrl != "none") {downloadFile(item.name);}
 
   const is_Support = item.support ? "지원금 O" : "지원금 X";
   const is_test = item.support ? "코테 O"   : "코테 X";
   const isDateInRange = new Date(cur) >= new Date(item.startDate) && new Date(cur) <= new Date(item.endDate);
-  
+  const score1 = item.score ? Math.round(item.score * 10) / 10 : 0;
   return (
     <CardContainer>
       <div>
       {isDateInRange && <div>모집중</div>}
       </div>
-      <LogoImage src={item.imgUrl} alt="BootCamp Logo" />
+      {item.imgUrl!="none" && <LogoImage src={imageUrl} alt="BootCamp Logo" />}
       <FlexContainer>
         <CardHeading>{item.name}</CardHeading>
-        <ScoreText>{Math.round(item.score * 10) / 10} </ScoreText>
+        <ScoreText> {score1} </ScoreText>
       </FlexContainer>
         <TagContainer>
           <Tag text={item.onOff} color='#21C63C' />
@@ -106,3 +130,22 @@ const FlexContainer = styled.div`
   justify-content: space-between;
   width: 100%;
 `;
+
+
+
+  // const {init, files} = useSelector((state:RootState) => state.logo);
+  //           // const uint8array = new TextEncoder().encode(string1);
+
+  // const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
+  // useEffect(() => {
+  //   if (item.imgUrl !== "none") {
+  //     const str = files[item.name];
+  //     const uint8array = new TextEncoder().encode(str);
+  //     const blob = new Blob([uint8array], { type: 'image/png' });
+      
+  //     const url = URL.createObjectURL(blob);
+  //     setImageUrl(url);
+  //     console.log(url); // Check the URL in the console
+  //     const img = document.getElementById('i');
+  //   }
+  // }, [item.imgUrl, files]);
