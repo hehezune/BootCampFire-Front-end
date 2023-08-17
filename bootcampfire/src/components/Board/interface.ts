@@ -69,6 +69,7 @@ export interface ResponseComment extends RequestComment{
     refOrder: number;
     user: string;
     isWriter: boolean;
+    isLoginUser: boolean;
 }
 
 export interface Comment extends ResponseComment{
