@@ -13,13 +13,11 @@ const root = createRoot(container);
 axios.defaults.baseURL = 'http://localhost:3000/';
 axios.defaults.withCredentials = true;
 root.render(
-  <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
     </Provider>
-  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

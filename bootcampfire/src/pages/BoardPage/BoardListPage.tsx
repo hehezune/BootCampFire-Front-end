@@ -12,10 +12,13 @@ import { Board } from 'components/Board/interface';
 import useIntersect from 'components/Board/BoardList/useIntersect';
 import LoginModal from 'components/Login/LoginModal';
 import useGetHeader from 'constant/useGetHeader';
+import { useDispatch } from 'react-redux';
+import { setKeyword } from 'store/searchSlice';
 const API_URL = `${process.env.REACT_APP_API_URL}/categories`;
 const accesToken = localStorage.getItem('Authorization');
 
 function BoardListPage() {
+    const dispatch = useDispatch();
     const index = useLocation().state as number ?? 1;
     const navigate = useNavigate();
     const sort = useSelector((state: RootState) => state.search.sort);
@@ -48,16 +51,16 @@ function BoardListPage() {
         setPageCount(1);
         setHasNext(true);
 
-    }, [keyword]);
+    }, [keyword, type]);
 
     // sort 및 selectCategory 변화에 따른 반영
     useEffect(() => {
         const completeURL = API_URL + `/${selectCategory}` + getURLBySort(sort);
-        console.log("번호 확인", selectCategory)
         getDataFromAPI(0, completeURL).then((res) => setBoardListData(res.content));
         setUrl(completeURL);
         setHasNext(true);
         setPageCount(1);
+        dispatch(setKeyword({keyword: "", type}));
 
     }, [selectCategory, sort]);    
     
@@ -129,7 +132,7 @@ const getDataFromAPI = async (pageCount: number, url: string) => {
         },
         withCredentials : true
     });
-    console.log(response)
+    // console.log(response)
     return response.data.data;
 }
 
