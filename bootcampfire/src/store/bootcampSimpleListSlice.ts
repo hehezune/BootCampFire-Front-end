@@ -22,6 +22,6 @@ export const { setBootcampInfo } = bootcampSimpleListSlice.actions;
 export default bootcampSimpleListSlice.reducer;
 
 interface BootcampInfoItem {
-  bootcampId: number;
-  bootcampName: string;
+  id: number;
+  name: string;
 }
