@@ -50,7 +50,7 @@ function BoardDetailBody({boardDetail, setLike}:{boardDetail: BoardDetail, setLi
     }
 
     const handlerEditBtn = () => {
-        navigate('/BoardModify', {state: {boardDetail, categoryId}});
+        navigate(`/BoardModify/${boardDetail.id}`, {state: {boardDetail, categoryId}});
     }
 
     const handlerDeleteBtn = () => {
