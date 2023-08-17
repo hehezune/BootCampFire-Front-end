@@ -13,7 +13,7 @@ import { categories } from 'constant/constant';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import useGetHeader from 'constant/useGetHeader';
-
+import { UseSelector } from 'react-redux/es/hooks/useSelector';
 // const accessToken = localStorage.getItem("Authorization");
 // const header = {
 //     headers: {
@@ -37,9 +37,10 @@ function BoardDetailBody({boardDetail, setLike}:{boardDetail: BoardDetail, setLi
     const categoryId = useLocation().state as number;
     const navigate = useNavigate();
     const [isDelete, setIsDelete] = useState(false);
-
+    const isLoggedin = useSelector((state: RootState) => state.auth.isLoggedIn);
     const handlerLikeBtn = () => {
         // 백에 like 관련 요청 필요
+        if (!isLoggedin) return;
         if (boardDetail.isLike) {
             axios.post(`${process.env.REACT_APP_API_URL}/likes/cancel/${boardDetail.id}`, header)
             .then(({data}) => setLike(false));

@@ -21,7 +21,7 @@ export const categories = [
   'IT',
   '고민',
   '질문',
-  '내 부트캠프',
+  '부트캠프',
 ];
 
 const catergoryMapOrigin = new Map();
