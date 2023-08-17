@@ -176,6 +176,7 @@ export default function Header() {
               bojId: res.data.data.bojId,
             })
           );
+          setNickName(res.data.data.nickname);
           setIsLoading(false);
       }}).catch((err) => {
         setIsLoading(false);
