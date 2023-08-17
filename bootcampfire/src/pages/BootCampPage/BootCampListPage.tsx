@@ -67,11 +67,9 @@ const BootCampListPage: React.FC = () => {
         .catch((error) => dispatch(fetchBootcampFailure(error.message)));
     }
 
-    // .then((response) => console.log(response.data))
   }, [dropBoxidx]);
 
-  // console.log(bootcampSearchResult)
-  // console.log(bootcamp)
+  console.log(bootcamp)
 
   if (loading) {
     return <div>Now Loading...</div>;
