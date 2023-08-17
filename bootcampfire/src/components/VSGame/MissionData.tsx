@@ -29,13 +29,17 @@ interface ErrorMsg {
 
 const MissionData = () => {
   const userId = useSelector((state: RootState) => state.auth.userId);
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const [algorithm, setAlgorithm] = useState<missionData>(Object);
   // const [result, setResult] = useState<missionResult>(Object);
   const accessToken = localStorage.getItem("Authorization");
   const [isErrorTrue, setError] = useState("none");
   const [isSuccessTrue, setSuccess] = useState("none");
+  const [isVisible, setVisible] = useState("");
   const navigate = useNavigate();
+  let time = 0;
   const isSolved = () => {
+    time = 2000;
     axios
       .get(`${process.env.REACT_APP_API_URL}/algorithms/${algorithm.num}`, {
         headers: {
@@ -61,29 +65,33 @@ const MissionData = () => {
     navigate("/ErrorPage");
   };
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/algorithms`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        withCredentials: true,
-      })
-      .then((res) => {
-        setAlgorithm(res.data.data);
-      });
+    if (!isLoggedIn) setVisible("none");
+    if (isLoggedIn) {
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/algorithms`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          withCredentials: true,
+        })
+        .then((res) => {
+          setAlgorithm(res.data.data);
+        });
+    }
   }, []);
   useEffect(() => {
-    const time = 2000;
     const timer = setInterval(() => {
       setError("none");
       setSuccess("none");
     }, 2000 + time);
     return () => {
       clearInterval(timer);
+      time = 0;
     };
   }, []);
+
   return (
-    <div>
+    <div style={{ display: isVisible }}>
       <table>
         <tbody>
           <tr>
@@ -98,7 +106,7 @@ const MissionData = () => {
         </tbody>
       </table>
       <span>
-        <a href={algorithm.link}>
+        <a href={algorithm.link} target="_blank">
           <LightBtn
             type="first"
             style={{
@@ -124,19 +132,7 @@ const MissionData = () => {
           알고리즘 확인받기!
         </LightBtn>
       </span>
-      <span>
-        <LightBtn
-          type=""
-          style={{
-            marginTop: "20px",
-            justifyContent: "right",
-            marginRight: "auto",
-          }}
-          onClick={isError}
-        >
-          에러페이지 확인
-        </LightBtn>
-      </span>
+      <span></span>
       <Alert severity="error" sx={{ display: isErrorTrue }}>
         알고리즘을 풀지 않으셨거나 이미 등록하셨어요
       </Alert>
