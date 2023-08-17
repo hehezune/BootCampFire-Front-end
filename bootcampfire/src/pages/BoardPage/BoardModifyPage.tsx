@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { StyledPage } from './styledPage';
-import { StrongBtn, Bold15px } from 'components/Board/styled';
+import { StrongBtn, Bold15px, Bold18px } from 'components/Board/styled';
 import { colors } from 'constant/constant';
 import { useState } from 'react';
 import axios from 'axios';
@@ -10,7 +10,9 @@ import { StyledRightFlex } from 'components/Board/styled';
 import { useNavigate, useLocation } from 'react-router-dom';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import CategoryDropDown from 'components/Board/BoardCreate/CategoryDropDown';
+import { categories } from 'constant/constant';
+import useCheckTextLength from 'constant/useCheckTextLength';
+import useGetHeader from 'constant/useGetHeader';
 // modify는 redux에서 받아온 데이터로 value의 초기값을 설정해주는 작업이 필요하다.
 // 삭제하기 버튼을 눌렀을 경우, 바로 삭제로 넘어가는 것이 아니고 삭제 확인 버튼을 재활성화시켜 넘어간다
 interface LocationState {
@@ -18,9 +20,8 @@ interface LocationState {
   categoryId: number;
 }
 
-const TEST_USERID = 1;
-
 function BoardModifyPage() {
+  const checkTexkLength = useCheckTextLength;
   const navigate = useNavigate();
   const state = useLocation().state as LocationState;
   let [initAnonymous, initCategory, initTitle, initContent] = [false, 0, '', ''];
@@ -33,7 +34,6 @@ function BoardModifyPage() {
   }
 
   const [isAnonymous, setIsAnonymous] = useState(initAnonymous);
-  const [selectCategory, setSelectCategory] = useState<number>(initCategory);
   const [titleInput, setTitleInput] = useState(initTitle);
   const [contentInput, setContentInput] = useState(initContent);
   const handlerAnonymous = () => {
@@ -43,14 +43,21 @@ function BoardModifyPage() {
   const handlerSubmitBtn = () => {
     const requestBody = {
       anonymous: isAnonymous,
-      categoryId: selectCategory,
       content: contentInput,
       title: titleInput,
-      userId: TEST_USERID,
     };
+
+    if (!checkTexkLength(0, titleInput)) {
+      alert("제목을 100자 이내로 작성해주세요.");
+      return ;
+    } 
+    if (!checkTexkLength(1, contentInput)) {
+      alert("내용을 254자 이내로 작성해주세요.");
+      return ;
+    }
     axios
-      .post(`${process.env.REACT_APP_API_URL}/boards`, requestBody)
-      .then((res) => navigate('/BoardDetail/' + res.data.data.id, { state: selectCategory }));
+      .put(`${process.env.REACT_APP_API_URL}/boards/${state.boardDetail.id}`, requestBody)
+      .then((res) => navigate('/BoardDetail/' + res.data.data.id, { state: initCategory }));
   };
 
   const handlerCancleEditBtn = () => {
@@ -62,7 +69,8 @@ function BoardModifyPage() {
       <StyledWrapperDiv>
         <StyledBoardHeader>
           <StyledHeader>
-            <CategoryDropDown selectCategory={selectCategory} onSelectCategory={setSelectCategory}></CategoryDropDown>
+            <StyledCategory>{categories[initCategory]}</StyledCategory>
+            {/* <CategoryDropDown selectCategory={selectCategory} onSelectCategory={setSelectCategory}></CategoryDropDown> */}
             <StyledTitleInput
               type="text"
               placeholder="글 제목을 작성하세요."
@@ -133,7 +141,11 @@ const StyledButtonDiv = styled(StyledRightFlex)`
   margin: 10px auto;
   gap: 40px;
 `;
+const StyledCategory = styled(Bold18px)`
+    color: ${colors.PRIMARY};
+    flex-grow: 1;
 
+`
 const StyledHeader = styled.div`
   width: 97%;
   height: 180px;
