@@ -36,7 +36,6 @@ function BoardModifyPage() {
   const [selectCategory, setSelectCategory] = useState<number>(initCategory);
   const [titleInput, setTitleInput] = useState(initTitle);
   const [contentInput, setContentInput] = useState(initContent);
-  const [isDelete, setIsDelete] = useState(false);
   const handlerAnonymous = () => {
     setIsAnonymous(!isAnonymous);
   };
@@ -54,10 +53,9 @@ function BoardModifyPage() {
       .then((res) => navigate('/BoardDetail/' + res.data.data.id, { state: selectCategory }));
   };
 
-  const handlerDeleteConfirmBtn = () => {
-    console.log(state.boardDetail.id);
-    axios.delete(`${process.env.REACT_APP_API_URL}/boards/` + state.boardDetail.id).then((res) => navigate(-1));
-  };
+  const handlerCancleEditBtn = () => {
+    navigate(-1);
+  }
 
   return (
     <StyledPage>
@@ -92,22 +90,7 @@ function BoardModifyPage() {
         <StrongBtn type="first" onClick={handlerSubmitBtn}>
           수정하기
         </StrongBtn>
-        <StrongBtn type="">취소하기</StrongBtn>
-        {!isDelete && (
-          <StrongBtn type="" onClick={(event) => setIsDelete(true)}>
-            삭제하기
-          </StrongBtn>
-        )}
-        {isDelete && (
-          <StrongBtn type="" onClick={handlerDeleteConfirmBtn}>
-            삭제 확인
-          </StrongBtn>
-        )}
-        {isDelete && (
-          <StrongBtn type="" onClick={(event) => setIsDelete(false)}>
-            아니오
-          </StrongBtn>
-        )}
+        <StrongBtn type="" onClick={handlerCancleEditBtn}>취소하기</StrongBtn>
       </StyledButtonDiv>
     </StyledPage>
   );
@@ -148,6 +131,7 @@ const StyledWrapperDiv = styled.div`
 const StyledButtonDiv = styled(StyledRightFlex)`
   width: 97%;
   margin: 10px auto;
+  gap: 40px;
 `;
 
 const StyledHeader = styled.div`
