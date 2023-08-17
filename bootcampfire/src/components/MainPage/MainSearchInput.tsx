@@ -21,7 +21,7 @@ let dummyData : DropDownList = {
 
 const StyledBold21px = styled(Bold21px)`
   position: absolute;
-  right: calc(100% + 15px);
+  right: calc(100% + 20px);
   width: 80px;
 `
 
