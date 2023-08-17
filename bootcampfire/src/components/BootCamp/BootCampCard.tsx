@@ -30,36 +30,21 @@ interface BootCampCardProps {
 }
 
 const BootCampCard: React.FC<BootCampCardProps> = ({ item, cur }) => {
-  const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
 
-  const downloadFile = async (Bname : string) => {
-    const s3 = new AWS.S3();  
-    const params = {
-      Bucket: process.env.REACT_APP_AWS_BUCKER || 'default-bucket-name',
-      Key: `logo/${Bname}.png`,
-    };
-  
-    try {
-      const res = await s3.getObject(params).promise();
-      const blob = new Blob([res.Body as ArrayBuffer], { type: 'image/png' });
-      const url = URL.createObjectURL(blob);
-      setImageUrl(url);
-    } catch (error) {
-      console.error('Error downloading file:', error);
-    }
-  };
-  if(item.imgUrl != "none") {downloadFile(item.name);}
 
   const is_Support = item.support ? "지원금 O" : "지원금 X";
   const is_test = item.support ? "코테 O"   : "코테 X";
   const isDateInRange = new Date(cur) >= new Date(item.startDate) && new Date(cur) <= new Date(item.endDate);
-  const score1 = item.score ? Math.round(item.score * 10) / 10 : 0;
+  const score1 = isNaN(item.score) ? 0 : Math.round(item.score * 10) / 10;
+  
   return (
     <CardContainer>
       <div>
       {isDateInRange && <div>모집중</div>}
       </div>
-      {item.imgUrl!="none" && <LogoImage src={imageUrl} alt="BootCamp Logo" />}
+      {item.imgUrl!="none" && <LogoImage src={item.imgUrl} alt="BootCamp Logo" />}      
+      {item.imgUrl=="none" && <LogoImage src="./bootcampNoImage.png" alt="BootCamp Logo" />}
+
       <FlexContainer>
         <CardHeading>{item.name}</CardHeading>
         <ScoreText> {score1} </ScoreText>
@@ -94,7 +79,8 @@ const CardContainer = styled.div`
 `;
 
 const LogoImage = styled.img`
-  height: 90px;
+  max-height: 100px;
+  max-width: 200px;
   border-radius: 10px;
 `;
 

@@ -53,6 +53,7 @@ export interface RootState {
     error: null;
     dropBoxidx: number;
     bootSearch: string;
+    flag : boolean;
   };
   programming: {
     item_lst: string[];

@@ -75,7 +75,11 @@ const DetailTab: React.FC<BootCampCardProps> = ({ bootcamp }) => {
           </HorizontalDivs>
           <SubDiv>
             <Mtext>설명</Mtext>
-            <ContentContainer width="100%">{bootcamp.description}</ContentContainer>
+            <ContentContainer width="100%">
+            <Inner3>
+              {bootcamp.description}
+              </Inner3>
+              </ContentContainer>
           </SubDiv>
         </VerticalDivs>
       </TabBox>
@@ -88,7 +92,8 @@ export default DetailTab;
 const TabBox = styled.div`
   box-sizing: border-box;
   width: 100%;
-  height: 900px;
+  min-height: 900px;
+  // height: 900px;
   background: #fff9f9;
   border: 1px solid #ff603d;
   border-radius: 24px;
@@ -132,6 +137,7 @@ const Inner1 = styled.span`
   display: flex;
   color: #290e08;
   margin: 4px;
+  
 `;
 
 const Inner2 = styled.span`
@@ -171,6 +177,7 @@ const ContentContainer = styled.div<{ width: string }>`
   border: 2px solid #d4d2e3;
   border-radius: 24px;
   padding: 10px;
+
 `;
 
 interface BootcampItem {

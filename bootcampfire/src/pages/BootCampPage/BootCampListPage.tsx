@@ -9,7 +9,7 @@ import { RootState } from 'store';
 import { useEffect, useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchBootcampStart, fetchBootcampSuccess, fetchBootcampFailure } from 'store/bootcampListSlice';
+import { fetchBootcampStart, fetchBootcampSuccess, fetchBootcampFailure, flagTurn } from 'store/bootcampListSlice';
 
 const BootCampListPage: React.FC = () => {
   const currentDate = new Date();
@@ -19,14 +19,13 @@ const BootCampListPage: React.FC = () => {
   };
 
   const dispatch = useDispatch();
-  const { bootcamp, loading, error, dropBoxidx, bootSearch } = useSelector((state: RootState) => state.bootcamp);
+  const { bootcamp, loading, error, dropBoxidx, bootSearch, flag } = useSelector((state: RootState) => state.bootcamp);
 
   const { trackList, regionList, etcList } = useSelector((state: RootState) => state.select);
 
   const { tmp_lst } = useSelector((state: RootState) => state.select);
 
   const [bootcampSearchResult, setBootcampSearchResult] = useState<BootcampItem[]>([]);
-
   useEffect(() => {
     const filteredBootcamp = bootSearch
       ? bootcamp.filter((item) => item.name.toLowerCase().includes(bootSearch.toLowerCase()))
@@ -57,20 +56,21 @@ const BootCampListPage: React.FC = () => {
     });
     setBootcampSearchResult(restructuredBootcamp2);
   }, [etcList, regionList, trackList, bootcamp, bootSearch]);
+
   useEffect(() => {
-    if (bootcamp.length == 0) {
+
+    if(!flag) {
       dispatch(fetchBootcampStart());
       const api_url = dropBoxidx === 0 ? 'names' : dropBoxidx === 1 ? 'scores' : dropBoxidx === 2 ? 'reviews' : 'names';
       axios
-        .get(`${process.env.REACT_APP_API_URL}/bootcamps/lists/${api_url}`)
-        .then((response) => dispatch(fetchBootcampSuccess(response.data.data)))
-        .catch((error) => dispatch(fetchBootcampFailure(error.message)));
+      .get(`${process.env.REACT_APP_API_URL}/bootcamps/lists/${api_url}`)
+      .then((response) => dispatch(fetchBootcampSuccess(response.data.data)))
+      .catch((error) => dispatch(fetchBootcampFailure(error.message)));
+      dispatch(flagTurn(true));
     }
 
-    // .then((response) => console.log(response.data))
   }, [dropBoxidx]);
 
-  // console.log(bootcampSearchResult)
   // console.log(bootcamp)
 
   if (loading) {
