@@ -124,8 +124,6 @@ function PersonalInfo() {
         withCredentials: true,
       },
     })
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
     
     try {
       const newUserInfo = await axios.get(`${process.env.REACT_APP_API_URL}/users`, {
