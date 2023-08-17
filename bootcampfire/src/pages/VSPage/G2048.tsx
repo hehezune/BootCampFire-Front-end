@@ -52,40 +52,45 @@ export default function G2048() {
     <div>
       <h1>VS</h1>
 
-      {GameRank10.length === 0 && <div>랭킹이없다옹</div>}
+      <div style={{ display: 'flex', height: '100vh' }}>
 
-      {GameRank10.length != 0 && (
-        <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Rank</TableCell>
-              <TableCell align="right">Nick Name</TableCell>
-              <TableCell align="right">Bootcamp</TableCell>
-              <TableCell align="right">Score</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {GameRank10.map((row) => (
-              <TableRow
-                key={row.rank}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.rank}
-                </TableCell>
-                <TableCell align="right">{row.userNickname}</TableCell>
-                <TableCell align="right">{row.bootcampName}</TableCell>
-                <TableCell align="right">{row.score}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      )}
+      <span style={{ flex: '6',border: '3px solid orange',  margin:'30px'  }}>
+            <App />
+          </span>
 
-      <div style={{ border: '3px solid orange',  margin:'30px' }}>
-        <App />
+        <span style={{ flex: '4', padding: '10px' }}>
+
+          {GameRank10.length != 0 && (
+            <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 250 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Rank</TableCell>
+                  <TableCell align="right">Nick Name</TableCell>
+                  <TableCell align="right">Bootcamp</TableCell>
+                  <TableCell align="right">Score</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {GameRank10.map((row) => (
+                  <TableRow
+                  key={row.rank}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {row.rank}
+                    </TableCell>
+                    <TableCell align="right">{row.userNickname}</TableCell>
+                    <TableCell align="right">{row.bootcampName}</TableCell>
+                    <TableCell align="right">{row.score}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          )}
+          </span>
+
       </div>
     </div>
   );
