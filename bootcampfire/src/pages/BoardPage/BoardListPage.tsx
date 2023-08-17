@@ -45,7 +45,6 @@ function BoardListPage() {
     // keyword 변화 (검색 버튼 눌렀을 때)에 따른 반영
     useEffect(() => {
         if (keyword.length === 0) return;
-        console.log("키워드", keyword, "타입", type)
         const completeURL = API_URL + `/${selectCategory}` + getURLByKeyword(keyword, type);
         getDataFromAPI(0, completeURL).then((res) => setBoardListData(res.content));
         setUrl(completeURL);
@@ -57,7 +56,6 @@ function BoardListPage() {
     // sort 및 selectCategory 변화에 따른 반영
     useEffect(() => {
         const completeURL = API_URL + `/${selectCategory}` + getURLBySort(sort);
-        console.log("카테고리 번호", selectCategory, "정렬순", sort)
         getDataFromAPI(0, completeURL).then((res) => setBoardListData(res.content));
         setUrl(completeURL);
         setHasNext(true);
