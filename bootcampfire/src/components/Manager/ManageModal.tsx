@@ -18,15 +18,11 @@ interface ManageModalProps {
   nickname: string;
   userId: number;
 }
-interface bootcampData {
-  id: number;
-  name: string;
-}
+
 export const ManageModal: React.FC<ManageModalProps> = (props) => {
-  const [bootcamps, setBootcamps] = useState<bootcampData[]>([]);
-  axios.get(`${process.env.REACT_APP_API_URL}/bootcamps/names`).then((res) => {
-    setBootcamps(res.data.data);
-  });
+  const bootcamps = useSelector(
+    (state: RootState) => state.bootcampInfo.bootcampInfo
+  );
   const onAccess = () => {
     console.log(bootcamp);
     axios.put(
