@@ -81,7 +81,8 @@ function CommentCard({data, boardId, idx}: {data: Comment, boardId: number, idx:
         .then((res) => {dispatch(modifyComment({idx,
             content: res.data.data.content,
             anonymous: res.data.data.anonymous}));
-            setActiveInputType(NORMAL);});
+            setActiveInputType(NORMAL);
+            setIsAnonymous(false)});
         return ;
     }
 
@@ -103,6 +104,7 @@ function CommentCard({data, boardId, idx}: {data: Comment, boardId: number, idx:
         .then((res) => {
             if (res.data.message === "success") {
                 setActiveInputType(NORMAL);
+                setIsAnonymous(false);
                 axios.get(`${process.env.REACT_APP_API_URL}/comments/list/` + boardId)
                 .then((res) => {dispatch(getComments({comments: res.data.data as Comment[], boardId: boardId}))})
             }

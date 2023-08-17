@@ -29,7 +29,7 @@ function Comments({ boardId, comments }: { boardId: number; comments: Comment[] 
 
   const handlerCreateComment = () => {
     if (!isLoggedIn) {
-      console.log('로그인 plz');
+      console.log('로그인 후 이용할 수 있습니다.');
       return;
     }
 
@@ -41,7 +41,11 @@ function Comments({ boardId, comments }: { boardId: number; comments: Comment[] 
       content: commentRef.current?.value ?? '',
       boardId,
     };
-    console.log(newComment.boardId, boardId);
+
+    if (!newComment.content) {
+      alert("댓글 내용이 없습니다.");
+      return ;
+    }
     if (commentRef.current) {
       commentRef.current.value = '';
     }
@@ -54,6 +58,7 @@ function Comments({ boardId, comments }: { boardId: number; comments: Comment[] 
                     .then((res) => {
                         const comments = res.data.data as Comment[];
                         dispatch(getComments({comments, boardId}));
+                        setIsAnonymous(false);
                     });
                 }
             })   }
