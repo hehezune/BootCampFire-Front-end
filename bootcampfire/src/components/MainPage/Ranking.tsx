@@ -6,13 +6,17 @@ import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux';
 import { loadGameRank } from 'store/vsSlice';
 import { RootState } from "store";
+import { useEffect } from "react";
 
 export default function Ranking() {
+
   const dispatch = useDispatch();
   const { GameRank10 } = useSelector((state: RootState) => state.vs);
 
-  // axios.get(`${process.env.REACT_APP_API_URL}/games`)
-  // .then((response) => dispatch(loadGameRank(response.data.data)));
+  useEffect(() => {
+    axios.get(`${process.env.REACT_APP_API_URL}/games`)
+      .then((response) => dispatch(loadGameRank(response.data.data)));
+  }, []); 
 
   return (
     <Sample>
