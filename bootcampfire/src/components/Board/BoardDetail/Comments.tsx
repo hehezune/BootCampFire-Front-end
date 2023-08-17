@@ -14,10 +14,12 @@ import { useRef } from 'react';
 import axios from 'axios';
 import { getComments } from 'store/commentSlice';
 import useGetHeader from 'constant/useGetHeader';
+import useCheckTextLength from 'constant/useCheckTextLength';
 // redux를 먼저 해볼것인가 아니면 더미데이터를 만들어서 일단 진행할 것인가
 //
 
 function Comments({ boardId, comments }: { boardId: number; comments: Comment[] }) {
+  const checkTextLength = useCheckTextLength;
   const header = useGetHeader();
   const dispatch = useDispatch();
   const commentRef = useRef<HTMLInputElement>(null);
@@ -46,6 +48,12 @@ function Comments({ boardId, comments }: { boardId: number; comments: Comment[] 
       alert("댓글 내용이 없습니다.");
       return ;
     }
+
+    if (!checkTextLength(1, newComment.content)) {
+      alert("254자 이내로 작성해주세요.");
+      return ;
+    }
+    
     if (commentRef.current) {
       commentRef.current.value = '';
     }

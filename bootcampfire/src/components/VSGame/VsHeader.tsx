@@ -3,9 +3,10 @@ import { Bold18px, Bold24px } from "components/Board/styled";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { colors } from "constant/constant";
-
+import { useLocation } from "react-router-dom";
 function VsHeader() {
-  const [activeId, setActiveId] = useState(0);
+  const selectTab = useLocation().state as number ?? 0;
+  const [activeId, setActiveId] = useState(selectTab);
 
   const handlerTabClick = (id: number) => {
     setActiveId(id);

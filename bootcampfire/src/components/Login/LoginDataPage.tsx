@@ -35,7 +35,7 @@ export default function LoginDataPage() {
               userId: res.data.data.id,
               nickname: res.data.data.nickname,
               email: res.data.data.email,
-              isAdmin: res.data.data.roll === 'USER' ? false : true,
+              isAdmin: res.data.data.role === 'USER' ? false : true,
               bootcampName: res.data.data.bootcampName,
               bootcampId: res.data.data.bootcampId,
               bojId: res.data.data.bojId,

@@ -17,10 +17,12 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import type { RootState } from 'store';
 import useGetHeader from 'constant/useGetHeader';
+import useCheckTextLength from 'constant/useCheckTextLength';
 
 const [NORMAL, REPLY, EDIT, DEL] = [0, 1, 2, 3];
 
 function CommentCard({data, boardId, idx}: {data: Comment, boardId: number, idx: number}) {
+    const checkTextLength = useCheckTextLength;
     const header = useGetHeader();
     const [activeInputType, setActiveInputType] = useState(NORMAL)
     const [isAnonymous, setIsAnonymous] = useState(false);
@@ -77,6 +79,11 @@ function CommentCard({data, boardId, idx}: {data: Comment, boardId: number, idx:
             anonymous: isAnonymous,
         }
 
+        if (!checkTextLength(1, requestEdit.content)) {
+            alert("내용을 254자 이내로 작성해주세요.");
+            return ;
+        }
+
         axios.put(`${process.env.REACT_APP_API_URL}/comments/` + data.id, requestEdit)
         .then((res) => {dispatch(modifyComment({idx,
             content: res.data.data.content,
@@ -100,6 +107,11 @@ function CommentCard({data, boardId, idx}: {data: Comment, boardId: number, idx:
             userId,
         }
 
+        if (!checkTextLength(1, replyComment.content)) {
+            alert("내용을 254자 이내로 작성해주세요.");
+            return ;
+        }
+        
         axios.post(`${process.env.REACT_APP_API_URL}/comments`, replyComment, header)
         .then((res) => {
             if (res.data.message === "success") {
@@ -127,11 +139,11 @@ function CommentCard({data, boardId, idx}: {data: Comment, boardId: number, idx:
                     <div style={{display: 'flex', gap: '15px'}}>
 
                     {/* 우측에 위치해야할 친구들 */}
-                    {data.user === nickname && activeInputType === NORMAL && <ModeEditOutlineOutlinedIcon onClick={handlerSetEditBtn} sx={{color: colors.TEXT_LIGHT}}/>}
-                    {(isAdmin || (data.user === nickname)) && activeInputType === NORMAL && <CloseOutlinedIcon onClick={handlerSetDelBtn} sx={{color: colors.TEXT_LIGHT}}/>}
+                    {data.isLoginUser && activeInputType === NORMAL && <ModeEditOutlineOutlinedIcon onClick={handlerSetEditBtn} sx={{color: colors.TEXT_LIGHT}}/>}
+                    {(isAdmin || data.isLoginUser) && activeInputType === NORMAL && <CloseOutlinedIcon onClick={handlerSetDelBtn} sx={{color: colors.TEXT_LIGHT}}/>}
                     {data.user === nickname && activeInputType === EDIT && <CloseOutlinedIcon onClick={handlerCancelEditBtn} sx={{color: colors.TEXT_LIGHT}}/>}
-                    {(isAdmin || (data.user === nickname)) && activeInputType === DEL && <LightBtn as="span" type="" onClick={handlerConfirmDelBtn}>삭제 확인</LightBtn>}
-                    {(isAdmin || (data.user === nickname)) && activeInputType === DEL && <LightBtn as="span" type="" onClick={handlerCancelDelBtn}>삭제 취소</LightBtn>}
+                    {(isAdmin || data.isLoginUser) && activeInputType === DEL && <LightBtn as="span" type="" onClick={handlerConfirmDelBtn}>삭제 확인</LightBtn>}
+                    {(isAdmin || data.isLoginUser) && activeInputType === DEL && <LightBtn as="span" type="" onClick={handlerCancelDelBtn}>삭제 취소</LightBtn>}
                     </div>
 
                 </CommentWriter>

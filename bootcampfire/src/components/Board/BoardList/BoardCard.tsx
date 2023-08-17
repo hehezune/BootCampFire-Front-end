@@ -23,7 +23,7 @@ function BoardCard({data, onClick}: {data: Board, onClick: () => void}){
     return (
         <StyledBoardCard onClick={onClick} className="asdfasdfas">
             <StyledBold18px className="position1px">{data.title}</StyledBold18px>
-            <Normal15px className="position40px">{data.content}</Normal15px>
+            <StyledContent className="position40px">{data.content}</StyledContent>
             <Infodiv className="position110px">
                 <DateInfo data={dataForDateInfo}/>
 
@@ -35,6 +35,13 @@ function BoardCard({data, onClick}: {data: Board, onClick: () => void}){
         </StyledBoardCard>
     )
 }
+
+const StyledContent = styled(Normal15px)`
+    max-width: 960px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
 
 const StyledBoardCard = styled.div`
     position: relative;
