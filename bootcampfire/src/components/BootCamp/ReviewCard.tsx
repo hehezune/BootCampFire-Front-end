@@ -27,7 +27,7 @@ const ReviewCard: React.FC<BootCampReviewProps> = ({ review }) => {
       });
   };
 
-  const maskedUsername = review.user[0] + review.user.slice(1).replace(/./g, '*');
+  const maskedUsername = review.user ? review.user[0] + review.user.slice(1).replace(/./g, '*') : '';
 
 
   return (
