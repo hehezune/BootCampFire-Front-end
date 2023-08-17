@@ -44,6 +44,7 @@ const BootCampCard: React.FC<BootCampCardProps> = ({ item, cur }) => {
       </div>
       {item.imgUrl!="none" && <LogoImage src={item.imgUrl} alt="BootCamp Logo" />}      
       {item.imgUrl=="none" && <LogoImage src="./bootcampNoImage.png" alt="BootCamp Logo" />}
+
       <FlexContainer>
         <CardHeading>{item.name}</CardHeading>
         <ScoreText> {score1} </ScoreText>
@@ -78,7 +79,8 @@ const CardContainer = styled.div`
 `;
 
 const LogoImage = styled.img`
-  height: 90px;
+  max-height: 100px;
+  max-width: 200px;
   border-radius: 10px;
 `;
 

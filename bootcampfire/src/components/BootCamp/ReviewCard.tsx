@@ -3,6 +3,8 @@ import { IconButton } from '@mui/material';
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
 import { useState } from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
 
 const ReviewCard: React.FC<BootCampReviewProps> = ({ review }) => {
   const [isLiked, setIsLiked] = useState(review.isAlreadyReviewLike);
@@ -10,6 +12,8 @@ const ReviewCard: React.FC<BootCampReviewProps> = ({ review }) => {
   const handleToggleLike = () => {
     setIsLiked(!isLiked);
   };
+  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
+
 
   const handleLikes = () => {
     const api_url = !isLiked ? `${review.id}` : `cancel/${review.id}`;
@@ -22,8 +26,6 @@ const ReviewCard: React.FC<BootCampReviewProps> = ({ review }) => {
         console.error('리뷰 좋아요 실패', error);
       });
   };
-  console.log(review);
-  console.log(review.createdDate);
 
   return (
     <>
@@ -64,21 +66,24 @@ const ReviewCard: React.FC<BootCampReviewProps> = ({ review }) => {
             <SubDiv>
               <HorizontalDivs2>
                 <Text2>지인에게 추천 : {review.isRecommend ? 'O' : 'X'}</Text2>
+                  {
+                isLoggedIn &&                   
                 <HorizontalDivs>
                   <Text2> 공감 </Text2>
                   <IconButton
-                    color="error"
-                    aria-label="delete"
-                    size="large"
-                    onClick={() => {
-                      handleToggleLike();
-                      handleLikes();
-                    }}>
+                  color="error"
+                  aria-label="delete"
+                  size="large"
+                  onClick={() => {
+                    handleToggleLike();
+                    handleLikes();
+                  }}>
                     {isLiked ? <Favorite /> : <FavoriteBorder />}
                   </IconButton>
                   {isLiked_org && <Text3>({review.likeCnt + (isLiked ? 0 : -1)})</Text3>}
                   {!isLiked_org && <Text3>({review.likeCnt + (isLiked ? 1 : 0)})</Text3>}
                 </HorizontalDivs>
+                }
               </HorizontalDivs2>
             </SubDiv>
           </VerticalDivs2>
