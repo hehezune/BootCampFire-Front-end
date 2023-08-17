@@ -26,7 +26,6 @@ const BootCampListPage: React.FC = () => {
   const { tmp_lst } = useSelector((state: RootState) => state.select);
 
   const [bootcampSearchResult, setBootcampSearchResult] = useState<BootcampItem[]>([]);
-
   useEffect(() => {
     const filteredBootcamp = bootSearch
       ? bootcamp.filter((item) => item.name.toLowerCase().includes(bootSearch.toLowerCase()))
@@ -58,18 +57,16 @@ const BootCampListPage: React.FC = () => {
     setBootcampSearchResult(restructuredBootcamp2);
   }, [etcList, regionList, trackList, bootcamp, bootSearch]);
   useEffect(() => {
-    if (bootcamp.length == 0) {
-      dispatch(fetchBootcampStart());
-      const api_url = dropBoxidx === 0 ? 'names' : dropBoxidx === 1 ? 'scores' : dropBoxidx === 2 ? 'reviews' : 'names';
-      axios
-        .get(`${process.env.REACT_APP_API_URL}/bootcamps/lists/${api_url}`)
-        .then((response) => dispatch(fetchBootcampSuccess(response.data.data)))
-        .catch((error) => dispatch(fetchBootcampFailure(error.message)));
-    }
+    dispatch(fetchBootcampStart());
+    const api_url = dropBoxidx === 0 ? 'names' : dropBoxidx === 1 ? 'scores' : dropBoxidx === 2 ? 'reviews' : 'names';
+    axios
+    .get(`${process.env.REACT_APP_API_URL}/bootcamps/lists/${api_url}`)
+    .then((response) => dispatch(fetchBootcampSuccess(response.data.data)))
+    .catch((error) => dispatch(fetchBootcampFailure(error.message)));
 
   }, [dropBoxidx]);
 
-  console.log(bootcamp)
+  // console.log(bootcamp)
 
   if (loading) {
     return <div>Now Loading...</div>;
