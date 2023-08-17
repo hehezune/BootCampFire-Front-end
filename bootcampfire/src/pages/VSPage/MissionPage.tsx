@@ -1,4 +1,4 @@
-import MissionBar from "../../components/VSGame/MissionBar";
+import MissionBar from "components/VSGame/MissionBar";
 import axios from "axios";
 import MissionData from "components/VSGame/MissionData";
 import { useEffect, useState } from "react";
@@ -68,7 +68,6 @@ export default function MissionPage() {
           withCredentials: true,
         })
         .then((res) => {
-          console.log(res);
           setMyFastBootCamps(res.data.data);
           if (myFastBootCamps.rank > 10) setFastInclude("");
         });
