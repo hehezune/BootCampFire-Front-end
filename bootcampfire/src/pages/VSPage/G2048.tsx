@@ -7,6 +7,16 @@ import { useEffect } from 'react';
 import { loadGameRank, loadMyRank } from 'store/vsSlice';
 import axios from 'axios';
 
+
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
+
 export default function G2048() {
   const { GameRank10, myGameRank } = useSelector((state: RootState) => state.vs);
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
@@ -42,24 +52,39 @@ export default function G2048() {
     <div>
       <h1>VS</h1>
 
-      <div>{myGameRank.score}</div>
-
       {GameRank10.length === 0 && <div>랭킹이없다옹</div>}
 
       {GameRank10.length != 0 && (
-        <Container>
-          {GameRank10.map((item, index) => (
-            <RankItem key={index}>
-              {item.rank}
-              {item.userNickname}
-              {item.bootcampName}
-              {item.score}
-            </RankItem>
-          ))}
-        </Container>
+        <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Rank</TableCell>
+              <TableCell align="right">Nick Name</TableCell>
+              <TableCell align="right">Bootcamp</TableCell>
+              <TableCell align="right">Score</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {GameRank10.map((row) => (
+              <TableRow
+                key={row.rank}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {row.rank}
+                </TableCell>
+                <TableCell align="right">{row.userNickname}</TableCell>
+                <TableCell align="right">{row.bootcampName}</TableCell>
+                <TableCell align="right">{row.score}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
       )}
 
-      <div style={{ border: '2px solid red', padding: '10px' }}>
+      <div style={{ border: '3px solid orange',  margin:'30px' }}>
         <App />
       </div>
     </div>

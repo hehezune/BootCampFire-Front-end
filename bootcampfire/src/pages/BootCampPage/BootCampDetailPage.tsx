@@ -31,6 +31,7 @@ const BootCampListDetailPage: React.FC = () => {
   const [bootdetail, setBootdetail] = useState<BootcampItem | null>(null);
   const [bootreview, setbootreview] = useState<ReviewItem[]>([]);
   const [myreview, setMyReview] = useState<ReviewItem>({} as ReviewItem);
+  
 
   useEffect(() => {
     const accessToken = localStorage.getItem('Authorization');
@@ -44,6 +45,7 @@ const BootCampListDetailPage: React.FC = () => {
       ];
 
       if (isLoggedIn && bootcampId == bootcampIdNumber) {
+        console.log("val check을 함")
         requests.push(axios.get(`${process.env.REACT_APP_API_URL}/reviews/${bootcampIdNumber}/vaildation`));
       }
       Promise.all(requests)
@@ -56,18 +58,21 @@ const BootCampListDetailPage: React.FC = () => {
         })
         .catch((error) => {});
     }
-  }, []);
+  }, [bootcampId]);
 
   if (!bootdetail) {
     return <div>Loading...</div>;
   }
+
+  const score1 = isNaN(bootdetail.score) ? 0 : Math.round(bootdetail.score * 10) / 10;
 
   return (
     <>
       <BootCampDetailMain>
         <Tab>
           <LogoContainer>
-            <LogoImage src={bootdetail.imgUrl?.replace('.', '')} alt="BootCamp Logo" />
+            {bootdetail.imgUrl!="none" && <LogoImage src={bootdetail.imgUrl} alt="BootCamp Logo" />}      
+            {bootdetail.imgUrl=="none" && <LogoImage src="./bootcampNoImage.png" alt="BootCamp Logo" />}
           </LogoContainer>
           <VerticalDivs>
             <HorizontalDivs>
@@ -77,7 +82,7 @@ const BootCampListDetailPage: React.FC = () => {
               </StyledBtn>
             </HorizontalDivs>
             <HorizontalDivs>
-              <Mtext2>({Math.round(bootdetail.score * 10) / 10})</Mtext2>
+              <Mtext2>({score1})</Mtext2>
               <Mtext3 style={{ marginRight: '50px' }}>{bootdetail.reviewCnt} 개의 후기가 작성되었습니다.</Mtext3>
               <Mtext2>
                 모집 기간 : {new Date(bootdetail.startDate).toLocaleDateString()} ~{' '}

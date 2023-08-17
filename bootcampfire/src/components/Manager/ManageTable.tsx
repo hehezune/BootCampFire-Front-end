@@ -80,7 +80,7 @@ export default function ManageTable() {
             <TableRow key={element.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
               <TableCell align="center">{idx + 1}</TableCell>
               <TableCell align="center">{element.name}</TableCell>
-              <TableCell align="center">{element.score}</TableCell>
+              <TableCell align="center">{isNaN(element.score) ? 0 : Math.round(element.score * 10) / 10}</TableCell>
               <TableCell align="center">{element.reviewCnt}</TableCell>
               <TableCell align="right">
                 <LightBtn onClick={() => handleEditBootcamp(element.id, idx)} type="first">수정</LightBtn>
