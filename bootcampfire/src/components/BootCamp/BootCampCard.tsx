@@ -43,7 +43,7 @@ const BootCampCard: React.FC<BootCampCardProps> = ({ item, cur }) => {
       {isDateInRange && <div>모집중</div>}
       </div>
       {item.imgUrl!="none" && <LogoImage src={item.imgUrl} alt="BootCamp Logo" />}      
-      {item.imgUrl=="none" && <LogoImage src="./bootcampNoImage.png" alt="BootCamp Logo" />}
+      {item.imgUrl=="none" && <LogoImage src="https://github-production-user-asset-6210df.s3.amazonaws.com/28620037/261175775-510688e9-c98d-4aaf-8ead-269d0422f889.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20230817%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230817T015850Z&X-Amz-Expires=300&X-Amz-Signature=c4a8c486704cda3b2b1951e814b65394a0229e37c56db60ff97b38f7f64ab252&X-Amz-SignedHeaders=host&actor_id=28620037&key_id=0&repo_id=668928952" alt="BootCamp Logo" />}
       <FlexContainer>
         <CardHeading>{item.name}</CardHeading>
         <ScoreText> {score1} </ScoreText>
@@ -78,7 +78,8 @@ const CardContainer = styled.div`
 `;
 
 const LogoImage = styled.img`
-  height: 90px;
+  max-height: 100px;
+  max-width: 200px;
   border-radius: 10px;
 `;
 
