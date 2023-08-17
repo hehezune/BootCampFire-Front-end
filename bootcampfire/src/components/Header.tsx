@@ -147,9 +147,7 @@ export default function Header() {
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const nickname = useSelector((state: RootState) => state.auth.nickname); // nickname 정보를 가져옴
   const isAdmin = useSelector((state: RootState) => state.auth.isAdmin);
-  const bootcampId = useSelector((state: RootState) => state.auth.bootcampId);
   const navigate = useNavigate();
-  const [enteredNickname, setNickName] = React.useState(nickname);
   const [isModalOpen, setModalOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
 
@@ -176,7 +174,6 @@ export default function Header() {
               bojId: res.data.data.bojId,
             })
           );
-          setNickName(res.data.data.nickname);
           setIsLoading(false);
       }}).catch((err) => {
         setIsLoading(false);
@@ -243,7 +240,7 @@ export default function Header() {
           {isLoading &&  <MiniStateBtn type="" onClick={handleLogin} ><LoginIcon/></MiniStateBtn>}
           {!isLoading && isLoggedIn && (
             <LoginContentContainer>
-                <HelloDiv>안녕하세요 <br/>{enteredNickname}님</HelloDiv>
+                <HelloDiv>안녕하세요 <br/>{nickname}님</HelloDiv>
                 <Underdiv>
                   {isAdmin ? (
                     <Link to={'/ManagerPage'} style={{ color: '#94969B', textDecorationLine: 'none'}}>
