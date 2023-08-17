@@ -18,13 +18,14 @@ import useCheckTextLength from 'constant/useCheckTextLength';
 // redux를 먼저 해볼것인가 아니면 더미데이터를 만들어서 일단 진행할 것인가
 //
 
-function Comments({ boardId, comments }: { boardId: number; comments: Comment[] }) {
+function Comments({ boardId }: { boardId: number}) {
   const checkTextLength = useCheckTextLength;
   const header = useGetHeader();
   const dispatch = useDispatch();
   const commentRef = useRef<HTMLInputElement>(null);
   const [isAnonymous, setIsAnonymous] = useState(false);
   const { isLoggedIn, nickname, bootcampId, userId } = useSelector((state: RootState) => state.auth);
+  const comments = useSelector((state: RootState) => state.comment.commentList);
   const handlerClickAnonymous = () => {
     setIsAnonymous(!isAnonymous);
   };
