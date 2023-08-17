@@ -11,8 +11,8 @@ export default function Ranking() {
   const dispatch = useDispatch();
   const { GameRank10 } = useSelector((state: RootState) => state.vs);
 
-  axios.get(`${process.env.REACT_APP_API_URL}/games`)
-  .then((response) => dispatch(loadGameRank(response.data.data)));
+  // axios.get(`${process.env.REACT_APP_API_URL}/games`)
+  // .then((response) => dispatch(loadGameRank(response.data.data)));
 
   return (
     <Sample>
