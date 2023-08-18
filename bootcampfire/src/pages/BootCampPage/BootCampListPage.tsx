@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBootcampStart, fetchBootcampSuccess, fetchBootcampFailure, flagTurn } from 'store/bootcampListSlice';
+import SkeletonBootCampCard from 'components/BootCamp/SkeletonBootCampCard';
 
 const BootCampListPage: React.FC = () => {
   const currentDate = new Date();
@@ -20,10 +21,10 @@ const BootCampListPage: React.FC = () => {
 
   const dispatch = useDispatch();
   const { bootcamp, loading, error, dropBoxidx, bootSearch, flag } = useSelector((state: RootState) => state.bootcamp);
-
   const { trackList, regionList, etcList } = useSelector((state: RootState) => state.select);
 
   const { tmp_lst } = useSelector((state: RootState) => state.select);
+  const skeletongArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   const [bootcampSearchResult, setBootcampSearchResult] = useState<BootcampItem[]>([]);
   useEffect(() => {
@@ -43,7 +44,6 @@ const BootCampListPage: React.FC = () => {
     const selectedEtc = etcList.filter((etc) => etc.isOn).map((etc) => etc.name);
     const hasSelectedEtc =
       selectedEtc.includes('온라인') || selectedEtc.includes('오프라인') || selectedEtc.includes('온오프라인');
-
     const restructuredBootcamp2 = restructuredBootcamp.filter((item) => {
       const { onOff, cost, support, hasCodingtest } = item;
       const isOnOffMatched = !hasSelectedEtc || selectedEtc.includes(onOff);
@@ -73,11 +73,6 @@ const BootCampListPage: React.FC = () => {
 
   // console.log(bootcamp)
 
-  if (loading) {
-    return <div>Now Loading...</div>;
-  } else if (!bootcamp || bootcamp.length === 0) {
-    return <div>No data available.</div>;
-  }
   return (
     <>
       <Container>
@@ -87,7 +82,13 @@ const BootCampListPage: React.FC = () => {
         </TopSection>
         <CardSection>
           <CardContainer>
-            {bootcampSearchResult.map((item) => (
+
+            {loading && skeletongArray.map((item) => (
+                            <BootCampCardWrapper key={item}>
+                            <SkeletonBootCampCard/>
+                          </BootCampCardWrapper>
+            ))}
+            {!loading && bootcampSearchResult.map((item) => (
               <BootCampCardWrapper key={item.id} onClick={() => CardClick(item.id)}>
                 <BootCampCard item={item} key={item.id} cur={currentDate} />
               </BootCampCardWrapper>
