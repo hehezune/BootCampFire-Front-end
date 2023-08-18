@@ -50,8 +50,6 @@ export default function G2048() {
 
   return (
     <div>
-      <h1>VS</h1>
-
       <div style={{ display: 'flex', height: '100vh' }}>
 
       <span style={{ flex: '6',border: '3px solid orange',  margin:'30px'  }}>
