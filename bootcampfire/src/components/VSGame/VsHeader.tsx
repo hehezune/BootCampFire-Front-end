@@ -14,6 +14,7 @@ function VsHeader() {
 
   return (
     <div>
+      <StyledBold24px>VS</StyledBold24px>
       <StyledDiv>
         <StyledLink to="/VsPage">
           <StyledBold21px
@@ -39,7 +40,9 @@ function VsHeader() {
 }
 
 const StyledDiv = styled.div``;
-
+const StyledBold24px = styled(Bold24px)`
+  margin: 20px 20px 30px 20px;
+`;
 const StyledLink = styled(Link)`
   border-bottom: 1px solid ${colors.PRIMARY};
   text-decoration: none;

@@ -105,6 +105,7 @@ const MissionData = () => {
           </tr>
         </tbody>
       </table>
+      <div style={{display: "flex", gap: "20px"}}>
       <span>
         <a href={algorithm.link} target="_blank">
           <LightBtn
@@ -132,6 +133,7 @@ const MissionData = () => {
           알고리즘 확인받기!
         </LightBtn>
       </span>
+      </div>
       <span></span>
       <Alert severity="error" sx={{ display: isErrorTrue }}>
         알고리즘을 풀지 않으셨거나 이미 등록하셨어요

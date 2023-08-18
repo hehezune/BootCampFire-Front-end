@@ -4,7 +4,7 @@ import MissionData from 'components/VSGame/MissionData';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
-
+import { Bold18px } from 'components/Board/styled';
 interface fastBootCampList {
   bootcampName: string;
   rank: number;
@@ -84,20 +84,19 @@ export default function MissionPage() {
   }, []);
   return (
     <div>
-      <h1 style={{ marginTop: '20px' }}>VS</h1>
-      <div style={{ display: 'flex' }}>
-        <span>
+      <div style={{ display: 'flex', justifyContent: 'center', alignContent: 'center', marginTop: '20px', gap: '30px'}}>
+        <div>
           <MissionBar />
-        </span>
-        <span>
+        </div>
+        <div>
           <div style={{ display: 'flex' }}>
             <MissionData />
           </div>
-        </span>
+        </div>
       </div>
-      <div style={{ display: 'flex' }}>
-        <span style={{ marginLeft: 'auto', marginRight: 'auto' }}>
-          <div>가장 불을 먼저 점화시킨 부트 캠프</div>
+      <div style={{ display: 'flex', marginTop: '30px' }}>
+        <span style={{ marginLeft: 'auto', marginRight: 'auto'}}>
+          <Bold18px>가장 불을 먼저 점화시킨 부트 캠프</Bold18px>
           <div
             style={{
               marginTop: '20px',
@@ -114,15 +113,15 @@ export default function MissionPage() {
                   <td>{row.bootcampName}</td>
                 </tr>
               ))}
-              <tr style={{ display: isFastInclude }}>
+              <tr style={{ display: isFastInclude}}>
                 <td>{myFastBootCamps.rank}</td>
                 <td>{myFastBootCamps.bootcampName}</td>
               </tr>
             </tbody>
           </table>
         </span>
-        <span style={{ marginLeft: 'auto', marginRight: 'auto' }}>
-          <div>가장 많이 문제를 푼 부트 캠프</div>
+        <span style={{ marginLeft: 'auto', marginRight: 'auto'}}>
+          <Bold18px>가장 많이 문제를 푼 부트 캠프</Bold18px>
           <div
             style={{
               marginTop: '20px',
@@ -139,7 +138,7 @@ export default function MissionPage() {
                   <td>{row.algoCnt}</td>
                 </tr>
               ))}
-              <tr style={{ display: isManyInclude }}>
+              <tr style={{ display: isManyInclude}}>
                 <td>{myManyBootCamps.rank}</td>
                 <td>{myManyBootCamps.bootcampName}</td>
                 <td>{myManyBootCamps.algoCnt}</td>
