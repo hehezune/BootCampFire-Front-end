@@ -70,6 +70,7 @@ const BoardListMain = styled.div`
 `;
 
 const getDataFromAPI = async (pageCount: number, url: string) => {
+  // try {
   const response = await axios.get(`${url}?page=${pageCount}&size=5`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -79,6 +80,9 @@ const getDataFromAPI = async (pageCount: number, url: string) => {
   console.log('token', accessToken);
   console.log('check', response);
   return response.data.data;
+// } catch (error) {
+//  console.log(error); 
+// }
 };
 
 export default MyPosts;
