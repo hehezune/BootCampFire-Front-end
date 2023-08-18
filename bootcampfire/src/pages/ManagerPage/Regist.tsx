@@ -23,7 +23,7 @@ export default function Regist() {
         setRows(res.data.data);
       });
     axios
-      .get(`${process.env.REACT_APP_API_URL}/bootcamps/names`)
+      .get(`${process.env.REACT_APP_API_URL}/bootcamps/lists/onlyNames`)
       .then((res) => {
         dispatch(setBootcampInfo({ list: res.data.data }));
       });
