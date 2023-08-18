@@ -144,7 +144,7 @@ function PersonalInfo() {
       }))
       window.location.reload();
 
-    } catch (err) {console.log(err)}
+    } catch (err) {}
     
   };
 
@@ -241,7 +241,7 @@ const uploadImg = async (files: FileList | undefined, name: string) => {
 
   const result = await uploadToS3.promise();
   try {
-    console.log(result);
+    // console.log(result);
     return result;
   } catch (err) {
     console.error("Error uploading image:", err);

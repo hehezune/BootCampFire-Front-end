@@ -25,8 +25,8 @@ function MyPosts() {
     }
 
     if (pageCount === 0) {
-      console.log('test', pageCount);
-      console.log(temp.content);
+      // console.log('test', pageCount);
+      // console.log(temp.content);
       setBoardList(temp.content);
     } else {
       setBoardList(boardList.concat(temp.content));
@@ -77,8 +77,8 @@ const getDataFromAPI = async (pageCount: number, url: string, accessToken: strin
       withCredentials: true,
     },
   });
-  console.log('token', accessToken);
-  console.log('check', response);
+  // console.log('token', accessToken);
+  // console.log('check', response);
   return response.data.data;
 // } catch (error) {
 //  console.log(error); 

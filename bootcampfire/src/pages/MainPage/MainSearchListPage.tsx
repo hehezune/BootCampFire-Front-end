@@ -46,7 +46,7 @@ function MainSearchListPage() {
         setPageCount(1);
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
     //   setUrl(url);
     },[])

@@ -44,7 +44,7 @@ export default function Home() {
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // 여기에서 검색 기능을 구현하거나 검색 결과를 처리합니다.
-    console.log("Search term:", searchTerm);
+    // console.log("Search term:", searchTerm);
     // 예를 들면, 검색 결과를 표시하는 함수를 호출하거나 검색 API를 호출할 수 있습니다.
   };
 

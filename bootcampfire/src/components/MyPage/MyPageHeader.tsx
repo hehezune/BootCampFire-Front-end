@@ -11,7 +11,7 @@ function MyPageHeader() {
 
     const handlerTabClick = (id: number) => {
         setActiveId(id);
-        console.log(id)
+        // console.log(id)
     }
 
     return (

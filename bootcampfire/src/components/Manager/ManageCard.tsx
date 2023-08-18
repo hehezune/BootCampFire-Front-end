@@ -37,7 +37,7 @@ const ManageCard = ({ id, img, nickname }: CardProps) => {
         Bucket: process.env.REACT_APP_AWS_BUCKER || 'default-bucket-name',
         Key: `certifyCamp/${name}.png`,
       }
-      console.log("경로확인", name)
+      // console.log("경로확인", name)
       try {
         const res = await s3.getObject(params).promise();
         const blob = new Blob([res.Body as ArrayBuffer], { type: 'image/png' });
@@ -47,7 +47,7 @@ const ManageCard = ({ id, img, nickname }: CardProps) => {
         console.error('Error downloading file:', error);
       }
     }
-    console.log("img 데이터 확인",img)
+    // console.log("img 데이터 확인",img)
     getImageUrl(img);
   }, [])
 

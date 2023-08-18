@@ -46,7 +46,7 @@ export default function LoginDataPage() {
         }
       })
       .catch((res) => {
-        console.log(res);
+        // console.log(res);
       });
   }, []);
   return <div>되고있냐</div>;

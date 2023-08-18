@@ -19,7 +19,7 @@ export default function Regist() {
     axios
       .get(`${process.env.REACT_APP_API_URL}/users/admin/permission/list`)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setRows(res.data.data);
       });
     axios

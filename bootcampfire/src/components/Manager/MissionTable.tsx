@@ -48,7 +48,7 @@ export default function MissionTable() {
     axios
       .delete(`${process.env.REACT_APP_API_URL}/algorithms/${id}`)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       });
   };
   return (

@@ -82,10 +82,10 @@ function CommentCard({data, boardId, idx}: {data: Comment, boardId: number, idx:
             alert("내용을 254자 이내로 작성해주세요.");
             return ;
         }
-        console.log("이전", data)
+        // console.log("이전", data)
         axios.put(`${process.env.REACT_APP_API_URL}/comments/` + data.id, requestEdit)
         .then((res) => {
-            console.log("이후", res)
+            // console.log("이후", res)
             dispatch(modifyComment({idx,
             content: res.data.data.content,
             anonymous: res.data.data.anonymous}));
