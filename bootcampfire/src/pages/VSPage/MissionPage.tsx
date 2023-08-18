@@ -1,9 +1,9 @@
-import MissionBar from "components/VSGame/MissionBar";
-import axios from "axios";
-import MissionData from "components/VSGame/MissionData";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "store";
+import MissionBar from 'components/VSGame/MissionBar';
+import axios from 'axios';
+import MissionData from 'components/VSGame/MissionData';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
 
 interface fastBootCampList {
   bootcampName: string;
@@ -25,38 +25,32 @@ interface myManyBootCampList {
 }
 export default function MissionPage() {
   const initialMyFastData: myFastBootCampList = {
-    bootcampName: "예비 부트캠프",
+    bootcampName: '예비 부트캠프',
     rank: 0,
   };
   const initialMyManyData: myManyBootCampList = {
-    algoCnt: "0",
-    bootcampName: "예비 부트캠프",
+    algoCnt: '0',
+    bootcampName: '예비 부트캠프',
     rank: 0,
   };
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const [fastBootCamps, setFastBootCamps] = useState<fastBootCampList[]>([]);
-  const [myFastBootCamps, setMyFastBootCamps] =
-    useState<myFastBootCampList>(initialMyFastData);
+  const [myFastBootCamps, setMyFastBootCamps] = useState<myFastBootCampList>(initialMyFastData);
   const [manyBootCamps, setManyBootCamps] = useState<manyBootCampList[]>([]);
-  const [myManyBootCamps, setMyManyBootCamps] =
-    useState<myManyBootCampList>(initialMyManyData);
-  const accessToken = localStorage.getItem("Authorization");
+  const [myManyBootCamps, setMyManyBootCamps] = useState<myManyBootCampList>(initialMyManyData);
+  const accessToken = localStorage.getItem('Authorization');
 
-  const [isFastInclude, setFastInclude] = useState("none");
-  const [isManyInclude, setManyInclude] = useState("none");
+  const [isFastInclude, setFastInclude] = useState('none');
+  const [isManyInclude, setManyInclude] = useState('none');
   useEffect(() => {
     //이게 안뜸
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/algorithms/algo-fifty`)
-      .then((res) => {
-        setFastBootCamps(res.data.data);
-      });
+    axios.get(`${process.env.REACT_APP_API_URL}/algorithms/algo-fifty`).then((res) => {
+      setFastBootCamps(res.data.data);
+    });
 
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/algorithms/algo-many`)
-      .then((res) => {
-        setManyBootCamps(res.data.data);
-      });
+    axios.get(`${process.env.REACT_APP_API_URL}/algorithms/algo-many`).then((res) => {
+      setManyBootCamps(res.data.data);
+    });
 
     if (isLoggedIn) {
       // 이게 뜸
@@ -68,8 +62,12 @@ export default function MissionPage() {
           withCredentials: true,
         })
         .then((res) => {
-          setMyFastBootCamps(res.data.data);
-          if (myFastBootCamps.rank > 10) setFastInclude("");
+          console.log(res);
+          if (res.data.data.rank === -1) {
+          } else {
+            setMyFastBootCamps(res.data.data);
+            if (myFastBootCamps.rank > 10) setFastInclude('');
+          }
         });
       axios
         .get(`${process.env.REACT_APP_API_URL}/algorithms/algo-many/my-rank`, {
@@ -80,35 +78,34 @@ export default function MissionPage() {
         })
         .then((res) => {
           setMyManyBootCamps(res.data.data);
-          if (myManyBootCamps.rank > 10) setManyInclude("");
+          if (myManyBootCamps.rank > 10) setManyInclude('');
         });
     }
   }, []);
   return (
     <div>
-      <h1 style={{ marginTop: "20px" }}>VS</h1>
-      <div style={{ display: "flex" }}>
+      <h1 style={{ marginTop: '20px' }}>VS</h1>
+      <div style={{ display: 'flex' }}>
         <span>
           <MissionBar />
         </span>
         <span>
-          <div style={{ display: "flex" }}>
+          <div style={{ display: 'flex' }}>
             <MissionData />
           </div>
         </span>
       </div>
-      <div style={{ display: "flex" }}>
-        <span style={{ marginLeft: "auto", marginRight: "auto" }}>
+      <div style={{ display: 'flex' }}>
+        <span style={{ marginLeft: 'auto', marginRight: 'auto' }}>
           <div>가장 불을 먼저 점화시킨 부트 캠프</div>
           <div
             style={{
-              marginTop: "20px",
-              borderBottom: "solid",
-              marginLeft: "auto",
-              color: "#94969B",
-              marginBottom: "20px",
-            }}
-          ></div>
+              marginTop: '20px',
+              borderBottom: 'solid',
+              marginLeft: 'auto',
+              color: '#94969B',
+              marginBottom: '20px',
+            }}></div>
           <table>
             <tbody>
               {fastBootCamps.map((row) => (
@@ -124,16 +121,15 @@ export default function MissionPage() {
             </tbody>
           </table>
         </span>
-        <span style={{ marginLeft: "auto", marginRight: "auto" }}>
+        <span style={{ marginLeft: 'auto', marginRight: 'auto' }}>
           <div>가장 많이 문제를 푼 부트 캠프</div>
           <div
             style={{
-              marginTop: "20px",
-              borderBottom: "solid",
-              marginLeft: "auto",
-              color: "#94969B",
-            }}
-          ></div>
+              marginTop: '20px',
+              borderBottom: 'solid',
+              marginLeft: 'auto',
+              color: '#94969B',
+            }}></div>
           <table>
             <tbody>
               {manyBootCamps.map((row) => (
