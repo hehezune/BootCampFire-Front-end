@@ -7,9 +7,9 @@ import type { Board } from 'components/Board/interface';
 import useIntersect from 'components/Board/BoardList/useIntersect';
 
 const url = `${process.env.REACT_APP_API_URL}/boards/users`;
-const accessToken = localStorage.getItem('Authorization');
 
 function MyPosts() {
+  const accessToken = localStorage.getItem('Authorization');
   const navigate = useNavigate();
   const [boardList, setBoardList] = useState<Board[]>([]);
   const [pageCount, setPageCount] = useState(0);
@@ -18,7 +18,7 @@ function MyPosts() {
   const [_, setRef] = useIntersect(async (entry, observer) => {
     if (!hasNext) return;
 
-    let temp = await getDataFromAPI(pageCount, url);
+    let temp = await getDataFromAPI(pageCount, url, accessToken);
 
     if (temp.last) {
       setHasNext(false);
@@ -69,7 +69,7 @@ const BoardListMain = styled.div`
   }
 `;
 
-const getDataFromAPI = async (pageCount: number, url: string) => {
+const getDataFromAPI = async (pageCount: number, url: string, accessToken: string |null) => {
   // try {
   const response = await axios.get(`${url}?page=${pageCount}&size=5`, {
     headers: {
