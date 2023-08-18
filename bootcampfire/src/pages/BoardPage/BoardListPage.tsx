@@ -15,9 +15,9 @@ import useGetHeader from 'constant/useGetHeader';
 import { useDispatch } from 'react-redux';
 import { setKeyword } from 'store/searchSlice';
 const API_URL = `${process.env.REACT_APP_API_URL}/categories`;
-const accesToken = localStorage.getItem('Authorization');
 
 function BoardListPage() {
+    const accesToken = localStorage.getItem('Authorization');
     const dispatch = useDispatch();
     const index = useLocation().state as number ?? 1;
     const navigate = useNavigate();
@@ -46,7 +46,7 @@ function BoardListPage() {
     useEffect(() => {
         if (keyword.length === 0) return;
         const completeURL = API_URL + `/${selectCategory}` + getURLByKeyword(keyword, type);
-        getDataFromAPI(0, completeURL).then((res) => setBoardListData(res.content));
+        getDataFromAPI(0, completeURL, accesToken).then((res) => setBoardListData(res.content));
         setUrl(completeURL);
         setPageCount(1);
         setHasNext(true);
@@ -56,7 +56,7 @@ function BoardListPage() {
     // sort 및 selectCategory 변화에 따른 반영
     useEffect(() => {
         const completeURL = API_URL + `/${selectCategory}` + getURLBySort(sort);
-        getDataFromAPI(0, completeURL).then((res) => setBoardListData(res.content));
+        getDataFromAPI(0, completeURL, accesToken).then((res) => setBoardListData(res.content));
         setUrl(completeURL);
         setHasNext(true);
         setPageCount(1);
@@ -67,7 +67,7 @@ function BoardListPage() {
     // 무한스크롤용 로직
     const [_, setRef] = useIntersect(async(entry, observer) => {
         if (!hasNext) return ;
-        let temp = await getDataFromAPI(pageCount, url);
+        let temp = await getDataFromAPI(pageCount, url, accesToken);
         
         if (temp.last) {
             setHasNext(false);
@@ -124,7 +124,8 @@ const BoardListMain = styled.div`
     }
 `
 
-const getDataFromAPI = async (pageCount: number, url: string) => {
+const getDataFromAPI = async (pageCount: number, url: string, accesToken: string | null) => {
+    console.log(accesToken);
     // boardList 받아오는 axios 요청
     const response = await axios.get(`${url}?page=${pageCount}&size=5`, {
         headers: {
