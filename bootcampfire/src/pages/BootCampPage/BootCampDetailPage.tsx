@@ -128,7 +128,7 @@ const BootCampDetailMain = styled(StyledPage)`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin: 20px 0;
+  margin: auto;
 `;
 const SelectTab = styled.div`
   display: flex;

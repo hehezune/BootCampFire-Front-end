@@ -40,7 +40,7 @@ const BootCampCard: React.FC<BootCampCardProps> = ({ item, cur }) => {
   return (
     <CardContainer>
       <div>
-      {isDateInRange && <div>모집중</div>}
+      {isDateInRange && <Recrutingimg src="./recruting.png" alt="recruting" />}
       </div>
       {item.imgUrl!="none" && <LogoImage src={item.imgUrl} alt="BootCamp Logo" />}      
       {item.imgUrl=="none" && <LogoImage src="./bootcampNoImage.png" alt="BootCamp Logo" />}
@@ -63,7 +63,13 @@ const BootCampCard: React.FC<BootCampCardProps> = ({ item, cur }) => {
 
 export default BootCampCard;
 
-
+const Recrutingimg = styled.img`
+  position: absolute;
+  top: 20px;
+  left: 0px;
+  width: 60px;
+  height: 30px;
+`
 
 const CardContainer = styled.div`
   position: relative;
