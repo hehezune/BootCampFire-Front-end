@@ -51,25 +51,25 @@ const ReviewCreate: React.FC<BootCampReviewProps> = ({ review }) => {
       axios
         .put(`${process.env.REACT_APP_API_URL}/reviews/${bootcampId}/${review.id}`, postData)
         .then((response) => {
-          console.log('리뷰 수정이 완료되었습s니다.');
+          // console.log('리뷰 수정이 완료되었습s니다.');
           setTimeout(() => {
             window.location.reload();
           }, 300); // 0.3초 후에 리로드
         })
         .catch((error) => {
-          console.error('리뷰 수정 중 오류가 발생했습니다.', error);
+          // console.error('리뷰 수정 중 오류가 발생했습니다.', error);
         });
     } else {
       axios
         .post(`${process.env.REACT_APP_API_URL}/reviews/${bootcampId}`, postData)
         .then((response) => {
-          console.log('리뷰 작성이 완료되었습니다.');
+          // console.log('리뷰 작성이 완료되었습니다.');
           setTimeout(() => {
             window.location.reload();
           }, 300); // 0.3초 후에 리로드
         })
         .catch((error) => {
-          console.error('리뷰 작성 중 오류가 발생했습니다.', error);
+          // console.error('리뷰 작성 중 오류가 발생했습니다.', error);
         });
     }
   };
@@ -78,13 +78,13 @@ const ReviewCreate: React.FC<BootCampReviewProps> = ({ review }) => {
     axios
       .delete(`${process.env.REACT_APP_API_URL}/reviews/${bootcampId}/${review.id}`)
       .then((response) => {
-        console.log('리뷰가 삭제되었습니다.');
+        // console.log('리뷰가 삭제되었습니다.');
         setTimeout(() => {
           window.location.reload();
         }, 300); // 0.3초 후에 리로드
       })
       .catch((error) => {
-        console.error('리뷰 삭제 중 오류가 발생했습니다.', error);
+        // console.error('리뷰 삭제 중 오류가 발생했습니다.', error);
       });
   };
 

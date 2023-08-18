@@ -69,7 +69,7 @@ export default function HotBoard() {
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/categories/hots`).then((res) => {
-      console.log(res);
+      // console.log(res);
       setRows(res.data.data);
     });
   }, []);

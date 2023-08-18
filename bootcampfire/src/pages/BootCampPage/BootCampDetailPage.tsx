@@ -45,7 +45,7 @@ const BootCampListDetailPage: React.FC = () => {
       ];
 
       if (isLoggedIn && bootcampId == bootcampIdNumber) {
-        console.log("val check을 함")
+        // console.log("val check을 함")
         requests.push(axios.get(`${process.env.REACT_APP_API_URL}/reviews/${bootcampIdNumber}/vaildation`));
       }
       Promise.all(requests)

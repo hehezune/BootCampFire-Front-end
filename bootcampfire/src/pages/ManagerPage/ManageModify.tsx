@@ -68,7 +68,7 @@ const ManageModify = () => {
       setTracks(tracksRes.data.data);
       setPlaces(regionsRes.data.data);
       setStacks(languagesRes.data.data);
-      console.log(initRes)
+      // console.log(initRes)
       setInputData(changePropertyStringToNumber(initRes.data.data));
       if(initRes.data.data.imgUrl != "none") {downloadFile(initRes.data.data.name);}
           })
@@ -83,7 +83,7 @@ const ManageModify = () => {
   
     try {
       const res = await s3.getObject(params).promise();
-      console.log(res);
+      // console.log(res);
       setIsimg(Bname);
 
     } catch (error) {
@@ -139,7 +139,7 @@ const ManageModify = () => {
     const selectedFile = e.target.files[0];
 
     if (selectedFile) {
-        console.log("Selected image name:", selectedFile.name);
+        // console.log("Selected image name:", selectedFile.name);
         const newUpload = new AWS.S3.ManagedUpload({
           params: {
               Bucket: process.env.REACT_APP_AWS_BUCKER || 'default-bucket-name', // 버킷 이름
@@ -154,9 +154,9 @@ const ManageModify = () => {
     if (upload) {
         try {
             const result = await upload.promise(); // upload 실행
-            console.log("Image uploaded successfully:", result.Location);
+            // console.log("Image uploaded successfully:", result.Location);
         } catch (error) {console.error("Error uploading image:", error);
-        }} else { console.log("No upload in progress."); }
+        }} else {  }
 };
 
 
@@ -179,7 +179,7 @@ const ManageModify = () => {
       onOff: onOffList[requestReady.onOff]
     }
 
-    console.log("request", request)
+    // console.log("request", request)
     axios.put(API_KEY + bootcampId, request, {
       headers: {
         Authorization: `Bearer ${accessToken}`
@@ -445,10 +445,10 @@ const emptyCheck = (request: bootcampInput) => {
     if (value === "imgUrl" || key === "reviewCnt" || key === "algoCnt") { // 이미지는 default 이미지가 존재하므로 스킵
       continue;
     } else if (typeof value === "string" && value === "") {
-      console.log("어디?", key)
+      // console.log("어디?", key)
       return false;
     } else if (Array.isArray(value) && value.length === 0) {
-      console.log("어디?", key)
+      // console.log("어디?", key)
       return false;
     }
   }

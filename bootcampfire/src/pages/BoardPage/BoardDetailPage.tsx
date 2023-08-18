@@ -39,7 +39,7 @@ function BoardDetailPage() {
     if (id === undefined) return;
     Promise.all([axios.get(API_KEY + id), axios.get(`${process.env.REACT_APP_API_URL}/comments/list/` + id)]).then(
       ([boardDetailResponse, commentsResponse]) => {
-        console.log('detail 결과', boardDetailResponse);
+        // console.log('detail 결과', boardDetailResponse);
         setBoardDetail(boardDetailResponse.data.data);
         dispatch(
           getComments({

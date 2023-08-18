@@ -20,10 +20,10 @@ const ReviewCard: React.FC<BootCampReviewProps> = ({ review }) => {
     axios
       .post(`${process.env.REACT_APP_API_URL}/review-likes/${api_url}`)
       .then((response) => {
-        console.log('리뷰 좋아요 성공');
+        // console.log('리뷰 좋아요 성공');
       })
       .catch((error) => {
-        console.error('리뷰 좋아요 실패', error);
+        // console.error('리뷰 좋아요 실패', error);
       });
   };
 

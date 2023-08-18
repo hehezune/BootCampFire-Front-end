@@ -92,7 +92,7 @@ const MissionData = () => {
 
   return (
     <div style={{ display: isVisible }}>
-      <table>
+      <table style={{height: "329px",width: "510px", overflow: "scroll"}}>
         <tbody>
           <tr>
             <td>{algorithm.title}</td>

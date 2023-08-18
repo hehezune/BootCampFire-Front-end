@@ -46,7 +46,7 @@ function BoardDetailBody({boardDetail, setLike}:{boardDetail: BoardDetail, setLi
             .then(({data}) => setLike(false));
         } else {
             axios.post(`${process.env.REACT_APP_API_URL}/likes/${boardDetail.id}`, header)
-            .then((res) => {console.log(res.data.data.likes); setLike(true)});
+            .then((res) => { setLike(true)});
         }
     }
 

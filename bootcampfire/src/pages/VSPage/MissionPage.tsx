@@ -62,7 +62,7 @@ export default function MissionPage() {
           withCredentials: true,
         })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           if (res.data.data.rank === -1) {
           } else {
             setMyFastBootCamps(res.data.data);

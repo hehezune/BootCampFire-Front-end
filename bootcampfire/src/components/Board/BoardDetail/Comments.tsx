@@ -32,7 +32,7 @@ function Comments({ boardId }: { boardId: number}) {
 
   const handlerCreateComment = () => {
     if (!isLoggedIn) {
-      console.log('로그인 후 이용할 수 있습니다.');
+      alert('로그인 후 이용할 수 있습니다.');
       return;
     }
 

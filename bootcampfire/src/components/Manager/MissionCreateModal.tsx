@@ -48,7 +48,7 @@ export const MissionCreateModal: React.FC<MissionCreateModalProps> = (props) => 
           setProblemData(res.data.data);
         });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
     props.onClose();
   };

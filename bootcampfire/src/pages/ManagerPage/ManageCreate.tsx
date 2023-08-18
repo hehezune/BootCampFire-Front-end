@@ -114,7 +114,7 @@ const ManageCreate = () => {
     const selectedFile = e.target.files[0];
 
     if (selectedFile) {
-        console.log("Selected image name:", selectedFile.name);
+        // console.log("Selected image name:", selectedFile.name);
         const newUpload = new AWS.S3.ManagedUpload({
           params: {
               Bucket: process.env.REACT_APP_AWS_BUCKER || 'default-bucket-name', // 버킷 이름
@@ -133,7 +133,7 @@ const ManageCreate = () => {
     if (upload) {
         try {
             const result = await upload.promise(); // upload 실행
-            console.log("Image uploaded successfully:", result.Location);
+            // console.log("Image uploaded successfully:", result.Location);
         } catch (error) {console.error("Error uploading image:", error);
         }} else { console.log("No upload in progress."); }
 };
@@ -147,7 +147,7 @@ const ManageCreate = () => {
       return ;
     }
 
-    console.log("inputData", inputData);
+    // console.log("inputData", inputData);
     ["card", "support", "hasCodingtest"].forEach((element) => {
       requestReady[element] = requestReady[element] === 0 ? true : false;
     })
@@ -156,7 +156,7 @@ const ManageCreate = () => {
       onOff: onOffList[requestReady.onOff]
     }
 
-    console.log("request", request)
+    // console.log("request", request)
     axios.post(API_KEY, request, {
       headers: {
         Authorization: `Bearer ${accessToken}`

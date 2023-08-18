@@ -125,7 +125,7 @@ const BoardListMain = styled.div`
 `
 
 const getDataFromAPI = async (pageCount: number, url: string, accesToken: string | null) => {
-    console.log(accesToken);
+    // console.log(accesToken);
     // boardList 받아오는 axios 요청
     const response = await axios.get(`${url}?page=${pageCount}&size=5`, {
         headers: {

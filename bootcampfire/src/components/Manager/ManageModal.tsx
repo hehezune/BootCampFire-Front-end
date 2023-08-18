@@ -24,7 +24,7 @@ export const ManageModal: React.FC<ManageModalProps> = (props) => {
     (state: RootState) => state.bootcampInfo.bootcampInfo
   );
   const onAccess = () => {
-    console.log(bootcamp);
+    // console.log(bootcamp);
     axios.put(
       `${process.env.REACT_APP_API_URL}/users/admin/permission/${props.userId}`,
       { bootcampId: bootcamp.valueOf() },

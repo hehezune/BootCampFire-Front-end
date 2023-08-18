@@ -30,11 +30,11 @@ const SelectBox: React.FC = () => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/bootcamps/tracks`)
       .then((response) => dispatch(initTrack(response.data.data)))
-      .catch((error) => console.log(error.message));
+      .catch((error) => {});
     axios
       .get(`${process.env.REACT_APP_API_URL}/bootcamps/regions`)
       .then((response) => dispatch(initRegion(response.data.data)))
-      .catch((error) => console.log(error.message));
+      .catch((error) => {});
   }, []);
 
   const handleSeletedTagClick = (categoryIndex: number, itemIndex: number) => {
