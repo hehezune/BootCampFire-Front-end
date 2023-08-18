@@ -41,6 +41,9 @@ function MyPosts() {
 
   return (
     <WrapperBoardListMain>
+      <Emptydiv>
+        <Sp>empty</Sp>
+      </Emptydiv>
       <BoardListMain className="board-list-margin">
         {BoardList}
         <p style={{ visibility: 'hidden' }} ref={setRef}>
@@ -51,12 +54,19 @@ function MyPosts() {
   );
 }
 
+const Sp = styled.p`
+  height: 5px;
+`
 const WrapperBoardListMain = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
+const Emptydiv = styled.div`
+  visibility: hidden;
 
+`
 const BoardListMain = styled.div`
   display: flex;
   height: 760px;
