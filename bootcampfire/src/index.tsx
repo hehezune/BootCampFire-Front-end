@@ -10,7 +10,7 @@ import axios from 'axios';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
-axios.defaults.baseURL = 'http://localhost:3000/';
+axios.defaults.baseURL = 'http://i9a408.p.ssafy.io:3000/';
 axios.defaults.withCredentials = true;
 root.render(
     <Provider store={store}>
