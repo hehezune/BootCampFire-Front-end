@@ -6,8 +6,11 @@ ADD . /app
 
 RUN npm install -g pnpm
 RUN pnpm i
+RUN pnpm run build
 
-ENV HOST 0.0.0.0
-EXPOSE 3000
+FROM nginx:latest
 
-CMD ["pnpm", "start"]
+COPY --from=builder /app/build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
