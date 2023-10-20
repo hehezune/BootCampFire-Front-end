@@ -4,8 +4,8 @@ RUN mkdir -p /app
 WORKDIR /app
 ADD . /app
 
-RUN npm install
-RUN npm run build
+RUN npm install -g pnpm
+RUN pnpm i
 
 FROM nginx:latest
 
